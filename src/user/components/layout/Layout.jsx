@@ -1,3 +1,4 @@
+import Home from "../home/Home"
 import Sidebar from "./Sidebar"
 import "./scss/layout.scss"
 const Layout = () => {
@@ -5,10 +6,8 @@ const Layout = () => {
     <div id="layout-container">
         <Sidebar/>
         <div id="layout-content">
-        <div id="filter">
-        <h3>Tümü</h3>
-        <h3>Bana Özel</h3>
-        </div>
+          <Home/>
+       
         </div>
     </div>
   )
