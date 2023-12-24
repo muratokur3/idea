@@ -1,4 +1,4 @@
-import Menu from "./Menu"
+import MainMenu from "../menu/MainMenu"
 import "./scss/sidebar.scss"
 import logoImg from "../../../assets/logo.png"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -8,9 +8,9 @@ const Sidebar = () => {
       <div id="logo">
         <img src={logoImg}/>
       </div>
-      <Menu/>
+      <MainMenu/>
       <div id="menu-profile-detail">
-<AccountCircleIcon/>
+<AccountCircleIcon />
 <div>
   <h4>Murat OKUR</h4>
   <h6>@muratokur3</h6>

@@ -1,12 +1,12 @@
 
 import './App.css'
-import Layout from './user/components/layout/Layout'
+import LayoutRoute from './route/Route'
 
 function App() {
 
   return (
     <>
-     <Layout/>
+     <LayoutRoute/>
     </>
   )
 }

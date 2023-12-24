@@ -1,34 +1,32 @@
 #sidebar-container{
-    width: 20%;
+    width: 15%;
     height: 100vh;
     border-right: 1px solid gray;
     color: white;
-   
     position: relative;
     #logo{
         width: 100%;
         height: 20vh;
         display: flex;
         flex-direction: column;
-        align-items: center;
         justify-content: center;
+        padding: 10%;
         img{
-            width: 100px;
-            height: 100px;
+            width: 50px;
+            height: 50px;
         }
 
     }
     #menu-profile-detail{
-        width: 80%;
+        width: 100%;
         height: 8vh;
         position: absolute;
         bottom: 1%;
-        left: 10%;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        gap: 30px;
+        gap: 10px;
         border-radius: 60px;
         &:hover{
             background-color: rgba(71, 69, 68, 0.508);
@@ -43,6 +41,8 @@
                 color: rgb(170, 165, 165);
             }
         }
-       
+       span{
+        font-size: x-small;
+       }
 }
 }

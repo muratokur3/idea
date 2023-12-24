@@ -1,6 +1,6 @@
 import "./scss/home.scss"
-import ListPost from './ListPost'
-import NewPost from './NewPost'
+import ListPost from '../post/ListPost'
+import NewPost from '../post/NewPost'
 const Home = () => {
   return (
     <div id="home-container">

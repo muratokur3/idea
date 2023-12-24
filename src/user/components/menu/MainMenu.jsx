@@ -8,13 +8,15 @@ import HomeIcon from '@mui/icons-material/Home';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import SettingsIcon from '@mui/icons-material/Settings';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import "./scss/menu.scss"
+import "./scss/main-menu.scss"
+import { useNavigate } from 'react-router-dom';
 const Menu = () => {
+  const navigate=useNavigate()
   return (
-    <div id="menu-container">
-        <List sx={{width:'50%',display:"flex",flexDirection:"column",gap:"30px"}}>
+    <div id="main-menu-container">
+        <List sx={{width:'100%',display:"flex",flexDirection:"column",gap:"30px"}}>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={()=>navigate("/")}>
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
@@ -23,7 +25,7 @@ const Menu = () => {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton  onClick={()=>navigate("/best")}>
               <ListItemIcon>
                 <StarBorderIcon />
               </ListItemIcon>
@@ -32,7 +34,7 @@ const Menu = () => {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={()=>navigate("/favorite")}>
               <ListItemIcon>
                 <FavoriteBorderIcon />
               </ListItemIcon>
@@ -41,7 +43,7 @@ const Menu = () => {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton  onClick={()=>navigate("/profile")}>
               <ListItemIcon>
                 <PermIdentityIcon />
               </ListItemIcon>
@@ -50,15 +52,16 @@ const Menu = () => {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton  onClick={()=>navigate("/settings")}>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
               <ListItemText primary="Ayarlar" />
             </ListItemButton>
           </ListItem> 
-          
        </List>
+
+       <button id='new-idea'>Yeni</button>
     </div>
   )
 }
