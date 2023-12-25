@@ -1,7 +1,8 @@
+import ListPost from "../post/ListPost"
 
 const ProfileMain = () => {
   return (
-    <div>Main</div>
+    <ListPost/>
   )
 }
 

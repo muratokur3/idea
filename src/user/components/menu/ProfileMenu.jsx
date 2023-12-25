@@ -11,7 +11,7 @@ const ProfileMenu = () => {
           <List
            sx={{width:'100%',display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-evenly"}}>
           <ListItem >
-            <ListItemButton onClick={()=>navigate("/profile/main")}>
+            <ListItemButton onClick={()=>navigate("/profile")}>
               <ListItemText primary="Gönderiler" />
             </ListItemButton>
           </ListItem>

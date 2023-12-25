@@ -1,7 +1,8 @@
+import ListPost from "../post/ListPost"
 
 const Likes = () => {
   return (
-    <div>Likes</div>
+    <ListPost/>
   )
 }
 

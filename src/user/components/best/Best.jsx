@@ -1,7 +1,8 @@
+import ListPost from "../post/ListPost"
 
 const Best = () => {
   return (
-    <div>Best</div>
+    <ListPost/>
   )
 }
 

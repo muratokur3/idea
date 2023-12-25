@@ -1,7 +1,8 @@
+import ListPost from "../post/ListPost"
 
 const Favorite = () => {
   return (
-    <div>Favorite</div>
+    <ListPost/>
   )
 }
 

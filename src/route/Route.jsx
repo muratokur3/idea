@@ -17,7 +17,7 @@ function UserRoutes() {
             <Route path="best" element={<Best/>}/>
             <Route path="favorite" element={<Favorite/>}/>
             <Route path="profile" element={<ProfileLayout />}>
-              <Route path="main" element={<ProfileMain />} />
+              <Route index element={<ProfileMain />} />
               <Route path="like" element={<Likes />} />
               <Route path="detail" element={<Detail />} />
               <Route path="project" element={<Project />} />
