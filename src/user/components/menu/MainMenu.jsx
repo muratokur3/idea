@@ -10,8 +10,11 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import "./scss/main-menu.scss"
 import { useNavigate } from 'react-router-dom';
+import NewPost from '../post/NewPost';
+import { useState } from 'react';
 const Menu = () => {
-  const navigate=useNavigate()
+  const navigate=useNavigate();
+  const [newPostPage,setNewPostPage]=useState(false);
   return (
     <div id="main-menu-container">
         <List sx={{width:'100%',display:"flex",flexDirection:"column",gap:"30px"}}>
@@ -61,7 +64,13 @@ const Menu = () => {
           </ListItem> 
        </List>
 
-       <button id='new-idea'>Yeni</button>
+       <button id='new-idea' onClick={()=>setNewPostPage(true)}>Yeni</button>
+      {newPostPage&& <div id='new-post-page'>
+        <div id='box-new-post'>
+        <NewPost/>
+        <button className='close-new-post-page' onClick={()=>setNewPostPage(false)}>X</button>
+        </div>
+       </div>}
     </div>
   )
 }

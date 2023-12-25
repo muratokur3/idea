@@ -8,7 +8,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize as BaseTextareaAutosize } from "@mui/base/TextareaAutosize";
 import { styled } from "@mui/system";
-import { Paper } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 const NewPost = () => {
   const Textarea = styled(BaseTextareaAutosize)(
     () => `
@@ -98,13 +98,15 @@ const NewPost = () => {
       <Avatar
         alt="Remy Sharp"
         src="src/assets/muratokur.jpeg"
-        sx={{ width: 80, height: 80 }}
+        sx={{ width: 80, height: 80}}
       />
       <form id="new-post-form">
         <Textarea
           aria-label="minimum height"
-          minRows={4}
+          minRows={5}
           placeholder="Ne buldun acaba?"
+          sx={{ marginBottom: "20px",fontFamily:"monospace",fontSize:".9rem"}}
+
         />
         <Autocomplete
           className="new-post-hashtag"
@@ -116,9 +118,11 @@ const NewPost = () => {
           renderInput={(params) => (
             <TextField 
               {...params} 
-              label="Hashtag" 
-              placeholder="#hashtag"
-              sx={{ '& .MuiInput-underline:before': { borderBottomColor: 'white' } }}
+              label="#hashtag" 
+              placeholder="#"
+              sx={{ 
+                '& .MuiInputBase-input::placeholder': { color: 'white' },
+              }}
               InputLabelProps={{
                 style: { color: 'white' },
               }}
@@ -128,7 +132,7 @@ const NewPost = () => {
             <Paper sx={{ backgroundColor: 'black' }}>{children}</Paper>
           )}
         />
-        <hr className="new-post-hr" />
+        {/* <hr className="new-post-hr" /> */}
         <div className="new-post-media">
           <div className="new-post-media-icons">
             <AddAPhotoIcon sx={{ fontSize: 30 }} />

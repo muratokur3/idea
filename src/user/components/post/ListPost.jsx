@@ -12,10 +12,10 @@ const ListPost = () => {
       },
       title: "Post 1",
       content: "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    createDate: "12.3.2023",
+    createDate: "September 14, 2023",
     },
     {
-      id: 1,
+      id: 2,
       user: {
         id: 1,
         name: "Mahir KURŞUN",
@@ -24,20 +24,20 @@ const ListPost = () => {
       },
       title: "Post 2",
       content: "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    createDate: "1.3.2024",
+    createDate: "October 1, 2023",
     },
     {
-      id: 1,
+      id: 3,
       user: {
         id: 1,
-        name: "Ali VELİ",
-        username: "aliveli",
+        name: "Mehmet KAYA",
+        username: "mehmetkaya1",
         avatar: "https://picsum.photos/200/300",
       },
       title: "Post 3",
       content: "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    createDate: "12.3.2023",
-    },
+    createDate: "October 1, 2023",
+    }
     ];
 
   return (

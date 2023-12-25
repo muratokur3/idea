@@ -1,0 +1,16 @@
+#user-detail-container{
+    width: 100%;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    .background-image{
+        width: 100%;
+        height: 70%;
+    }
+    .user-detail{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    
+}
