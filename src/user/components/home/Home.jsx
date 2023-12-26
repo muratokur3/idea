@@ -1,17 +1,18 @@
-import "./scss/home.scss"
-import ListPost from '../post/ListPost'
-import NewPost from '../post/NewPost'
+import "./scss/home.scss";
+import ListPost from "../post/ListPost";
+import NewPost from "../post/NewPost";
+import { Tab, Tabs } from "@mui/material";
 const Home = () => {
   return (
     <div id="home-container">
-       <div id="filter">
-        <h3>Tümü</h3>
-        <h3>Bana Özel</h3>
-        </div>
-      <NewPost/>
-      <ListPost/>
+      <Tabs id="tabs" centered textColor="white">
+        <Tab label="Tümü" />
+        <Tab label="Bana Özel" />
+      </Tabs>
+      <NewPost />
+      <ListPost />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

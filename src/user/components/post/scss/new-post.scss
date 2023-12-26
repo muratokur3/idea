@@ -2,6 +2,7 @@
     width: 100%;
     height: auto;
     min-height: 20vh;
+    max-height: 50vh;
     // border-bottom:1px solid rgba(71, 67, 67, 0.897);
     display: flex;
     padding: 1rem;
@@ -28,22 +29,17 @@
                 height: 2rem;
 
             }
-            .new-post-submit{
-            width: 15%;
-            height: 1.7rem;
-            border: none;
-            outline: none;
-            background: none;
-            color: white;
-            font-size: .8rem;
-            font-weight: 200;
-            border-radius: 15px;
-            padding: 1%;
-            border:1px solid rgba(71, 67, 67, 0.897);
-            cursor: pointer;
-            &:hover{
-                background-color: #166fe5;
-            }
+            #new-post-submit{
+                border-radius: 60px;
+                width: 100px;
+                height: 40px;
+                font-size: .5rem;
+                color: white;
+                border-color: gray;
+                &:hover {
+                    border-color: white;
+                }
+           
         }
         }
         

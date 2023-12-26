@@ -4,6 +4,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import './scss/profile-menu.scss'
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 const ProfileMenu = () => {
   const navigate=useNavigate();
   return (
@@ -35,6 +36,7 @@ const ProfileMenu = () => {
           </ListItem>
 
        </List>
+     <Button variant="contained" sx={{border:".5px solid gray", background:"none", color: "white", width: "120px", height: "30px", fontSize: ".8rem",marginTop:"20px"}}>Takip</Button>
       
     </div>
   )

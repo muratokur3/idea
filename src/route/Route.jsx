@@ -9,12 +9,14 @@ import Favorite from "../user/components/favorite/Favorite";
 import Likes from "../user/components/profile/Likes";
 import Project from '../user/components/profile/Project'
 import Settings from '../user/components/settings/Settings'
+import Explore from "../user/components/explore/Explore";
 function UserRoutes() {
     return (
         <Routes>
           <Route path="/*" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="best" element={<Best/>}/>
+            <Route path="explore" element={<Explore/>}/>
             <Route path="favorite" element={<Favorite/>}/>
             <Route path="profile" element={<ProfileLayout />}>
               <Route index element={<ProfileMain />} />

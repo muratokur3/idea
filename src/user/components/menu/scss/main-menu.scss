@@ -3,19 +3,13 @@
     height: 80vh;
     display: flex;
     flex-direction: column;
-
     #new-idea {
-        width: 90%;
-        height: 5vh;
-        margin: 10px 0 0 5%;
-        border: 1px solid rgba(71, 69, 68, 0.508);
-        background: none;
         border-radius: 60px;
-
+        color: white;
+        border-color: gray;
         &:hover {
-            background-color: rgba(71, 69, 68, 0.508);
+            border-color: white;
         }
-
     }
 
     #new-post-page {
@@ -31,19 +25,19 @@
         z-index: 2;
 
         #box-new-post {
-            margin: 18%;
-            width: 60%;
+            margin: 15% 23%;
+            width: 50%;
             min-height: 20vh;
             max-height: 50vh;
             background-color: black;
             position: relative;
+            border: 1px solid rgb(255, 0, 251);
 
             .close-new-post-page {
                 background: none;
                 border: none;
                 width: 2rem;
                 height: 2rem;
-                margin: .5rem;
                 color: white;
                 position: absolute;
                 cursor: pointer;
@@ -52,7 +46,9 @@
 
                 &:hover {
                     background-color: rgba(71, 69, 68, 0.508);
-                }
+            color:   rgb(255, 0, 251);
+
+        }
             }
         }
 

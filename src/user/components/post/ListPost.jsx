@@ -37,6 +37,30 @@ const ListPost = () => {
       title: "Post 3",
       content: "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
     createDate: "October 1, 2023",
+    },
+    {
+      id: 4,
+      user: {
+        id: 1,
+        name: "Murat OKUR",
+        username: "muratokur3",
+        avatar: "https://picsum.photos/200/300",
+      },
+      title: "Post 4",
+      content: "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
+    createDate: "October 1, 2023",
+    },
+    {
+      id: 5,
+      user: {
+        id: 1,
+        name: "Murat OKUR",
+        username: "muratokur3",
+        avatar: "https://picsum.photos/200/300",
+      },
+      title: "Post 5",
+      content: "lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
+    createDate: "October 1, 2023",
     }
     ];
 

@@ -8,7 +8,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize as BaseTextareaAutosize } from "@mui/base/TextareaAutosize";
 import { styled } from "@mui/system";
-import { Paper, Typography } from "@mui/material";
+import { Button, Paper, Typography } from "@mui/material";
 const NewPost = () => {
   const Textarea = styled(BaseTextareaAutosize)(
     () => `
@@ -103,7 +103,7 @@ const NewPost = () => {
       <form id="new-post-form">
         <Textarea
           aria-label="minimum height"
-          minRows={5}
+          minRows={3}
           placeholder="Ne buldun acaba?"
           sx={{ marginBottom: "20px",fontFamily:"monospace",fontSize:".9rem"}}
 
@@ -140,7 +140,7 @@ const NewPost = () => {
             <GifBoxIcon sx={{ fontSize: 30 }} />
             <AddLocationAltIcon sx={{ fontSize: 30 }} />
           </div>
-          <button className="new-post-submit">Paylaş</button>
+          <Button id="new-post-submit" variant="outlined">Paylaş</Button>
         </div>
       </form>
     </div>
