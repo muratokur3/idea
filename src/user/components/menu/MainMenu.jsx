@@ -80,7 +80,7 @@ const Menu = () => {
       {newPostPage&& <div id='new-post-page'>
         <div id='box-new-post'>
         <NewPost/>
-        <button className='close-new-post-page' onClick={()=>setNewPostPage(false)}>X</button>
+        <Button  className='close-new-post-page' onClick={()=>setNewPostPage(false)}>X</Button>
         </div>
        </div>}
     </div>
