@@ -4,7 +4,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { Avatar, Box } from "@mui/material";
-
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -13,10 +12,8 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-
-
-
 const Post = ({ post }) => {
+  
   return (
     <Card id="card-container">
       <CardHeader
@@ -36,10 +33,10 @@ const Post = ({ post }) => {
         title={
           <Box display="flex" alignItems="center" gap={2}>
           <Typography>
-          {post.user.name}
+          {post.userId}
         </Typography>
         <Typography sx={{color: 'gray', fontSize:".8rem" }}>
-        @{post.user.username}
+        @{post.userId}
       </Typography>
       </Box>
         }
@@ -52,10 +49,17 @@ const Post = ({ post }) => {
       
       <CardContent>
         <Typography variant="body2" color="white">
-         {post.content}
+          {post.content}
+          <Typography sx={{ color: 'gray', fontSize:".7rem"}}>
+
+          {post.hashtags.length > 0 && post.hashtags.map((hashtag) => (
+           ` ${hashtag}`
+          ))}
+          </Typography>
+
         </Typography>
       </CardContent>
-     
+
       <CardActions className="card-icon">
 
         <IconButton aria-label="add to favorites">
@@ -71,7 +75,6 @@ const Post = ({ post }) => {
         </IconButton>
       
       </CardActions>
-      
     </Card>
  
   );
