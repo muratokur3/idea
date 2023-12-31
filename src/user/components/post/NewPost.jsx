@@ -15,6 +15,7 @@ import { useState } from "react";
 const NewPost = () => {
   const[content,setContent] = useState("");
   const [hashtags,setHashtags] = useState([]);
+ 
   const Textarea = styled(BaseTextareaAutosize)(
     () => `
     width: 100%;
@@ -32,65 +33,67 @@ const NewPost = () => {
   );
 
   const hashtag =  [
-    {id:1, title: "#react" },
-    {id:2, title: "#javascript" },
-    {id:3, title: "#materialui" },
-    {id:4, title: "#java" },
-    {id:5, title: "#paython" },
-    {id:6, title: "#go" },
-    {id:7, title: "#.net" },
-    {id:8, title: "#asp.net" },
-    {id:9, title: "#mongodb" },
-    {id:10, title: "#sql" },
-    {id:11, title: "#mysql" },
-    {id:12, title: "#oracle" },
-    {id:13, title: "#sqlserver" },
-    {id:14, title: "#postgresql" },
-    {id:15, title: "#c#" },
-    {id:16, title: "#c++" },
-    {id:17, title: "#c" },
-    {id:18, title: "#swift" },
-    {id:19, title: "#flutter" },
-    {id:20, title: "#dart" },
-    {id:21, title: "#bulma" },
-    {id:22, title: "#wordpress" },
-    {id:23, title: "#joomla" },
-    {id:24, title: "#drupal" },
-    {id:25, title: "#magento" },
-    {id:26, title: "#opencart" },
-    {id:27, title: "#prestashop" },
-    {id:28, title: "#shopify" },
-    {id:29, title: "#woocommerce" },
-    {id:30, title: "#vuejs" },
-    {id:31, title: "#angular" },
-    {id:32, title: "#reactjs" },
-    {id:33, title: "#nextjs" },
-    {id:34, title: "#nuxtjs" },
-    {id:35, title: "#svelte" },
-    {id:36, title: "#emberjs" },
-    {id:37, title: "#backbonejs" },
-    {id:38, title: "#jquery" },
-    {id:39, title: "#nodejs" },
-    {id:40, title: "#expressjs" },
-    {id:41, title: "#nestjs" },
-    {id:42, title: "#deno" },
+      "#react",
+      "#javascript", 
+      "#materialui", 
+      "#java" ,
+      "#paython" ,
+      "#go" ,
+      "#.net" ,
+      "#asp.net" ,
+      "#mongodb" ,
+      "#sql" ,
+      "#mysql" ,
+      "#oracle" ,
+      "#sqlserver" ,
+      "#postgresql" ,
+      "#c#" ,
+      "#c++" ,
+      "#c" ,
+      "#swift" ,
+      "#flutter" ,
+      "#dart" ,
+      "#bulma" ,
+      "#wordpress" ,
+      "#joomla" ,
+      "#drupal" ,
+      "#magento" ,
+      "#opencart" ,
+      "#prestashop" ,
+      "#shopify" ,
+      "#woocommerce" ,
+      "#vuejs" ,
+      "#angular" ,
+      "#reactjs" ,
+      "#nextjs" ,
+      "#nuxtjs" ,
+      "#svelte" ,
+      "#emberjs" ,
+      "#backbonejs" ,
+      "#jquery" ,
+      "#nodejs" ,
+      "#expressjs" ,
+      "#nestjs" ,
+      "#deno" ,
   ];
 
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addIdea({
-        id: 10,
+         id:10,
         userId: 1,
         content,
         createDate: "October 1, 2023",
-        likesUserId: [],
+        likes: [],
         isDeleted: false,
         hashtags,
       })
     );
-
+    setContent("");
+    setHashtags([]);
   }
+  
   return (
     <div id="share-container">
       <Avatar
@@ -101,21 +104,22 @@ const NewPost = () => {
       <form onSubmit={handleSubmit} id="new-post-form">
         <Textarea
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => {setContent(e.target.value);e.target.focus();}}
           aria-label="minimum height"
           minRows={3}
           placeholder="Ne buldun acaba?"
           sx={{ marginBottom: "20px",fontFamily:"monospace",fontSize:".9rem"}}
-
         />
         <Autocomplete
-          onChange={(e, value) => setHashtags(value)}
+          onChange={(e,value) => {setHashtags(value);console.log(value);}}
           className="new-post-hashtag"
+          sx={{color:"white"}}
+          value={hashtags}
           multiple
           limitTags={3}
           id="multiple-limit-tags"
           options={hashtag}
-          getOptionLabel={(option) => option.title}
+          getOptionLabel={(option) => option}
           renderInput={(params) => (
             <TextField 
               {...params} 
