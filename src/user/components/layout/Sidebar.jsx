@@ -4,8 +4,10 @@ import logoImg from "../../../assets/logo.png"
 import Avatar from '@mui/material/Avatar';
 import LoginIcon from '@mui/icons-material/Login';
 import { Button } from "@mui/material";
+import Login from "../acoount/Login";
+import { useState } from "react";
 const Sidebar = () => {
-
+  const [loginPage,setLoginPage] = useState(false);
   const userAuthurization = false;
   return (
     <div id="sidebar-container">
@@ -30,7 +32,8 @@ const Sidebar = () => {
       </div>)
 :(
 
-<Button endIcon={<LoginIcon/>} id="login-button" variant="text">Giriş Yap</Button>)}
+<Button onClick={()=>setLoginPage(true)} endIcon={<LoginIcon/>} id="login-button" variant="text">Giriş Yap</Button>)}
+    {loginPage&&<Login/>}
     </div>
   )
 }

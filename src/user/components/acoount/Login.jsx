@@ -1,7 +1,16 @@
-
+import { Button, TextField } from "@mui/material"
+import './scss/login.scss'
 const Login = () => {
   return (
-    <div>Login</div>
+    <div id="login-container">
+      <div>
+        <form>
+        <TextField id="standard-basic" label="Kullanıcı Adı" variant="standard" />
+        <TextField id="standard-basic" type="password" label="Şifre" variant="standard" />
+        <Button variant="outlined">Giriş Yap</Button>
+        </form>
+      </div>
+    </div>
   )
 }
 
