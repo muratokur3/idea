@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { ideaSlice } from "./IdeaSlice";
+import UiSlice from "./UiSlice";
 
 
 const store = configureStore({
     reducer: {
         ideas: ideaSlice.reducer,
+        ui: UiSlice.reducer,
         // users: userSlice.reducer,
         // comments: commentSlice.reducer,
         // notifications: notificationSlice.reducer,

@@ -3,7 +3,7 @@ import './scss/login.scss'
 const Login = () => {
   return (
     <div id="login-container">
-      <div>
+      <div id="login-center-box">
         <form>
         <TextField id="standard-basic" label="Kullanıcı Adı" variant="standard" />
         <TextField id="standard-basic" type="password" label="Şifre" variant="standard" />

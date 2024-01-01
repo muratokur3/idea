@@ -4,11 +4,11 @@ import logoImg from "../../../assets/logo.png"
 import Avatar from '@mui/material/Avatar';
 import LoginIcon from '@mui/icons-material/Login';
 import { Button } from "@mui/material";
-import Login from "../acoount/Login";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setLoginPage } from "../../../store/UiSlice";
 const Sidebar = () => {
-  const [loginPage,setLoginPage] = useState(false);
   const userAuthurization = false;
+  const dispatch = useDispatch();
   return (
     <div id="sidebar-container">
       <div id="logo">
@@ -32,8 +32,8 @@ const Sidebar = () => {
       </div>)
 :(
 
-<Button onClick={()=>setLoginPage(true)} endIcon={<LoginIcon/>} id="login-button" variant="text">Giriş Yap</Button>)}
-    {loginPage&&<Login/>}
+<Button onClick={() => dispatch(setLoginPage(true))}endIcon={<LoginIcon/>} id="login-button" variant="text">Giriş Yap</Button>)}
+    
     </div>
   )
 }

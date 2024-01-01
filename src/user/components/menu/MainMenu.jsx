@@ -11,12 +11,12 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SearchIcon from '@mui/icons-material/Search';
 import "./scss/main-menu.scss"
 import { useNavigate } from 'react-router-dom';
-import NewPost from '../post/NewPost';
-import { useState } from 'react';
 import { Button } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { setNewIdeaPage } from '../../../store/UiSlice';
 const Menu = () => {
   const navigate=useNavigate();
-  const [newPostPage,setNewPostPage]=useState(false);
+  const dispatch = useDispatch();
   return (
     <div id="main-menu-container">
         <List sx={{width:'100%',display:"flex",flexDirection:"column",gap:"20px"}}>
@@ -74,15 +74,7 @@ const Menu = () => {
             </ListItemButton>
           </ListItem> 
        </List>
-
-       
-       <Button id="new-idea" variant="outlined" onClick={()=>setNewPostPage(true)}>Yeni</Button>
-      {newPostPage&& <div id='new-post-page'>
-        <div id='box-new-post'>
-        <NewPost/>
-        <Button  className='close-new-post-page' onClick={()=>setNewPostPage(false)}>X</Button>
-        </div>
-       </div>}
+       <Button id="new-idea" variant="outlined" onClick={()=>dispatch(setNewIdeaPage(true))}>Yeni</Button>
     </div>
   )
 }

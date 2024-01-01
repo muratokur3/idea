@@ -5,10 +5,30 @@
     justify-content: center;
     align-items: center;
     background-color: #0000008d;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 999;
-    
+    #login-center-box{
+        width: 50%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px #0000008d;
+    z-index: 999999999;
+        
+       form{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+           
+        }
+    }
     
 }
