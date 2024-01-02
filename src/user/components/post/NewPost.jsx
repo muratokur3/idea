@@ -6,83 +6,68 @@ import "./scss/new-post.scss";
 import Avatar from "@mui/material/Avatar";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { TextareaAutosize as BaseTextareaAutosize } from "@mui/base/TextareaAutosize";
-import { styled } from "@mui/system";
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
+
 import { Button, Paper } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addIdea } from "../../../store/IdeaSlice";
 import { useState } from "react";
 const NewPost = () => {
-  const[content,setContent] = useState("");
-  const [hashtags,setHashtags] = useState([]);
- 
-  const Textarea = styled(BaseTextareaAutosize)(
-    () => `
-    width: 100%;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    max-height: 500px;
-    resize: none;
-    background: none;
-    overflow:hidden;
-    &::placeholder{
-        font-size: 1rem;
-    }
-  `
-  );
+  const [content, setContent] = useState("");
+  const [hashtags, setHashtags] = useState([]);
 
-  const hashtag =  [
-      "#react",
-      "#javascript", 
-      "#materialui", 
-      "#java" ,
-      "#paython" ,
-      "#go" ,
-      "#.net" ,
-      "#asp.net" ,
-      "#mongodb" ,
-      "#sql" ,
-      "#mysql" ,
-      "#oracle" ,
-      "#sqlserver" ,
-      "#postgresql" ,
-      "#c#" ,
-      "#c++" ,
-      "#c" ,
-      "#swift" ,
-      "#flutter" ,
-      "#dart" ,
-      "#bulma" ,
-      "#wordpress" ,
-      "#joomla" ,
-      "#drupal" ,
-      "#magento" ,
-      "#opencart" ,
-      "#prestashop" ,
-      "#shopify" ,
-      "#woocommerce" ,
-      "#vuejs" ,
-      "#angular" ,
-      "#reactjs" ,
-      "#nextjs" ,
-      "#nuxtjs" ,
-      "#svelte" ,
-      "#emberjs" ,
-      "#backbonejs" ,
-      "#jquery" ,
-      "#nodejs" ,
-      "#expressjs" ,
-      "#nestjs" ,
-      "#deno" ,
+  const hashtag = [
+    "#react",
+    "#javascript",
+    "#materialui",
+    "#java",
+    "#paython",
+    "#go",
+    "#.net",
+    "#asp.net",
+    "#mongodb",
+    "#sql",
+    "#mysql",
+    "#oracle",
+    "#sqlserver",
+    "#postgresql",
+    "#c#",
+    "#c++",
+    "#c",
+    "#swift",
+    "#flutter",
+    "#dart",
+    "#bulma",
+    "#wordpress",
+    "#joomla",
+    "#drupal",
+    "#magento",
+    "#opencart",
+    "#prestashop",
+    "#shopify",
+    "#woocommerce",
+    "#vuejs",
+    "#angular",
+    "#reactjs",
+    "#nextjs",
+    "#nuxtjs",
+    "#svelte",
+    "#emberjs",
+    "#backbonejs",
+    "#jquery",
+    "#nodejs",
+    "#expressjs",
+    "#nestjs",
+    "#deno",
   ];
 
   const dispatch = useDispatch();
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addIdea({
-         id:10,
+    dispatch(
+      addIdea({
+        id: 10,
         userId: 1,
         content,
         createDate: "October 1, 2023",
@@ -93,28 +78,38 @@ const NewPost = () => {
     );
     setContent("");
     setHashtags([]);
-  }
-  
+  };
+
   return (
     <div id="share-container">
       <Avatar
         alt="Remy Sharp"
         src="src/assets/muratokur.jpeg"
-        sx={{ width: 80, height: 80}}
+        sx={{ width: 80, height: 80 }}
       />
       <form onSubmit={handleSubmit} id="new-post-form">
-        <Textarea
+        <TextareaAutosize
+          className="new-post-textarea"
           value={content}
-          onChange={(e) => {setContent(e.target.value);e.target.focus();}}
+          onChange={(e) => {
+            setContent(e.target.value);
+          }}
           aria-label="minimum height"
           minRows={3}
           placeholder="Ne buldun acaba?"
-          sx={{ marginBottom: "20px",fontFamily:"monospace",fontSize:".9rem"}}
+          sx={{
+            marginBottom: "20px",
+            fontFamily: "monospace",
+            fontSize: ".9rem",
+          }}
         />
         <Autocomplete
-          onChange={(e,value) => {setHashtags(value);console.log(value);}}
+          onChange={(e, value) => {
+            setHashtags(value);
+            console.log(value);
+          }}
           className="new-post-hashtag"
-          sx={{color:"white"}}
+          sx={{ color: "white" }}
           value={hashtags}
           multiple
           limitTags={3}
@@ -122,20 +117,20 @@ const NewPost = () => {
           options={hashtag}
           getOptionLabel={(option) => option}
           renderInput={(params) => (
-            <TextField 
-              {...params} 
-              label="#hashtag" 
+            <TextField
+              {...params}
+              label="#hashtag"
               placeholder="#"
-              sx={{ 
-                '& .MuiInputBase-input::placeholder': { color: 'white' },
+              sx={{
+                "& .MuiInputBase-input::placeholder": { color: "white" },
               }}
               InputLabelProps={{
-                style: { color: 'white' },
+                style: { color: "white" },
               }}
             />
           )}
           PaperComponent={({ children }) => (
-            <Paper sx={{ backgroundColor: 'black' }}>{children}</Paper>
+            <Paper sx={{ backgroundColor: "black" }}>{children}</Paper>
           )}
         />
         {/* <hr className="new-post-hr" /> */}
@@ -146,7 +141,9 @@ const NewPost = () => {
             <GifBoxIcon sx={{ fontSize: 30 }} />
             <AddLocationAltIcon sx={{ fontSize: 30 }} />
           </div>
-          <Button type="submit" id="new-post-submit" variant="outlined">Paylaş</Button>
+          <Button type="submit" id="new-post-submit" variant="outlined">
+            Paylaş
+          </Button>
         </div>
       </form>
     </div>
