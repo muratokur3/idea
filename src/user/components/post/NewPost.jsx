@@ -78,6 +78,7 @@ const NewPost = () => {
   ];
 
   const dispatch = useDispatch();
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addIdea({

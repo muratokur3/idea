@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+const initialState =
+ {
     newIdeaPage: false,
     loginPage: false,
     registerPage: false,
 };
-const uiSlice = createSlice({
+export const uiSlice = createSlice({
     name: "ui",
     initialState,
     reducers: {

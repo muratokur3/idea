@@ -6,8 +6,7 @@ import UiSlice from "./UiSlice";
 const store = configureStore({
     reducer: {
         ideas: ideaSlice.reducer,
-        ui: UiSlice.reducer,
-        // users: userSlice.reducer,
+        ui: UiSlice,
         // comments: commentSlice.reducer,
         // notifications: notificationSlice.reducer,
         // messages: messageSlice.reducer,
