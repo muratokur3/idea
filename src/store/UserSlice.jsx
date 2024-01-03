@@ -6,7 +6,7 @@ const initislState = [{
     surname:"OKUR",
     username:"muratokur3",
     email:"muratokur3@icloud.com",
-    pasword:"123",
+    password:"123",
     avatar:"src/assets/muratokur.jpeg",
     followers:[],
     following:[],
@@ -111,7 +111,7 @@ const initislState = [{
 ]
 
 export const userSlice = createSlice({
-    name: 'user',
+    name: 'users',
     initialState: initislState,
     reducers: {
         addUser: (state, action) => {

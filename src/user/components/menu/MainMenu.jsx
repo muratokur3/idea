@@ -12,11 +12,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import "./scss/main-menu.scss"
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setNewIdeaPage } from '../../../store/UiSlice';
 const Menu = () => {
   const navigate=useNavigate();
   const dispatch = useDispatch();
+  const isLogin=useSelector((state) => state.authentication.isLogin);
+
   return (
     <div id="main-menu-container">
         <List sx={{width:'100%',display:"flex",flexDirection:"column",gap:"20px"}}>
@@ -74,7 +76,7 @@ const Menu = () => {
             </ListItemButton>
           </ListItem> 
        </List>
-       <Button id="new-idea" variant="outlined" onClick={()=>dispatch(setNewIdeaPage(true))}>Yeni</Button>
+      {isLogin&& <Button id="new-idea" variant="outlined" onClick={()=>dispatch(setNewIdeaPage(true))}>Yeni</Button>}
     </div>
   )
 }

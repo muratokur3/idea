@@ -9,57 +9,15 @@ import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 
 import { Button, Paper } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addIdea } from "../../../store/IdeaSlice";
 import { useState } from "react";
 const NewPost = () => {
   const [content, setContent] = useState("");
-  const [hashtags, setHashtags] = useState([]);
+  const [selectedHashtags, setSelectedHashtags] = useState([]);
+  const hashtags = useSelector((state) => state.hashtags);
 
-  const hashtag = [
-    "#react",
-    "#javascript",
-    "#materialui",
-    "#java",
-    "#paython",
-    "#go",
-    "#.net",
-    "#asp.net",
-    "#mongodb",
-    "#sql",
-    "#mysql",
-    "#oracle",
-    "#sqlserver",
-    "#postgresql",
-    "#c#",
-    "#c++",
-    "#c",
-    "#swift",
-    "#flutter",
-    "#dart",
-    "#bulma",
-    "#wordpress",
-    "#joomla",
-    "#drupal",
-    "#magento",
-    "#opencart",
-    "#prestashop",
-    "#shopify",
-    "#woocommerce",
-    "#vuejs",
-    "#angular",
-    "#reactjs",
-    "#nextjs",
-    "#nuxtjs",
-    "#svelte",
-    "#emberjs",
-    "#backbonejs",
-    "#jquery",
-    "#nodejs",
-    "#expressjs",
-    "#nestjs",
-    "#deno",
-  ];
+  
 
   const dispatch = useDispatch();
 
@@ -73,11 +31,11 @@ const NewPost = () => {
         createDate: "October 1, 2023",
         likes: [],
         isDeleted: false,
-        hashtags,
+        hashtags:selectedHashtags
       })
     );
     setContent("");
-    setHashtags([]);
+    setSelectedHashtags([]);
   };
 
   return (
@@ -105,16 +63,16 @@ const NewPost = () => {
         />
         <Autocomplete
           onChange={(e, value) => {
-            setHashtags(value);
+            setSelectedHashtags(value);
             console.log(value);
           }}
           className="new-post-hashtag"
           sx={{ color: "white" }}
-          value={hashtags}
+          value={selectedHashtags}
           multiple
           limitTags={3}
           id="multiple-limit-tags"
-          options={hashtag}
+          options={hashtags}
           getOptionLabel={(option) => option}
           renderInput={(params) => (
             <TextField
