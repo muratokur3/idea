@@ -1,8 +1,10 @@
 #hashtag-container {
     width: 15%;
-    height: auto;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    right: 0;
     min-height: 100vh;
     border-right: 1px solid gray;
     color: white;
-    position: relative;
 }

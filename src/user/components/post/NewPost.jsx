@@ -12,6 +12,7 @@ import { Button, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addIdea } from "../../../store/IdeaSlice";
 import { useState } from "react";
+import { setNewIdeaPage } from "../../../store/UiSlice";
 const NewPost = () => {
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
@@ -36,6 +37,7 @@ const NewPost = () => {
     );
     setContent("");
     setSelectedHashtags([]);
+    dispatch(setNewIdeaPage(false));
   };
 
   return (
