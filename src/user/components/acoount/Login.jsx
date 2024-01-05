@@ -14,7 +14,6 @@ const Login = () => {
      const user=users.find((user) =>user.username === username && user.password === password)
        if (user)
         {
-          alert("Giriş başarılı!");
           localStorage.setItem("username", username);
           localStorage.setItem("token", username+"101010101");
           localStorage.setItem("isLogin", true);
