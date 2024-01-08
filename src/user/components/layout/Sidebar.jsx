@@ -74,7 +74,7 @@ const Sidebar = () => {
               }, 
             }}
           >
-            <MenuItem onClick={()=>navigate("/profile/detail")}>Profile Git</MenuItem>
+            <MenuItem onClick={()=>navigate(`/profile/${authentication.user.username}`)}>Profile Git</MenuItem>
             <MenuItem onClick={lagout}>Çıkış Yap</MenuItem>
           </Menu>
         </div>

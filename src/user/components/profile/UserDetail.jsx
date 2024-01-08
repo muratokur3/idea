@@ -21,7 +21,7 @@ const UserDetail = ({user}) => {
         @{user.username}
       </Typography>
       </Box>
-     <ProfileMenu username={user.username}/>
+     <ProfileMenu user={user}/>
        </div>
     </div>
   )

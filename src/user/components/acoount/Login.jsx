@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoginPage } from "../../../store/UiSlice";
 import { useState } from "react";
 import { setLogin, setUser } from "../../../store/AuthenticationSlice";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { FilledInput, FormControl, IconButton, InputAdornment, InputLabel } from "@mui/material";
+
 const Login = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
@@ -32,28 +35,52 @@ const Login = () => {
         }
       }
 
+      const [showPassword, setShowPassword] = useState(false);
 
+      const handleClickShowPassword = () => setShowPassword((show) => !show);
+    
+      const handleMouseDownPassword = () => {
+        event.preventDefault();
+      };
   return (
     <div id="login-container">
       <div id="login-center-box">
         <form onSubmit={login} >
           <h1>Giriş Yap</h1>
-          <TextField
-            value={username}
+          
+           <FormControl variant="filled"  sx={{width:"50%" }}>
+          <InputLabel >Kullanıcı adı</InputLabel>
+          <FilledInput
+          sx={{ background: "none",width:"100%" }}
+          value={username}
             onChange={(e) => setUsername(e.target.value)}
-            id="standard-basic"
-            label="Kullanıcı Adı"
-            variant="standard"
           />
-          <TextField
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            sx={{ color: "white" }}
-            id="standard-basic"
-            type="password"
-            label="Şifre"
-            variant="standard"
+            </FormControl>
+
+            <FormControl variant="filled" sx={{width:"50%" }} >
+          <InputLabel htmlFor="filled-adornment-password">Şifre</InputLabel>
+          <FilledInput
+          sx={{ background: "none" }}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+            id="filled-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
           />
+            </FormControl>
+
+
           <Button
             variant="outlined"
             type="submit"

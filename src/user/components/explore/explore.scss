@@ -1,0 +1,9 @@
+#explore-container{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    #search-box{
+        border-bottom: 1px solid #75707068;
+    }
+}

@@ -18,7 +18,7 @@ const NewPost = () => {
   const [selectedHashtags, setSelectedHashtags] = useState([]);
   const hashtags = useSelector((state) => state.hashtags);
 
-  
+const user=useSelector((state)=>state.authentication.user)
 
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ const NewPost = () => {
     dispatch(
       addIdea({
         id: 10,
-        userId: 1,
+        userId: user.id,
         content,
         createDate: "October 1, 2023",
         likes: [],
@@ -62,6 +62,7 @@ const NewPost = () => {
             fontFamily: "monospace",
             fontSize: ".9rem",
           }}
+          required
         />
         <Autocomplete
           onChange={(e, value) => {
@@ -87,6 +88,7 @@ const NewPost = () => {
               InputLabelProps={{
                 style: { color: "white" },
               }}
+              required
             />
           )}
           PaperComponent={({ children }) => (

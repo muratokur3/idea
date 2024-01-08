@@ -31,7 +31,6 @@ const Layout = () => {
       <div id="layout-content">
         <Outlet />
       </div>
-      <Hashtag />
       {ui.loginPage && <Login />}
       {ui.newIdeaPage && <NewPostPage />}
     </div>

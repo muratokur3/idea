@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -6,15 +7,15 @@ import './scss/profile-menu.scss'
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { useSelector } from 'react-redux';
-const ProfileMenu = ({username}) => {
+const ProfileMenu = ({user}) => {
   const navigate=useNavigate();
-  const isLogin = useSelector((state) => state.authentication.isLogin);
+  const authentication = useSelector((state) => state.authentication);
   return (
     <div id='profile-menu-container'>
           <List
            sx={{width:'100%',display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-evenly"}}>
           <ListItem >
-            <ListItemButton onClick={()=>navigate(`/profile/${username}`)}>
+            <ListItemButton onClick={()=>navigate(`/profile/${user.username}`)}>
               <ListItemText primary="Gönderiler" />
             </ListItemButton>
           </ListItem>
@@ -41,7 +42,9 @@ const ProfileMenu = ({username}) => {
        
    
      
-       <Button variant="contained" sx={{border:".5px solid gray", background:"none", color: "white", width: "120px", height: "30px", fontSize: ".8rem",marginTop:"20px"}}>{isLogin ?"Düzenle":"Takip"}</Button>
+       <Button variant="contained" sx={{border:".5px solid gray", background:"none", color: "white", width: "120px",
+        height: "30px", fontSize: ".8rem",marginTop:"20px"}}>
+          {user.username===authentication.user.username ?"Düzenle":"Takip"}</Button>
     </div>
   )
 }

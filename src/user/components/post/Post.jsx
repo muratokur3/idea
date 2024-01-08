@@ -12,8 +12,10 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const Post = ({ post }) => {
+  const users = useSelector((state) => state.users);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -22,6 +24,20 @@ const Post = ({ post }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+ 
+  const userNameSurame = users.map((user) => {
+      if (user.id === post.userId) {
+        return `${user.name} ${user.surname}`;
+      }
+    });
+  
+  const username = users.map((user) => {
+      if (user.id ===  post.userId) {
+        return user.username;
+      }
+    });
+  
+
   return (
     <Card id="card-container">
       <CardHeader
@@ -34,45 +50,45 @@ const Post = ({ post }) => {
           />
         }
         action={
-         <>
-          <IconButton
-            aria-label="more"
-            id="long-button"
-            aria-controls={open ? "long-menu" : undefined}
-            aria-expanded={open ? "true" : undefined}
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            <MoreVertIcon fontSize="small" />
-          </IconButton>
-          <Menu
-            id="fade-menu"
-            MenuListProps={{
-              "aria-labelledby": "fade-button",
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            TransitionComponent={Fade}
-            PaperProps={{
-              style: {
-                backgroundColor: 'black', 
-                color: 'white',
-                padding:"5px",
-              }, 
-            }}
-          >
-           <MenuItem onClick={handleClose}>Görmek istemediğim</MenuItem>
-            <MenuItem onClick={handleClose}>Kişiyi Engelle</MenuItem>
-            <MenuItem onClick={handleClose}>Bildir</MenuItem>
-          </Menu>
-         </>
+          <>
+            <IconButton
+              aria-label="more"
+              id="long-button"
+              aria-controls={open ? "long-menu" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <MoreVertIcon fontSize="small" />
+            </IconButton>
+            <Menu
+              id="fade-menu"
+              MenuListProps={{
+                "aria-labelledby": "fade-button",
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              TransitionComponent={Fade}
+              PaperProps={{
+                style: {
+                  backgroundColor: "black",
+                  color: "white",
+                  padding: "5px",
+                },
+              }}
+            >
+              <MenuItem onClick={handleClose}>Görmek istemediğim</MenuItem>
+              <MenuItem onClick={handleClose}>Kişiyi Engelle</MenuItem>
+              <MenuItem onClick={handleClose}>Bildir</MenuItem>
+            </Menu>
+          </>
         }
         title={
           <Box display="flex" alignItems="center" gap={2}>
-            <Typography>{post.userId}</Typography>
+            <Typography>{userNameSurame}</Typography>
             <Typography sx={{ color: "gray", fontSize: ".8rem" }}>
-              @{post.userId}
+              @{username}
             </Typography>
           </Box>
         }
