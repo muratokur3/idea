@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import "./scss/layout.scss";
-import Hashtag from "./Hashtag";
 import { useDispatch, useSelector } from "react-redux";
 import NewPostPage from "../post/NewPostPage";
 import Login from "../acoount/Login";
@@ -10,6 +9,7 @@ import { setLogin, setUser } from "../../../store/AuthenticationSlice";
 const Layout = () => {
   const ui = useSelector((state) => state.ui);
   const dispatch = useDispatch();
+  
   useEffect(() => {
     if (localStorage.getItem("isLogin")) {
       dispatch(setLogin(true));
