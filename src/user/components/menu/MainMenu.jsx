@@ -48,14 +48,7 @@ const Menu = () => {
           </ListItemButton>
         </ListItem>
 
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate("/best")}>
-            <ListItemIcon>
-              <StarBorderIcon />
-            </ListItemIcon>
-            <ListItemText primary="Enler" />
-          </ListItemButton>
-        </ListItem>
+     
         {isLogin && (
           <>
             <ListItem disablePadding>
