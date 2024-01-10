@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { ideaSlice } from "./IdeaSlice";
 import UiSlice from "./UiSlice";
 import UserSlice from "./UserSlice";
 import authenticationSlice  from "./AuthenticationSlice";
 import { hashtagSlice } from "./HashtagSlice";
+import { postSlice } from "./PostSlice";
 
 
 const store = configureStore({
     reducer: {
-        ideas: ideaSlice.reducer,
+        posts: postSlice.reducer,
         ui: UiSlice,
         users: UserSlice,
         authentication: authenticationSlice,

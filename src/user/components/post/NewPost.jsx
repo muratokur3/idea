@@ -10,9 +10,9 @@ import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 
 import { Button, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { addIdea } from "../../../store/IdeaSlice";
 import { useState } from "react";
-import { setNewIdeaPage } from "../../../store/UiSlice";
+import { setNewIdeaPage } from "../../../redux/store/UiSlice";
+import { createPost } from "../../../redux/actions/PostActions";
 const NewPost = () => {
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
@@ -24,17 +24,15 @@ const user=useSelector((state)=>state.authentication.user)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      addIdea({
-        id: 10,
+    const newPost = {
         userId: user.id,
         content,
         createDate: "October 1, 2023",
         likes: [],
         isDeleted: false,
         hashtags:selectedHashtags
-      })
-    );
+    };
+    dispatch(createPost(newPost));
     setContent("");
     setSelectedHashtags([]);
     dispatch(setNewIdeaPage(false));
@@ -88,7 +86,6 @@ const user=useSelector((state)=>state.authentication.user)
               InputLabelProps={{
                 style: { color: "white" },
               }}
-              required
             />
           )}
           PaperComponent={({ children }) => (

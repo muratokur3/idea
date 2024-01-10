@@ -6,14 +6,15 @@ import NewPostPage from "../post/NewPostPage";
 import Login from "../acoount/Login";
 import { useEffect } from "react";
 import { setLogin, setUser } from "../../../store/AuthenticationSlice";
+
 const Layout = () => {
   const ui = useSelector((state) => state.ui);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if (localStorage.getItem("isLogin")) {
       dispatch(setLogin(true));
-      dispatch(setUser(JSON.parse(localStorage.getItem("user"))))
+      dispatch(setUser(JSON.parse(localStorage.getItem("user"))));
     } else {
       dispatch(setLogin(false));
     }
@@ -23,7 +24,7 @@ const Layout = () => {
     } else {
       document.body.style.overflow = "auto";
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ui]);
   return (
     <div id="layout-container">

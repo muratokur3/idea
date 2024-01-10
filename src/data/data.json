@@ -26,11 +26,24 @@
       "email": "ayseyilmaz22@gmail.com",
       "password": "abc123",
       "avatar": "src/assets/ayseyilmaz.jpeg",
-      "followers": [1, 3],
-      "following": [4],
-      "ideas": [2, 4],
-      "likes": [1, 3],
-      "favorites": [2],
+      "followers": [
+        1,
+        3
+      ],
+      "following": [
+        4
+      ],
+      "ideas": [
+        2,
+        4
+      ],
+      "likes": [
+        1,
+        3
+      ],
+      "favorites": [
+        2
+      ],
       "notifications": [],
       "isDeleted": false,
       "createDate": "November 15, 2023",
@@ -44,11 +57,24 @@
       "email": "emrekara87@yahoo.com",
       "password": "pass456",
       "avatar": "src/assets/emrekara.jpeg",
-      "followers": [2],
-      "following": [1, 2],
-      "ideas": [1, 3],
-      "likes": [2, 4],
-      "favorites": [3],
+      "followers": [
+        2
+      ],
+      "following": [
+        1,
+        2
+      ],
+      "ideas": [
+        1,
+        3
+      ],
+      "likes": [
+        2,
+        4
+      ],
+      "favorites": [
+        3
+      ],
       "notifications": [],
       "isDeleted": false,
       "createDate": "December 5, 2023",
@@ -62,11 +88,26 @@
       "email": "zeynep55@gmail.com",
       "password": "zey123",
       "avatar": "src/assets/zeynepdemir.jpeg",
-      "followers": [1, 2, 3],
-      "following": [1, 3],
-      "ideas": [2, 5],
-      "likes": [1, 4],
-      "favorites": [1],
+      "followers": [
+        1,
+        2,
+        3
+      ],
+      "following": [
+        1,
+        3
+      ],
+      "ideas": [
+        2,
+        5
+      ],
+      "likes": [
+        1,
+        4
+      ],
+      "favorites": [
+        1
+      ],
       "notifications": [],
       "isDeleted": false,
       "createDate": "January 20, 2024",
@@ -80,11 +121,22 @@
       "email": "ahmet99@hotmail.com",
       "password": "ahmet789",
       "avatar": "src/assets/ahmetyildirim.jpeg",
-      "followers": [3],
-      "following": [2, 4],
-      "ideas": [4],
-      "likes": [3],
-      "favorites": [5],
+      "followers": [
+        3
+      ],
+      "following": [
+        2,
+        4
+      ],
+      "ideas": [
+        4
+      ],
+      "likes": [
+        3
+      ],
+      "favorites": [
+        5
+      ],
       "notifications": [],
       "isDeleted": false,
       "createDate": "February 8, 2024",
@@ -98,11 +150,24 @@
       "email": "fatma28@gmail.com",
       "password": "ft1234",
       "avatar": "src/assets/fatmatekin.jpeg",
-      "followers": [2, 4],
-      "following": [3, 5],
-      "ideas": [3],
-      "likes": [1, 2],
-      "favorites": [4],
+      "followers": [
+        2,
+        4
+      ],
+      "following": [
+        3,
+        5
+      ],
+      "ideas": [
+        3
+      ],
+      "likes": [
+        1,
+        2
+      ],
+      "favorites": [
+        4
+      ],
       "notifications": [],
       "isDeleted": false,
       "createDate": "March 12, 2024",
@@ -115,49 +180,100 @@
       "userId": 1,
       "content": "React ile yapılabilir bir proje önerisi diye çok arama yapılıyo. Bende bir tane yapayım dedim. Sizce nasıl olmuş? Yorumlarınızı bekliyorum.",
       "createDate": "September 14, 2023",
-      "likesUserId": [1, 2, 3, 4],
+      "likesUserId": [
+        1,
+        2,
+        3,
+        4
+      ],
       "isDeleted": false,
-      "hashtags": ["#react", "#redux", "#javascript", "#nodejs"]
+      "hashtags": [
+        "#react",
+        "#redux",
+        "#javascript",
+        "#nodejs"
+      ]
     },
     {
       "id": 2,
       "userId": 2,
       "content": "E-ticaret sitesi yapmak istiyorum. Çok farklı olacağından eminim. Şöyle böyle olacak...",
       "createDate": "october 4, 2023",
-      "likesUserId": [1, 3],
+      "likesUserId": [
+        1,
+        3
+      ],
       "isDeleted": false,
-      "hashtags": ["#eticaret", "#yeniproje", "#yazılım"]
+      "hashtags": [
+        "#eticaret",
+        "#yeniproje",
+        "#yazılım"
+      ]
     },
     {
       "id": 3,
       "userId": 3,
       "content": "Yeni başlayanlar için Python ile web scraping projeleri yapmak harika bir deneyim olabilir. Önerilerinizi bekliyorum!",
       "createDate": "November 22, 2023",
-      "likesUserId": [2, 4],
+      "likesUserId": [
+        2,
+        4
+      ],
       "isDeleted": false,
-      "hashtags": ["#python", "#web scraping", "#beginner", "#project"]
+      "hashtags": [
+        "#python",
+        "#web scraping",
+        "#beginner",
+        "#project"
+      ]
     },
     {
       "id": 4,
       "userId": 1,
       "content": "Mobil uygulama geliştirme konusunda deneyimi olan arkadaşlar, benimle fikir alışverişinde bulunabilir mi? Kotlin veya Swift kullanarak bir proje planlıyorum.",
       "createDate": "December 10, 2023",
-      "likesUserId": [2, 3, 4],
+      "likesUserId": [
+        2,
+        3,
+        4
+      ],
       "isDeleted": false,
-      "hashtags": ["#mobileapp", "#kotlin", "#swift", "#appdevelopment"]
+      "hashtags": [
+        "#mobileapp",
+        "#kotlin",
+        "#swift",
+        "#appdevelopment"
+      ]
     },
     {
       "id": 5,
       "userId": 4,
       "content": "Yapay Zeka ile ilgili yeni bir proje üzerinde çalışıyorum. TensorFlow ve Python kullanarak neler başarabileceğimi görmek istiyorsanız, takipte kalın!",
       "createDate": "January 5, 2024",
-      "likesUserId": [1, 3],
+      "likesUserId": [
+        1,
+        3
+      ],
       "isDeleted": false,
       "hashtags": [
         "#artificialintelligence",
         "#tensorflow",
         "#python",
         "#project"
+      ]
+    },
+    {
+      "id": "a814",
+      "userId": 1,
+      "content": "Merhaba bu bir denemedir",
+      "createDate": "October 1, 2023",
+      "likes": [],
+      "isDeleted": false,
+      "hashtags": [
+        "#javascript",
+        "#java",
+        "#asp.net",
+        "#postgresql"
       ]
     }
   ]

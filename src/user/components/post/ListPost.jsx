@@ -1,14 +1,22 @@
 import "./scss/list-post.scss";
 import Post from "./Post.jsx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getPosts } from "../../../actions/PostActions.jsx";
 
 const ListPost = () => {
-const ideas = useSelector((state) => state.ideas);
+const posts = useSelector((state) => state.posts);
+const dispatch = useDispatch();
 
+useEffect(() => {
+  dispatch(getPosts());
+
+}
+, []);
   return (
     <div>
       {
-      ideas.map((post,index) => (
+      posts.map((post,index) => (
         <Post key={index} post={post} />
       )).reverse()
       }
