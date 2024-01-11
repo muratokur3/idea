@@ -1,27 +1,23 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "../user/components/layout/Layout";
 import ProfileLayout from "../user/components/profile/ProfileLayout"
-import Detail from "../user/components/profile/Detail"
-import ProfileMain from "../user/components/profile/ProfileMain"
 import Home from "../user/components/home/Home";
 import Favorite from "../user/components/favorite/Favorite";
-import Likes from "../user/components/profile/Likes";
-import Project from '../user/components/profile/Project'
 import Settings from '../user/components/settings/Settings'
-import Explore from "../user/components/explore/Explore";
+import ExploreLayout from "../user/components/explore/ExploreLayout";
+import ExplorePosts from "../user/components/explore/ExplorePosts";
+import ExploreMain from "../user/components/explore/ExploreMain";
 function UserRoutes() {
     return (
         <Routes>
           <Route path="/*" element={<Layout/>}>
             <Route index element={<Home />} />
-            <Route path="explore" element={<Explore/>}/>
-            <Route path="favorite" element={<Favorite/>}/>
-            <Route path="profile/:username" element={<ProfileLayout />}>
-              <Route index element={<ProfileMain />} />
-              <Route path="like" element={<Likes />} />
-              <Route path="detail" element={<Detail />} />
-              <Route path="project" element={<Project />} />
+            <Route path="explore" element={<ExploreLayout/>}>
+              <Route index element={<ExploreMain/>}/>
+              <Route path=":hashtag" element={<ExplorePosts/>}/>
             </Route>
+            <Route path=":username" element={<ProfileLayout />}/>
+            <Route path="favorite" element={<Favorite/>}/>
             <Route path="settings" element={<Settings/>}/>
           </Route>
         </Routes>

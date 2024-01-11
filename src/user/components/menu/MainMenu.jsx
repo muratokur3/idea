@@ -59,7 +59,7 @@ const Menu = () => {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate(`/profile/${username}`)}>
+              <ListItemButton onClick={() => navigate(`/${username}`)}>
                 <ListItemIcon>
                   <PermIdentityIcon />
                 </ListItemIcon>

@@ -5,6 +5,7 @@ import UserSlice from "../slices/UserSlice";
 import authenticationSlice from "../slices/AuthenticationSlice";
 import hashtagSlice from "../slices/HashtagSlice";
 import filterSlice from "../slices/FilterSlice";
+import profileSlice from "../slices/ProfileSlice";
 
 
 
@@ -16,7 +17,7 @@ const store = configureStore({
         authentication: authenticationSlice,
         hashtags: hashtagSlice,
         filterPosts: filterSlice,
-       
+        profile: profileSlice,
     },
     });
     export default store;

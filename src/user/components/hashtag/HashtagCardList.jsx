@@ -2,10 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { setFilterExplore } from "../../redux/slices/FilterSlice";
+import { useNavigate } from "react-router-dom";
 
 const HashtagCardList = () => {
   const dispatch = useDispatch();
   const hashtags = useSelector((state) => state.hashtags);
+  const filterExplore = useSelector((state) => state.filterPosts.filterExplore);
+  const navigate=useNavigate();
   useEffect(() => { 
    dispatch(setFilterExplore(""));
   }, []);
@@ -21,7 +24,7 @@ const HashtagCardList = () => {
                 width: "100%",
                 maxHeight: "100%",
               }}
-              onClick={()=>dispatch(setFilterExplore(hashtag.name))}
+              onClick={()=>navigate(`${hashtag.name.slice(1, hashtag.name.length)}`)}
             >
               <CardActionArea >
                 <CardContent>
@@ -30,7 +33,7 @@ const HashtagCardList = () => {
                     {hashtag.name}
                   </Typography>
                   <Typography variant="body2" color="gray" >
-                    {hashtag.postCount}
+                    {hashtag.postCount}{filterExplore}
                   </Typography>
                 </CardContent>
               </CardActionArea>

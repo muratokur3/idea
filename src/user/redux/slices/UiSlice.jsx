@@ -5,6 +5,7 @@ const initialState =
     newPostPage: false,
     loginPage: false,
     registerPage: false,
+    profilePage: "posts",
     
 };
 export const uiSlice = createSlice({
@@ -20,8 +21,11 @@ export const uiSlice = createSlice({
         setRegisterPage(state, action) {
             state.registerPage = action.payload;
         },
+        setProfilePage(state, action) {
+            state.profilePage = action.payload;
+        },
     },
 });
 
-export const {setNewPostPage,setLoginPage,setRegisterPage} = uiSlice.actions;
+export const {setNewPostPage,setLoginPage,setRegisterPage,setProfilePage} = uiSlice.actions;
 export default uiSlice.reducer;

@@ -84,9 +84,9 @@ const Post = ({ post }) => {
           </>
         }
         title={
-          <Box display="flex" alignItems="center" gap={2}>
-            <Typography>{userNameSurame}</Typography>
-            <Typography sx={{ color: "gray", fontSize: ".8rem" }}>
+          <Box display="flex" alignItems="center" gap={2} >
+            <Typography  >{userNameSurame}</Typography>
+            <Typography sx={{ color: "gray", fontSize: ".8rem" }} >
               @{username}
             </Typography>
           </Box>
@@ -106,15 +106,14 @@ const Post = ({ post }) => {
             <Typography
               sx={{ color: "gray", fontSize: ".7rem", wordSpacing: "10px" }}
             >
-              {post.hashtags.length > 0 &&
-                post.hashtags.map((hashtag) => ` ${hashtag}`)}
+              {post.hashtags &&post.hashtags.map((hashtag) => ` ${hashtag}`)}
             </Typography>
           </Box>
         </Typography>
       </CardContent>
 
       <CardActions className="card-icon">
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites" >
           <FavoriteBorderIcon />
         </IconButton>
 

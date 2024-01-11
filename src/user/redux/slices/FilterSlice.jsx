@@ -2,9 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   filterName: "all",
-  filterExplore: "",
-  filterProfilePosts:null,
-  filterProfileLikesPosts:0,
+  filterExplore: null,
+  // filterProfilePosts:null,
+  // filterProfileLikesPosts:0,
 };
 
 export const filterSlice = createSlice({
@@ -17,15 +17,15 @@ export const filterSlice = createSlice({
     setFilterExplore: (state, action) => {
       state.filterExplore = action.payload;
     },
-    setFilterProfilePosts: (state, action) => {
-      state.filterProfilePosts = action.payload;
-    },
-    setFilterProfileLikesPosts: (state, action) => {
-        state.filterProfileLikesPosts = action.payload;
-    },
+    // setFilterProfilePosts: (state, action) => {
+    //   state.filterProfilePosts = action.payload;
+    // },
+    // setFilterProfileLikesPosts: (state, action) => {
+    //     state.filterProfileLikesPosts = action.payload;
+    // },
     },
 });
 
 
-export const {setFilter, setFilterExplore,setFilterProfilePosts,setFilterProfileLikesPosts  } = filterSlice.actions;
+export const {setFilter,setFilterExplore } = filterSlice.actions;
 export default filterSlice.reducer;

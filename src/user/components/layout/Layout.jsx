@@ -7,7 +7,6 @@ import Login from "../acoount/Login";
 import { useEffect } from "react";
 import { setLogin, setUser } from "../../redux/slices/AuthenticationSlice";
 import { fetchUsers } from "../../redux/actions/UserActions";
-import { getExplorePosts, getHomePosts } from "../../redux/actions/PostActions";
 import { getHashtags } from "../../redux/actions/HashtagsAction";
 
 
@@ -17,10 +16,7 @@ const Layout = () => {
 
   useEffect(() => {
     dispatch(fetchUsers());
-    dispatch(getExplorePosts());
-    dispatch(getHomePosts());
     dispatch(getHashtags());
-
     if (localStorage.getItem("isLogin")) {
       
       dispatch(setLogin(true));
