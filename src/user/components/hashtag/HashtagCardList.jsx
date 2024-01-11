@@ -1,18 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import { useEffect } from "react";
-import { getHashtags } from "../../redux/actions/HashtagsAction";
 import { setFilterExplore } from "../../redux/slices/FilterSlice";
-import { getPosts } from "../../redux/actions/PostActions";
 
 const HashtagCardList = () => {
   const dispatch = useDispatch();
   const hashtags = useSelector((state) => state.hashtags);
-const filterExplorer=useSelector((state)=>state.filterPosts.filterExplore);
   useEffect(() => { 
-   dispatch(getHashtags());
    dispatch(setFilterExplore(""));
-   dispatch(getPosts({userId:filterExplorer}))
   }, []);
 
   return (

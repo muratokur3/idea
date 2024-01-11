@@ -1,42 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+// const initialState = [];
 
-// const initialState = {
-//   home:[],
-//   homeMe:[],
-//   explore:[],
-//   profilePosts:[],
-//   profileLikesPosts:[],
-  
-// };
+const initialState = {
+  home:[],
+  privateMe:[],
+  explore:[],
+  profile:[],
+  profileLikes:[],
+};
 
 
 export const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    setPost: (state, action) => {
-      return action.payload;
+    setHome: (state, action) => {
+      state.home = action.payload;
+    },
+    setPrivateMe: (state, action) => {
+      state.privateMe = action.payload;
+    },
+    setExplore: (state, action) => {
+      state.explore = action.payload;
+    },
+    setProfile: (state, action) => {
+      state.profile = action.payload;
     },
     addPost: (state, action) => {
       state.push(action.payload);
     },
-    deletePost: (state, action) => {
-      const index = state.findIndex((post) => post.id === action.payload);
-      state[index].isDeleted = true;
-    },
-    likePost: (state, action) => {
-      const index = state.findIndex((post) => post.id === action.payload);
-      state[index].likesUserId.push(1);
-    },
-    unlikePost: (state, action) => {
-      const index = state.findIndex((post) => post.id === action.payload);
-      state[index].likesUserId.pop(1);
-    },
+   
   },
 });
 
-export const { setPost, addPost, deletePost, likePost, unlikePost } =
+export const { setHome,addPost,setExplore,setProfile } =
   postSlice.actions;
 export default postSlice.reducer;

@@ -9,19 +9,16 @@ import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { Button, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { setNewPostPage } from "../../redux/slices/UiSlice";
 import { createPost } from "../../redux/actions/PostActions";
-import { getHashtags } from "../../redux/actions/HashtagsAction";
 const NewPost = () => {
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
   const hashtags = useSelector((state) => state.hashtags);
   const yeni = hashtags.map((hashtag) => hashtag.name);
   const user = useSelector((state) => state.authentication.user);
-  useEffect(() => {
-    dispatch(getHashtags());
-  }, []);
+
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
