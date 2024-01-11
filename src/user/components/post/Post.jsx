@@ -24,19 +24,18 @@ const Post = ({ post }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
- 
+
   const userNameSurame = users.map((user) => {
-      if (user.id === post.userId) {
-        return `${user.name} ${user.surname}`;
-      }
-    });
-  
+    if (user.id === post.userId) {
+      return `${user.name} ${user.surname}`;
+    }
+  });
+
   const username = users.map((user) => {
-      if (user.id ===  post.userId) {
-        return user.username;
-      }
-    });
-  
+    if (user.id === post.userId) {
+      return user.username;
+    }
+  });
 
   return (
     <Card id="card-container">
@@ -104,7 +103,9 @@ const Post = ({ post }) => {
           {post.content}
           {/* burada kullanılan box/div p etiketinin dışına çıkartılmalı */}
           <Box>
-            <Typography sx={{ color: "gray", fontSize: ".7rem" }}>
+            <Typography
+              sx={{ color: "gray", fontSize: ".7rem", wordSpacing: "10px" }}
+            >
               {post.hashtags.length > 0 &&
                 post.hashtags.map((hashtag) => ` ${hashtag}`)}
             </Typography>

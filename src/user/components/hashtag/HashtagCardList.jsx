@@ -10,7 +10,7 @@ const HashtagCardList = () => {
   const hashtags = useSelector((state) => state.hashtags);
 const filterExplorer=useSelector((state)=>state.filterPosts.filterExplore);
   useEffect(() => { 
-   dispatch(getHashtags(5));
+   dispatch(getHashtags());
    dispatch(setFilterExplore(""));
    dispatch(getPosts({userId:filterExplorer}))
   }, []);
@@ -41,7 +41,7 @@ const filterExplorer=useSelector((state)=>state.filterPosts.filterExplore);
               </CardActionArea>
             </Card>
           </div>
-        ))}
+        )).reverse().slice(0,5)}
     </>
   );
 };

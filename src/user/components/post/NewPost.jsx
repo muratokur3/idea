@@ -9,34 +9,37 @@ import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { Button, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setNewPostPage } from "../../redux/slices/UiSlice";
-import {createPost} from "../../redux/actions/PostActions"
+import { createPost } from "../../redux/actions/PostActions";
+import { getHashtags } from "../../redux/actions/HashtagsAction";
 const NewPost = () => {
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
   const hashtags = useSelector((state) => state.hashtags);
-  
-const user=useSelector((state)=>state.authentication.user)
-
+  const yeni = hashtags.map((hashtag) => hashtag.name);
+  const user = useSelector((state) => state.authentication.user);
+  useEffect(() => {
+    dispatch(getHashtags());
+  }, []);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newPost = {
-        userId: user.id,
-        content,
-        createDate: "October 1, 2023",
-        likes: [],
-        isDeleted: false,
-        hashtags:selectedHashtags
+      userId: user.id,
+      content,
+      createDate: "October 1, 2023",
+      likes: [],
+      isDeleted: false,
+      hashtags: selectedHashtags,
     };
     dispatch(createPost(newPost));
     setContent("");
     setSelectedHashtags([]);
     dispatch(setNewPostPage(false));
   };
-
+ 
   return (
     <div id="share-container">
       <Avatar
@@ -71,7 +74,7 @@ const user=useSelector((state)=>state.authentication.user)
           multiple
           limitTags={3}
           id="multiple-limit-tags"
-          options={hashtags}
+          options={yeni}
           getOptionLabel={(option) => option}
           renderInput={(params) => (
             <TextField

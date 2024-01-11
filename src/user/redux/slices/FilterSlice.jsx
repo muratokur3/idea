@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   filterName: "all",
   filterExplore: "",
-  filterProfilePosts:4,
+  filterProfilePosts:null,
   filterProfileLikesPosts:0,
 };
 

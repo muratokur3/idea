@@ -188,11 +188,11 @@
       ],
       "isDeleted": false,
       "hashtags": [
-        "react",
-        "redux",
-        "javascript",
-        "nodejs",
-        "eticaret"
+        "#react",
+        "#redux",
+        "#javascript",
+        "#nodejs",
+        "#eticaret"
       ]
     },
     {
@@ -206,9 +206,9 @@
       ],
       "isDeleted": false,
       "hashtags": [
-        "eticaret",
-        "yeniproje",
-        "yazılım"
+        "#eticaret",
+        "#yeniproje",
+        "#yazılım"
       ]
     },
     {
@@ -222,10 +222,10 @@
       ],
       "isDeleted": false,
       "hashtags": [
-        "python",
-        "web scraping",
-        "beginner",
-        "project"
+        "#python",
+        "#web scraping",
+        "#beginner",
+        "#project"
       ]
     },
     {
@@ -240,10 +240,10 @@
       ],
       "isDeleted": false,
       "hashtags": [
-        "mobileapp",
-        "kotlin",
-        "swift",
-        "appdevelopment"
+        "#mobileapp",
+        "#kotlin",
+        "#swift",
+        "#appdevelopment"
       ]
     },
     {
@@ -257,135 +257,160 @@
       ],
       "isDeleted": false,
       "hashtags": [
-        "artificialintelligence",
-        "tensorflow",
-        "python",
-        "project"
+        "#artificialintelligence",
+        "#tensorflow",
+        "#python",
+        "#project"
       ]
+    },
+    {
+      "userId": 1,
+      "content": "asdsadasd",
+      "createDate": "October 1, 2023",
+      "likes": [],
+      "isDeleted": false,
+      "hashtags": [
+        "#nodejs",
+        "#javascript",
+        "#java",
+        "#react"
+      ],
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "content": "deneme",
+      "createDate": "October 1, 2023",
+      "likes": [],
+      "isDeleted": false,
+      "hashtags": [
+        "#spring",
+        "#rails",
+        "#django"
+      ],
+      "id": 7
     }
   ],
-  "hashtags":[
+  "hashtags": [
     {
       "id": 1,
-      "name": "react",
-      "postCount":500
+      "name": "#react",
+      "postCount": 500
     },
     {
       "id": 2,
-      "name": "redux",
-      "postCount":300
+      "name": "#redux",
+      "postCount": 300
     },
     {
       "id": 3,
-      "name": "javascript",
-      "postCount":900
+      "name": "#javascript",
+      "postCount": 900
     },
     {
       "id": 4,
-      "name": "nodejs",
-      "postCount":1000
+      "name": "#nodejs",
+      "postCount": 1000
     },
     {
       "id": 5,
-      "name": "html",
+      "name": "#html",
       "postCount": 9
     },
     {
       "id": 6,
-      "name": "css",
+      "name": "#css",
       "postCount": 100
     },
     {
       "id": 7,
-      "name": "angular",
+      "name": "#angular",
       "postCount": 23
     },
     {
       "id": 8,
-      "name": "vuejs",
+      "name": "#vuejs",
       "postCount": 49
     },
     {
       "id": 9,
-      "name": "python",
+      "name": "#python",
       "postCount": 300
     },
     {
       "id": 10,
-      "name": "django",
+      "name": "#django",
       "postCount": 2
     },
     {
       "id": 11,
-      "name": "java",
+      "name": "#java",
       "postCount": 800
     },
     {
       "id": 12,
-      "name": "spring",
+      "name": "#spring",
       "postCount": 53
     },
     {
       "id": 13,
-      "name": "cplusplus",
+      "name": "#cplusplus",
       "postCount": 345
     },
     {
       "id": 14,
-      "name": "php",
+      "name": "#php",
       "postCount": 45
     },
     {
       "id": 15,
-      "name": "laravel",
+      "name": "#laravel",
       "postCount": 44
     },
     {
       "id": 16,
-      "name": "ruby",
+      "name": "#ruby",
       "postCount": 445
     },
     {
       "id": 17,
-      "name": "rails",
+      "name": "#rails",
       "postCount": 87
     },
     {
       "id": 18,
-      "name": "typescript",
+      "name": "#typescript",
       "postCount": 90
     },
     {
       "id": 19,
-      "name": "graphql",
+      "name": "#graphql",
       "postCount": 256
     },
     {
       "id": 20,
-      "name": "mongodb",
+      "name": "#mongodb",
       "postCount": 234
     },
     {
       "id": 21,
-      "name": "docker",
+      "name": "#docker",
       "postCount": 65
     },
     {
       "id": 22,
-      "name": "kubernetes",
+      "name": "#kubernetes",
       "postCount": 345
     },
     {
       "id": 23,
-      "name": "aws",
+      "name": "#aws",
       "postCount": 45
     },
     {
       "id": 24,
-      "name": "azure",
+      "name": "#azure",
       "postCount": 77
     }
-    
-    
   ]
 }

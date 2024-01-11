@@ -14,10 +14,13 @@ const Home = () => {
   const filterName=useSelector((state)=>state.filterPosts.filterName);
 
 useEffect(() => {
-  const userId = filterName === "privateme" ? 4 : 3;
+  //bana özel =benim seçtiğim hashtaglerin postları 
+  //tümü kısmındada benim takip ettiğim kişilerin postları
+  const userId = filterName === "privateme" ? 4 : null;
   const filter={userId};
   
   dispatch(getPosts(filter));
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [filterName]);
 
   return (

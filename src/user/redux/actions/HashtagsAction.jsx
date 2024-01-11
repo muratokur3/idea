@@ -10,7 +10,7 @@ const getHashtags=()=> async (dispatch)=>{
                 }
               });
               
-          await dispatch(setHashtags(response.data.reverse().slice(0,5)));
+          await dispatch(setHashtags(response.data));
         }catch(err){
             console.log(err);
         }

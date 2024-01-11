@@ -6,13 +6,17 @@ import NewPostPage from "../post/NewPostPage";
 import Login from "../acoount/Login";
 import { useEffect } from "react";
 import { setLogin, setUser } from "../../redux/slices/AuthenticationSlice";
+import { fetchUsers } from "../../redux/actions/UserActions";
+
 
 const Layout = () => {
   const ui = useSelector((state) => state.ui);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchUsers());
     if (localStorage.getItem("isLogin")) {
+      
       dispatch(setLogin(true));
       dispatch(setUser(JSON.parse(localStorage.getItem("user"))));
     } else {
