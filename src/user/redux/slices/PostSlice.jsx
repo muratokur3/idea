@@ -2,6 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = [];
 
+// const initialState = {
+//   home:[],
+//   homeMe:[],
+//   explore:[],
+//   profilePosts:[],
+//   profileLikesPosts:[],
+  
+// };
+
+
 export const postSlice = createSlice({
   name: "posts",
   initialState,
@@ -27,5 +37,6 @@ export const postSlice = createSlice({
   },
 });
 
-export const { setPost, addPost, deletePost, likePost, unlikePost } =postSlice.actions;
+export const { setPost, addPost, deletePost, likePost, unlikePost } =
+  postSlice.actions;
 export default postSlice.reducer;

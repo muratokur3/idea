@@ -3,7 +3,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import HomeIcon from "@mui/icons-material/Home";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -13,7 +12,7 @@ import "./scss/main-menu.scss";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { setNewIdeaPage } from "../../../store/UiSlice";
+import {setNewPostPage } from "../../redux/slices/UiSlice";
 const Menu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -82,7 +81,7 @@ const Menu = () => {
         <Button
           id="new-idea"
           variant="outlined"
-          onClick={() => dispatch(setNewIdeaPage(true))}
+          onClick={() => dispatch(setNewPostPage(true))}
         >
           Yeni
         </Button>

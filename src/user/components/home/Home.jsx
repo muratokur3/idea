@@ -2,15 +2,29 @@ import "./scss/home.scss";
 import ListPost from "../post/ListPost";
 import NewPost from "../post/NewPost";
 import { Tab, Tabs } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getPosts } from "../../redux/actions/PostActions";
+import { setFilter } from "../../redux/slices/FilterSlice";
+
+
 const Home = () => {
   const isLogin=useSelector((state) => state.authentication.isLogin);
+  const dispatch = useDispatch();
+  const filterName=useSelector((state)=>state.filterPosts.filterName);
+
+useEffect(() => {
+  const userId = filterName === "privateme" ? 4 : 3;
+  const filter={userId};
+  
+  dispatch(getPosts(filter));
+}, [filterName]);
 
   return (
     <div id="home-container">
-      <Tabs id="tabs" centered textColor="white">
-        <Tab label="Tümü" />
-        <Tab label="Bana Özel" />
+      <Tabs value={filterName} id="tabs" centered textColor="white">
+        <Tab value={"all"} label="Tümü" onClick={()=>dispatch(setFilter("all"))} />
+        <Tab value={"privateme"} label="Bana Özel" onClick={()=>dispatch(setFilter("privateme"))}/>
       </Tabs>
      {isLogin&& <NewPost />}
       <ListPost />

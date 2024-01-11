@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import NewPost from "./NewPost";
 import { useDispatch } from "react-redux";
-import { setNewIdeaPage } from "../../../store/UiSlice";
+import { setNewPostPage } from"../../redux/slices/UiSlice"
 import './scss/new-post-page.scss'
 
 const NewPostPage = () => {
@@ -10,7 +10,7 @@ const NewPostPage = () => {
     <div id='new-post-page'>
     <div id='box-new-post'>
         <NewPost/>
-    <Button  className='close-new-post-page' onClick={()=>dispatch(setNewIdeaPage(false))}>X</Button>
+    <Button  className='close-new-post-page' onClick={()=>dispatch(setNewPostPage(false))}>X</Button>
     </div>
     </div>
   )

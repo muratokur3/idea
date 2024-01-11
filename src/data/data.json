@@ -177,8 +177,8 @@
   "posts": [
     {
       "id": 1,
-      "userId": 1,
-      "content": "React ile yapılabilir bir proje önerisi diye çok arama yapılıyo. Bende bir tane yapayım dedim. Sizce nasıl olmuş? Yorumlarınızı bekliyorum.",
+      "userId": 2,
+      "content": "React ile yapılabilir bir proje önerisi: Bir e-ticaret sitesi. Bu projede React, Redux, JavaScript ve NodeJS gibi teknolojileri kullanabilirsiniz.",
       "createDate": "September 14, 2023",
       "likesUserId": [
         1,
@@ -188,16 +188,17 @@
       ],
       "isDeleted": false,
       "hashtags": [
-        "#react",
-        "#redux",
-        "#javascript",
-        "#nodejs"
+        "react",
+        "redux",
+        "javascript",
+        "nodejs",
+        "eticaret"
       ]
     },
     {
       "id": 2,
-      "userId": 2,
-      "content": "E-ticaret sitesi yapmak istiyorum. Çok farklı olacağından eminim. Şöyle böyle olacak...",
+      "userId": 3,
+      "content": "React ile bir e-ticaret sitesi yapmak istiyorum. Çok farklı olacağından eminim. Şöyle böyle olacak...",
       "createDate": "october 4, 2023",
       "likesUserId": [
         1,
@@ -205,15 +206,15 @@
       ],
       "isDeleted": false,
       "hashtags": [
-        "#eticaret",
-        "#yeniproje",
-        "#yazılım"
+        "eticaret",
+        "yeniproje",
+        "yazılım"
       ]
     },
     {
       "id": 3,
-      "userId": 3,
-      "content": "Yeni başlayanlar için Python ile web scraping projeleri yapmak harika bir deneyim olabilir. Önerilerinizi bekliyorum!",
+      "userId": 4,
+      "content": "Yeni başlayanlar için Python ile web scraping projeleri yapmak harika bir deneyim olabilir. Örneğin, bir haber sitesi web sitesinden haber başlıklarını ve açıklamalarını çekebilirsiniz.",
       "createDate": "November 22, 2023",
       "likesUserId": [
         2,
@@ -221,16 +222,16 @@
       ],
       "isDeleted": false,
       "hashtags": [
-        "#python",
-        "#web scraping",
-        "#beginner",
-        "#project"
+        "python",
+        "web scraping",
+        "beginner",
+        "project"
       ]
     },
     {
       "id": 4,
       "userId": 1,
-      "content": "Mobil uygulama geliştirme konusunda deneyimi olan arkadaşlar, benimle fikir alışverişinde bulunabilir mi? Kotlin veya Swift kullanarak bir proje planlıyorum.",
+      "content": "Mobil uygulama geliştirme konusunda deneyimi olan arkadaşlar, benimle fikir alışverişinde bulunabilir mi? Kotlin veya Swift kullanarak bir proje planlıyorum. Örneğin, bir fotoğraf düzenleme uygulaması veya bir not alma uygulaması geliştirebiliriz.",
       "createDate": "December 10, 2023",
       "likesUserId": [
         2,
@@ -239,10 +240,10 @@
       ],
       "isDeleted": false,
       "hashtags": [
-        "#mobileapp",
-        "#kotlin",
-        "#swift",
-        "#appdevelopment"
+        "mobileapp",
+        "kotlin",
+        "swift",
+        "appdevelopment"
       ]
     },
     {
@@ -256,25 +257,135 @@
       ],
       "isDeleted": false,
       "hashtags": [
-        "#artificialintelligence",
-        "#tensorflow",
-        "#python",
-        "#project"
-      ]
-    },
-    {
-      "id": "a814",
-      "userId": 1,
-      "content": "Merhaba bu bir denemedir",
-      "createDate": "October 1, 2023",
-      "likes": [],
-      "isDeleted": false,
-      "hashtags": [
-        "#javascript",
-        "#java",
-        "#asp.net",
-        "#postgresql"
+        "artificialintelligence",
+        "tensorflow",
+        "python",
+        "project"
       ]
     }
+  ],
+  "hashtags":[
+    {
+      "id": 1,
+      "name": "react",
+      "postCount":500
+    },
+    {
+      "id": 2,
+      "name": "redux",
+      "postCount":300
+    },
+    {
+      "id": 3,
+      "name": "javascript",
+      "postCount":900
+    },
+    {
+      "id": 4,
+      "name": "nodejs",
+      "postCount":1000
+    },
+    {
+      "id": 5,
+      "name": "html",
+      "postCount": 9
+    },
+    {
+      "id": 6,
+      "name": "css",
+      "postCount": 100
+    },
+    {
+      "id": 7,
+      "name": "angular",
+      "postCount": 23
+    },
+    {
+      "id": 8,
+      "name": "vuejs",
+      "postCount": 49
+    },
+    {
+      "id": 9,
+      "name": "python",
+      "postCount": 300
+    },
+    {
+      "id": 10,
+      "name": "django",
+      "postCount": 2
+    },
+    {
+      "id": 11,
+      "name": "java",
+      "postCount": 800
+    },
+    {
+      "id": 12,
+      "name": "spring",
+      "postCount": 53
+    },
+    {
+      "id": 13,
+      "name": "cplusplus",
+      "postCount": 345
+    },
+    {
+      "id": 14,
+      "name": "php",
+      "postCount": 45
+    },
+    {
+      "id": 15,
+      "name": "laravel",
+      "postCount": 44
+    },
+    {
+      "id": 16,
+      "name": "ruby",
+      "postCount": 445
+    },
+    {
+      "id": 17,
+      "name": "rails",
+      "postCount": 87
+    },
+    {
+      "id": 18,
+      "name": "typescript",
+      "postCount": 90
+    },
+    {
+      "id": 19,
+      "name": "graphql",
+      "postCount": 256
+    },
+    {
+      "id": 20,
+      "name": "mongodb",
+      "postCount": 234
+    },
+    {
+      "id": 21,
+      "name": "docker",
+      "postCount": 65
+    },
+    {
+      "id": 22,
+      "name": "kubernetes",
+      "postCount": 345
+    },
+    {
+      "id": 23,
+      "name": "aws",
+      "postCount": 45
+    },
+    {
+      "id": 24,
+      "name": "azure",
+      "postCount": 77
+    }
+    
+    
   ]
 }

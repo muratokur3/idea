@@ -1,7 +1,7 @@
-import { getUsers } from "../store/UserSlice";
+import { getUsers } from "../actions/UserActions";
 
 
-export const fetchUsers = () => {
+ const fetchUsers = () => {
     const url = "localhost:3005"
 
     return async (dispatch) => {
@@ -11,3 +11,8 @@ export const fetchUsers = () => {
         dispatch(getUsers(users));
     };
 };
+
+
+
+export { fetchUsers}
+

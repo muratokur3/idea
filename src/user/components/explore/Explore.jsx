@@ -6,8 +6,17 @@ import SearchIcon from '@mui/icons-material/Search';
 import "./Explore.scss"
 import ListPost from '../post/ListPost';
 import HashtagCardList from '../hashtag/HashtagCardList';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPosts } from '../../redux/actions/PostActions';
 const Explore = () => {
- 
+  const dispatch = useDispatch();
+  const filterExplorer=useSelector((state)=>state.filterPosts.filterExplore);
+ useEffect(() => {
+    document.title = "Explore";
+    dispatch(getPosts({q:filterExplorer}));
+
+  }, [filterExplorer]);
   return (
   <div id="explore-container">
   <div id="search-box">

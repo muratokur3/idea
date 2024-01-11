@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import NewPostPage from "../post/NewPostPage";
 import Login from "../acoount/Login";
 import { useEffect } from "react";
-import { setLogin, setUser } from "../../../store/AuthenticationSlice";
+import { setLogin, setUser } from "../../redux/slices/AuthenticationSlice";
 
 const Layout = () => {
   const ui = useSelector((state) => state.ui);
@@ -19,7 +19,7 @@ const Layout = () => {
       dispatch(setLogin(false));
     }
 
-    if (ui.loginPage || ui.newIdeaPage) {
+    if (ui.loginPage || ui.newPostPage) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -33,7 +33,7 @@ const Layout = () => {
         <Outlet />
       </div>
       {ui.loginPage && <Login />}
-      {ui.newIdeaPage && <NewPostPage />}
+      {ui.newPostPage && <NewPostPage />}
     </div>
   );
 };

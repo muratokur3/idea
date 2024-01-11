@@ -7,17 +7,16 @@ import Avatar from "@mui/material/Avatar";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-
 import { Button, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { setNewIdeaPage } from "../../../redux/store/UiSlice";
-import { createPost } from "../../../redux/actions/PostActions";
+import { setNewPostPage } from "../../redux/slices/UiSlice";
+import {createPost} from "../../redux/actions/PostActions"
 const NewPost = () => {
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
   const hashtags = useSelector((state) => state.hashtags);
-
+  
 const user=useSelector((state)=>state.authentication.user)
 
   const dispatch = useDispatch();
@@ -35,7 +34,7 @@ const user=useSelector((state)=>state.authentication.user)
     dispatch(createPost(newPost));
     setContent("");
     setSelectedHashtags([]);
-    dispatch(setNewIdeaPage(false));
+    dispatch(setNewPostPage(false));
   };
 
   return (
@@ -65,7 +64,6 @@ const user=useSelector((state)=>state.authentication.user)
         <Autocomplete
           onChange={(e, value) => {
             setSelectedHashtags(value);
-            console.log(value);
           }}
           className="new-post-hashtag"
           sx={{ color: "white" }}

@@ -2,16 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState =
  {
-    newIdeaPage: false,
+    newPostPage: false,
     loginPage: false,
     registerPage: false,
+    
 };
 export const uiSlice = createSlice({
     name: "ui",
     initialState,
     reducers: {
-        setNewIdeaPage(state, action) {
-            state.newIdeaPage = action.payload;
+        setNewPostPage(state, action) {
+            state.newPostPage = action.payload;
         },
         setLoginPage(state, action) {
             state.loginPage = action.payload;
@@ -22,5 +23,5 @@ export const uiSlice = createSlice({
     },
 });
 
-export const {setNewIdeaPage,setLoginPage,setRegisterPage} = uiSlice.actions;
+export const {setNewPostPage,setLoginPage,setRegisterPage} = uiSlice.actions;
 export default uiSlice.reducer;

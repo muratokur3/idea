@@ -6,10 +6,10 @@ import LoginIcon from "@mui/icons-material/Login";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Button, Fade, IconButton, Menu, MenuItem } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoginPage } from "../../../store/UiSlice";
 import { useState } from "react";
-import { setLogin, setUser } from "../../../store/AuthenticationSlice";
 import { useNavigate } from "react-router-dom";
+import { setLogin,setUser } from "../../redux/slices/AuthenticationSlice";
+import { setLoginPage } from "../../redux/slices/UiSlice";
 const Sidebar = () => {
   const navigate=useNavigate();
   const authentication = useSelector((state) => state.authentication);
