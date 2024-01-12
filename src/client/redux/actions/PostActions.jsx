@@ -33,12 +33,13 @@ const getPrivateMePosts = () => async (dispatch) => {
   }
 };
 
-const getExplorePosts = () => async (dispatch) => {
+const getExplorePosts = (filter) => async (dispatch) => {
   try {
-    const response = await axios.get("http://localhost:3005/posts", {
-      params: { _limit:4 },
-    });
-    dispatch(setExplore(response.data));
+   const response = await axios.get("http://localhost:3005/posts", {
+  params: { ...filter  },
+});
+console.log(response.data);
+dispatch(setExplore(response.data));
   } catch (error) {
     console.error("Veri gelirken hata oluştu:", error);
   }

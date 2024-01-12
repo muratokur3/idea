@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import Layout from "../user/components/layout/Layout";
-import ProfileLayout from "../user/components/profile/ProfileLayout"
-import Home from "../user/components/home/Home";
-import Favorite from "../user/components/favorite/Favorite";
-import Settings from '../user/components/settings/Settings'
-import ExploreLayout from "../user/components/explore/ExploreLayout";
-import ExplorePosts from "../user/components/explore/ExplorePosts";
-import ExploreMain from "../user/components/explore/ExploreMain";
+import Layout from "../client/components/layout/Layout";
+import ProfileLayout from "../client/components/profile/ProfileLayout"
+import Home from "../client/components/home/Home";
+import Favorite from "../client/components/favorite/Favorite";
+import Settings from '../client/components/settings/Settings'
+import ExploreLayout from "../client/components/explore/ExploreLayout";
+import ExplorePosts from "../client/components/explore/ExplorePosts";
+import ExploreMain from "../client/components/explore/ExploreMain";
 function UserRoutes() {
     return (
         <Routes>
