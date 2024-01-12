@@ -13,7 +13,7 @@ const ProfileMenu = () => {
         <Tabs value={profilePage} centered textColor="white">
           <Tab
             value={"posts"}
-            label="Gönderiler"
+            label="Fikirler"
             onClick={() => dispatch(setProfilePage("posts"))}
           />
           <Tab

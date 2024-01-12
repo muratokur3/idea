@@ -9,7 +9,7 @@ const Likes = () => {
   const id = useSelector((state) => state.profile.id);
   const dispatch=useDispatch();
   useEffect(() => {
-    likes && alert(likes.length);
+    
     id && profileLikesPosts.length===0&& likes&& likes.map((like) => dispatch(getProfileLikesPosts(like)));
      
   // eslint-disable-next-line react-hooks/exhaustive-deps

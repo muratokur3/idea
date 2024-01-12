@@ -14,5 +14,16 @@ const fetchUsers = () => async (dispatch) => {
     }
 
 };
+// const getUser =(id) => async (dispatch) => {
+//     try {
+//         const response = await axios.get(`${url}/users`, { params: { id:id } });
+//         await dispatch(getFollowers(response.data));
+//         //console.log(response.data);
+//     }
+//     catch (err) {
+//         console.log(err);
+//     }
+
+// }
 
 export { fetchUsers };
