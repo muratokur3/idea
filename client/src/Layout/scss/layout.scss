@@ -1,0 +1,19 @@
+#layout-container {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    z-index: 0;
+    #layout-content {
+        width: 80%;
+        height: auto;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid rgba(71, 67, 67, 0.897);
+    }
+
+ 
+}

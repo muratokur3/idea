@@ -1,0 +1,43 @@
+#new-post-page {
+  width: 100%;
+  height: 100%;
+  font-size: 1.5rem;
+  font-weight: 600;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  #modal-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(8, 8, 8, 0.738);
+    cursor: pointer;
+    z-index: 3;
+  }
+  #box-new-post {
+    margin: 15% 23%;
+    width: 50%;
+    min-height: 20vh;
+    max-height: 50vh;
+    background-color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: 1px solid rgb(255, 0, 251);
+    z-index: 4;
+    .close-new-post-page {
+      background: none;
+      border: none;
+      color: white;
+      position: absolute;
+      cursor: pointer;
+      top: -60px;
+      right: -60px;
+        font-size: 1.5rem;
+      &:hover {
+        background-color: rgba(118, 115, 115, 0.546);
+      }
+    }
+    
+  }
+}

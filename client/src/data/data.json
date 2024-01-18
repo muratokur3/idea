@@ -1,0 +1,448 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Murat",
+      "surname": "OKUR",
+      "username": "muratokur3",
+      "email": "muratokur3@icloud.com",
+      "password": "123",
+      "avatar": "src/assets/muratokur.jpeg",
+      "bio": "Software Developer👨🏻‍💻",
+      "followers": [
+        5,
+        3,
+        4,
+        2
+      ],
+      "following": [],
+      "ideas": [],
+      "likes": [
+        2,
+        4,
+        1
+      ],
+      "favorites": [
+        3,
+        1
+      ],
+      "notifications": [],
+      "isDeleted": false,
+      "createDate": "October 1, 2023",
+      "status": "user"
+    },
+    {
+      "id": 2,
+      "name": "Ayşe",
+      "surname": "Yılmaz",
+      "username": "ayseyilmaz",
+      "email": "ayseyilmaz22@gmail.com",
+      "password": "abc123",
+      "avatar": "src/assets/muratokur.jpeg",
+      "bio": "Analist 👩🏻‍💻📈",
+      "followers": [
+        1,
+        3
+      ],
+      "following": [
+        4
+      ],
+      "ideas": [
+        2,
+        4
+      ],
+      "likes": [
+        1,
+        3
+      ],
+      "favorites": [
+        2
+      ],
+      "notifications": [],
+      "isDeleted": false,
+      "createDate": "November 15, 2023",
+      "status": "user"
+    },
+    {
+      "id": 3,
+      "name": "Emre",
+      "surname": "Kara",
+      "username": "emrekara",
+      "email": "emrekara87@yahoo.com",
+      "password": "pass456",
+      "avatar": "src/assets/muratokur.jpeg",
+      "bio": "Front-End Developer 👨🏻‍💻🖥️💻",
+      "followers": [
+        4,
+        1
+      ],
+      "following": [
+        1,
+        2
+      ],
+      "ideas": [
+        1,
+        3
+      ],
+      "likes": [
+        2,
+        4
+      ],
+      "favorites": [
+        3
+      ],
+      "notifications": [],
+      "isDeleted": false,
+      "createDate": "December 5, 2023",
+      "status": "user"
+    },
+    {
+      "id": 4,
+      "name": "Zeynep",
+      "surname": "Demir",
+      "username": "zeynepdemir",
+      "email": "zeynep55@gmail.com",
+      "password": "zey123",
+      "avatar": "src/assets/muratokur.jpeg",
+      "bio": "👩🏻‍💻Back-End Developer 💻",
+      "followers": [
+        1,
+        2,
+        3
+      ],
+      "following": [
+        1,
+        3
+      ],
+      "ideas": [
+        2,
+        5
+      ],
+      "likes": [
+        1,
+        4
+      ],
+      "favorites": [
+        1
+      ],
+      "notifications": [],
+      "isDeleted": false,
+      "createDate": "January 20, 2024",
+      "status": "user"
+    },
+    {
+      "id": 5,
+      "name": "Ahmet",
+      "surname": "Yıldırım",
+      "username": "ahmet",
+      "email": "ahmet99@hotmail.com",
+      "password": "ahmet789",
+      "avatar": "src/assets/muratokur.jpeg",
+      "bio": "E-Commerce Analist 🖥️📊📈",
+      "followers": [
+        3,
+        5,
+        2
+      ],
+      "following": [
+        2,
+        4
+      ],
+      "ideas": [
+        4
+      ],
+      "likes": [
+        3
+      ],
+      "favorites": [
+        5
+      ],
+      "notifications": [],
+      "isDeleted": false,
+      "createDate": "February 8, 2024",
+      "status": "user"
+    },
+    {
+      "id": 6,
+      "name": "Fatma",
+      "surname": "Tekin",
+      "username": "fatmatekin",
+      "email": "fatma28@gmail.com",
+      "password": "ft1234",
+      "avatar": "src/assets/muratokur.jpeg",
+      "followers": [
+        2,
+        4
+      ],
+      "following": [
+        3,
+        5
+      ],
+      "ideas": [
+        3
+      ],
+      "likes": [
+        1,
+        2
+      ],
+      "favorites": [
+        4
+      ],
+      "notifications": [],
+      "isDeleted": false,
+      "createDate": "March 12, 2024",
+      "status": "user"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "userId": 2,
+      "title": "",
+      "content": "React ile yapılabilir bir proje önerisi: Bir e-ticaret sitesi. Bu projede React, Redux, JavaScript ve NodeJS gibi teknolojileri kullanabilirsiniz.",
+      "createDate": "September 14, 2023",
+      "likes": [
+        2,
+        3,
+        4
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#react",
+        "#redux",
+        "#javascript",
+        "#nodejs",
+        "#eticaret"
+      ]
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "title": "",
+      "content": "React ile bir e-ticaret sitesi yapmak istiyorum. Çok farklı olacağından eminim. Şöyle böyle olacak...",
+      "createDate": "october 4, 2023",
+      "likes": [
+        1,
+        3
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#eticaret",
+        "#yeniproje",
+        "#yazılım"
+      ]
+    },
+    {
+      "id": 3,
+      "userId": 4,
+      "title": "",
+      "content": "Yeni başlayanlar için Python ile web scraping projeleri yapmak harika bir deneyim olabilir. Örneğin, bir haber sitesi web sitesinden haber başlıklarını ve açıklamalarını çekebilirsiniz.",
+      "createDate": "November 22, 2023",
+      "likes": [
+        2,
+        4
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#python",
+        "#web scraping",
+        "#beginner",
+        "#project"
+      ]
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "title": "",
+      "content": "Mobil uygulama geliştirme konusunda deneyimi olan arkadaşlar, benimle fikir alışverişinde bulunabilir mi? Kotlin veya Swift kullanarak bir proje planlıyorum. Örneğin, bir fotoğraf düzenleme uygulaması veya bir not alma uygulaması geliştirebiliriz.",
+      "createDate": "December 10, 2023",
+      "likes": [
+        2,
+        3,
+        4
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#mobileapp",
+        "#kotlin",
+        "#swift",
+        "#appdevelopment"
+      ]
+    },
+    {
+      "id": 5,
+      "userId": 4,
+      "title": "",
+      "content": "Yapay Zeka ile ilgili yeni bir proje üzerinde çalışıyorum. TensorFlow ve Python kullanarak neler başarabileceğimi görmek istiyorsanız, takipte kalın!",
+      "createDate": "January 5, 2024",
+      "likes": [
+        1,
+        3
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#artificialintelligence",
+        "#tensorflow",
+        "#python",
+        "#project"
+      ]
+    },
+    {
+      "userId": 1,
+      "title": "",
+      "content": "asdsadasd",
+      "createDate": "October 1, 2023",
+      "likes": [
+        5,
+        1
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#nodejs",
+        "#javascript",
+        "#java",
+        "#react"
+      ],
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "title": "",
+      "content": "deneme",
+      "createDate": "October 1, 2023",
+      "likes": [
+        2,
+        3
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#spring",
+        "#rails",
+        "#django"
+      ],
+      "id": 7
+    }
+  ],
+  "hashtags": [
+    {
+      "id": 1,
+      "name": "#react",
+      "postCount": 500
+    },
+    {
+      "id": 2,
+      "name": "#redux",
+      "postCount": 300
+    },
+    {
+      "id": 3,
+      "name": "#javascript",
+      "postCount": 900
+    },
+    {
+      "id": 4,
+      "name": "#nodejs",
+      "postCount": 1000
+    },
+    {
+      "id": 5,
+      "name": "#html",
+      "postCount": 9
+    },
+    {
+      "id": 6,
+      "name": "#css",
+      "postCount": 100
+    },
+    {
+      "id": 7,
+      "name": "#angular",
+      "postCount": 23
+    },
+    {
+      "id": 8,
+      "name": "#vuejs",
+      "postCount": 49
+    },
+    {
+      "id": 9,
+      "name": "#python",
+      "postCount": 300
+    },
+    {
+      "id": 10,
+      "name": "#django",
+      "postCount": 2
+    },
+    {
+      "id": 11,
+      "name": "#java",
+      "postCount": 800
+    },
+    {
+      "id": 12,
+      "name": "#spring",
+      "postCount": 53
+    },
+    {
+      "id": 13,
+      "name": "#cplusplus",
+      "postCount": 345
+    },
+    {
+      "id": 14,
+      "name": "#php",
+      "postCount": 45
+    },
+    {
+      "id": 15,
+      "name": "#laravel",
+      "postCount": 44
+    },
+    {
+      "id": 16,
+      "name": "#ruby",
+      "postCount": 445
+    },
+    {
+      "id": 17,
+      "name": "#rails",
+      "postCount": 87
+    },
+    {
+      "id": 18,
+      "name": "#typescript",
+      "postCount": 90
+    },
+    {
+      "id": 19,
+      "name": "#graphql",
+      "postCount": 256
+    },
+    {
+      "id": 20,
+      "name": "#mongodb",
+      "postCount": 234
+    },
+    {
+      "id": 21,
+      "name": "#docker",
+      "postCount": 65
+    },
+    {
+      "id": 22,
+      "name": "#kubernetes",
+      "postCount": 345
+    },
+    {
+      "id": 23,
+      "name": "#aws",
+      "postCount": 45
+    },
+    {
+      "id": 24,
+      "name": "#azure",
+      "postCount": 77
+    }
+  ]
+}

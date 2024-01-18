@@ -1,0 +1,15 @@
+#home-container{
+    #tabs{
+        width: 100%;
+        height: auto;
+        background-color: #000000cb;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        position: sticky;
+        top: 0;
+        left: 0;
+
+    }
+}
