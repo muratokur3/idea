@@ -2,8 +2,9 @@ const express = require("express");
 const app = express();
 const mainRoute = require("./routes");
 const mongoose = require("mongoose");
-const port = 7000;
 const dotenv = require("dotenv");
+const logger = require("morgan");
+const port = 7000;
 dotenv.config();
 const connectDB = async () => {
   try {
@@ -16,11 +17,14 @@ const connectDB = async () => {
 };
 
 //middleware
+app.use(logger("dev"));
 app.use(express.json());
 
 app.use("/api", mainRoute);
 
 app.listen(port, () => {
-//   connectDB();
+  connectDB();
   console.log("Server is running on port 7000");
 });
+
+

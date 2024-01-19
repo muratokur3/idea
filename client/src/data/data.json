@@ -196,66 +196,9 @@
   ],
   "posts": [
     {
-      "id": 1,
-      "userId": 2,
-      "title": "",
-      "content": "React ile yapılabilir bir proje önerisi: Bir e-ticaret sitesi. Bu projede React, Redux, JavaScript ve NodeJS gibi teknolojileri kullanabilirsiniz.",
-      "createDate": "September 14, 2023",
-      "likes": [
-        2,
-        3,
-        4
-      ],
-      "isDeleted": false,
-      "hashtags": [
-        "#react",
-        "#redux",
-        "#javascript",
-        "#nodejs",
-        "#eticaret"
-      ]
-    },
-    {
-      "id": 2,
-      "userId": 3,
-      "title": "",
-      "content": "React ile bir e-ticaret sitesi yapmak istiyorum. Çok farklı olacağından eminim. Şöyle böyle olacak...",
-      "createDate": "october 4, 2023",
-      "likes": [
-        1,
-        3
-      ],
-      "isDeleted": false,
-      "hashtags": [
-        "#eticaret",
-        "#yeniproje",
-        "#yazılım"
-      ]
-    },
-    {
-      "id": 3,
-      "userId": 4,
-      "title": "",
-      "content": "Yeni başlayanlar için Python ile web scraping projeleri yapmak harika bir deneyim olabilir. Örneğin, bir haber sitesi web sitesinden haber başlıklarını ve açıklamalarını çekebilirsiniz.",
-      "createDate": "November 22, 2023",
-      "likes": [
-        2,
-        4
-      ],
-      "isDeleted": false,
-      "hashtags": [
-        "#python",
-        "#web scraping",
-        "#beginner",
-        "#project"
-      ]
-    },
-    {
-      "id": 4,
       "userId": 1,
-      "title": "",
+      "title": "Mobil uygulama geliştirme",
       "content": "Mobil uygulama geliştirme konusunda deneyimi olan arkadaşlar, benimle fikir alışverişinde bulunabilir mi? Kotlin veya Swift kullanarak bir proje planlıyorum. Örneğin, bir fotoğraf düzenleme uygulaması veya bir not alma uygulaması geliştirebiliriz.",
-      "createDate": "December 10, 2023",
       "likes": [
         2,
         3,
@@ -270,11 +213,9 @@
       ]
     },
     {
-      "id": 5,
       "userId": 4,
-      "title": "",
+      "title": "Yapay Zeka ile ilgili yeni bir proje",
       "content": "Yapay Zeka ile ilgili yeni bir proje üzerinde çalışıyorum. TensorFlow ve Python kullanarak neler başarabileceğimi görmek istiyorsanız, takipte kalın!",
-      "createDate": "January 5, 2024",
       "likes": [
         1,
         3
@@ -286,41 +227,6 @@
         "#python",
         "#project"
       ]
-    },
-    {
-      "userId": 1,
-      "title": "",
-      "content": "asdsadasd",
-      "createDate": "October 1, 2023",
-      "likes": [
-        5,
-        1
-      ],
-      "isDeleted": false,
-      "hashtags": [
-        "#nodejs",
-        "#javascript",
-        "#java",
-        "#react"
-      ],
-      "id": 6
-    },
-    {
-      "userId": 1,
-      "title": "",
-      "content": "deneme",
-      "createDate": "October 1, 2023",
-      "likes": [
-        2,
-        3
-      ],
-      "isDeleted": false,
-      "hashtags": [
-        "#spring",
-        "#rails",
-        "#django"
-      ],
-      "id": 7
     }
   ],
   "hashtags": [

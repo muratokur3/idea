@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const users = require("./users.js");
-const posts = require("./posts.js");
-const hashtags= require("./hashtags.js");
+const authRoute = require("./auth.js");
+const postRoute = require("./posts.js");
+const hashtagRoute= require("./hashtags.js");
 
-router.use("/posts", posts);
-router.use("/users", users);
-router.use("/hashtags", hashtags);
+router.use("/auth", authRoute);
+router.use("/posts", postRoute);
+router.use("/hashtags", hashtagRoute);
 
 module.exports = router;
