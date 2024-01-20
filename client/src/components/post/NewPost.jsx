@@ -16,6 +16,7 @@ const NewPost = () => {
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
   const hashtags = useSelector((state) => state.hashtags);
+  console.log(hashtags);
   const yeni = hashtags.map((hashtag) => hashtag.name);
   const user = useSelector((state) => state.authentication.user);
 

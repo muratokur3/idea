@@ -2,12 +2,10 @@ import axios from "axios";
 import {setHashtags} from '../slices/HashtagSlice';
 
 const getHashtags=()=> async (dispatch)=>{
-   const url='http://localhost:3005';
+  const url = "http://localhost:7000/api";
         try{
             const response = await axios.get(`${url}/hashtags`, {
-                params: {
-                  _sort:'postCount',
-                }
+               
               });
               
           await dispatch(setHashtags(response.data));

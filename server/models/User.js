@@ -33,30 +33,24 @@ const UserChema = mongoose.Schema(
       default: "",
       max: 500,
     },
-    projects: {
-      type: Array,
-      default: [],
-    },
-    followers: {
-      type: Array,
-      default: [],
-    },
-    following: {
-      type: Array,
-      default: [],
-    },
-    posts: {
-      type: Array,
-      default: [],
-    },
-    likes: {
-      type: Array,
-      default: [],
-    },
-    favorites: {
-      type: Array,
-      default: [],
-    },
+    projects: [{
+      type: mongoose.Schema.Types.ObjectId,ref: "Project"
+    }],
+    followers: [{
+      type: mongoose.Schema.Types.ObjectId,ref: "User"
+    }],
+    following: [{
+      type: mongoose.Schema.Types.ObjectId,ref: "User"
+    }],
+    posts: [{
+      type: mongoose.Schema.Types.ObjectId,ref: "Post"
+    }],
+    likes: [{
+      type: mongoose.Schema.Types.ObjectId,ref: "Post"
+    }],
+    favorites: [{
+      type: mongoose.Schema.Types.ObjectId,ref: "Post"
+    }],
     notifications: {
       type: Array,
       default: [],

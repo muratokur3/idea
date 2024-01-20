@@ -3,9 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState =
  {
     newPostPage: false,
-    loginPage: false,
+    authPage: false,
+    authItem:"login",
     registerPage: false,
     profilePage: "posts",
+
     
 };
 export const uiSlice = createSlice({
@@ -15,8 +17,11 @@ export const uiSlice = createSlice({
         setNewPostPage(state, action) {
             state.newPostPage = action.payload;
         },
-        setLoginPage(state, action) {
-            state.loginPage = action.payload;
+        setAuthPage(state, action) {
+            state.authPage = action.payload;
+        },
+        setAuthItem(state, action) {
+            state.authItem = action.payload;
         },
         setRegisterPage(state, action) {
             state.registerPage = action.payload;
@@ -27,5 +32,5 @@ export const uiSlice = createSlice({
     },
 });
 
-export const {setNewPostPage,setLoginPage,setRegisterPage,setProfilePage} = uiSlice.actions;
+export const {setNewPostPage,setAuthPage,setAuthItem,setRegisterPage,setProfilePage} = uiSlice.actions;
 export default uiSlice.reducer;

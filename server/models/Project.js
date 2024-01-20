@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const PostChema = mongoose.Schema(
+const ProjectChema = mongoose.Schema(
   {
-    userId: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     title: {
       type: String,
     },
@@ -15,7 +15,6 @@ const PostChema = mongoose.Schema(
         ref: "Hashtag",
       },
     ],
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     isDeleted: {
       type: Boolean,
       default: false,
@@ -23,5 +22,5 @@ const PostChema = mongoose.Schema(
   },
   { timestamps: true }
 );
-const Posts = mongoose.model("Post", PostChema);
-module.exports = Posts;
+const  Projects= mongoose.model("Project", ProjectChema);
+module.exports =  Projects;

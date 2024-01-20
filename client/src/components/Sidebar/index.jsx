@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setLogin,setUser } from "../../redux/slices/AuthenticationSlice";
-import { setLoginPage } from "../../redux/slices/UiSlice";
+import { setAuthPage } from "../../redux/slices/UiSlice";
 import "./sidebar.scss";
 const Sidebar = () => {
   const navigate=useNavigate();
@@ -80,7 +80,7 @@ const Sidebar = () => {
         </div>
       ) : (
         <Button
-          onClick={() => dispatch(setLoginPage(true))}
+          onClick={() => dispatch(setAuthPage(true))}
           endIcon={<LoginIcon />}
           id="login-button"
           variant="text"

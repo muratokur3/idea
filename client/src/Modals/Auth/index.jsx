@@ -1,89 +1,32 @@
-import { Button, Fade } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { setLoginPage } from "../../redux/slices/UiSlice";
-import { useState } from "react";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-  FilledInput,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-} from "@mui/material";
-import { loginUserControl } from "../../redux/actions/AuthenticationAction";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthPage } from "../../redux/slices/UiSlice";
+import Login from "./Login";
+import Register from "./Register";
+import { Button,Fade } from "@mui/material";
+import image from "../../assets/backgroundimage.jpg";
 import "./auth.scss";
-
-const Login = () => {
+const Auth = () => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const login = async (e) => {
-    e.preventDefault();
-    dispatch(loginUserControl(username, password));
-   
-  };
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = () => {
-    event.preventDefault();
-  };
+  const authItem = useSelector((state) => state.ui.authItem);
   return (
-    <div id="login-container">
-      <div id="modal-overlay" onClick={() => dispatch(setLoginPage(false))}></div>
-      <div id="login-center-box">
-        <form onSubmit={login}>
-          <h1>Giriş Yap</h1>
+    <div id="auth-container">
+      <div id="modal-overlay" onClick={() => dispatch(setAuthPage(false))}></div>
+      <div id="auth-center-box">
+      {authItem=="register" && <Register /> }
+      <img src={image}/>
+      {authItem=="login" && <Login /> }
 
-          <FormControl variant="filled" sx={{ width: "50%" }}>
-            <InputLabel>Kullanıcı adı</InputLabel>
-            <FilledInput
-              sx={{ background: "none", width: "100%" }}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </FormControl>
-
-          <FormControl variant="filled" sx={{ width: "50%" }}>
-            <InputLabel htmlFor="filled-adornment-password">Şifre</InputLabel>
-            <FilledInput
-              sx={{ background: "none" }}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              id="filled-adornment-password"
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-
-          <Button variant="outlined" type="submit">
-            Giriş Yap
-          </Button>
-        </form>
-        <Button
+       <Button
           className="close-login-page"
-          onClick={() => dispatch(setLoginPage(false))}
+          onClick={() => dispatch(setAuthPage(false))}
           TransitionComponent={Fade}
         >
           X
         </Button>
       </div>
+     
     </div>
   );
 };
 
-export default Login;
+export default Auth;

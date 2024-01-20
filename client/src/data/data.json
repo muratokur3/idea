@@ -8,7 +8,7 @@
       "email": "muratokur3@icloud.com",
       "password": "123",
       "avatar": "src/assets/muratokur.jpeg",
-      "bio": "Software Developer👨🏻‍💻",
+      "bio":"Software Developer👨🏻‍💻",
       "followers": [
         5,
         3,
@@ -17,11 +17,7 @@
       ],
       "following": [],
       "ideas": [],
-      "likes": [
-        2,
-        4,
-        1
-      ],
+      "likes": [2,4,1],
       "favorites": [
         3,
         1
@@ -39,7 +35,7 @@
       "email": "ayseyilmaz22@gmail.com",
       "password": "abc123",
       "avatar": "src/assets/muratokur.jpeg",
-      "bio": "Analist 👩🏻‍💻📈",
+      "bio":"Analist 👩🏻‍💻📈",
       "followers": [
         1,
         3
@@ -71,7 +67,7 @@
       "email": "emrekara87@yahoo.com",
       "password": "pass456",
       "avatar": "src/assets/muratokur.jpeg",
-      "bio": "Front-End Developer 👨🏻‍💻🖥️💻",
+      "bio":"Front-End Developer 👨🏻‍💻🖥️💻",
       "followers": [
         4,
         1
@@ -104,7 +100,7 @@
       "email": "zeynep55@gmail.com",
       "password": "zey123",
       "avatar": "src/assets/muratokur.jpeg",
-      "bio": "👩🏻‍💻Back-End Developer 💻",
+      "bio":"👩🏻‍💻Back-End Developer 💻",
       "followers": [
         1,
         2,
@@ -138,7 +134,7 @@
       "email": "ahmet99@hotmail.com",
       "password": "ahmet789",
       "avatar": "src/assets/muratokur.jpeg",
-      "bio": "E-Commerce Analist 🖥️📊📈",
+      "bio":"E-Commerce Analist 🖥️📊📈",
       "followers": [
         3,
         5,
@@ -196,9 +192,62 @@
   ],
   "posts": [
     {
+      "id": 1,
+      "userId": 2,
+      "content": "React ile yapılabilir bir proje önerisi: Bir e-ticaret sitesi. Bu projede React, Redux, JavaScript ve NodeJS gibi teknolojileri kullanabilirsiniz.",
+      "createDate": "September 14, 2023",
+      "likes": [
+        2,
+        3,
+        4
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#react",
+        "#redux",
+        "#javascript",
+        "#nodejs",
+        "#eticaret"
+      ]
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "content": "React ile bir e-ticaret sitesi yapmak istiyorum. Çok farklı olacağından eminim. Şöyle böyle olacak...",
+      "createDate": "october 4, 2023",
+      "likes": [
+        1,
+        3
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#eticaret",
+        "#yeniproje",
+        "#yazılım"
+      ]
+    },
+    {
+      "id": 3,
+      "userId": 4,
+      "content": "Yeni başlayanlar için Python ile web scraping projeleri yapmak harika bir deneyim olabilir. Örneğin, bir haber sitesi web sitesinden haber başlıklarını ve açıklamalarını çekebilirsiniz.",
+      "createDate": "November 22, 2023",
+      "likes": [
+        2,
+        4
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#python",
+        "#web scraping",
+        "#beginner",
+        "#project"
+      ]
+    },
+    {
+      "id": 4,
       "userId": 1,
-      "title": "Mobil uygulama geliştirme",
       "content": "Mobil uygulama geliştirme konusunda deneyimi olan arkadaşlar, benimle fikir alışverişinde bulunabilir mi? Kotlin veya Swift kullanarak bir proje planlıyorum. Örneğin, bir fotoğraf düzenleme uygulaması veya bir not alma uygulaması geliştirebiliriz.",
+      "createDate": "December 10, 2023",
       "likes": [
         2,
         3,
@@ -213,9 +262,10 @@
       ]
     },
     {
+      "id": 5,
       "userId": 4,
-      "title": "Yapay Zeka ile ilgili yeni bir proje",
       "content": "Yapay Zeka ile ilgili yeni bir proje üzerinde çalışıyorum. TensorFlow ve Python kullanarak neler başarabileceğimi görmek istiyorsanız, takipte kalın!",
+      "createDate": "January 5, 2024",
       "likes": [
         1,
         3
@@ -227,6 +277,39 @@
         "#python",
         "#project"
       ]
+    },
+    {
+      "userId": 1,
+      "content": "asdsadasd",
+      "createDate": "October 1, 2023",
+      "likes": [
+        5,
+        1
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#nodejs",
+        "#javascript",
+        "#java",
+        "#react"
+      ],
+      "id": 6
+    },
+    {
+      "userId": 1,
+      "content": "deneme",
+      "createDate": "October 1, 2023",
+      "likes": [
+        2,
+        3
+      ],
+      "isDeleted": false,
+      "hashtags": [
+        "#spring",
+        "#rails",
+        "#django"
+      ],
+      "id": 7
     }
   ],
   "hashtags": [

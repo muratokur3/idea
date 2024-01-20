@@ -5,9 +5,9 @@ import { setLogin, setUser } from "../redux/slices/AuthenticationSlice";
 import { fetchUsers } from "../redux/actions/UserActions";
 import { getHashtags } from "../redux/actions/HashtagsAction";
 import Sidebar from "../components/Sidebar";
-import Login from "../Modals/Auth";
+import Auth from "../Modals/Auth";
 import NewPostPage from "../Modals/NewPostPage";
-import "./scss/layout.scss";
+import "./scss/client-layout.scss";
 
 const ClientLayout = () => {
   const ui = useSelector((state) => state.ui);
@@ -23,7 +23,7 @@ const ClientLayout = () => {
       dispatch(setLogin(false));
     }
 
-    if (ui.loginPage || ui.newPostPage) {
+    if (ui.authPage || ui.newPostPage) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -32,7 +32,7 @@ const ClientLayout = () => {
   }, [ui]);
   return (
     <div id="layout-container">
-      {ui.loginPage && <Login />}
+      {ui.authPage && <Auth />}
       {ui.newPostPage && <NewPostPage />}
       <Sidebar />
       <div id="layout-content">

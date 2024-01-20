@@ -1,4 +1,3 @@
-import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import ClientLayout from "../Layout/ClientLayout";
 import ExploreLayout from "../Layout/ExploreLayout";
@@ -7,7 +6,9 @@ import ExplorePosts from "../components/explore/ExplorePosts";
 import Profile from "../pages/Profile";
 import Favorite from "../pages/Favorite";
 import Settings from "../pages/Settings";
-
+import AdminLayout from "../Layout/AdminLayout";
+import { Route, Routes } from "react-router-dom";
+import Users from "../admin/components/Users";
 
 function ClientRoutes() {
     return (
@@ -29,7 +30,8 @@ function ClientRoutes() {
   function AdminRoutes() {
     return (
         <Routes>
-            <Route path="/admin/*" element={<div>Admin</div>}>
+            <Route path="/*" element={<AdminLayout/>}>
+              <Route index element={<Users/>} />
             </Route>
         </Routes>
           
@@ -40,11 +42,9 @@ function ClientRoutes() {
     return (
         <Routes>
           <Route path="/*" element={<ClientRoutes />} />
-          <Route path="admin/*" element={<AdminRoutes />} />
+          <Route path="/admin/*" element={<AdminRoutes />} />
         </Routes>
     );
   }
-  
-  
   
   export default LayoutRoute;

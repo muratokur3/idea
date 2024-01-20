@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
 import './scss/profile-menu.scss'
 import { Tab, Tabs } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';

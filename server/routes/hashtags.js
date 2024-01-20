@@ -24,8 +24,8 @@ router.get("/", async (req, res) => {
     console.log(error.message);
     res.status(500).json("Server Error");
   }
-}
-);
+});
+
 //adına göre hashtag getirir
 router.get("/:name", async (req, res) => {
   try {

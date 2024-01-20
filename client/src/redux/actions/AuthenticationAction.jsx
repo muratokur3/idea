@@ -1,6 +1,6 @@
 import axios from "axios";
 import { setLogin, setUser } from "../slices/AuthenticationSlice";
-import { setLoginPage } from "../slices/UiSlice";
+import { setAuthPage } from "../slices/UiSlice";
 
 const loginUserControl =(username, password)=> async ( dispatch) => {
   const url = "http://localhost:3005";
@@ -18,7 +18,7 @@ const loginUserControl =(username, password)=> async ( dispatch) => {
     localStorage.setItem("user", JSON.stringify(response.data[0]));
     dispatch(setLogin(true));
     dispatch(setUser(response.data[0]));
-    dispatch(setLoginPage(false));
+    dispatch(setAuthPage(false));
   }
   else 
     alert("Kullanıcı adı veya şifre hatalı");
