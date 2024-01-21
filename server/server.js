@@ -4,8 +4,10 @@ const mainRoute = require("./routes");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const logger = require("morgan");
+const cors = require("cors");
 const port = 7000;
 dotenv.config();
+
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_CONNECTION_STRING);
@@ -19,6 +21,8 @@ const connectDB = async () => {
 //middleware
 app.use(logger("dev"));
 app.use(express.json());
+app.use(cors());
+
 
 app.use("/api", mainRoute);
 

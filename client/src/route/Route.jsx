@@ -8,7 +8,11 @@ import Favorite from "../pages/Favorite";
 import Settings from "../pages/Settings";
 import AdminLayout from "../Layout/AdminLayout";
 import { Route, Routes } from "react-router-dom";
-import Users from "../admin/components/Users";
+import PostsPage from "../admin/pages/PostsPage";
+import DashboardPage from '../admin/pages/DashboardPage';
+import UsersPage from "../admin/pages/UsersPage";
+import HashtagsPage from "../admin/pages/HashtagsPage";
+import ProjectsPage from "../admin/pages/ProjectsPage";
 
 function ClientRoutes() {
     return (
@@ -31,7 +35,11 @@ function ClientRoutes() {
     return (
         <Routes>
             <Route path="/*" element={<AdminLayout/>}>
-              <Route index element={<Users/>} />
+              <Route index element={<DashboardPage/>} />
+              <Route path="users" element={<UsersPage/>} />
+              <Route path="posts" element={<PostsPage/>} />
+              <Route path="projects" element={<ProjectsPage/>} />
+              <Route path="hashtags" element={<HashtagsPage/>} />
             </Route>
         </Routes>
           

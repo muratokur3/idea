@@ -1,8 +1,7 @@
 import { useDispatch } from "react-redux";
-import { setAuthItem } from "../../../redux/slices/UiSlice";
-import { Box, Button, Fade, Input, TextField } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useState } from "react";
-import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   FilledInput,
   FormControl,
@@ -10,65 +9,79 @@ import {
   InputAdornment,
   InputLabel,
 } from "@mui/material";
-import { loginUserControl } from "../../../redux/actions/AuthenticationAction";
+import { registerUser } from "../../../redux/actions/AuthenticationAction";
+import { setAuthItem } from "../../../redux/slices/UiSlice";
 import "./register.scss";
 const Register = () => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
+  const [formData, setFormData] = useState({
+    name: "",
+    surname: "",
+    username: "",
+    email: "",
+    password: "",
+  });
   const register = async (e) => {
     e.preventDefault();
-    dispatch(loginUserControl(username, password));
+    console.log(formData);
+    dispatch(registerUser(formData));
   };
-
   const [showPassword, setShowPassword] = useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = () => {
-    event.preventDefault();
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
+  };
+  const handleInputChance = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   return (
     <div id="register-container">
       <form onSubmit={register}>
         <h1>Kaydol</h1>
-
         <Box sx={{ display: "flex", gap: "30px" }}>
-        <FormControl variant="filled" sx={{ width: "50%" }}>
-          <InputLabel>Ad</InputLabel>
-          <FilledInput
-            sx={{ background: "none", width: "100%" }}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </FormControl>
+          <FormControl variant="filled" sx={{ width: "50%" }}>
+            <InputLabel>Ad</InputLabel>
+            <FilledInput
+              sx={{ background: "none", width: "100%" }}
+              value={formData.name}
+              onChange={handleInputChance}
+              name="name"
+              required
+            />
+          </FormControl>
 
-        <FormControl variant="filled" sx={{ width: "50%" }}>
-          <InputLabel>Soyad</InputLabel>
-          <FilledInput
-            sx={{ background: "none", width: "100%" }}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </FormControl>
+          <FormControl variant="filled" sx={{ width: "50%" }}>
+            <InputLabel>Soyad</InputLabel>
+            <FilledInput
+              sx={{ background: "none", width: "100%" }}
+              value={formData.surname}
+              onChange={handleInputChance}
+              name="surname"
+              required
+            />
+          </FormControl>
         </Box>
 
         <FormControl variant="filled" sx={{ width: "100%" }}>
           <InputLabel>Kullanıcı adı</InputLabel>
           <FilledInput
             sx={{ background: "none", width: "100%" }}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={formData.username}
+            onChange={handleInputChance}
+            name="username"
+            required
           />
         </FormControl>
-       
+
         <FormControl variant="filled" sx={{ width: "100%" }}>
           <InputLabel>Email</InputLabel>
           <FilledInput
             sx={{ background: "none", width: "100%" }}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={formData.email}
+            onChange={handleInputChance}
+            name="email"
+            type="email"
+            required
           />
         </FormControl>
 
@@ -76,8 +89,10 @@ const Register = () => {
           <InputLabel htmlFor="filled-adornment-password">Şifre</InputLabel>
           <FilledInput
             sx={{ background: "none" }}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleInputChance}
+            name="password"
+            required
             id="filled-adornment-password"
             type={showPassword ? "text" : "password"}
             endAdornment={
@@ -87,6 +102,7 @@ const Register = () => {
                   onClick={handleClickShowPassword}
                   onMouseDown={handleMouseDownPassword}
                   edge="end"
+                  required
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -96,10 +112,9 @@ const Register = () => {
         </FormControl>
 
         <Button variant="outlined" type="submit">
-          Giriş Yap
+          Kayıt Ol
         </Button>
-      <a onClick={() => dispatch(setAuthItem("login"))}>Hemen Giriş Yap</a>
-
+        <a style={{cursor:"pointer"}} onClick={() => dispatch(setAuthItem("login"))}>Zaten hesabım var</a>
       </form>
     </div>
   );

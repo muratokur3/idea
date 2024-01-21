@@ -19,6 +19,7 @@ const Menu = () => {
   const isLogin = useSelector((state) => state.authentication.isLogin);
   const username = useSelector((state) => state.authentication.user.username);
   const location = useLocation();
+  const locPath = location.pathname;
   return (
     <div id="main-menu-container">
       <List
@@ -29,7 +30,7 @@ const Menu = () => {
           gap: "20px",
         }}
       >
-        <ListItem disablePadding className={location.pathname === "/" ? "active" : ""}>
+        <ListItem disablePadding className={locPath === "/" ? "active" : ""}>
           <ListItemButton onClick={() => navigate("/")}>
             <ListItemIcon>
               <HomeIcon />
@@ -40,7 +41,7 @@ const Menu = () => {
 
         <ListItem
           disablePadding
-          className={location.pathname === "/explore" ? "active" : ""}
+          className={locPath === "/explore" ? "active" : ""}
         >
           <ListItemButton onClick={() => navigate("/explore")}>
             <ListItemIcon>
@@ -52,7 +53,7 @@ const Menu = () => {
 
         {isLogin && (
           <>
-            <ListItem disablePadding className={location.pathname === "/favorite" ? "active" : ""}>
+            <ListItem disablePadding className={locPath === "/favorite" ? "active" : ""}>
               <ListItemButton onClick={() => navigate("/favorite")}>
                 <ListItemIcon>
                   <FavoriteBorderIcon />
@@ -60,7 +61,7 @@ const Menu = () => {
                 <ListItemText primary="Favoriler" />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding className={location.pathname === `/${username}` ? "active" : ""}>
+            <ListItem disablePadding className={locPath === `/${username}` ? "active" : ""}>
               <ListItemButton onClick={() => navigate(`/${username}`)}>
                 <ListItemIcon>
                   <PermIdentityIcon />
@@ -68,7 +69,7 @@ const Menu = () => {
                 <ListItemText primary="Profilim" />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding className={location.pathname === "/settings" ? "active" : ""}>
+            <ListItem disablePadding className={locPath === "/settings" ? "active" : ""}>
               <ListItemButton onClick={() => navigate("/settings")}>
                 <ListItemIcon>
                   <SettingsIcon />

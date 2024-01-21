@@ -8,6 +8,7 @@ const UserChema = mongoose.Schema(
     },
     surname: {
       type: String,
+      required: true,
     },
     username: {
       type: String,
@@ -22,7 +23,6 @@ const UserChema = mongoose.Schema(
     password: {
       type: String,
       required: true,
-      min: 6,
     },
     avatar: {
       type: String,
@@ -31,7 +31,6 @@ const UserChema = mongoose.Schema(
     bio: {
       type: String,
       default: "",
-      max: 500,
     },
     projects: [{
       type: mongoose.Schema.Types.ObjectId,ref: "Project"
