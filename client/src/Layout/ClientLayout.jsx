@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { setLogin, setUser } from "../redux/slices/AuthenticationSlice";
+import { setLogin, setUser } from "../redux/slices/AuthSlice";
 import { fetchUsers } from "../redux/actions/UserActions";
 import { getHashtags } from "../redux/actions/HashtagsAction";
 import Sidebar from "../components/Sidebar";

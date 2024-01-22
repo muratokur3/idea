@@ -9,7 +9,7 @@ import {
   InputAdornment,
   InputLabel,
 } from "@mui/material";
-import { registerUser } from "../../../redux/actions/AuthenticationAction";
+import { registerUser } from "../../../redux/actions/AuthAction";
 import { setAuthItem } from "../../../redux/slices/UiSlice";
 import "./register.scss";
 const Register = () => {

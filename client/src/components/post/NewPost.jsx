@@ -42,7 +42,7 @@ const NewPost = () => {
     <div id="share-container">
       <Avatar
         alt="Remy Sharp"
-        src="src/assets/muratokur.jpeg"
+        src={`http://${user.avatar}`}
         sx={{ width: 80, height: 80 }}
       />
       <form onSubmit={handleSubmit} id="new-post-form">

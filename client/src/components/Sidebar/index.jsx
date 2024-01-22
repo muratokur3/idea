@@ -7,7 +7,7 @@ import { Button, Fade, IconButton, Menu, MenuItem } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setLogin,setUser } from "../../redux/slices/AuthenticationSlice";
+import { setLogin,setUser } from "../../redux/slices/AuthSlice";
 import { setAuthPage } from "../../redux/slices/UiSlice";
 import "./sidebar.scss";
 const Sidebar = () => {
@@ -39,7 +39,7 @@ const Sidebar = () => {
         <div id="menu-profile-detail">
           <Avatar
             alt="Remy Sharp"
-            src="src/assets/muratokur.jpeg"
+            src={`http://${authentication.user.avatar}`}
             sx={{ width: 45, height: 45 }}
           />
           <div>

@@ -9,13 +9,13 @@ import {
   setProfileLikes,
 } from "../slices/PostSlice";
 
-// const url=process.env.IDEA_APP_API_URL;
+const urlApi = import.meta.env.VITE_API_BASE_URL;
 
-const getHomePosts = (filter) => async (dispatch) => {
+const getHomePosts = () => async (dispatch) => {
   try {
-    const response = await axios.get("http://localhost:3005/posts", {
-      params: {
-        ...filter,
+    const response = await axios.get(`${urlApi}/api/posts`, {
+      headers: {
+        "Content-Type": "application/json",
       },
     });
     dispatch(setHome(response.data));

@@ -3,29 +3,22 @@ const router = express.Router();
 const UserChema = require("../models/User");
 
 
-
-//yeni kullanıcı oluşturur
-router.post("/register", async (req, res) => {
+//kullanıcı adına göre kullanıcı getirir
+router.get("/:username", async (req, res) => {
+  if (!await UserChema.findOne({username:req.params.username})) {
+    return res.status(404).json("Kullanıcı bulunamadı");
+  }
   try {
-    const data = req.body;
-    const newUser = new UserChema(data);
-    await newUser.save();
-    res.status(201).json(newUser);
+    const user = await UserChema.findOne({username:req.params.username});
+    res.status(200).json(user);
   } catch (error) {
     console.log(error.message);
-    res.status(500).send("Server Error");
+    res.status(500).json("Server Error");
   }
 });
-//tüm kullanıcıları getirir
-// router.get("/", async (req, res) => {
-//   try {
-//     const users = await UserChema.find();
-//     res.status(200).json(users);
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).json("Server Error");
-//   }
-// });
+
+
+
 //id ye göre kullanıcı getirir
 // router.get("/:id", async (req, res) => {
 //   if (!await UserChema.findById(req.params.id)) {
@@ -40,6 +33,7 @@ router.post("/register", async (req, res) => {
 //     res.status(500).json("Server Error");
 //   }
 // });
+
 //id ye göre kullanıcıyı günceller
 // router.put("/:id", async (req, res) => {
 //   if (!await UserChema.findById(req.params.id)) {

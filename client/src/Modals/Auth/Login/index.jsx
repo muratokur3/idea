@@ -10,7 +10,7 @@ import {
   InputAdornment,
   InputLabel,
 } from "@mui/material";
-import { loginClient } from "../../../redux/actions/AuthenticationAction";
+import { loginClient } from "../../../redux/actions/AuthAction";
 import "./login.scss";
 
 const Login = () => {

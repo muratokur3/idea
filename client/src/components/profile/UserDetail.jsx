@@ -14,7 +14,7 @@ const UserDetail = ({user}) => {
            
          <Box display="flex" flexDirection={"column"} padding={2}  alignItems="center" width={"100%" }>
           <Avatar
-          src="../../../src/assets/muratokur.jpeg"
+          src={`http://${authentication.user.avatar}`}
           sx={{ width: 150, height: 150 , margin: "-90px 0 0 0", border: "5px solid black"}}
         /> <Typography>
           {user.name + " " + user.surname}
