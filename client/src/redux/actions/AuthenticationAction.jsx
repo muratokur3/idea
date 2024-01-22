@@ -1,11 +1,11 @@
 import axios from "axios";
 import { setLogin, setUser } from "../slices/AuthenticationSlice";
 import { setAuthItem, setAuthPage } from "../slices/UiSlice";
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const loginClient = (data) => async (dispatch) => {
-  const url = "http://localhost:7000/api";
   try {
-    const response = await axios.post(`${url}/auth/login`, data, {
+    const response = await axios.post(`${apiUrl}api/auth/login`, data, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -28,9 +28,9 @@ const loginClient = (data) => async (dispatch) => {
 };
 
 const registerUser = (data) => async (dispatch) => {
-  const url = "http://localhost:7000/api";
+
   try {
-    await axios.post(`${url}/auth/register`, data, {
+    await axios.post(`${apiUrl}api/auth/register`, data, {
       headers: {
         "Content-Type": "application/json",
       },
