@@ -9,4 +9,5 @@ const ListPost = ({posts}) => {
   );
 };
 
+
 export default ListPost;

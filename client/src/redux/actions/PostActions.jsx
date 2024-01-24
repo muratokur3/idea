@@ -1,19 +1,18 @@
 import axios from "axios";
 import {
-  addPost,
   setExplore,
   setFavorites,
+  setProfilePosts,
   setHome,
   setPrivateMe,
-  setProfile,
   setProfileLikes,
 } from "../slices/PostSlice";
 
 const urlApi = import.meta.env.VITE_API_BASE_URL;
-
+const userId = localStorage.getItem("userId");
 const getHomePosts = () => async (dispatch) => {
   try {
-    const response = await axios.get(`${urlApi}/api/posts`, {
+    const response = await axios.get(`${urlApi}/api/posts/timeline/${userId}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -26,66 +25,84 @@ const getHomePosts = () => async (dispatch) => {
 
 const getPrivateMePosts = () => async (dispatch) => {
   try {
-    const response = await axios.get("http://localhost:3005/posts");
+    const response = await axios.get(`${urlApi}/api/posts/privateMe/${userId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     dispatch(setPrivateMe(response.data));
   } catch (error) {
     console.error("Veri gelirken hata oluştu:", error);
   }
 };
 
-const getExplorePosts = (filter) => async (dispatch) => {
+const getExplorePosts = () => async (dispatch) => {
   try {
-   const response = await axios.get("http://localhost:3005/posts", {
-  params: { ...filter  },
-});
-dispatch(setExplore(response.data));
+    const response = await axios.get(`${urlApi}/api/posts/explore`, {
+      headers: {"Content-Type": "application/json"},
+    });
+    dispatch(setExplore(response.data));
   } catch (error) {
     console.error("Veri gelirken hata oluştu:", error);
   }
 };
 
-const getFavoritesPosts = (favorite) => async (dispatch) => {
+const getExploreHashtagPosts = (hashtag) => async (dispatch) => {
+  try {
+    const response = await axios.get(`${urlApi}/api/posts/explore/${hashtag}`, {
+      headers: {"Content-Type": "application/json"},
+    });
+    dispatch(setExplore(response.data));
+  } catch (error) {
+    console.error("Veri gelirken hata oluştu:", error);
+  }
+};
+
+
+const getFavoritesPosts = (username) => async (dispatch) => {
     try {
-      const response = await axios.get("http://localhost:3005/posts", {
-        params: { id: favorite },
+      const response = await axios.get(`${urlApi}/api/posts/favorite/${username}`, {
+        headers: {"Content-Type": "application/json"},
       });
-      dispatch(setFavorites(response.data[0]));
+      dispatch(setFavorites(response.data));
     } catch (error) {
       console.error("Veri gelirken hata oluştu:", error);
     }
   
 };
 
-const getProfilePosts = (userId) => async (dispatch) => {
+const getProfilePosts = (username) => async (dispatch) => {
   try {
-    const response = await axios.get("http://localhost:3005/posts", {
-      params: { userId },
+    const response = await axios.get(`${urlApi}/api/posts/profile/${username}`, {
+      headers: {"Content-Type": "application/json"},
     });
-    dispatch(setProfile(response.data));
+    dispatch(setProfilePosts(response.data));
   } catch (error) {
     console.error("Veri gelirken hata oluştu:", error);
   }
 };
 
-const getProfileLikesPosts = (like) => async (dispatch) => {
+const getProfileLikesPosts = (username) => async (dispatch) => {
   try {
-    const response = await axios.get("http://localhost:3005/posts", {
-      params: {
-        id: like,
-      },
+    const response = await axios.get(`${urlApi}/api/posts/like/${username}`, {
+      headers: {"Content-Type": "application/json"},
     });
-    dispatch(setProfileLikes(response.data[0]));
+    dispatch(setProfileLikes(response.data));
   } catch (error) {
     console.error("Veri gelirken hata oluştu:", error);
   }
 }
 
-const createPost = (post) => async (dispatch) => {
+const createPost = (post) => async () => {
   try {
-    const response = await axios.post("http://localhost:3005/posts", post);
-    dispatch(addPost(response.data));
+    await axios.post(`${urlApi}/api/posts`, post,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
   } catch (error) {
-    console.error("Veri gelirken hata oluştu:", error);
+    console.error("veri kaydederken hata oluştu:", error);
   }
 };
 
@@ -93,6 +110,7 @@ export {
   getHomePosts,
   getPrivateMePosts,
   getExplorePosts,
+  getExploreHashtagPosts,
   getFavoritesPosts,
   getProfilePosts,
   getProfileLikesPosts,

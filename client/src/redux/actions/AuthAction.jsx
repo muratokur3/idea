@@ -2,7 +2,6 @@ import axios from "axios";
 import { setLogin, setUser } from "../slices/AuthSlice";
 import { setAuthItem, setAuthPage } from "../slices/UiSlice";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
-
 const loginClient = (data) => async (dispatch) => {
   try {
     const response = await axios.post(`${apiUrl}/api/auth/login`, data, {
@@ -14,6 +13,7 @@ const loginClient = (data) => async (dispatch) => {
       localStorage.setItem("username", response.data.username);
       localStorage.setItem("userId", response.data.id);
       localStorage.setItem("isLogin", true);
+      localStorage.setItem("avatar", response.data.avatar);
       localStorage.setItem("user", JSON.stringify(response.data));
       dispatch(setLogin(true));
       dispatch(setUser(response.data));

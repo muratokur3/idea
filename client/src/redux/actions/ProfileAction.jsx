@@ -8,7 +8,7 @@ const getProfile = (Username) => async (dispatch) =>{
             "Content-Type": "application/json",
             },
         });
-        dispatch(setProfile(response.data));
+        dispatch(setProfile(await response.data));
         } catch (error) {
         console.log(error);
         }

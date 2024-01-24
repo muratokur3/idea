@@ -9,15 +9,14 @@ import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { Button, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setNewPostPage } from "../../redux/slices/UiSlice";
 import { createPost } from "../../redux/actions/PostActions";
 const NewPost = () => {
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
   const hashtags = useSelector((state) => state.hashtags);
-  console.log(hashtags);
-  const yeni = hashtags.map((hashtag) => hashtag.name);
   const user = useSelector((state) => state.authentication.user);
 
   const dispatch = useDispatch();
@@ -26,18 +25,20 @@ const NewPost = () => {
     e.preventDefault();
     const newPost = {
       userId: user.id,
+      title:title,
       content,
-      createDate: "October 1, 2023",
-      likes: [],
-      isDeleted: false,
-      hashtags: selectedHashtags,
+      hashtags: selectedHashtags.map((hashtag) => hashtag._id),
     };
     dispatch(createPost(newPost));
     setContent("");
     setSelectedHashtags([]);
     dispatch(setNewPostPage(false));
   };
- 
+ useEffect(() => {
+  console.log(selectedHashtags.map((hashtag) => hashtag._id));
+  }
+  ,[selectedHashtags])
+
   return (
     <div id="share-container">
       <Avatar
@@ -46,15 +47,18 @@ const NewPost = () => {
         sx={{ width: 80, height: 80 }}
       />
       <form onSubmit={handleSubmit} id="new-post-form">
-        <TextareaAutosize
-          className="new-post-textarea"
-          value={content}
+      <p style={{color:"rgba(105, 102, 102, 0.697)",position:"absolute",top:0,right:0}}>{175-title.length}</p>
+
+      <TextareaAutosize
+          className="title-textarea"
+          value={title}
           onChange={(e) => {
-            setContent(e.target.value);
+            setTitle(e.target.value);
           }}
-          aria-label="minimum height"
           minRows={3}
-          placeholder="Ne buldun acaba?"
+          maxRows={3}
+          maxLength={175}
+          placeholder="Başlık"
           sx={{
             marginBottom: "20px",
             fontFamily: "monospace",
@@ -62,6 +66,23 @@ const NewPost = () => {
           }}
           required
         />
+        <TextareaAutosize
+          className="content-textarea"
+          value={content}
+          onChange={(e) => {
+            setContent(e.target.value);
+          }}
+          minRows={3}
+          maxLength={1500}
+          placeholder="Açıklama"
+          sx={{
+            marginBottom: "20px",
+            fontFamily: "monospace",
+            fontSize: ".9rem",
+          }}
+          required
+        />
+         <p style={{color:"rgba(105, 102, 102, 0.697)",position:"absolute",top:"33%",right:0}}>{1500-content.length}</p>
         <Autocomplete
           onChange={(e, value) => {
             setSelectedHashtags(value);
@@ -72,8 +93,8 @@ const NewPost = () => {
           multiple
           limitTags={3}
           id="multiple-limit-tags"
-          options={yeni}
-          getOptionLabel={(option) => option}
+          options={hashtags}
+          getOptionLabel={(option) => "#"+option.name}
           renderInput={(params) => (
             <TextField
               {...params}

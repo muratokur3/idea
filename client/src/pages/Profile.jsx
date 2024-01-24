@@ -3,25 +3,27 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../redux/actions/ProfileAction";
 import ProfileMenu from "../components/menu/ProfileMenu";
-import ProfilePosts from "../components/profile/ProfilePosts";
-import Likes from "../components/profile/Likes";
 import Follow from "../components/profile/Follow";
 import Detail from "../components/profile/Detail";
 import Project from "../components/profile/Project";
 import UserDetail from "../components/profile/UserDetail";
 
 import './profile.scss'
+import { getProfileLikesPosts, getProfilePosts } from "../redux/actions/PostActions";
+import ListPost from "../components/post/ListPost";
 const ProfileLayout = () => {
   const { username } = useParams();
   const profile = useSelector((state) => state.profile);
   const profilePage = useSelector((state) => state.ui.profilePage);
   const dispatch = useDispatch();
+  const posts=useSelector((state) => state.posts);
   const page = () => {
+
     switch (profilePage) {
       case "posts":
-        return <ProfilePosts />;
+        return <ListPost posts={posts.profilePosts}/>;
       case "like":
-        return <Likes />;
+        return <ListPost posts={posts.profileLikes}/>;
       case "follow":
         return <Follow />;
       case "detail":
@@ -32,9 +34,13 @@ const ProfileLayout = () => {
         return <Outlet />;
     }
   };
+
+
   useEffect(
     () => {
      dispatch(getProfile(username));
+     dispatch(getProfilePosts(username));
+     dispatch(getProfileLikesPosts(username));
     },
     [username]
   );
@@ -42,7 +48,7 @@ const ProfileLayout = () => {
     <div id="profile-layout-container">
       <UserDetail user={profile} />
       <ProfileMenu />
-     {page()}
+      {page()}
     </div>
   );
 };

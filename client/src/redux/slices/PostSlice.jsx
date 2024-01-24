@@ -7,7 +7,7 @@ const initialState = {
   privateMe: [],
   explore: [],
   favorites: [],
-  profile: [],
+  profilePosts: [],
   profileLikes: [],
 };
 
@@ -25,27 +25,23 @@ export const postSlice = createSlice({
       state.explore = action.payload;
     },
     setFavorites: (state, action) => {
-      state.favorites.push(action.payload);
+      state.favorites= action.payload;
     },
-    setProfile: (state, action) => {
-      state.profile = action.payload;
+    setProfilePosts: (state, action) => {
+      state.profilePosts= action.payload;
     },
     setProfileLikes: (state, action) => {
-      state.profileLikes.push(action.payload);
-    },
-    addPost: (state, action) => {
-      state.push(action.payload);
-    },
+      state.profileLikes= action.payload;
+    }
   },
 });
 
 export const {
-  addPost,
   setHome,
   setPrivateMe,
   setExplore,
   setFavorites,
-  setProfile,
+  setProfilePosts,
   setProfileLikes,
 } = postSlice.actions;
 export default postSlice.reducer;

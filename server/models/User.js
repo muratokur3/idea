@@ -50,6 +50,9 @@ const UserChema = mongoose.Schema(
     favorites: [{
       type: mongoose.Schema.Types.ObjectId,ref: "Post"
     }],
+    hashtags: [{
+      type: mongoose.Schema.Types.ObjectId,ref: "Hashtag"
+    }],
     notifications: {
       type: Array,
       default: [],

@@ -14,26 +14,26 @@ const Home = () => {
   const homePosts = useSelector((state) => state.posts.home);
   const privatemePosts = useSelector((state) => state.posts.privateMe);
   useEffect(() => {
-    homePosts.length===0 &&dispatch(getHomePosts());
-    privatemePosts.length===0 && dispatch(getPrivateMePosts());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    homePosts.length === 0 && dispatch(getHomePosts());
+    privatemePosts.length === 0 && dispatch(getPrivateMePosts());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div id="home-container">
-      <Tabs value={filterName} id="tabs" centered textColor="white">
-        <Tab
-          value={"all"}
-          label="Tümü"
-          onClick={() => dispatch(setFilter("all"))}
-        />
-        <Tab
-          value={"privateme"}
-          label="Bana Özel"
-          onClick={() => dispatch(setFilter("privateme"))}
-        />
-      </Tabs>
+      {isLogin && <Tabs value={filterName} id="tabs" centered textColor="white">
+            <Tab
+              value={"all"}
+              label="Tümü"
+              onClick={() => dispatch(setFilter("all"))}
+            />
+            <Tab
+              value={"privateme"}
+              label="Bana Özel"
+              onClick={() => dispatch(setFilter("privateme"))}
+            />
+          </Tabs>}
       {isLogin && <NewPost />}
-      <ListPost posts={filterName==="all"?homePosts:privatemePosts} />
+      <ListPost posts={filterName === "all" ? homePosts : privatemePosts} />
     </div>
   );
 };

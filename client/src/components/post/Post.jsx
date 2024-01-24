@@ -1,9 +1,7 @@
-/* eslint-disable react/prop-types */
 import "./scss/post.scss";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import IosShareIcon from "@mui/icons-material/IosShare";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { Avatar, Box, Fade, Menu, MenuItem } from "@mui/material";
+import PropTypes from "prop-types";
+
+import { Avatar, Box } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -11,122 +9,97 @@ import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Collapse from "@mui/material/Collapse";
+import { red } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import styled from "@emotion/styled";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import IosShareIcon from "@mui/icons-material/IosShare";
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 const Post = ({ post }) => {
-  const users = useSelector((state) => state.users);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const ExpandMore = styled(IconButton)(({ expand }) => ({
+    // buraya stilleriniz gelecek
+  }));
 
-  const userNameSurame = users.map((user) => {
-    if (user.id === post.userId) {
-      return `${user.name} ${user.surname}`;
-    }
+  ({ theme, expand }) => ({
+    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
   });
+  const [expanded, setExpanded] = useState(false);
 
-  const username = users.map((user) => {
-    if (user.id === post.userId) {
-      return user.username;
-    }
-  });
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
+  const avatar = `http://${localStorage.getItem("avatar")}`;
+  const userId = localStorage.getItem("userId");
   return (
-    <Card id="card-container">
+    <Card sx={{ maxWidth: "100%", backgroundColor: "rgba(13, 13, 13, 0.63)",marginTop:"10px" }}>
       <CardHeader
-        className="card-header"
         avatar={
-          <Avatar
-            alt="Remy Sharp"
-            src="src/assets/muratokur.jpeg"
-            sx={{ width: 50, height: 50 }}
-          />
+          <Avatar src={avatar} sx={{ bgcolor: red[500] }} aria-label="recipe">
+            R
+          </Avatar>
         }
         action={
-          <>
-            <IconButton
-              aria-label="more"
-              id="long-button"
-              aria-controls={open ? "long-menu" : undefined}
-              aria-expanded={open ? "true" : undefined}
-              aria-haspopup="true"
-              onClick={handleClick}
-            >
-              <MoreVertIcon fontSize="small" />
-            </IconButton>
-            <Menu
-              id="fade-menu"
-              MenuListProps={{
-                "aria-labelledby": "fade-button",
-              }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              TransitionComponent={Fade}
-              PaperProps={{
-                style: {
-                  backgroundColor: "black",
-                  color: "white",
-                  padding: "5px",
-                },
-              }}
-            >
-              <MenuItem onClick={handleClose}>Görmek istemediğim</MenuItem>
-              <MenuItem onClick={handleClose}>Kişiyi Engelle</MenuItem>
-              <MenuItem onClick={handleClose}>Bildir</MenuItem>
-            </Menu>
-          </>
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
         }
-        title={
-          <Box display="flex" alignItems="center" gap={2} >
-            <Typography  >{userNameSurame}</Typography>
-            <Typography sx={{ color: "gray", fontSize: ".8rem" }} >
-              @{username}
-            </Typography>
-          </Box>
-        }
-        subheader={
-          <Typography sx={{ color: "gray", fontSize: ".7rem" }}>
-            September 14, 2016
-          </Typography>
-        }
+        title="Murat OKUR"
+        subheader="muratokur3"
+        subheaderTypographyProps={{ color: "gray" }}
       />
 
       <CardContent>
         <Typography variant="body2" color="white">
-          {post.content}
-          {/* burada kullanılan box/div p etiketinin dışına çıkartılmalı */}
-          <Box>
-            <Typography
-              sx={{ color: "gray", fontSize: ".7rem", wordSpacing: "10px" }}
-            >
-              {post.hashtags &&post.hashtags.map((hashtag) => ` ${hashtag}`)}
-            </Typography>
-          </Box>
+          {post.title}
         </Typography>
       </CardContent>
-
-      <CardActions className="card-icon">
-        <IconButton aria-label="add to favorites" >
-          <FavoriteBorderIcon />
-        </IconButton>
-
-        <IconButton aria-label="share">
-          <IosShareIcon />
-        </IconButton>
-
-        <IconButton aria-label="share">
-          <StarBorderIcon />
-        </IconButton>
+      <CardActions
+        disableSpacing
+        sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
+      >
+        <Box>
+          <IconButton aria-label="like">
+            {post.likes.find((userID) => userID === userId) ? (
+              <FavoriteIcon />
+            ) : (
+              <FavoriteBorderIcon />
+            )}
+          </IconButton>
+          <IconButton aria-label="share">
+            <IosShareIcon />
+          </IconButton>
+          <IconButton aria-label="add to favorites">
+            <StarBorderIcon />
+          </IconButton>
+        </Box>
+        <ExpandMore
+          expand={expanded}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </ExpandMore>
       </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent style={{backgroundColor:"gray"}}>
+          <Typography paragraph>{post.content}</Typography>
+        </CardContent>
+      </Collapse>
     </Card>
   );
 };
 
 export default Post;
+
+Post.propTypes = {
+  post: PropTypes.object,
+};

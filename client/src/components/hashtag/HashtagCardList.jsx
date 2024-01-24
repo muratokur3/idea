@@ -24,7 +24,7 @@ const HashtagCardList = () => {
                 width: "100%",
                 maxHeight: "100%",
               }}
-              onClick={()=>navigate(`${hashtag.name.slice(1, hashtag.name.length)}`)}
+              onClick={()=>navigate(`${hashtag.name}`)}
             >
               <CardActionArea >
                 <CardContent>

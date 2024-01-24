@@ -1,26 +1,43 @@
-import {  useSelector } from "react-redux"
+
+import { Fragment, useEffect, useState } from "react";
 import UserCard from "./UserCard"
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { useDispatch, useSelector } from "react-redux";
+import { getFollowers, getFollowing } from "../../redux/actions/UserActions";
+import { Tab, Tabs } from "@mui/material";
 
 const Follow = () => {
-  const followers = useSelector((state) => state.profile.followers)
-const [users,setUsers]=useState([]);
-const getFollowersUSer=async()=>{
-const response =await axios.get(`http://localhost:3005/users`,{params:{id:followers}});
- setUsers(response.data);
-}
-
+  const username=localStorage.getItem("username");
+  const users=useSelector((state)=>state.users);
+  const [follow,setFollow]=useState("following");
+  const dispatch = useDispatch();
   useEffect(() => {
-   getFollowersUSer();
-  }
-, [followers])
+    dispatch(getFollowers(username));
+    dispatch(getFollowing(username));
+  }, [username]);
   return (
-    <ul>
-      {users.map((user,index) => (
-        <UserCard key={index} user={user} />
+    <Fragment>
+      <Tabs value={follow} id="tabs" centered textColor="white">
+            <Tab
+              value={"following"}
+              label="Takip Edilenler"
+              onClick={() => setFollow("following")}
+            />
+            <Tab
+              value={"followers"}
+              label="Takipçiler"
+              onClick={() => setFollow("followers")}
+            />
+          </Tabs>
+      <ul>
+      {follow==="following"&&users.following.map((user)=>(
+        <UserCard key={user._id} user={user}/>
+      ))}
+      {follow==="followers"&&users.followers.map((user)=>(
+        <UserCard key={user._id} user={user}/>
       ))}
     </ul>
+    </Fragment>
+    
   )
 }
 

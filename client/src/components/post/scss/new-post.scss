@@ -7,13 +7,27 @@
     display: flex;
     padding: 1rem;
     gap: 1rem;
+    position: relative;
     #new-post-form{
         width: 90%;
         height: auto;
         display: flex;
         flex-direction: column;
-        
-        .new-post-textarea{
+        .title-textarea{
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 1.1rem;
+            max-height: 500px;
+            resize: none;
+            background: none;
+            overflow:hidden;
+            border-bottom: 1px solid rgba(80, 74, 74, 0.377);
+            &::placeholder{
+                font-size: 1.1rem;
+            }
+        }
+        .content-textarea{
             width: 100%;
             border: none;
             outline: none;
@@ -22,6 +36,7 @@
             resize: none;
             background: none;
             overflow:hidden;
+            padding-top: 5px;
             &::placeholder{
                 font-size: 1rem;
             }

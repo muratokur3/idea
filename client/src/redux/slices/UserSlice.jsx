@@ -1,29 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = {
+  following: [],
+  followers: [],
+
+};
 
 export const userSlice = createSlice({
   name: "users",
   initialState: initialState,
   reducers: {
-    getUsers: (state, action) => {
-      return action.payload;
+    setFollowing: (state, action) => {
+      state.following = action.payload;
     },
-    addUser: (state, action) => {
-      state.push(action.payload);
-    },
-    deleteUser: (state, action) => {
-      state.filter((user) => user.id !== action.payload);
-    },
-    updateUser: (state, action) => {
-      state.map((user) => {
-        if (user.id === action.payload.id) {
-          user = action.payload;
-        }
-      });
+   setFollowers: (state, action) => {
+      state.followers = action.payload;
     },
   },
 });
 
-export const { addUser, deleteUser, updateUser,getUsers } = userSlice.actions;
+export const { setFollowing,setFollowers } = userSlice.actions;
 export default userSlice.reducer;

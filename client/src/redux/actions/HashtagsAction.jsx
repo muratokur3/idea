@@ -1,19 +1,16 @@
 import axios from "axios";
-import {setHashtags} from '../slices/HashtagSlice';
+import { setHashtags } from "../slices/HashtagSlice";
 
-const getHashtags=()=> async (dispatch)=>{
-  // const url = "http://localhost:7000/api";
-        try{
-            const response = await axios.get(`http://localhost:7000/api/hashtags`);
-            console.log(response.data);
-              
-          await dispatch(setHashtags(response.data));
-        }catch(err){
-            console.log(err);
-        }
-    }
+const getHashtags = () => async (dispatch) => {
+  const urlApi = import.meta.env.VITE_API_BASE_URL;
+  try {
+    const response = await axios.get(`${urlApi}/api/hashtags`, {
+      headers: { "Content-Type": "application/json" },
+    });
+    dispatch(setHashtags(response.data));
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-
-
-
-export  {getHashtags};
+export { getHashtags };

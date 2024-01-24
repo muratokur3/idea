@@ -11,5 +11,5 @@ const HashtagChema = mongoose.Schema({
     default: 0,
   },
 });
-const Hashtags = mongoose.model("Hashtag", HashtagChema);
-module.exports = Hashtags;
+const Hashtag = mongoose.model("Hashtag", HashtagChema);
+module.exports = Hashtag;

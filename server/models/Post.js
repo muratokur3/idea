@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const PostChema = mongoose.Schema(
   {
-    userId: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     title: {
       type: String,
     },
@@ -16,6 +16,7 @@ const PostChema = mongoose.Schema(
       },
     ],
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    likesCount: {type: Number, default: 0},
     isDeleted: {
       type: Boolean,
       default: false,
