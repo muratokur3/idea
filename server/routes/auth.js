@@ -5,7 +5,7 @@ const UserChema = require("../models/User");
 
 const generateRandomAvatar = () => {
   const randomAvatar = Math.floor(Math.random() * 70 + 1);
-  return `i.pravatar.cc/300?img=${randomAvatar}`;
+  return `https://i.pravatar.cc/300?img=${randomAvatar}`;
 };
 
 //yeni kullanıcı oluşturur
@@ -67,7 +67,6 @@ router.post("/login", async (req, res) => {
       followers: user.followers,
       following: user.following,
       posts: user.posts,
-      likes: user.likes,
       favorites: user.favorites,
       notifications: user.notifications,
     };

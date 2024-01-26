@@ -66,51 +66,6 @@ router.get("/followers/:username", async (req, res) => {
     
   }
 });
- 
-//id ye göre kullanıcı getirir
-// router.get("/:id", async (req, res) => {
-//   if (!await UserChema.findById(req.params.id)) {
-//     return res.status(404).json("Post not found");
-//   }
-//   try {
-//     const postId = req.params.id;
-//     const post = await UserChema.findById(postId);
-//     res.status(200).json(post);
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).json("Server Error");
-//   }
-// });
 
-//id ye göre kullanıcıyı günceller
- router.put("/:id", async (req, res) => {
-  if (!await UserChema.findById(req.params.id)) {
-    return res.status(404).json("User not found");
-  }
-  try {
-    const userId = req.params.id;
-    const user = await UserChema.findByIdAndUpdate(userId,req.body,{new:true});
-    res.status(200).json(user);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-}
-);
-
-//id ye göre kullanıcıyı siler
-// router.delete("/:id", async (req, res) => {
-//   if (!await UserChema.findById(req.params.id)) {
-//     return res.status(404).json("Post not found");
-//   }
-//   try {
-//     const postId = req.params.id;
-//     const post = await UserChema.findByIdAndDelete(postId);
-//     res.status(200).json(post);
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
 
 module.exports = router;

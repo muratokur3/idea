@@ -39,7 +39,7 @@ const Sidebar = () => {
         <div id="menu-profile-detail">
           <Avatar
             alt="Remy Sharp"
-            src={`http://${authentication.user.avatar}`}
+            src={authentication.user.avatar}
             sx={{ width: 45, height: 45 }}
           />
           <div>

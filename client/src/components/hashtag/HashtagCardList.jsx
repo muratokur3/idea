@@ -3,19 +3,22 @@ import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { setFilterExplore } from "../../redux/slices/FilterSlice";
 import { useNavigate } from "react-router-dom";
+import { getHashtagsExplore } from "../../redux/actions/HashtagsAction";
 
 const HashtagCardList = () => {
   const dispatch = useDispatch();
-  const hashtags = useSelector((state) => state.hashtags);
+  const hashtagsExplore = useSelector((state) => state.hashtags.hashtagsExplore);
   const filterExplore = useSelector((state) => state.filterPosts.filterExplore);
   const navigate=useNavigate();
+
   useEffect(() => { 
    dispatch(setFilterExplore(""));
+   dispatch(getHashtagsExplore());
   }, []);
 
   return (
     <>
-      {hashtags
+      {hashtagsExplore
         .map((hashtag, index) => (
           <div key={index} className="hashtag" >
             <Card
@@ -39,7 +42,7 @@ const HashtagCardList = () => {
               </CardActionArea>
             </Card>
           </div>
-        )).reverse().slice(0,5)}
+        ))}
     </>
   );
 };

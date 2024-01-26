@@ -1,6 +1,5 @@
 import "./scss/post.scss";
 import PropTypes from "prop-types";
-
 import { Avatar, Box } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -17,8 +16,11 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import IosShareIcon from "@mui/icons-material/IosShare";
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
+import axios from "axios";
 const Post = ({ post }) => {
+  const LoginUserId = localStorage.getItem("userId");
   const ExpandMore = styled(IconButton)(({ expand }) => ({
     // buraya stilleriniz gelecek
   }));
@@ -35,14 +37,53 @@ const Post = ({ post }) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const urlApi = import.meta.env.VITE_API_BASE_URL;
 
-  const avatar = `http://${localStorage.getItem("avatar")}`;
-  const userId = localStorage.getItem("userId");
+  const like = async (postId, userId) => {
+    try {
+      await axios.post(`${urlApi}/api/posts/like/${postId}/${userId}`);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const unLike = async (postId, userId) => {
+    try {
+      await axios.post(`${urlApi}/api/posts/unlike/${postId}/${userId}`);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const favorite = async (postId, userId) => {
+    try {
+      await axios.post(`${urlApi}/api/posts/favorites/${postId}/${userId}`);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const unFavorite = async (postId, userId) => {
+    try {
+      await axios.post(`${urlApi}/api/posts/unfavorites/${postId}/${userId}`);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
-    <Card sx={{ maxWidth: "100%", backgroundColor: "rgba(13, 13, 13, 0.63)",marginTop:"10px" }}>
+    <Card
+      sx={{
+        maxWidth: "100%",
+        backgroundColor: "rgba(13, 13, 13, 0.63)",
+        marginTop: "10px",
+      }}
+    >
       <CardHeader
         avatar={
-          <Avatar src={avatar} sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar
+            src={post.avatar}
+            sx={{ bgcolor: red[500] }}
+            aria-label="recipe"
+          >
             R
           </Avatar>
         }
@@ -51,15 +92,32 @@ const Post = ({ post }) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Murat OKUR"
-        subheader="muratokur3"
+        title={post.name + " " + post.surname}
+        subheader={post.username}
         subheaderTypographyProps={{ color: "gray" }}
       />
 
       <CardContent>
-        <Typography variant="body2" color="white">
+        <Typography variant="body2" color="white" padding="10px">
           {post.title}
         </Typography>
+        {post.hashtagsName.map((hashtag) => (
+          <Typography
+            key={hashtag}
+            variant="body3"
+            sx={{
+              fontSize: ".8rem",
+              display: "inline-block",
+              marginRight: "10px",
+              color: "black",
+              backgroundColor: "gray",
+              borderRadius: "10px",
+              padding: "5px",
+            }}
+          >
+            {hashtag}
+          </Typography>
+        ))}
       </CardContent>
       <CardActions
         disableSpacing
@@ -67,17 +125,24 @@ const Post = ({ post }) => {
       >
         <Box>
           <IconButton aria-label="like">
-            {post.likes.find((userID) => userID === userId) ? (
-              <FavoriteIcon />
+            {post.likes.find((userId) => userId === LoginUserId) ? (
+              <FavoriteIcon onClick={() => unLike(post._id, LoginUserId)} />
             ) : (
-              <FavoriteBorderIcon />
+              <FavoriteBorderIcon onClick={() => like(post._id, LoginUserId)} />
             )}
+            <p style={{ color: "gray", fontSize: "1.2rem" }}>
+              {post.likesCount}
+            </p>
           </IconButton>
           <IconButton aria-label="share">
             <IosShareIcon />
           </IconButton>
-          <IconButton aria-label="add to favorites">
-            <StarBorderIcon />
+          <IconButton aria-label="favorites">
+            {post.favorites.find((userId) => userId === LoginUserId) ? (
+              <StarIcon onClick={() => unFavorite(post._id, LoginUserId)} />
+            ) : (
+              <StarBorderIcon onClick={() => favorite(post._id, LoginUserId)} />
+            )}
           </IconButton>
         </Box>
         <ExpandMore
@@ -90,7 +155,7 @@ const Post = ({ post }) => {
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent style={{backgroundColor:"gray"}}>
+        <CardContent style={{ backgroundColor: "gray" }}>
           <Typography paragraph>{post.content}</Typography>
         </CardContent>
       </Collapse>

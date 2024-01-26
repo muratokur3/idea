@@ -16,7 +16,7 @@ const Follow = () => {
   }, [username]);
   return (
     <Fragment>
-      <Tabs value={follow} id="tabs" centered textColor="white">
+      <Tabs value={follow} id="tabs" centered color="white">
             <Tab
               value={"following"}
               label="Takip Edilenler"

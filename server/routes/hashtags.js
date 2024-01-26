@@ -26,6 +26,17 @@ router.get("/", async (req, res) => {
   }
 });
 
+//explore sayfası için 5 adet en çok postCount sayısı olan hashtagleri getirir
+router.get("/explore", async (req, res) => {
+  try {
+    const hashtags = await HahstagChema.find().sort({ postCount: -1 }).limit(5);
+    res.status(200).json(hashtags);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
 //adına göre hashtag getirir
 router.get("/:name", async (req, res) => {
   try {

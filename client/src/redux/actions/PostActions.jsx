@@ -84,7 +84,7 @@ const getProfilePosts = (username) => async (dispatch) => {
 
 const getProfileLikesPosts = (username) => async (dispatch) => {
   try {
-    const response = await axios.get(`${urlApi}/api/posts/like/${username}`, {
+    const response = await axios.get(`${urlApi}/api/posts/likes/${username}`, {
       headers: {"Content-Type": "application/json"},
     });
     dispatch(setProfileLikes(response.data));

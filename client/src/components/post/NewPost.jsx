@@ -16,7 +16,7 @@ const NewPost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
-  const hashtags = useSelector((state) => state.hashtags);
+  const hashtags = useSelector((state) => state.hashtags.hashtags);
   const user = useSelector((state) => state.authentication.user);
 
   const dispatch = useDispatch();
@@ -34,16 +34,12 @@ const NewPost = () => {
     setSelectedHashtags([]);
     dispatch(setNewPostPage(false));
   };
- useEffect(() => {
-  console.log(selectedHashtags.map((hashtag) => hashtag._id));
-  }
-  ,[selectedHashtags])
-
+ 
   return (
     <div id="share-container">
       <Avatar
         alt="Remy Sharp"
-        src={`http://${user.avatar}`}
+        src={user.avatar}
         sx={{ width: 80, height: 80 }}
       />
       <form onSubmit={handleSubmit} id="new-post-form">

@@ -20,7 +20,7 @@ const Home = () => {
   }, []);
   return (
     <div id="home-container">
-      {isLogin && <Tabs value={filterName} id="tabs" centered textColor="white">
+      {isLogin && <Tabs value={filterName} id="tabs" centered color="white">
             <Tab
               value={"all"}
               label="Tümü"

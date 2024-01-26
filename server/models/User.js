@@ -44,12 +44,6 @@ const UserChema = mongoose.Schema(
     posts: [{
       type: mongoose.Schema.Types.ObjectId,ref: "Post"
     }],
-    likes: [{
-      type: mongoose.Schema.Types.ObjectId,ref: "Post"
-    }],
-    favorites: [{
-      type: mongoose.Schema.Types.ObjectId,ref: "Post"
-    }],
     hashtags: [{
       type: mongoose.Schema.Types.ObjectId,ref: "Hashtag"
     }],

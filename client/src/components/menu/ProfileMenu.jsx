@@ -7,20 +7,24 @@ import { setProfilePage } from '../../redux/slices/UiSlice';
 const ProfileMenu = () => {
   const dispatch = useDispatch()
   const profilePage=useSelector((state)=>state.ui.profilePage)
+  const loginUserName=useSelector((state)=>state.authentication.user.username)
+  const profileUserName=useSelector((state)=>state.profile.username)
   return (
     <div id='profile-menu-container'>
-        <Tabs value={profilePage} centered textColor="white">
+        <Tabs value={profilePage} centered color="white">
           <Tab
             value={"posts"}
             label="Fikirler"
             onClick={() => dispatch(setProfilePage("posts"))}
           />
-          <Tab
-            value={"like"}
-            label="Beğenilen"
-            onClick={() => dispatch(setProfilePage("like"))}
+         {
+          loginUserName===profileUserName&& <Tab
+          value={"like"}
+          label="Beğenilen"
+          onClick={() => dispatch(setProfilePage("like"))}
 
-          />
+        />
+         }
           <Tab
             value={"follow"}
             label="Takip"
