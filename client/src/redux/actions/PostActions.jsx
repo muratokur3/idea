@@ -58,7 +58,6 @@ const getExploreHashtagPosts = (hashtag) => async (dispatch) => {
   }
 };
 
-
 const getFavoritesPosts = (username) => async (dispatch) => {
     try {
       const response = await axios.get(`${urlApi}/api/posts/favorite/${username}`, {

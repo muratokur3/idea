@@ -4,9 +4,10 @@ import UserCard from "./UserCard"
 import { useDispatch, useSelector } from "react-redux";
 import { getFollowers, getFollowing } from "../../redux/actions/UserActions";
 import { Tab, Tabs } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const Follow = () => {
-  const username=localStorage.getItem("username");
+  const{username}=useParams();
   const users=useSelector((state)=>state.users);
   const [follow,setFollow]=useState("following");
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const Follow = () => {
   }, [username]);
   return (
     <Fragment>
-      <Tabs value={follow} id="tabs" centered color="white">
+      <Tabs value={follow} id="tabs" centered textColor="white">
             <Tab
               value={"following"}
               label="Takip Edilenler"

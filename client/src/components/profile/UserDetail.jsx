@@ -1,36 +1,59 @@
 /* eslint-disable react/prop-types */
-import './scss/user-detail.scss'
-import backgroundimage from "../../assets/backgroundimage.jpg";
-import { Avatar, Box, Typography } from '@mui/material';
-import { Button } from '@mui/material';
-import { useSelector } from 'react-redux';
-const UserDetail = ({user}) => {
-  const authentication = useSelector((state) => state.authentication);
+import "./scss/user-detail.scss";
+import { Avatar, Typography } from "@mui/material";
+import { Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { followUser } from "../../redux/actions/ProfileAction";
+import { useEffect, useState } from "react";
+const UserDetail = ({ user }) => {
+  const dispatch = useDispatch();
+  const activeUserId = localStorage.getItem("userId");
+  const activeUser=JSON.parse(localStorage.getItem("user"));
+  const [isFollowed, setIsFollowed] = useState(false);
+  const isFollow =async () => {
+  
+      activeUser &&
+      user &&
+     setIsFollowed(user.followers.some((u) => u === activeUser.id )) 
+     console.log(await activeUser)
+     console.log(await user)
+   console.log(isFollowed);
+  };
+
+  useEffect(() => {
+    isFollow();
+  }, [user]
+  );
 
   return (
-    <div id='user-detail-container'>
-        <img src={backgroundimage} className='background-image'/>
-        <div className='user-detail'>
-           
-         <Box display="flex" flexDirection={"column"} padding={2}  alignItems="center" width={"100%" }>
+    <div id="user-detail-container">
+      <div id="user-detail">
           <Avatar
-          src={authentication.user.avatar}
-          sx={{ width: 150, height: 150 , margin: "-90px 0 0 0", border: "5px solid black"}}
-        /> <Typography>
-          {user.name + " " + user.surname}
-        </Typography>
-        <Typography sx={{color: 'gray', fontSize:".8rem" }}>
-        @{user.username}
-      </Typography>
-      <Button variant="contained" sx={{border:".5px solid gray", background:"none", color: "white", width: "120px",
-        height: "30px", fontSize: ".8rem", marginTop:"10px"}}>
-          {user.username===authentication.user.username ?"Düzenle":"Takip"}</Button>
-      </Box>
-
-    
-       </div>
+            src={user.avatar}
+            sx={{
+              width: 100,
+              height: 100,
+              border: "5px solid black",
+            }}
+          />{" "}
+          <Typography>{user.name + " " + user.surname}</Typography>
+          <Typography  sx={{ color: "rgb(199, 189, 189)", fontSize: ".8rem"}}>
+            @{user.username}
+          </Typography>
+         {activeUser && activeUser.id !== user._id && (
+           <Button
+           className="follow-button"
+           variant="contained"
+          
+           onClick={() => dispatch(followUser(activeUserId, user._id))}
+         >
+           {isFollowed ? "Takibi Bırak" : "Takip Et"}
+         </Button>)}
+          
+   
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserDetail
+export default UserDetail;

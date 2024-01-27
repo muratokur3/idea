@@ -67,5 +67,27 @@ router.get("/followers/:username", async (req, res) => {
   }
 });
 
+//kullanıcıyı takip etmiyorsa takip eder etmişse takibi bırakır
+router.put("/follow", async (req, res) => {
+  if (req.body.followerId === req.body.followingId) {
+    return res.status(403).json("Kendini takip edemezsin");
+  }
+  try {
+    const currentUser = await UserChema.findById(req.body.followerId);
+    const user = await UserChema.findById(req.body.followingId);
+    if (!currentUser.following.includes(req.body.followingId)) {
+      await currentUser.updateOne({ $push: { following: req.body.followingId } });
+      await user.updateOne({ $push: { followers: req.body.followerId } });
+      res.status(200).json("Kullanıcıyı takip ediyorsunuz");
+    } else {
+      await currentUser.updateOne({ $pull: { following: req.body.followingId } });
+      await user.updateOne({ $pull: { followers: req.body.followerId } });
+      res.status(200).json("Kullanıcıyı takip etmiyorsunuz");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
 
 module.exports = router;

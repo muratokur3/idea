@@ -19,7 +19,9 @@ import IosShareIcon from "@mui/icons-material/IosShare";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Post = ({ post }) => {
+  const navigate = useNavigate();
   const LoginUserId = localStorage.getItem("userId");
   const ExpandMore = styled(IconButton)(({ expand }) => ({
     // buraya stilleriniz gelecek
@@ -93,7 +95,10 @@ const Post = ({ post }) => {
           </IconButton>
         }
         title={post.name + " " + post.surname}
-        subheader={post.username}
+        subheader={<Typography onClick={()=>navigate(`/${post.username}`)}
+        sx={{ fontSize: "0.8rem", color: "gray",cursor:"pointer" }}>
+          @{post.username}
+        </Typography>}
         subheaderTypographyProps={{ color: "gray" }}
       />
 

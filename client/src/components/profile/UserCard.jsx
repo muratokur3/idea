@@ -1,12 +1,14 @@
-import { Avatar, Button, CardContent } from "@mui/material";
+import { Avatar, Button, CardContent, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import { red } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 // import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const UserCard = ({ user }) => {
+  const navigate=useNavigate();
   return (
     <Card sx={{ maxWidth: "100%", backgroundColor: "rgba(10, 9, 9, 0.713)", marginTop:"10px"}}>
       <CardHeader
@@ -23,9 +25,10 @@ const UserCard = ({ user }) => {
         }
         title={`${user.name} ${user.surname}`}
         titleTypographyProps={{ fontSize: "1rem" }}
-        subheader={`@${user.username}`}
-        subheaderTypographyProps={{ fontSize: "0.8rem", color: "gray" }}
-        
+        subheader={<Typography onClick={()=>navigate(`/${user.username}`)}
+        sx={{ fontSize: "0.8rem", color: "gray",cursor:"pointer" }}>
+          @{user.username}
+        </Typography>}
       />
       <CardContent
         sx={{
@@ -42,3 +45,4 @@ const UserCard = ({ user }) => {
 };
 
 export default UserCard;
+

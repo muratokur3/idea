@@ -11,7 +11,7 @@ const ProfileMenu = () => {
   const profileUserName=useSelector((state)=>state.profile.username)
   return (
     <div id='profile-menu-container'>
-        <Tabs value={profilePage} centered color="white">
+        <Tabs value={profilePage} centered textColor='white'>
           <Tab
             value={"posts"}
             label="Fikirler"
