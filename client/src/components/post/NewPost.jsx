@@ -31,6 +31,7 @@ const NewPost = () => {
     };
     dispatch(createPost(newPost));
     setContent("");
+    setTitle("");
     setSelectedHashtags([]);
     dispatch(setNewPostPage(false));
   };

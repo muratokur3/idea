@@ -70,6 +70,28 @@ router.post("/", async (req, res) => {
   }
 });
 
+//çoklu post oluşturur
+// router.post("/createMany", async (req, res) => {
+//   try {
+//     const posts = req.body;
+//     posts.forEach(async (post) => {
+//       const newPost = new PostChema(post);
+//       newPost.hashtags.map(async (hashtag) => {
+//         await HashtagChema.findByIdAndUpdate(
+//          hashtag,
+//          { $inc: { postCount: 1 } },
+//        );
+//      }
+//      );
+//       await newPost.save();
+//     });
+//     res.status(201).json(posts);
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).json("Server Error");
+//   }
+// });
+
 //tüm postları getirir
 router.get("/", async (req, res) => {
   try {
@@ -84,7 +106,7 @@ router.get("/", async (req, res) => {
 //keşfet sayfası için en çok beğeni alan 3 postu getirir
 router.get("/explore", async (req, res) => {
   try {
-    const posts = await PostChema.find().sort({ likesCount: -1 }).limit(3);
+    const posts = await PostChema.find().sort({ likesCount: -1 }).limit(10);
     res.status(200).json(await concatPostDetails(posts));
   } catch (error) {
     console.log(error.message);

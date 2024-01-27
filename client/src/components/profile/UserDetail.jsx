@@ -15,9 +15,6 @@ const UserDetail = ({ user }) => {
       activeUser &&
       user &&
      setIsFollowed(user.followers.some((u) => u === activeUser.id )) 
-     console.log(await activeUser)
-     console.log(await user)
-   console.log(isFollowed);
   };
 
   useEffect(() => {

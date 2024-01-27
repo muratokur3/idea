@@ -18,8 +18,8 @@ const ClientLayout = () => {
       dispatch(setLogin(true));
       dispatch(setUser(JSON.parse(localStorage.getItem("user"))));
     } else {
-      alert("Lütfen giriş yapınız");
       dispatch(setLogin(false));
+      dispatch(setUser({}));
     }
 
     if (ui.authPage || ui.newPostPage) {

@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const UserChema = require("../models/User");
+const bcrypt = require("bcryptjs");
+
+const generateRandomAvatar = () => {
+  const randomAvatar = Math.floor(Math.random() * 70 + 1);
+  return `https://i.pravatar.cc/300?img=${randomAvatar}`;
+};
 
 //tüm kullanıcıları getirir
 router.get("/", async (req, res) => {
@@ -90,4 +96,42 @@ router.put("/follow", async (req, res) => {
   }
 });
 
+//kullanıcı idlerini döner
+// router.get("/ids", async (req, res) => {
+//   try {
+//     const users = await UserChema.find();
+//     const ids =await users.map((user) => user._id);
+//     res.status(200).json(ids);
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).json("Server Error");
+//   }
+// });
+
+//birden çok kullanıcı oluştur
+router.post("/createMany", async (req, res) => {
+  try {
+    const users = req.body;
+   
+    users.forEach(async (user) => {
+      const { name, surname, username, email, password } = user;
+      const newUser = new UserChema({
+        name,
+        surname,
+        username,
+        email,
+        password: bcrypt.hashSync(password, 10),
+        avatar: generateRandomAvatar(),
+      });
+      await newUser.save();
+     });
+    
+    res.status(201).json(users);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
 module.exports = router;
+

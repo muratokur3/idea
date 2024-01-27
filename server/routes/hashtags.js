@@ -37,6 +37,33 @@ router.get("/explore", async (req, res) => {
   }
 });
 
+//tüm hashtag idlerini ve name leridöner
+// router.get("/", async (req, res) => {
+//   try {
+//     const hashtags = await HahstagChema.find();
+//     const ids =await hashtags.map((hashtag) => ({_id:hashtag._id,name:hashtag.name}));
+//     res.status(200).json(ids);
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).json("Server Error");
+//   }
+// });
+
+//birden çok hashtag oluştur
+router.post("/createMany", async (req, res) => {
+  try {
+    const hashtags = req.body;
+    hashtags.forEach(async (hashtag) => {
+      const newHashtag =await new HahstagChema(hashtag);
+      await newHashtag.save();
+     });
+    res.status(201).json(hashtags);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
 //adına göre hashtag getirir
 router.get("/:name", async (req, res) => {
   try {

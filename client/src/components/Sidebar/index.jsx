@@ -27,6 +27,7 @@ const Sidebar = () => {
     dispatch(setLogin(false));
     dispatch(setUser({}));
     setAnchorEl(null);
+    navigate("/");
   }
   return (
     <div id="sidebar-container">
