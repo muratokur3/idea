@@ -12,7 +12,7 @@ const ExploreLayout = () => {
   const explorePosts=useSelector((state)=>state.posts.explore);
   const dispatch=useDispatch();
   useEffect(() => {
-   explorePosts.length===0&& dispatch(getExplorePosts());
+   explorePosts.length===100&& dispatch(getExplorePosts());
   }, []);
   return (
   <div id="explore-container">

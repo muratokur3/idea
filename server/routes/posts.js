@@ -14,26 +14,27 @@ const concatPostDetails = async (posts) => {
     _id: { $in: userIds },
   });
 
+  // Benzersiz hashtag ID'lerini topla
+  const hashtagIds = posts.reduce((acc, post) => {
+    if (post.hashtags.length > 0) {
+      acc.push(...post.hashtags.map((hashtag) => hashtag.toString()));
+    }
+    return acc;
+  }, []);
 
- // Benzersiz hashtag ID'lerini topla
- const hashtagIds = posts.reduce((acc, post) => {
-  if (post.hashtags.length > 0) {
-    acc.push(...post.hashtags.map((hashtag) => hashtag.toString()));
-  }
-  return acc;
-}, []);
-
-// Tek bir sorgu ile tüm hashtag detaylarını al
-const hashtagDetails = await HashtagChema.find({
-  _id: { $in: hashtagIds },
-});
+  // Tek bir sorgu ile tüm hashtag detaylarını al
+  const hashtagDetails = await HashtagChema.find({
+    _id: { $in: hashtagIds },
+  });
 
   // Postları kullanıcı detayları ile birleştir
   const postUser = posts.map((post) => {
     const hashtags = hashtagDetails
       .filter((hashtag) => post.hashtags.includes(hashtag._id.toString()))
       .map((hashtag) => hashtag.name);
-    const user = userDetails.find((user) => post.userId.toString() === user._id.toString());
+    const user = userDetails.find(
+      (user) => post.userId.toString() === user._id.toString()
+    );
     return {
       ...post._doc,
       name: user.name,
@@ -42,11 +43,9 @@ const hashtagDetails = await HashtagChema.find({
       username: user.username,
       hashtagsName: hashtags,
     };
-   });
-    return postUser;
-  };
-
-
+  });
+  return postUser;
+};
 
 //yeni post oluşturur
 router.post("/", async (req, res) => {
@@ -55,12 +54,8 @@ router.post("/", async (req, res) => {
     const newPost = new PostChema(data);
     //hashtag postCount arttırma
     newPost.hashtags.map(async (hashtag) => {
-       await HashtagChema.findByIdAndUpdate(
-        hashtag,
-        { $inc: { postCount: 1 } },
-      );
-    }
-    );
+      await HashtagChema.findByIdAndUpdate(hashtag, { $inc: { postCount: 1 } });
+    });
 
     await newPost.save();
     res.status(201).json(newPost);
@@ -157,33 +152,63 @@ router.get("/profile/:username", async (req, res) => {
   }
 });
 
-//kişinin takip ettiği kişilerin postlarını getirir
+//kişinin takip ettiği postları sayfalandırarak limit değerine göre getirir
 router.get("/timeline/:userId", async (req, res) => {
   try {
-    const currentUser = await UserChema.findById(req.params.userId);
-    const userPosts = await PostChema.find({ userId: currentUser._id });
+    // const currentUser = await UserChema.findById(req.params.userId);
+    const page = parseInt(req.query.page);
+    const limit = 5;
+    const startIndex = (page - 1) * limit;
+    const allPosts = await PostChema
+      .find
+      //   {
+      //   userId: { $in: currentUser.following },
+      // }
+      ()
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip(startIndex);
 
-    const friendPosts = await Promise.all(
-      currentUser.following.map((friendId) => {
-        return PostChema.find({ userId: friendId });
-      })
-    );
-    const allPosts = await userPosts.concat(...friendPosts);
-    res.json(await concatPostDetails(allPosts));
+    console.log(page);
+    const pagination = {
+      page: page + 1,
+      hasMore: allPosts.length === limit,
+    };
+    res
+      .status(200)
+      .json({ posts: await concatPostDetails(allPosts), pagination });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.log(error.message);
+    res.status(500).json("Server Error");
   }
 });
 
 //kişinin takip ettiği hashtaglerin postlarını getirir
 router.get("/privateMe/:userId", async (req, res) => {
   try {
-    const currentUser = await UserChema.findById(req.params.userId);
-    const hashtagPosts = await PostChema.find({
-      hashtags: { $in: currentUser.hashtags },
-    });
-    res.status(200).json(await concatPostDetails(hashtagPosts));
+    const page = parseInt(req.query.page);
+    const limit = 5;
+    const startIndex = (page - 1) * limit;
+    // const currentUser = await UserChema.findById(req.params.userId);
+    const hashtagPosts = await PostChema
+      .find
+      //   {
+      //   hashtags: { $in: currentUser.hashtags },
+      // }
+      ()
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip(startIndex);
+    console.log(page);
+
+    const pagination = {
+      page: page + 1,
+      hasMore: hashtagPosts.length === limit,
+    };
+
+    res
+      .status(200)
+      .json({ posts: await concatPostDetails(hashtagPosts), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");

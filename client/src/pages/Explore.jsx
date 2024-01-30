@@ -4,15 +4,14 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import "./Explore.scss"
-import {  useDispatch, useSelector } from 'react-redux';
+import {  useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getExplorePosts } from '../../redux/actions/PostActions';
 import { Outlet } from 'react-router-dom';
 const Explore = () => {
-  const explorePosts=useSelector((state)=>state.posts.explore);
   const dispatch=useDispatch();
   useEffect(() => {
-   explorePosts.length===0&& dispatch(getExplorePosts());
+   dispatch(getExplorePosts());
   }, []);
   return (
   <div id="explore-container">

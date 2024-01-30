@@ -13,7 +13,7 @@ const ClientLayout = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getHashtags());
+    // dispatch(getHashtags());
     if (localStorage.getItem("isLogin")=== "true") {
       dispatch(setLogin(true));
       dispatch(setUser(JSON.parse(localStorage.getItem("user"))));

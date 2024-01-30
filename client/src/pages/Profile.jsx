@@ -9,7 +9,6 @@ import Project from "../components/profile/Project";
 import UserDetail from "../components/profile/UserDetail";
 
 import './profile.scss'
-import { getProfileLikesPosts, getProfilePosts } from "../redux/actions/PostActions";
 import ListPost from "../components/post/ListPost";
 const ProfileLayout = () => {
   const { username } = useParams();
@@ -39,8 +38,8 @@ const ProfileLayout = () => {
   useEffect(
     () => {
      dispatch(getProfile(username));
-     dispatch(getProfilePosts(username));
-     dispatch(getProfileLikesPosts(username));
+    //  dispatch(getProfilePosts(username));
+    //  dispatch(getProfileLikesPosts(username));
     },
     [username]
   );
