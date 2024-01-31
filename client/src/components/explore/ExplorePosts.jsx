@@ -1,18 +1,18 @@
 import {  useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getExploreHashtagPosts } from '../../redux/actions/PostActions';
+import { getExploreData } from '../../redux/actions/PostActions';
 import ListPost from '../post/ListPost';
 import { useParams } from 'react-router-dom';
 const ExploreLayout = () => {
-  const explorePosts=useSelector((state)=>state.posts.explore);
-  const dispatch=useDispatch();
+  const exploreData=useSelector((state)=>state.posts.explore);
+  const dispatch=useDispatch(exploreData.pagination);
   const {hashtag}=useParams();
   useEffect(() => {
-    dispatch(getExploreHashtagPosts(hashtag));
+    // dispatch(getExploreData(hashtag));
   }, [hashtag]);
   return (
   <>
-  <ListPost posts={explorePosts} />
+  <ListPost posts={exploreData} getPosts={dispatch(getExploreData(exploreData.pagination))}/>
   </>
   )
 }

@@ -98,60 +98,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-//keşfet sayfası için en çok beğeni alan 3 postu getirir
-router.get("/explore", async (req, res) => {
-  try {
-    const posts = await PostChema.find().sort({ likesCount: -1 }).limit(10);
-    res.status(200).json(await concatPostDetails(posts));
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-//hashTag e göre post getirir
-router.get("/explore/:hashtag", async (req, res) => {
-  try {
-    const hashtag = await HashtagChema.findOne({ name: req.params.hashtag });
-    const posts = await PostChema.find({
-      hashtags: { $in: [hashtag._id] },
-    });
-    res.status(200).json(await concatPostDetails(posts));
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-//id ye göre post getirir
-router.get("/:id", async (req, res) => {
-  if (!(await PostChema.findById(req.params.id))) {
-    return res.status(404).json("Post not found");
-  }
-  try {
-    const postId = req.params.id;
-    const post = await PostChema.findById(postId);
-    res.status(200).json(await concatPostDetails(post));
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-//userId den postları getirir(profile)
-router.get("/profile/:username", async (req, res) => {
-  try {
-    const currentUser = await UserChema.findOne({
-      username: req.params.username,
-    });
-    const userPosts = await PostChema.find({ userId: currentUser._id });
-    res.status(200).json(await concatPostDetails(userPosts));
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
 //kişinin takip ettiği postları sayfalandırarak limit değerine göre getirir
 router.get("/timeline/:userId", async (req, res) => {
   try {
@@ -209,6 +155,65 @@ router.get("/privateMe/:userId", async (req, res) => {
     res
       .status(200)
       .json({ posts: await concatPostDetails(hashtagPosts), pagination });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+//keşfet sayfası için verileri getiri. eğer hashtag varsa ona göre getirir
+router.get("/explore", async (req, res) => {
+  try {
+    const page = parseInt(req.query.page);
+    const limit = 5;
+    const startIndex = (page - 1) * limit;
+    const hashtag = req.query.hashtag;
+
+    const hashtagPosts = await PostChema.find(hashtag && {
+      hashtags: { $in: [hashtag] }
+    })
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip(startIndex);
+
+    const hasMore = hashtagPosts.length === limit;
+    
+    const pagination = {
+      page: page + 1,
+      hasMore: hasMore,
+    };
+
+    res.status(200).json({ posts: await concatPostDetails(hashtagPosts), pagination });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+
+//id ye göre post getirir
+router.get("/:id", async (req, res) => {
+  if (!(await PostChema.findById(req.params.id))) {
+    return res.status(404).json("Post not found");
+  }
+  try {
+    const postId = req.params.id;
+    const post = await PostChema.findById(postId);
+    res.status(200).json(await concatPostDetails(post));
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+//userId den postları getirir(profile)
+router.get("/profile/:username", async (req, res) => {
+  try {
+    const currentUser = await UserChema.findOne({
+      username: req.params.username,
+    });
+    const userPosts = await PostChema.find({ userId: currentUser._id });
+    res.status(200).json(await concatPostDetails(userPosts));
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");

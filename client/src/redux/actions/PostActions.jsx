@@ -56,23 +56,17 @@ const getPrivateMeData = (pagination) => async (dispatch) => {
   }
 };
 
-const getExplorePosts = () => async (dispatch) => {
+const getExploreData = (pagination,hashtag) => async (dispatch) => {
   try {
-    const response = await axios.get(`${urlApi}/api/posts/explore`, {
-      headers: { "Content-Type": "application/json" },
-    });
-    dispatch(setExplore(response.data));
-  } catch (error) {
-    console.error("Veri gelirken hata oluştu:", error);
-  }
-};
 
-const getExploreHashtagPosts = (hashtag) => async (dispatch) => {
-  try {
-    const response = await axios.get(`${urlApi}/api/posts/explore/${hashtag}`, {
+    const response = await axios.get(`${urlApi}/api/posts/explore`, {
+     params: {
+       page: pagination.page,
+        hashtag: hashtag,
+      },
       headers: { "Content-Type": "application/json" },
     });
-    dispatch(setExplore(response.data));
+    dispatch(setExplore({posts: await response.data.posts,pagination: await response.data.pagination,}));
   } catch (error) {
     console.error("Veri gelirken hata oluştu:", error);
   }
@@ -132,8 +126,7 @@ const createPost = (post) => async () => {
 export {
   getHomeData,
   getPrivateMeData,
-  getExplorePosts,
-  getExploreHashtagPosts,
+  getExploreData,
   getFavoritesPosts,
   getProfilePosts,
   getProfileLikesPosts,
