@@ -8,21 +8,42 @@ import Detail from "../components/profile/Detail";
 import Project from "../components/profile/Project";
 import UserDetail from "../components/profile/UserDetail";
 
-import './profile.scss'
+import "./profile.scss";
 import ListPost from "../components/post/ListPost";
+import {
+  getProfileLikesPosts,
+  getProfilePosts,
+} from "../redux/actions/PostActions";
 const ProfileLayout = () => {
   const { username } = useParams();
   const profile = useSelector((state) => state.profile);
   const profilePage = useSelector((state) => state.ui.profilePage);
   const dispatch = useDispatch();
-  const posts=useSelector((state) => state.posts);
-  const page = () => {
+  const profilePostsData = useSelector((state) => state.posts.profilePosts);
+  const ProfileLikesData = useSelector((state) => state.posts.profileLikes);
 
+  const page = () => {
     switch (profilePage) {
       case "posts":
-        return <ListPost posts={posts.profilePosts}/>;
+        return (
+          <ListPost
+            data={profilePostsData}
+            getPosts={() =>
+              dispatch(getProfilePosts(profilePostsData.pagination, username))
+            }
+          />
+        );
       case "like":
-        return <ListPost posts={posts.profileLikes}/>;
+        return (
+          <ListPost
+            data={ProfileLikesData}
+            getPosts={() =>
+              dispatch(
+                getProfileLikesPosts(ProfileLikesData.pagination, username)
+              )
+            }
+          />
+        );
       case "follow":
         return <Follow />;
       case "detail":
@@ -34,15 +55,12 @@ const ProfileLayout = () => {
     }
   };
 
-
-  useEffect(
-    () => {
-     dispatch(getProfile(username));
-    //  dispatch(getProfilePosts(username));
-    //  dispatch(getProfileLikesPosts(username));
-    },
-    [username]
-  );
+  useEffect(() => {
+    dispatch(getProfile(username));
+    dispatch(getProfilePosts({ page: 1, hasMore: true }, username));
+    ProfileLikesData.posts.length === 0 &&
+      dispatch(getProfileLikesPosts({ page: 1, hasMore: true }, username));
+  }, [username]);
   return (
     <div id="profile-layout-container">
       <UserDetail user={profile} />

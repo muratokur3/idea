@@ -24,9 +24,34 @@ const initialState = {
       hasMore: true,
     },
   },
-  favorites: [],
-  profilePosts: [],
-  profileLikes: [],
+  hashtagExplore: {
+    posts: [],
+    pagination: {
+      page: 1,
+      hasMore: true,
+    },
+  },
+  favorites: {
+    posts: [],
+    pagination: {
+      page: 1,
+      hasMore: true,
+    },
+  },
+  profilePosts: {
+    posts: [],
+    pagination: {
+      page: 1,
+      hasMore: true,
+    },
+  },
+  profileLikes: {
+    posts: [],
+    pagination: {
+      page: 1,
+      hasMore: true,
+    },
+  },
 };
 
 export const postSlice = createSlice({
@@ -44,18 +69,45 @@ export const postSlice = createSlice({
       state.privateMe.pagination.hasMore = action.payload.pagination.hasMore;
     },
     setExplore: (state, action) => {
-      state.explore.posts.push(...action.payload.posts);
+      if (action.payload.posts.length === 0) {
+        state.explore.posts = [];
+      } else {
+        state.explore.posts.push(...action.payload.posts);
+      }
       state.explore.pagination.page = action.payload.pagination.page;
       state.explore.pagination.hasMore = action.payload.pagination.hasMore;
     },
+    setHashtagExplore: (state, action) => {
+      if (action.payload.pagination.page === 2) {
+        const { posts, pagination } = action.payload;
+        state.hashtagExplore = { posts, pagination };
+      } else {
+        state.hashtagExplore.posts.push(...action.payload.posts);
+        state.hashtagExplore.pagination.page = action.payload.pagination.page;
+        state.hashtagExplore.pagination.hasMore =
+          action.payload.pagination.hasMore;
+      }
+    },
     setFavorites: (state, action) => {
-      state.favorites = action.payload;
+      state.favorites.posts.push(...action.payload.posts);
+      state.favorites.pagination.page = action.payload.pagination.page;
+      state.favorites.pagination.hasMore = action.payload.pagination.hasMore;
     },
     setProfilePosts: (state, action) => {
-      state.profilePosts = action.payload;
+      if (action.payload.pagination.page === 2) {
+        const { posts, pagination } = action.payload;
+        state.profilePosts = { posts, pagination };
+      } else {
+        state.profilePosts.posts.push(...action.payload.posts);
+        state.profilePosts.pagination.page = action.payload.pagination.page;
+        state.profilePosts.pagination.hasMore =
+          action.payload.pagination.hasMore;
+      }
     },
     setProfileLikes: (state, action) => {
-      state.profileLikes = action.payload;
+      state.profileLikes.posts.push(...action.payload.posts);
+      state.profileLikes.pagination.page = action.payload.pagination.page;
+      state.profileLikes.pagination.hasMore = action.payload.pagination.hasMore;
     },
   },
 });
@@ -64,6 +116,7 @@ export const {
   setHome,
   setPrivateMe,
   setExplore,
+  setHashtagExplore,
   setFavorites,
   setProfilePosts,
   setProfileLikes,

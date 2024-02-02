@@ -1,6 +1,5 @@
 import Home from "../pages/Home";
 import ClientLayout from "../Layout/ClientLayout";
-import ExploreLayout from "../Layout/ExploreLayout";
 import ExploreMain from "../components/explore/ExploreMain";
 import ExplorePosts from "../components/explore/ExplorePosts";
 import Profile from "../pages/Profile";
@@ -13,13 +12,14 @@ import DashboardPage from '../admin/pages/DashboardPage';
 import UsersPage from "../admin/pages/UsersPage";
 import HashtagsPage from "../admin/pages/HashtagsPage";
 import ProjectsPage from "../admin/pages/ProjectsPage";
+import Explore from "../pages/Explore";
 
 function ClientRoutes() {
     return (
         <Routes>
           <Route path="/*" element={<ClientLayout/>}>
             <Route index element={<Home />} />
-            <Route path="explore" element={<ExploreLayout/>}>
+            <Route path="explore" element={<Explore/>}>
               <Route index element={<ExploreMain/>}/>
               <Route path=":hashtag" element={<ExplorePosts/>}/>
             </Route>

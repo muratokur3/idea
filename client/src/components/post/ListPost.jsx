@@ -3,15 +3,8 @@ import PostSkeleton from "../skeleton/PostSkeleton.jsx";
 import PropTypes from "prop-types";
 import "./scss/list-post.scss";
 import Post from "./Post.jsx";
-import { useEffect } from "react";
 
 const ListPost = ({ data,getPosts }) => {
-useEffect(() => {
-  console.log("ListPost",data);
-}
-// eslint-disable-next-line react-hooks/exhaustive-deps
-, []);
- 
   return (
     <InfinieScroll
       dataLength={data.posts.length}
