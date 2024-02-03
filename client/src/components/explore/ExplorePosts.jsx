@@ -12,7 +12,6 @@ const ExploreLayout = () => {
   const { hashtag } = useParams();
 
   useEffect(() => {
-    console.log("bu sayfa render edildi");
     dispatch(getHashtagExploreData({page:1,hasMore:true}, hashtag));
     
   }, []);

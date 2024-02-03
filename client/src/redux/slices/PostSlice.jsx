@@ -105,9 +105,61 @@ export const postSlice = createSlice({
       }
     },
     setProfileLikes: (state, action) => {
-      state.profileLikes.posts.push(...action.payload.posts);
-      state.profileLikes.pagination.page = action.payload.pagination.page;
-      state.profileLikes.pagination.hasMore = action.payload.pagination.hasMore;
+      if (action.payload.pagination.page === 2) {
+        state.profileLikes = action.payload;
+      } else {
+        state.profileLikes.posts.push(...action.payload.posts);
+        state.profileLikes.pagination.page = action.payload.pagination.page;
+        state.profileLikes.pagination.hasMore =
+          action.payload.pagination.hasMore;
+      }
+    },
+    setLikeData: (state, action) => {
+      const { post, userId } = action.payload;
+
+      const newPost = {
+        ...post,
+        likes: post.likes.some((id) => id === userId)
+          ? post.likes.filter((id) => id !== userId)
+          : [...post.likes, userId],
+        likesCount: post.likes.some((id) => id === userId)
+          ? post.likesCount - 1
+          : post.likesCount + 1,
+      };
+
+      state.home.posts = state.home.posts.map((p) =>
+        p._id === newPost._id ? newPost : p
+      );
+      state.privateMe.posts = state.privateMe.posts.map((p) =>
+        p._id === newPost._id ? newPost : p
+      );
+      state.explore.posts = state.explore.posts.map((p) =>
+        p._id === newPost._id ? newPost : p
+      );
+      state.hashtagExplore.posts = state.hashtagExplore.posts.map((p) =>
+        p._id === newPost._id ? newPost : p
+      );
+      state.favorites.posts = state.favorites.posts.map((p) =>
+        p._id === newPost._id ? newPost : p
+      );
+      state.profilePosts.posts = state.profilePosts.posts.map((p) =>
+        p._id === newPost._id ? newPost : p
+      );
+      state.profileLikes.posts = state.profileLikes.posts
+        .map((p) => {
+          if (p._id === post._id) {
+            if (post.likes.some((id) => id === userId)) {
+              // Eğer kullanıcı daha önce beğendi ise, post'u diziden çıkar
+              return null;
+            } else {
+              // Eğer kullanıcı daha önce beğenmedi ise, yeni post ile güncelle
+              return newPost;
+            }
+          } else {
+            return p;
+          }
+        })
+        .filter(Boolean); // Diziden null olanları temizle
     },
   },
 });
@@ -120,5 +172,6 @@ export const {
   setFavorites,
   setProfilePosts,
   setProfileLikes,
+  setLikeData,
 } = postSlice.actions;
 export default postSlice.reducer;

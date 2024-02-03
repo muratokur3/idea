@@ -17,14 +17,19 @@ import { red } from "@mui/material/colors";
 import Card from "@mui/material/Card";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
-import { useState } from "react";
 import "./scss/post.scss";
 import axios from "axios";
+import { useState } from "react";
+import { like, unLike } from "../../redux/actions/PostActions";
+import { useDispatch } from "react-redux";
 const Post = ({ post }) => {
+  const urlApi = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const LoginUserId = localStorage.getItem("userId");
+  const dispatch = useDispatch();
+  // eslint-disable-next-line no-unused-vars
   const ExpandMore = styled(IconButton)(({ expand }) => ({
-    // buraya stilleriniz gelecek
+    color: "white",
   }));
 
   ({ theme, expand }) => ({
@@ -39,22 +44,61 @@ const Post = ({ post }) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const urlApi = import.meta.env.VITE_API_BASE_URL;
 
-  const like = async (postId, userId) => {
-    try {
-      await axios.post(`${urlApi}/api/posts/like/${postId}/${userId}`);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-  const unLike = async (postId, userId) => {
-    try {
-      await axios.post(`${urlApi}/api/posts/unlike/${postId}/${userId}`);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // const like = async (postId, userId) => {
+  //   try {
+  //     ubdatePosts(postId, userId, true);
+
+  //     // Sunucuya beğeni isteği gönder
+  //     const response = await axios.post(
+  //       `${urlApi}/api/posts/like/${postId}/${userId}`
+  //     );
+
+  //     // Potansiyel hatalar için API yanıtını kontrol et
+  //     if (response.status === 200) {
+  //       // Başarılı beğeni işlemi
+  //       console.log("Post beğenildi");
+  //     } else {
+  //       // Bir hata varsa, UI değişikliklerini geri al
+  //       ubdatePosts(postId, userId, true);
+  //       console.log(response.data.message); // Sunucudan gelen hata mesajını logla
+  //     }
+  //   } catch (error) {
+  //     // Beklenmeyen hataları ele al
+  //     ubdatePosts(postId, userId, false);
+  //       console.log("Post beğenilemedi geri alındı");
+  //       console.log(error.message);
+  //   }
+  // };
+
+  // const unLike = async (postId, userId) => {
+  //   try {
+  //     // Kullanıcıya beğeni geri alma işlemi gerçekleştiriliyor olarak göster
+  //     setIsLiked(false);
+  //     setLikeCount(likeCount - 1);
+
+  //     // Sunucuya beğeni geri alma isteği gönder
+  //     const response = await axios.post(
+  //       `${urlApi}/api/posts/unlike/${postId}/${userId}`
+  //     );
+
+  //     // Potansiyel hatalar için API yanıtını kontrol et
+  //     if (response.data.success) {
+  //       // Başarılı beğeni geri alma işlemi
+  //       console.log("Post beğeni geri alındı");
+  //     } else {
+  //       // Bir hata varsa, UI değişikliklerini geri al
+  //       setIsLiked(true);
+  //       setLikeCount(likeCount);
+  //       console.log(response.data.message); // Sunucudan gelen hata mesajını logla
+  //     }
+  //   } catch (error) {
+  //     // Beklenmeyen hataları ele al
+  //     setIsLiked(true);
+  //     setLikeCount(likeCount);
+  //     console.log(error.message);
+  //   }
+  // };
 
   const favorite = async (postId, userId) => {
     try {
@@ -63,6 +107,7 @@ const Post = ({ post }) => {
       console.log(error.message);
     }
   };
+
   const unFavorite = async (postId, userId) => {
     try {
       await axios.post(`${urlApi}/api/posts/unfavorites/${postId}/${userId}`);
@@ -70,7 +115,6 @@ const Post = ({ post }) => {
       console.log(error.message);
     }
   };
-
   return (
     <Card
       sx={{
@@ -95,10 +139,14 @@ const Post = ({ post }) => {
           </IconButton>
         }
         title={post.name + " " + post.surname}
-        subheader={<Typography onClick={()=>navigate(`/${post.username}`)}
-        sx={{ fontSize: "0.8rem", color: "gray",cursor:"pointer" }}>
-          @{post.username}
-        </Typography>}
+        subheader={
+          <Typography
+            onClick={() => navigate(`/${post.username}`)}
+            sx={{ fontSize: "0.8rem", color: "gray", cursor: "pointer" }}
+          >
+            @{post.username}
+          </Typography>
+        }
         subheaderTypographyProps={{ color: "gray" }}
       />
 
@@ -130,10 +178,10 @@ const Post = ({ post }) => {
       >
         <Box>
           <IconButton aria-label="like">
-            {post.likes.find((userId) => userId === LoginUserId) ? (
-              <FavoriteIcon onClick={() => unLike(post._id, LoginUserId)} />
+            {post.likes.some((id) => id === LoginUserId) ? (
+              <FavoriteIcon onClick={() => dispatch(unLike(post))} />
             ) : (
-              <FavoriteBorderIcon onClick={() => like(post._id, LoginUserId)} />
+              <FavoriteBorderIcon onClick={() => dispatch(like(post))} />
             )}
             <p style={{ color: "gray", fontSize: "1.2rem" }}>
               {post.likesCount}

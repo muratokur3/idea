@@ -7,6 +7,7 @@ import {
   setProfilePosts,
   setProfileLikes,
   setHashtagExplore,
+  setLikeData,
 } from "../slices/PostSlice";
 
 const urlApi = import.meta.env.VITE_API_BASE_URL;
@@ -140,7 +141,7 @@ const getProfilePosts = (pagination, username) => async (dispatch) => {
   }
 };
 
-const getProfileLikesPosts = (pagination,username) => async (dispatch) => {
+const getProfileLikesPosts = (pagination, username) => async (dispatch) => {
   try {
     const response = await axios.get(`${urlApi}/api/posts/likes/${username}`, {
       params: {
@@ -171,6 +172,46 @@ const createPost = (post) => async () => {
   }
 };
 
+const like = (post) => async (dispatch) => {
+  try {
+
+    // Sunucuya beğeni isteği gönder
+    const response = await axios.post(
+      `${urlApi}/api/posts/like/${post._id}/${userId}`
+    );
+
+    // Potansiyel hatalar için API yanıtını kontrol et
+    if (response.status === 200) {
+      dispatch(setLikeData({ post, userId: userId }));
+      // Başarılı beğeni işlemi
+      console.log("Post beğenildi");
+    }
+  } catch (error) {
+    // Beklenmeyen hataları ele al
+      console.log(error.message);
+  }
+};
+
+const unLike = (post) => async (dispatch) => {
+  try {
+    // Kullanıcıya beğeni geri alma işlemi gerçekleştiriliyor olarak göster
+
+    // Sunucuya beğeni geri alma isteği gönder
+    const response = await axios.post(
+      `${urlApi}/api/posts/unlike/${post._id}/${userId}`
+    );
+
+    // Potansiyel hatalar için API yanıtını kontrol et
+    if (response.status === 200) {
+      dispatch(setLikeData({ post, userId: userId }));
+      console.log("Post beğenildi");
+    }
+  } catch (error) {
+    // Beklenmeyen hataları ele al
+      console.log(error.message);
+  }
+};
+
 export {
   getHomeData,
   getPrivateMeData,
@@ -179,5 +220,7 @@ export {
   getFavoritesPosts,
   getProfilePosts,
   getProfileLikesPosts,
+  like,
+  unLike,
   createPost,
 };

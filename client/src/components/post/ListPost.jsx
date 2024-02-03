@@ -11,10 +11,10 @@ const ListPost = ({ data,getPosts }) => {
       next={()=>getPosts()}
       hasMore={data.pagination.hasMore}
       loader={<PostSkeleton />}
-      endMessage={<p style={{textAlign:"center"}}>Gösterilecek başka post yok</p>}
+      endMessage={<p style={{textAlign:"center", fontSize:".8rem"}}>{data.posts.length} öğe listelendi. Gösterilecek başka post yok</p>}
     >
       {data.posts.map((post, index) => (
-        <Post key={index} post={post} />
+        <Post key={index} post={post}/>
       ))}
     </InfinieScroll>
   );

@@ -58,8 +58,7 @@ const ProfileLayout = () => {
   useEffect(() => {
     dispatch(getProfile(username));
     dispatch(getProfilePosts({ page: 1, hasMore: true }, username));
-    ProfileLikesData.posts.length === 0 &&
-      dispatch(getProfileLikesPosts({ page: 1, hasMore: true }, username));
+    dispatch(getProfileLikesPosts({ page: 1, hasMore: true }, username));
   }, [username]);
   return (
     <div id="profile-layout-container">

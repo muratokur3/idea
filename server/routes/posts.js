@@ -322,8 +322,8 @@ router.post("/like/:postId/:userId", async (req, res) => {
     const post = await PostChema.findById(postId);
 
     // Kullanıcının zaten beğendiği kontrol ediliyor
-    if (post.likes.find((userID) => userID === userId)) {
-      return res.status(403).json("Bu postu zaten beğendiniz");
+    if (post.likes.some((id) => id.toString() === userId)) {
+      return res.status(304).json("Bu postu zaten beğendiniz");
     }
 
     // likes dizisine yeni kullanıcı ekleniyor
@@ -347,9 +347,9 @@ router.post("/unlike/:postId/:userId", async (req, res) => {
     const post = await PostChema.findById(postId);
 
     // Kullanıcının zaten beğendiği kontrol ediliyor
-    // if (!post.likes.find((userID) => userID === userId)) {
-    //   return res.status(403).json("Bu postu zaten beğenmediniz");
-    // }
+    if (!post.likes.find((id) => id.toString() === userId)) {
+      return res.status(304).json("Bu postu zaten beğenmediniz");
+    }
 
     // likes dizisine kullanıcı siliniyor
     await post.updateOne({ $pull: { likes: userId } });
