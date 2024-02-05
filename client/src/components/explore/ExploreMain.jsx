@@ -8,7 +8,7 @@ const ExploreMain = () => {
   const exploreData = useSelector((state) => state.posts.explore);
 
   useEffect(() => {
-   exploreData.posts.length===0&& dispatch(getExploreData(exploreData.pagination));
+   dispatch(getExploreData({page:1,hasMore:true}));
   }
   , []);
 

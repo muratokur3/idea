@@ -10,17 +10,13 @@ import UserDetail from "../components/profile/UserDetail";
 
 import "./profile.scss";
 import ListPost from "../components/post/ListPost";
-import {
-  getProfileLikesPosts,
-  getProfilePosts,
-} from "../redux/actions/PostActions";
+import { getProfilePosts } from "../redux/actions/PostActions";
 const ProfileLayout = () => {
   const { username } = useParams();
   const profile = useSelector((state) => state.profile);
   const profilePage = useSelector((state) => state.ui.profilePage);
   const dispatch = useDispatch();
   const profilePostsData = useSelector((state) => state.posts.profilePosts);
-  const ProfileLikesData = useSelector((state) => state.posts.profileLikes);
 
   const page = () => {
     switch (profilePage) {
@@ -30,17 +26,6 @@ const ProfileLayout = () => {
             data={profilePostsData}
             getPosts={() =>
               dispatch(getProfilePosts(profilePostsData.pagination, username))
-            }
-          />
-        );
-      case "like":
-        return (
-          <ListPost
-            data={ProfileLikesData}
-            getPosts={() =>
-              dispatch(
-                getProfileLikesPosts(ProfileLikesData.pagination, username)
-              )
             }
           />
         );
@@ -58,7 +43,6 @@ const ProfileLayout = () => {
   useEffect(() => {
     dispatch(getProfile(username));
     dispatch(getProfilePosts({ page: 1, hasMore: true }, username));
-    dispatch(getProfileLikesPosts({ page: 1, hasMore: true }, username));
   }, [username]);
   return (
     <div id="profile-layout-container">

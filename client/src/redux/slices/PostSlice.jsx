@@ -69,13 +69,13 @@ export const postSlice = createSlice({
       state.privateMe.pagination.hasMore = action.payload.pagination.hasMore;
     },
     setExplore: (state, action) => {
-      if (action.payload.posts.length === 0) {
-        state.explore.posts = [];
+      if (action.payload.pagination.page === 2) {
+        const { posts, pagination } = action.payload;
+        state.explore = { posts, pagination };
       } else {
         state.explore.posts.push(...action.payload.posts);
+        state.explore.pagination.page = action.payload.pagination;
       }
-      state.explore.pagination.page = action.payload.pagination.page;
-      state.explore.pagination.hasMore = action.payload.pagination.hasMore;
     },
     setHashtagExplore: (state, action) => {
       if (action.payload.pagination.page === 2) {
@@ -89,14 +89,18 @@ export const postSlice = createSlice({
       }
     },
     setFavorites: (state, action) => {
+      if (action.payload.pagination.page === 2) {
+        state.favorites = action.payload;
+      }
+      else
+      {
       state.favorites.posts.push(...action.payload.posts);
-      state.favorites.pagination.page = action.payload.pagination.page;
-      state.favorites.pagination.hasMore = action.payload.pagination.hasMore;
+      state.favorites.pagination=action.payload.pagination;
+    }
     },
     setProfilePosts: (state, action) => {
       if (action.payload.pagination.page === 2) {
-        const { posts, pagination } = action.payload;
-        state.profilePosts = { posts, pagination };
+        state.profilePosts =action.payload;
       } else {
         state.profilePosts.posts.push(...action.payload.posts);
         state.profilePosts.pagination.page = action.payload.pagination.page;
@@ -115,17 +119,7 @@ export const postSlice = createSlice({
       }
     },
     setLikeData: (state, action) => {
-      const { post, userId } = action.payload;
-
-      const newPost = {
-        ...post,
-        likes: post.likes.some((id) => id === userId)
-          ? post.likes.filter((id) => id !== userId)
-          : [...post.likes, userId],
-        likesCount: post.likes.some((id) => id === userId)
-          ? post.likesCount - 1
-          : post.likesCount + 1,
-      };
+      const {newPost } = action.payload;
 
       state.home.posts = state.home.posts.map((p) =>
         p._id === newPost._id ? newPost : p
@@ -146,21 +140,9 @@ export const postSlice = createSlice({
         p._id === newPost._id ? newPost : p
       );
       state.profileLikes.posts = state.profileLikes.posts
-        .map((p) => {
-          if (p._id === post._id) {
-            if (post.likes.some((id) => id === userId)) {
-              // Eğer kullanıcı daha önce beğendi ise, post'u diziden çıkar
-              return null;
-            } else {
-              // Eğer kullanıcı daha önce beğenmedi ise, yeni post ile güncelle
-              return newPost;
-            }
-          } else {
-            return p;
-          }
-        })
-        .filter(Boolean); // Diziden null olanları temizle
-    },
+        .map((p) => p._id === newPost._id ? newPost : p
+        );
+    }
   },
 });
 

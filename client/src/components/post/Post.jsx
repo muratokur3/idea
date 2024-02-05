@@ -18,12 +18,15 @@ import Card from "@mui/material/Card";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 import "./scss/post.scss";
-import axios from "axios";
 import { useState } from "react";
-import { like, unLike } from "../../redux/actions/PostActions";
+import {
+  favorite,
+  like,
+  unFavorite,
+  unLike,
+} from "../../redux/actions/PostActions";
 import { useDispatch } from "react-redux";
 const Post = ({ post }) => {
-  const urlApi = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const LoginUserId = localStorage.getItem("userId");
   const dispatch = useDispatch();
@@ -45,76 +48,6 @@ const Post = ({ post }) => {
     setExpanded(!expanded);
   };
 
-  // const like = async (postId, userId) => {
-  //   try {
-  //     ubdatePosts(postId, userId, true);
-
-  //     // Sunucuya beğeni isteği gönder
-  //     const response = await axios.post(
-  //       `${urlApi}/api/posts/like/${postId}/${userId}`
-  //     );
-
-  //     // Potansiyel hatalar için API yanıtını kontrol et
-  //     if (response.status === 200) {
-  //       // Başarılı beğeni işlemi
-  //       console.log("Post beğenildi");
-  //     } else {
-  //       // Bir hata varsa, UI değişikliklerini geri al
-  //       ubdatePosts(postId, userId, true);
-  //       console.log(response.data.message); // Sunucudan gelen hata mesajını logla
-  //     }
-  //   } catch (error) {
-  //     // Beklenmeyen hataları ele al
-  //     ubdatePosts(postId, userId, false);
-  //       console.log("Post beğenilemedi geri alındı");
-  //       console.log(error.message);
-  //   }
-  // };
-
-  // const unLike = async (postId, userId) => {
-  //   try {
-  //     // Kullanıcıya beğeni geri alma işlemi gerçekleştiriliyor olarak göster
-  //     setIsLiked(false);
-  //     setLikeCount(likeCount - 1);
-
-  //     // Sunucuya beğeni geri alma isteği gönder
-  //     const response = await axios.post(
-  //       `${urlApi}/api/posts/unlike/${postId}/${userId}`
-  //     );
-
-  //     // Potansiyel hatalar için API yanıtını kontrol et
-  //     if (response.data.success) {
-  //       // Başarılı beğeni geri alma işlemi
-  //       console.log("Post beğeni geri alındı");
-  //     } else {
-  //       // Bir hata varsa, UI değişikliklerini geri al
-  //       setIsLiked(true);
-  //       setLikeCount(likeCount);
-  //       console.log(response.data.message); // Sunucudan gelen hata mesajını logla
-  //     }
-  //   } catch (error) {
-  //     // Beklenmeyen hataları ele al
-  //     setIsLiked(true);
-  //     setLikeCount(likeCount);
-  //     console.log(error.message);
-  //   }
-  // };
-
-  const favorite = async (postId, userId) => {
-    try {
-      await axios.post(`${urlApi}/api/posts/favorites/${postId}/${userId}`);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const unFavorite = async (postId, userId) => {
-    try {
-      await axios.post(`${urlApi}/api/posts/unfavorites/${postId}/${userId}`);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
   return (
     <Card
       sx={{
@@ -192,9 +125,9 @@ const Post = ({ post }) => {
           </IconButton>
           <IconButton aria-label="favorites">
             {post.favorites.find((userId) => userId === LoginUserId) ? (
-              <StarIcon onClick={() => unFavorite(post._id, LoginUserId)} />
+              <StarIcon onClick={() => dispatch(unFavorite(post))} />
             ) : (
-              <StarBorderIcon onClick={() => favorite(post._id, LoginUserId)} />
+              <StarBorderIcon onClick={() => dispatch(favorite(post))} />
             )}
           </IconButton>
         </Box>

@@ -8,7 +8,7 @@ const Favorite = () => {
   const dispatch = useDispatch();
   
   useEffect(() => {
-    favoriteData.posts.length===0&& dispatch(getFavoritesPosts(favoriteData.pagination, username));
+    dispatch(getFavoritesPosts({page:1,hasMore:true}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <ListPost data={favoriteData} getPosts={()=>dispatch(getFavoritesPosts(favoriteData.pagination, username))} />;
