@@ -180,17 +180,16 @@ const like = (post) => async (dispatch) => {
     );
     const newPost = {
       ...post,
-      likes: post.likes.some((id) => id === userId)
-        ? post.likes.filter((id) => id !== userId)
+      likes: new Set(post.likes).has(userId)
+        ? post.likes
         : [...post.likes, userId],
-      likesCount: post.likes.some((id) => id === userId)
-        ? post.likesCount - 1
-        : post.likesCount + 1,
+      likesCount:
+        new Set(post.likes).has(userId) === false && post.likesCount + 1,
     };
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData({newPost }));
+      dispatch(setLikeData({ newPost }));
       // Başarılı beğeni işlemi
       console.log("Post beğenildi");
     }
@@ -210,16 +209,15 @@ const unLike = (post) => async (dispatch) => {
     );
     const newPost = {
       ...post,
-      likes: post.likes.some((id) => id === userId)
-        ? post.likes.filter((id) => id !== userId)
-        : [...post.likes, userId],
-      likesCount: post.likes.some((id) => id === userId)
-        ? post.likesCount - 1
-        : post.likesCount + 1,
+      likes:
+        new Set(post.likes).has(userId) &&
+        post.likes.filter((id) => id !== userId),
+      likesCount:
+        new Set(post.likes).has(userId) === true && post.likesCount - 1,
     };
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData({newPost }));
+      dispatch(setLikeData({ newPost }));
       console.log("Post beğenisi geri alındı");
     }
   } catch (error) {
@@ -235,14 +233,14 @@ const favorite = (post) => async (dispatch) => {
     );
     const newPost = {
       ...post,
-      favorites: post.favorites.some((id) => id === userId)
-        ? post.favorites.filter((id) => id !== userId)
+      favorites: new Set(post.favorites).has(userId)
+        ? post.favorites
         : [...post.favorites, userId],
     };
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData({newPost }));
+      dispatch(setLikeData({ newPost }));
       // Başarılı beğeni işlemi
       console.log("favoriye eklendi");
     }
@@ -258,14 +256,15 @@ const unFavorite = (post) => async (dispatch) => {
     );
     const newPost = {
       ...post,
-      favorites: post.favorites.some((id) => id === userId)
-        ? post.favorites.filter((id) => id !== userId)
-        : [...post.favorites, userId],
+      favorites:
+        new Set(post.favorites).has(userId)
+        ?post.favorites.filter((id) => id !== userId)
+        : post.favorites,
     };
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData({newPost }));
+      dispatch(setLikeData({ newPost }));
       // Başarılı beğeni işlemi
       console.log("favoriden çıkarıldı");
     }

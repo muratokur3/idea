@@ -13,11 +13,21 @@ export const userSlice = createSlice({
     setFollowing: (state, action) => {
       state.following = action.payload;
     },
-   setFollowers: (state, action) => {
+    setFollowers: (state, action) => {
       state.followers = action.payload;
+    },
+    ubdateUserFollow: (state, action) => {
+      const { newUser } = action.payload;
+      state.following = state.following.map((user) =>
+        user._id === newUser._id ? newUser : user
+      );
+      state.followers = state.followers.map((user) =>
+        user._id === newUser._id ? newUser : user
+      );
+      
     },
   },
 });
 
-export const { setFollowing,setFollowers } = userSlice.actions;
+export const { setFollowing,setFollowers,ubdateUserFollow } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,74 +1,93 @@
 import { Avatar, Button, CardContent, Typography } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
-import { red } from "@mui/material/colors";
+import CardHeader from "@mui/material/CardHeader";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { red } from "@mui/material/colors";
 import { useDispatch } from "react-redux";
-import { followUser } from "../../redux/actions/ProfileAction";
+import Card from "@mui/material/Card";
+import PropTypes from "prop-types";
+import { follow, unfollow } from "../../redux/actions/ProfileAction";
 // import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const UserCard = ({ user }) => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const activeUserId = localStorage.getItem("userId");
-  const activeUser=JSON.parse(localStorage.getItem("user"));
-  const [isFollowed, setIsFollowed] = useState(false);
-  const isFollow =async () => {
-  
-      activeUser &&
-      user &&
-     setIsFollowed(user.followers.some((u) => u === activeUser.id )) 
-  };
+  const activeUser = JSON.parse(localStorage.getItem("user"));
+ 
 
-  useEffect(() => {
-    isFollow();
-  }, [user]
-  );
   return (
-    <Card sx={{ maxWidth: "100%", backgroundColor: "rgba(10, 9, 9, 0.713)", marginTop:"10px"}}>
+    <Card
+      sx={{
+        maxWidth: "100%",
+        backgroundColor: "rgba(10, 9, 9, 0.713)",
+        marginTop: "10px",
+      }}
+    >
       <CardHeader
         avatar={
-          <Avatar src={user.avatar} sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar
+            src={user.avatar}
+            sx={{ bgcolor: red[500] }}
+            aria-label="recipe"
+          >
             R
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            {/* <MoreVertIcon /> */}
-            {activeUser && activeUser.id !== user._id && (
-           <Button
-           className="follow-button"
-           variant="contained"
-          
-           onClick={() => dispatch(followUser(activeUserId, user._id))}
-         >
-           {isFollowed ? "Takibi Bırak" : "Takip Et"}
-         </Button>)}
-          </IconButton>
+          user.followers.some((u) => u === activeUser.id) ? (
+            <IconButton aria-label="settings">
+              {activeUser && activeUser.id !== user._id && (
+                <Button
+                  className="follow-button"
+                  variant="contained"
+                  onClick={() => dispatch(unfollow(activeUser,activeUserId, user._id))}
+                >
+                  Takibi Bırak
+                </Button>
+              )}
+            </IconButton>
+          ) : (
+            <IconButton aria-label="settings">
+              {activeUser && activeUser.id !== user._id && (
+                <Button
+                  className="follow-button"
+                  variant="contained"
+                  onClick={() => dispatch(follow(activeUser,activeUserId, user._id))}
+                >
+                  Takip Et
+                </Button>
+              )}
+            </IconButton>
+          )
         }
         title={`${user.name} ${user.surname}`}
         titleTypographyProps={{ fontSize: "1rem" }}
-        subheader={<Typography onClick={()=>navigate(`/${user.username}`)}
-        sx={{ fontSize: "0.8rem", color: "gray",cursor:"pointer" }}>
-          @{user.username}
-        </Typography>}
+        subheader={
+          <Typography
+            onClick={() => navigate(`/${user.username}`)}
+            sx={{ fontSize: "0.8rem", color: "gray", cursor: "pointer" }}
+          >
+            @{user.username}
+          </Typography>
+        }
       />
       <CardContent
         sx={{
-          color:"white",
+          color: "white",
           fontSize: "0.7rem",
           padding: "10px",
         }}
       >
-        {user.bio}
+        {user.followers.length} Takipçi {user.following.length} Takip Edilen
       </CardContent>
-      <CardActions ></CardActions>
+      <CardActions></CardActions>
     </Card>
   );
 };
 
 export default UserCard;
-
+UserCard.propTypes = {
+  user: PropTypes.object.isRequired,
+};
