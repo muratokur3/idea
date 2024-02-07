@@ -60,52 +60,42 @@ export const postSlice = createSlice({
   reducers: {
     setHome: (state, action) => {
       state.home.posts.push(...action.payload.posts);
-      state.home.pagination.page = action.payload.pagination.page;
-      state.home.pagination.hasMore = action.payload.pagination.hasMore;
+      state.home.pagination = action.payload.pagination;
     },
     setPrivateMe: (state, action) => {
       state.privateMe.posts.push(...action.payload.posts);
-      state.privateMe.pagination.page = action.payload.pagination.page;
-      state.privateMe.pagination.hasMore = action.payload.pagination.hasMore;
+      state.privateMe.pagination = action.payload.pagination;
     },
     setExplore: (state, action) => {
       if (action.payload.pagination.page === 2) {
-        const { posts, pagination } = action.payload;
-        state.explore = { posts, pagination };
+        state.explore = action.payload;
       } else {
         state.explore.posts.push(...action.payload.posts);
-        state.explore.pagination.page = action.payload.pagination;
+        state.explore.pagination = action.payload.pagination;
       }
     },
     setHashtagExplore: (state, action) => {
       if (action.payload.pagination.page === 2) {
-        const { posts, pagination } = action.payload;
-        state.hashtagExplore = { posts, pagination };
+        state.hashtagExplore = action.payload;
       } else {
         state.hashtagExplore.posts.push(...action.payload.posts);
-        state.hashtagExplore.pagination.page = action.payload.pagination.page;
-        state.hashtagExplore.pagination.hasMore =
-          action.payload.pagination.hasMore;
+        state.hashtagExplore.pagination = action.payload.pagination;
       }
     },
     setFavorites: (state, action) => {
       if (action.payload.pagination.page === 2) {
         state.favorites = action.payload;
+      } else {
+        state.favorites.posts.push(...action.payload.posts);
+        state.favorites.pagination = action.payload.pagination;
       }
-      else
-      {
-      state.favorites.posts.push(...action.payload.posts);
-      state.favorites.pagination=action.payload.pagination;
-    }
     },
     setProfilePosts: (state, action) => {
       if (action.payload.pagination.page === 2) {
-        state.profilePosts =action.payload;
+        state.profilePosts = action.payload;
       } else {
         state.profilePosts.posts.push(...action.payload.posts);
-        state.profilePosts.pagination.page = action.payload.pagination.page;
-        state.profilePosts.pagination.hasMore =
-          action.payload.pagination.hasMore;
+        state.profilePosts.pagination = action.payload.pagination;
       }
     },
     setProfileLikes: (state, action) => {
@@ -113,13 +103,11 @@ export const postSlice = createSlice({
         state.profileLikes = action.payload;
       } else {
         state.profileLikes.posts.push(...action.payload.posts);
-        state.profileLikes.pagination.page = action.payload.pagination.page;
-        state.profileLikes.pagination.hasMore =
-          action.payload.pagination.hasMore;
+        state.profileLikes.pagination = action.payload.pagination;
       }
     },
     setLikeData: (state, action) => {
-      const {newPost } = action.payload;
+      const newPost = action.payload;
 
       state.home.posts = state.home.posts.map((p) =>
         p._id === newPost._id ? newPost : p
@@ -139,10 +127,10 @@ export const postSlice = createSlice({
       state.profilePosts.posts = state.profilePosts.posts.map((p) =>
         p._id === newPost._id ? newPost : p
       );
-      state.profileLikes.posts = state.profileLikes.posts
-        .map((p) => p._id === newPost._id ? newPost : p
-        );
-    }
+      state.profileLikes.posts = state.profileLikes.posts.map((p) =>
+        p._id === newPost._id ? newPost : p
+      );
+    },
   },
 });
 

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState =
  {
     newPostPage: false,
+    newProjectPage: false,
     authPage: false,
     authItem:"login",
     registerPage: false,
@@ -14,6 +15,9 @@ export const uiSlice = createSlice({
     reducers: {
         setNewPostPage(state, action) {
             state.newPostPage = action.payload;
+        },
+        setNewProjectPage(state, action) {
+            state.newProjectPage = action.payload;
         },
         setAuthPage(state, action) {
             state.authPage = action.payload;
@@ -30,5 +34,5 @@ export const uiSlice = createSlice({
     },
 });
 
-export const {setNewPostPage,setAuthPage,setAuthItem,setRegisterPage,setProfilePage} = uiSlice.actions;
+export const {setNewPostPage,setNewProjectPage,setAuthPage,setAuthItem,setRegisterPage,setProfilePage} = uiSlice.actions;
 export default uiSlice.reducer;

@@ -23,9 +23,9 @@ const ProfileMenu = () => {
 
           />
           <Tab
-            value={"detail"}
-            label="Hakkında"
-            onClick={() => dispatch(setProfilePage("detail"))}
+            value={"cv"}
+            label="cv"
+            onClick={() => dispatch(setProfilePage("cv"))}
 
           />
           <Tab

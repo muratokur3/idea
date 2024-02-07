@@ -1,21 +1,22 @@
-import { Outlet, useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getProfile } from "../redux/actions/ProfileAction";
-import ProfileMenu from "../components/menu/ProfileMenu";
-import Follow from "../components/profile/Follow";
-import Detail from "../components/profile/Detail";
-import Project from "../components/profile/Project";
-import UserDetail from "../components/profile/UserDetail";
-
-import "./profile.scss";
-import ListPost from "../components/post/ListPost";
 import { getProfilePosts } from "../redux/actions/PostActions";
+import UserDetail from "../components/profile/UserDetail";
+import ProfileMenu from "../components/menu/ProfileMenu";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useParams } from "react-router-dom";
+import Project from "../components/profile/Project";
+import ListPost from "../components/post/ListPost";
+import Follow from "../components/profile/Follow";
+import UserCv from "../components/profile/UserCv";
+import { useEffect } from "react";
+import "./profile.scss";
+import NewProjectPage from "../Modals/NewProject";
+
 const ProfileLayout = () => {
-  const { username } = useParams();
-  const profile = useSelector((state) => state.profile);
-  const profilePage = useSelector((state) => state.ui.profilePage);
   const dispatch = useDispatch();
+  const { username } = useParams();
+  const profileData = useSelector((state) => state.profile);
+  const profilePage = useSelector((state) => state.ui.profilePage);
+  const newProjectPage = useSelector((state) => state.ui.newProjectPage);
   const profilePostsData = useSelector((state) => state.posts.profilePosts);
 
   const page = () => {
@@ -31,8 +32,8 @@ const ProfileLayout = () => {
         );
       case "follow":
         return <Follow />;
-      case "detail":
-        return <Detail />;
+      case "cv":
+        return <UserCv />;
       case "project":
         return <Project />;
       default:
@@ -41,12 +42,12 @@ const ProfileLayout = () => {
   };
 
   useEffect(() => {
-    dispatch(getProfile(username));
     dispatch(getProfilePosts({ page: 1, hasMore: true }, username));
   }, [username]);
   return (
     <div id="profile-layout-container">
-      <UserDetail user={profile} />
+      {newProjectPage&&<NewProjectPage />}
+      <UserDetail profileData={profileData} />
       <ProfileMenu />
       {page()}
     </div>

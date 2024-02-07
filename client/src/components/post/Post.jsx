@@ -10,27 +10,27 @@ import Typography from "@mui/material/Typography";
 import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
 import StarIcon from "@mui/icons-material/Star";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Collapse from "@mui/material/Collapse";
 import { Avatar, Box } from "@mui/material";
 import { red } from "@mui/material/colors";
+import { useDispatch } from "react-redux";
 import Card from "@mui/material/Card";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
-import "./scss/post.scss";
 import { useState } from "react";
+import "./scss/post.scss";
 import {
   favorite,
   like,
   unFavorite,
   unLike,
 } from "../../redux/actions/PostActions";
-import { useDispatch } from "react-redux";
 const Post = ({ post }) => {
   const navigate = useNavigate();
-  const LoginUserId = localStorage.getItem("userId");
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
+  const LoginUserId = localStorage.getItem("userId");
   const ExpandMore = styled(IconButton)(({ expand }) => ({
     color: "white",
   }));
@@ -88,10 +88,11 @@ const Post = ({ post }) => {
           {post.title}
         </Typography>
         {post.hashtagsName.map((hashtag) => (
-          <Typography
+          <Link
             key={hashtag}
             variant="body3"
-            sx={{
+            style={{
+              textDecoration: "none",
               fontSize: ".8rem",
               display: "inline-block",
               marginRight: "10px",
@@ -99,10 +100,12 @@ const Post = ({ post }) => {
               backgroundColor: "gray",
               borderRadius: "10px",
               padding: "5px",
+              cursor: "pointer",
             }}
+           to={`/explore/${hashtag}`}
           >
             {hashtag}
-          </Typography>
+          </Link>
         ))}
       </CardContent>
       <CardActions
@@ -137,7 +140,10 @@ const Post = ({ post }) => {
           aria-expanded={expanded}
           aria-label="show more"
         >
-          <ExpandMoreIcon />
+           
+          <ExpandMoreIcon /><Typography fontSize={12} color="white" padding="10px">
+          detaylar
+        </Typography>
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>

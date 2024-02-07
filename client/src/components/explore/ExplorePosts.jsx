@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getExploreData,
   getHashtagExploreData,
 } from "../../redux/actions/PostActions";
 import ListPost from "../post/ListPost";
@@ -14,7 +13,7 @@ const ExploreLayout = () => {
   useEffect(() => {
     dispatch(getHashtagExploreData({page:1,hasMore:true}, hashtag));
     
-  }, []);
+  }, [hashtag,dispatch]);
   return (
     <>
       <ListPost

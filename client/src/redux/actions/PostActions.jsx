@@ -189,7 +189,7 @@ const like = (post) => async (dispatch) => {
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData({ newPost }));
+      dispatch(setLikeData( newPost ));
       // Başarılı beğeni işlemi
       console.log("Post beğenildi");
     }
@@ -217,7 +217,7 @@ const unLike = (post) => async (dispatch) => {
     };
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData({ newPost }));
+      dispatch(setLikeData(newPost));
       console.log("Post beğenisi geri alındı");
     }
   } catch (error) {
@@ -240,7 +240,7 @@ const favorite = (post) => async (dispatch) => {
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData({ newPost }));
+      dispatch(setLikeData( newPost ));
       // Başarılı beğeni işlemi
       console.log("favoriye eklendi");
     }
@@ -264,7 +264,7 @@ const unFavorite = (post) => async (dispatch) => {
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData({ newPost }));
+      dispatch(setLikeData( newPost ));
       // Başarılı beğeni işlemi
       console.log("favoriden çıkarıldı");
     }

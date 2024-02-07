@@ -1,22 +1,20 @@
+import { follow,  unfollow } from "../../redux/actions/ProfileAction";
 import { Avatar, Button, CardContent, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import CardHeader from "@mui/material/CardHeader";
-import { useNavigate } from "react-router-dom";
 import { red } from "@mui/material/colors";
-import { useDispatch } from "react-redux";
 import Card from "@mui/material/Card";
 import PropTypes from "prop-types";
-import { follow, unfollow } from "../../redux/actions/ProfileAction";
-// import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const UserCard = ({ user }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const activeUserId = localStorage.getItem("userId");
-  const activeUser = JSON.parse(localStorage.getItem("user"));
- 
-
+  const activeUser = useSelector((state) => state.authentication.user);
+  
   return (
     <Card
       sx={{
@@ -42,7 +40,9 @@ const UserCard = ({ user }) => {
                 <Button
                   className="follow-button"
                   variant="contained"
-                  onClick={() => dispatch(unfollow(activeUser,activeUserId, user._id))}
+                  onClick={() =>
+                    dispatch(unfollow(activeUserId, user._id, user))
+                  }
                 >
                   Takibi Bırak
                 </Button>
@@ -54,7 +54,7 @@ const UserCard = ({ user }) => {
                 <Button
                   className="follow-button"
                   variant="contained"
-                  onClick={() => dispatch(follow(activeUser,activeUserId, user._id))}
+                  onClick={() => dispatch(follow(activeUserId, user._id, user))}
                 >
                   Takip Et
                 </Button>
