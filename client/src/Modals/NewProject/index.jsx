@@ -11,6 +11,12 @@ import "./new-project-page.scss";
 import { createProject } from "../../redux/actions/ProjectAction";
 
 const NewProjectPage = () => {
+
+
+ 
+
+
+
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
@@ -18,6 +24,8 @@ const NewProjectPage = () => {
   const [selectedHashtags, setSelectedHashtags] = useState([]);
   const [githubAdress, setGithubAdress] = useState("");
   const [projectAdress, setProjectAdress] = useState("");
+  const [projectName, setProjectName] = useState("");
+  const [createDate, setCreateDate] = useState("");
   const hashtags = useSelector((state) => state.hashtags.hashtags);
   const user = useSelector((state) => state.authentication.user);
 
@@ -25,10 +33,13 @@ const NewProjectPage = () => {
     e.preventDefault();
     const newProject = {
       userId: user.id,
+      name: projectName,
       title: title,
       content,
       githubAdress,
       projectAdress,
+      createDate,
+      logo:"https://picsum.photos/200/300?random=1",
       hashtags: selectedHashtags.map((hashtag) => hashtag._id),
     };
     dispatch(createProject(newProject));
@@ -36,6 +47,8 @@ const NewProjectPage = () => {
     setTitle("");
     setProjectAdress("");
     setGithubAdress("");
+    setProjectName("");
+    setCreateDate("");
     setSelectedHashtags([]);
     dispatch(setNewPostPage(false));
   };
@@ -53,16 +66,86 @@ const NewProjectPage = () => {
           sx={{ width: 80, height: 80 }}
         />
         <form onSubmit={handleSubmit} id="new-project-form">
-          <p
-            style={{
-              color: "rgba(105, 102, 102, 0.697)",
-              position: "absolute",
-              top: 0,
-              right: 0,
+          <TextField
+            onChange={(e) => {
+              setProjectName(e.target.value);
             }}
-          >
-            {175 - title.length}
-          </p>
+            value={projectName}
+            className="adress"
+            sx={{
+              "& .MuiInputBase-input::placeholder": { color: "white" },
+            }}
+            InputLabelProps={{
+              style: { color: "white" },
+            }}
+            inputProps={{
+              style: { color: "white" }, // input öğesinin yazı rengini beyaz yapar
+            }}
+            id="outlined-basic"
+            label="Projenin Adı"
+            variant="outlined"
+            placeholder="ideacom..."
+          />
+          <TextField
+            onChange={(e) => {
+              setProjectAdress(e.target.value);
+            }}
+            value={projectAdress}
+            className="adress"
+            sx={{
+              "& .MuiInputBase-input::placeholder": { color: "white" },
+            }}
+            InputLabelProps={{
+              style: { color: "white" },
+            }}
+            inputProps={{
+              style: { color: "white" }, // input öğesinin yazı rengini beyaz yapar
+            }}
+            id="outlined-basic"
+            label="Projenin adresi"
+            variant="outlined"
+            placeholder="hhtps://"
+          />
+          <TextField
+            onChange={(e) => {
+              setGithubAdress(e.target.value);
+            }}
+            value={githubAdress}
+            className="adress"
+            sx={{
+              "& .MuiInputBase-input::placeholder": { color: "white" },
+            }}
+            InputLabelProps={{
+              style: { color: "white" },
+            }}
+            inputProps={{
+              style: { color: "white" }, // input öğesinin yazı rengini beyaz yapar
+            }}
+            id="outlined-basic"
+            label="Github Adresi"
+            variant="outlined"
+            placeholder="hhtps://"
+          />
+          <TextField
+            onChange={(e) => {
+              setCreateDate(e.target.value);
+            }}
+            value={createDate}
+            className="adress"
+            sx={{
+              "& .MuiInputBase-input::placeholder": { color: "white" },
+            }}
+            InputLabelProps={{
+              style: { color: "white" },
+            }}
+            inputProps={{
+              style: { color: "white" }, // input öğesinin yazı rengini beyaz yapar
+            }}
+            id="outlined-basic"
+            label="Projenin oluşturma tarihi"
+            variant="outlined"
+            placeholder="1 Aralık 2021..."
+          />
 
           <TextareaAutosize
             className="title-textarea"
@@ -73,7 +156,7 @@ const NewProjectPage = () => {
             minRows={3}
             maxRows={3}
             maxLength={175}
-            placeholder="Proje adı veya başlığı"
+            placeholder="Proje kısa açıklaması"
             sx={{
               marginBottom: "20px",
               fontFamily: "monospace",
@@ -97,51 +180,6 @@ const NewProjectPage = () => {
             }}
             required
           />
-          <p
-            style={{
-              color: "rgba(105, 102, 102, 0.697)",
-              position: "absolute",
-              top: "33%",
-              right: 0,
-            }}
-          >
-            {1500 - content.length}
-          </p>
-          <TextField
-          onChange={(e) => {setProjectAdress(e.target.value)}}
-            className="adress"
-            sx={{
-              "& .MuiInputBase-input::placeholder": { color: "white" },
-            }}
-            InputLabelProps={{
-              style: { color: "white" },
-            }}
-            inputProps={{
-              style: { color: "white" }, // input öğesinin yazı rengini beyaz yapar
-            }}
-            id="outlined-basic"
-            label="Projenin adresi"
-            variant="outlined"
-            placeholder="hhtps://"
-          />
-          <TextField
-          onChange={(e) => {setGithubAdress(e.target.value)}}
-            className="adress"
-            sx={{
-              "& .MuiInputBase-input::placeholder": { color: "white" },
-            }}
-            InputLabelProps={{
-              style: { color: "white" },
-            }}
-            inputProps={{
-              style: { color: "white" }, // input öğesinin yazı rengini beyaz yapar
-            }}
-            id="outlined-basic"
-            label="Github Adresi"
-            variant="outlined"
-            placeholder="hhtps://"
-          />
-
           <Autocomplete
             onChange={(e, value) => {
               setSelectedHashtags(value);

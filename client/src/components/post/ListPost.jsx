@@ -13,10 +13,11 @@ const ListPost = ({ data,getPosts }) => {
       loader={<PostSkeleton />}
       endMessage={<p style={{textAlign:"center", fontSize:".8rem"}}>{data.posts.length} öğe listelendi. Gösterilecek başka post yok</p>}
     >
-      {data.posts.map((post, index) => (
+     {data.posts.map((post, index) => (
         <Post key={index} post={post}/>
       ))}
     </InfinieScroll>
+     
   );
 };
 
