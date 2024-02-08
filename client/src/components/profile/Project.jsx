@@ -15,25 +15,26 @@ const Project = () => {
   const { username } = useParams();
 
   useEffect(() => {
-    projectData.projects.length === 0 &&
       dispatch(getProjects({ page: 1, hasMore: true }, username));
-  }, []);
+  }, [username, dispatch],);
 
   return (
     <div id="project-container">
-      <Button
+     {username === localStorage.getItem("username") && (
+        <Button
         variant="contained"
         color="primary"
         size="large"
         onClick={() => dispatch(setNewProjectPage(true))}
       >
-        Yeni Proje
+        Yeni Proje Ekle
       </Button>
+      )}
       {projectData.projects.map((project, index) => (
         <ProjectCard key={index} project={project} />
       ))}
       <InfinieScroll
-        dataLength={projectData.projects}
+        dataLength={projectData.projects.length}
         next={() => dispatch(getProjects({ page: projectData.pagination.page},username ))}
         hasMore={projectData.pagination.hasMore}
         loader={<ProjectSkeleton />}

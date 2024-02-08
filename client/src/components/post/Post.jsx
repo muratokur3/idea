@@ -54,6 +54,7 @@ const Post = ({ post }) => {
         maxWidth: "100%",
         backgroundColor: "rgba(13, 13, 13, 0.63)",
         marginTop: "10px",
+        paddingLeft: "1%",
       }}
     >
       <CardHeader

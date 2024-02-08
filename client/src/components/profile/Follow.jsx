@@ -14,7 +14,7 @@ const Follow = () => {
   useEffect(() => {
     dispatch(getFollowers(username));
     dispatch(getFollowing(username));
-  }, [username, dispatch, follow]);
+  }, [username, dispatch, follow,setFollow]);
   return (
     <Fragment>
       <Tabs value={follow} id="tabs" centered textColor="white">

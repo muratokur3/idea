@@ -22,16 +22,16 @@ const ProfileMenu = () => {
             onClick={() => dispatch(setProfilePage("follow"))}
 
           />
-          <Tab
-            value={"cv"}
-            label="cv"
-            onClick={() => dispatch(setProfilePage("cv"))}
-
-          />
+          
           <Tab
             value={"project"}
             label="Projeler"
             onClick={() => dispatch(setProfilePage("project"))}
+          /><Tab
+            value={"cv"}
+            label="cv"
+            onClick={() => dispatch(setProfilePage("cv"))}
+
           />
         </Tabs>
     </div>

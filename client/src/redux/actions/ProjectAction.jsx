@@ -13,8 +13,8 @@ const getProjects = (pagination, username) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     });
-    if (response.status === 200) {
-        console.log(response.data);
+    if (response.status === 200 ) {
+      console.log(response.data);
       dispatch(setProjects(response.data));
     }
   } catch (error) {
@@ -39,18 +39,18 @@ const createProject = (data) => async (dispatch) => {
   }
 };
 
-const deleteProject = (id) => {
-  return (dispatch) => {
-    dispatch({ type: "DELETE_PROJECT_REQUEST" });
-    axios
-      .delete(`http://localhost:3000/projects/${id}`)
-      .then((response) => {
-        dispatch({ type: "DELETE_PROJECT_SUCCESS", payload: id });
-      })
-      .catch((error) => {
-        dispatch({ type: "DELETE_PROJECT_FAILURE", payload: error });
-      });
-  };
-};
+// const deleteProject = (id) => {
+//   return (dispatch) => {
+//     dispatch({ type: "DELETE_PROJECT_REQUEST" });
+//     axios
+//       .delete(`http://localhost:3000/projects/${id}`)
+//       .then((response) => {
+//         dispatch({ type: "DELETE_PROJECT_SUCCESS", payload: id });
+//       })
+//       .catch((error) => {
+//         dispatch({ type: "DELETE_PROJECT_FAILURE", payload: error });
+//       });
+//   };
+// };
 
-export { getProjects, createProject, deleteProject };
+export { getProjects, createProject };
