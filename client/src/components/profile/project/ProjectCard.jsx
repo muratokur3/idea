@@ -10,12 +10,12 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PropTypes from "prop-types";
 import LinkIcon from '@mui/icons-material/Link';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import IosShareIcon from "@mui/icons-material/IosShare";
 import { Box } from "@mui/material";
+import ActionsButton from "../../../Modals/ActionsButton";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -34,7 +34,7 @@ const ProjectCard = ({ project }) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+// const LoginUserId = localStorage.getItem("userId");
   return (
     <Card
       sx={{
@@ -57,10 +57,11 @@ const ProjectCard = ({ project }) => {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
+          <ActionsButton actions={[
+             { label: "Bildir", onClick: () => {alert("Bildir")} },
+
+           ]} />
+         }
         title={project.name}
         titleTypographyProps={{ color: "white", fontSize: "1.2rem" }}
         subheader={

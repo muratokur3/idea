@@ -1,8 +1,8 @@
 
 import { useState } from 'react';
 import { Button, TextField, Typography } from '@mui/material';
-import './scss/user-cv.scss'
-const UserCv = () => {
+import './user-info.scss'
+const ProfileEdit = () => {
 
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState('');
@@ -102,4 +102,4 @@ const UserCv = () => {
           );
 }
 
-export default UserCv
+export default ProfileEdit;

@@ -26,6 +26,7 @@ import {
   unFavorite,
   unLike,
 } from "../../redux/actions/PostActions";
+import ActionsButton from "../../Modals/ActionsButton";
 const Post = ({ post }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -68,9 +69,10 @@ const Post = ({ post }) => {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+         <ActionsButton actions={[
+            { label: "Bildir", onClick: () => {alert("bildir")} },
+            post.userId === LoginUserId&&{ label: "Sil", onClick: () => {alert("sil")} },
+          ]} />
         }
         title={post.name + " " + post.surname}
         subheader={

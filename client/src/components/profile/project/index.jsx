@@ -1,13 +1,13 @@
 import { Button } from "@mui/material";
 import ProjectCard from "./ProjectCard";
-import "./scss/project.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { setNewProjectPage } from "../../redux/slices/UiSlice";
+import { setNewProjectPage } from '../../../redux/slices/UiSlice'
 import { useEffect } from "react";
-import { getProjects } from "../../redux/actions/ProjectAction";
+import { getProjects } from '../../../redux/actions/ProjectAction'
 import InfinieScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
-import ProjectSkeleton from "../skeleton/ProjectSkeleton";
+import ProjectSkeleton from '../../skeleton/ProjectSkeleton'
+import "./project.scss";
 
 const Project = () => {
   const projectData = useSelector((state) => state.project);

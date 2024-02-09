@@ -1,5 +1,5 @@
-import { follow,  unfollow } from "../../redux/actions/ProfileAction";
-import { Avatar, Button, CardContent, Typography } from "@mui/material";
+import { follow, unfollow } from "../../redux/actions/ProfileAction";
+import { Avatar, Box, Button, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CardActions from "@mui/material/CardActions";
@@ -14,7 +14,7 @@ const UserCard = ({ user }) => {
   const dispatch = useDispatch();
   const activeUserId = localStorage.getItem("userId");
   const activeUser = useSelector((state) => state.authentication.user);
-  
+
   return (
     <Card
       sx={{
@@ -73,6 +73,14 @@ const UserCard = ({ user }) => {
           </Typography>
         }
       />
+      {/* <Box sx={{ display: "flex", alignItems:"end",gap:"5px" }}>
+           
+           <Typography sx={{ fontSize: "10px" }}>
+            {user.followers.length} Takipçi {user.following.length} Takip
+            Edilen
+          </Typography>
+          
+        </Box> */}
       <CardContent
         sx={{
           color: "white",
@@ -80,7 +88,9 @@ const UserCard = ({ user }) => {
           padding: "10px",
         }}
       >
-        {user.followers.length} Takipçi {user.following.length} Takip Edilen
+        <p style={{ fontSize: "13px" }}>
+          🖥️ 😍bir yazılım geliştirici ve tasarımcıyım 💻👨🏻‍💻😅🔆
+        </p>
       </CardContent>
       <CardActions></CardActions>
     </Card>
