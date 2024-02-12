@@ -7,7 +7,7 @@ const initialState =
     authPage: false,
     authItem:"login",
     registerPage: false,
-    profilePage: "info",
+    profilePage: "posts",
 };
 export const uiSlice = createSlice({
     name: "ui",

@@ -8,6 +8,7 @@ const generateRandomAvatar = () => {
   return `https://i.pravatar.cc/300?img=${randomAvatar}`;
 };
 
+
 //tüm kullanıcıları getirir
 router.get("/", async (req, res) => {
   try {
@@ -142,6 +143,7 @@ router.put("/unfollow/:followerId/:followingId", async (req, res) => {
 // });
 
 //birden çok kullanıcı oluştur
+
 router.post("/createMany", async (req, res) => {
   try {
     const users = req.body;

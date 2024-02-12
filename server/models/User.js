@@ -28,9 +28,44 @@ const UserChema = mongoose.Schema(
       type: String,
       default:"https://i.pravatar.cc",
     },
+    background: {
+      type: String,
+      default: "https://picsum.photos/1024/500?random=1",
+    },
     bio: {
       type: String,
       default: "",
+    },
+    location: {
+      type: String,
+      default: "",
+    },
+    socialAdress: {
+      github: {
+        type: String,
+        default: "",
+      },
+      linkedin: {
+        type: String,
+        default: "",
+      },
+      youtube: {
+        type: String,
+        default: "",
+      },
+      website: {
+        type: String,
+        default: "",
+      },
+      twitter: {
+        type: String,
+        default: "",
+      },
+      pinterest: {
+        type: String,
+        default: "",
+      },
+
     },
     projects: [{
       type: mongoose.Schema.Types.ObjectId,ref: "Project"

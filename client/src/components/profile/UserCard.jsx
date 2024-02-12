@@ -1,5 +1,5 @@
 import { follow, unfollow } from "../../redux/actions/ProfileAction";
-import { Avatar, Box, Button, CardContent, Typography } from "@mui/material";
+import { Avatar, Button, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CardActions from "@mui/material/CardActions";
@@ -72,6 +72,7 @@ const UserCard = ({ user }) => {
             @{user.username}
           </Typography>
         }
+       
       />
       {/* <Box sx={{ display: "flex", alignItems:"end",gap:"5px" }}>
            
@@ -92,7 +93,6 @@ const UserCard = ({ user }) => {
           🖥️ 😍bir yazılım geliştirici ve tasarımcıyım 💻👨🏻‍💻😅🔆
         </p>
       </CardContent>
-      <CardActions></CardActions>
     </Card>
   );
 };

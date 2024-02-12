@@ -10,11 +10,7 @@ const ProfileMenu = () => {
   return (
     <div id="profile-menu-container">
       <Tabs value={profilePage} centered textColor="white">
-        <Tab
-          value={"info"}
-          label="hakkında"
-          onClick={() => dispatch(setProfilePage("info"))}
-        />
+      
         <Tab
           value={"posts"}
           label="Fikirler"
