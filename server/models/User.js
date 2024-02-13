@@ -61,10 +61,6 @@ const UserChema = mongoose.Schema(
         type: String,
         default: "",
       },
-      pinterest: {
-        type: String,
-        default: "",
-      },
 
     },
     projects: [{

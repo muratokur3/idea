@@ -45,6 +45,7 @@ const Menu = () => {
           display: "flex",
           flexDirection: "column",
           gap: "20px",
+          alignItems: "center",
         }}
       >
         <ListItem disablePadding className={locPath === "/" ? "active" : ""} sx={{width: widthThreshold ? "60px" : "95%"}} >

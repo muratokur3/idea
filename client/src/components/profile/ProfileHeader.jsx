@@ -8,7 +8,6 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LanguageIcon from "@mui/icons-material/Language";
 import XIcon from "@mui/icons-material/X";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import PinterestIcon from "@mui/icons-material/Pinterest";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
   Avatar,
@@ -22,9 +21,11 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
-import "./scss/user-detail.scss";
+import "./scss/profile-header.scss";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import EditProfile from "../../Modals/EditProfile";
+import { setEditProfilePage } from "../../redux/slices/UiSlice";
 /* eslint-disable react/prop-types */
 const UserDetail = ({ profileData }) => {
   const { username } = useParams();
@@ -34,15 +35,12 @@ const UserDetail = ({ profileData }) => {
   const profileUSerData = useSelector((state) => state.profile.user);
   const background = "https://picsum.photos/1024/500?random=1";
   const navigate = useNavigate();
-  useEffect(
-    () => {
-      dispatch(getProfile(username));
-    },
-    [username, dispatch],
-    profileUSerData
-  );
+  const editProfilePage = useSelector((state) => state.ui.editProfilePage);
+
   return (
     <>
+      {editProfilePage && <EditProfile user={profileData.user} />}
+
       <Card id="user-detail-card">
         <img id="background-image" src={background} />
         <CardHeader
@@ -69,7 +67,11 @@ const UserDetail = ({ profileData }) => {
                 action={
                   <box>
                     {activeUser && profileUSerData._id === activeUserId ? (
-                      <Button variant="contained" sx={{ fontSize: "0.7rem" }}>
+                      <Button
+                        variant="contained"
+                        sx={{ fontSize: "0.7rem" }}
+                        onClick={() => dispatch(setEditProfilePage(true))}
+                      >
                         Profili Düzenle
                       </Button>
                     ) : (
@@ -133,7 +135,9 @@ const UserDetail = ({ profileData }) => {
                     </Typography>
                     <IconButton sx={{ paddingLeft: "0" }}>
                       <LocationOnIcon fontSize="small" />
-                      <Typography fontSize={15}>İstanbul</Typography>
+                      <Typography fontSize={15}>
+                        {profileData.user.location}
+                      </Typography>
                     </IconButton>
                   </Box>
                 }
@@ -146,10 +150,7 @@ const UserDetail = ({ profileData }) => {
                   padding: "10px",
                 }}
               >
-                <p style={{ fontSize: "13px" }}>
-                  {profileData.bio} 🖥️ 😍bir yazılım geliştirici ve tasarımcıyım
-                  💻👨🏻‍💻😅🔆
-                </p>
+                <p style={{ fontSize: "13px" }}>{profileData.user.bio}</p>
               </CardContent>
             </Card>
           }
@@ -162,17 +163,22 @@ const UserDetail = ({ profileData }) => {
             margin: "30px 0",
           }}
         >
-          <a href={profileData.socialAdress.github}>
+          {console.log(profileData.user.socialAdress)}
+          <a href={profileData.user.socialAdress.website}>
+            <LanguageIcon fontSize="small" />
+          </a>
+          <a href={profileData.user.socialAdress.github}>
             <GitHubIcon fontSize="small" />
           </a>
-          <a href={profileData.socialAdress.linkedin}></a>{" "}
-          <LinkedInIcon fontSize="small" />
-          <a href={profileData.socialAdress.youtube}></a>{" "}
-          <YouTubeIcon fontSize="small" />
-          <a href={profileData.socialAdress.website}></a>{" "}
-          <LanguageIcon fontSize="small" />
-          <a href={profileData.socialAdress.twitter}></a>{" "}
-          <XIcon fontSize="small" />
+          <a href={profileData.user.socialAdress.linkedin}>
+            <LinkedInIcon fontSize="small" />
+          </a>
+          <a href={profileData.user.socialAdress.youtube}>
+            <YouTubeIcon fontSize="small" />
+          </a>
+          <a href={profileData.user.socialAdress.twitter}>
+            <XIcon fontSize="small" />
+          </a>
         </CardActions>
       </Card>
     </>

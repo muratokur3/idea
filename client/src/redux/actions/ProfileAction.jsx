@@ -22,6 +22,17 @@ const getProfile = (Username) => async (dispatch) => {
   }
 };
 
+const ubdateProfile = (user) => async (dispatch) => {
+  const response = await axios.put(`${apiUrl}/api/users/ubdateUser/${user._id}`, user, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (response.status === 200) {
+    dispatch(setProfile(user));
+  }
+};
+
 const getFollowers = (username) => async (dispatch) => {
   try {
     const response = await axios.get(
@@ -70,9 +81,7 @@ const follow = (followerId, followingId, user) => async (dispatch) => {
           ? user.followers
           : [...user.followers, followerId],
       };
-      dispatch(
-        ubdateUserFollow(newUser)
-      );
+      dispatch(ubdateUserFollow(newUser));
     }
   } catch (error) {
     console.log(error);
@@ -98,9 +107,7 @@ const unfollow = (followerId, followingId, user) => async (dispatch) => {
           ? user.followers.filter((id) => id !== followerId)
           : user.followers,
       };
-      dispatch(
-        ubdateUserFollow(newUser)
-      );
+      dispatch(ubdateUserFollow(newUser));
     }
     console.log(response.data);
   } catch (error) {
@@ -108,4 +115,4 @@ const unfollow = (followerId, followingId, user) => async (dispatch) => {
   }
 };
 
-export { getProfile, getFollowers, getFollowing, follow, unfollow };
+export { getProfile,ubdateProfile, getFollowers, getFollowing, follow, unfollow };

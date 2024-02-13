@@ -8,6 +8,7 @@ const initialState =
     authItem:"login",
     registerPage: false,
     profilePage: "posts",
+    editProfilePage: false,
 };
 export const uiSlice = createSlice({
     name: "ui",
@@ -31,8 +32,12 @@ export const uiSlice = createSlice({
         setProfilePage(state, action) {
             state.profilePage = action.payload;
         },
+        setEditProfilePage(state, action) {
+            state.editProfilePage = action.payload;
+        }
+
     },
 });
 
-export const {setNewPostPage,setNewProjectPage,setAuthPage,setAuthItem,setRegisterPage,setProfilePage} = uiSlice.actions;
+export const {setNewPostPage,setNewProjectPage,setAuthPage,setAuthItem,setRegisterPage,setProfilePage,setEditProfilePage} = uiSlice.actions;
 export default uiSlice.reducer;

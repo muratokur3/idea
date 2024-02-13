@@ -11,7 +11,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useEffect } from "react";
 import "./profile.scss";
 import NewProjectPage from "../Modals/NewProject";
-import { IconButton, InputBase, Paper } from "@mui/material";
+
+import { Box, IconButton, InputBase, Paper } from "@mui/material";
+import { getProfile } from "../redux/actions/ProfileAction";
 
 const ProfileLayout = () => {
   const dispatch = useDispatch();
@@ -20,7 +22,12 @@ const ProfileLayout = () => {
   const profilePage = useSelector((state) => state.ui.profilePage);
   const newProjectPage = useSelector((state) => state.ui.newProjectPage);
   const profilePostsData = useSelector((state) => state.posts.profilePosts);
-
+  useEffect(
+    () => {
+      dispatch(getProfile(username));
+    },
+    [username, dispatch]
+  );
   const page = () => {
     switch (profilePage) {
       case "posts":
@@ -44,6 +51,7 @@ const ProfileLayout = () => {
   useEffect(() => {
     dispatch(getProfilePosts({ page: 1, hasMore: true }, username));
   }, [username]);
+
   return (
     <div id="profile-layout-container">
      {/* <Paper
@@ -73,7 +81,16 @@ const ProfileLayout = () => {
       {newProjectPage&&<NewProjectPage />}
       <ProfileHeader profileData={profileData} />
       <ProfileMenu />
+      <Box sx={
+        {
+          margin: "20px",
+          borderRadius: "10px",
+          
+        }
+      }>
+
       {page()}
+      </Box>
     </div>
   );
 };

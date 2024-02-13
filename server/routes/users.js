@@ -8,6 +8,35 @@ const generateRandomAvatar = () => {
   return `https://i.pravatar.cc/300?img=${randomAvatar}`;
 };
 
+//gelen kullanıcı bilgilerine göre kullanıcıyı günceller
+router.put("/ubdateUser/:id", async (req, res) => {
+  try {
+    const user = await UserChema.findById(req.params.id);
+    if (user.username === req.body.username) {
+      await UserChema
+        .findByIdAndUpdate(req.params.id, {
+          $set: req.body,
+        })
+        .exec();
+      res.status(200).json("Kullanıcı güncellendi");
+    } else {
+      if (await UserChema.findOne({
+        username: req.body.username
+      })) {
+        return res.status(403).json("Kullanıcı adı zaten kullanılıyor");
+      }
+      await UserChema
+        .findByIdAndUpdate(req.params.id, {
+          $set: req.body,
+        })
+        .exec();
+      res.status(200).json("Kullanıcı güncellendi");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
 
 //tüm kullanıcıları getirir
 router.get("/", async (req, res) => {
