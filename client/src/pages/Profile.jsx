@@ -79,7 +79,7 @@ const ProfileLayout = () => {
           </IconButton>
         </Paper> */}
       {newProjectPage&&<NewProjectPage />}
-      <ProfileHeader profileData={profileData} />
+     {profileData.user&& <ProfileHeader profileData={profileData} />}
       <ProfileMenu />
       <Box sx={
         {

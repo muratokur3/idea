@@ -1,6 +1,5 @@
 import {
   follow,
-  getProfile,
   unfollow,
 } from "../../redux/actions/ProfileAction";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -22,17 +21,16 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import "./scss/profile-header.scss";
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import EditProfile from "../../Modals/EditProfile";
 import { setEditProfilePage } from "../../redux/slices/UiSlice";
 /* eslint-disable react/prop-types */
 const UserDetail = ({ profileData }) => {
-  const { username } = useParams();
   const dispatch = useDispatch();
   const activeUserId = localStorage.getItem("userId");
   const activeUser = useSelector((state) => state.authentication.user);
   const profileUSerData = useSelector((state) => state.profile.user);
+  const profileUserPosts = useSelector((state) => state.posts.profilePosts);
   const background = "https://picsum.photos/1024/500?random=1";
   const navigate = useNavigate();
   const editProfilePage = useSelector((state) => state.ui.editProfilePage);
@@ -163,20 +161,28 @@ const UserDetail = ({ profileData }) => {
             margin: "30px 0",
           }}
         >
-          {console.log(profileData.user.socialAdress)}
-          <a href={profileData.user.socialAdress.website}>
+          <Typography>
+          {profileData?.user?.following?.length} Takip Edilen
+          </Typography>
+         <Typography>
+          {profileData?.user?.followers?.length} Takipçi
+         </Typography>
+          <Typography>
+          {profileUserPosts?.posts.length} Gönderi
+          </Typography>
+          <a href={profileData?.user?.socialAdress?.website}>
             <LanguageIcon fontSize="small" />
           </a>
-          <a href={profileData.user.socialAdress.github}>
+          <a href={profileData?.user?.socialAdress?.github}>
             <GitHubIcon fontSize="small" />
           </a>
-          <a href={profileData.user.socialAdress.linkedin}>
+          <a href={profileData?.user?.socialAdress?.linkedin}>
             <LinkedInIcon fontSize="small" />
           </a>
-          <a href={profileData.user.socialAdress.youtube}>
+          <a href={profileData?.user?.socialAdress?.youtube}>
             <YouTubeIcon fontSize="small" />
           </a>
-          <a href={profileData.user.socialAdress.twitter}>
+          <a href={profileData?.user?.socialAdress?.twitter}>
             <XIcon fontSize="small" />
           </a>
         </CardActions>

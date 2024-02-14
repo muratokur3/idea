@@ -88,6 +88,7 @@ const EditProfile = (user) => {
     };
 
     dispatch(ubdateProfile(data));
+    
   };
 
   return (
@@ -252,22 +253,23 @@ const EditProfile = (user) => {
             <CardActions
               sx={{
                 display: "flex",
-                justifyContent: "space-around",
-                margin: "30px 0",
+                flexWrap: "wrap",
+                gap: "2%",
+                justifyContent: "center",
               }}
             >
+              
               <FormControl
                 variant="filled"
-                sx={{ width: "20%", color: "white" }}
+                sx={{ width: "45%", color: "white" }}
               >
                 <InputLabel sx={{ background: "none", color: "gray" }}>
-                  {" "}
                   <GitHubIcon fontSize="small" />
                   github
                 </InputLabel>
                 <FilledInput
                   sx={{ background: "none", color: "white", width: "100%" }}
-                  value={formData.github}
+                  value={formData?.github}
                   onChange={handleInputChance}
                   name="github"
                 />
@@ -275,7 +277,7 @@ const EditProfile = (user) => {
 
               <FormControl
                 variant="filled"
-                sx={{ width: "20%", color: "white" }}
+                sx={{ width: "45%", color: "white" }}
               >
                 <InputLabel sx={{ background: "none", color: "gray" }}>
                   {" "}
@@ -284,7 +286,7 @@ const EditProfile = (user) => {
                 </InputLabel>
                 <FilledInput
                   sx={{ background: "none", color: "white", width: "100%" }}
-                  value={formData.linkedin}
+                  value={formData?.linkedin}
                   onChange={handleInputChance}
                   name="linkedin"
                 />
@@ -292,7 +294,7 @@ const EditProfile = (user) => {
 
               <FormControl
                 variant="filled"
-                sx={{ width: "20%", color: "white" }}
+                sx={{ width: "45%", color: "white" }}
               >
                 <InputLabel sx={{ background: "none", color: "gray" }}>
                   {" "}
@@ -301,7 +303,7 @@ const EditProfile = (user) => {
                 </InputLabel>
                 <FilledInput
                   sx={{ background: "none", color: "white", width: "100%" }}
-                  value={formData.youtube}
+                  value={formData?.youtube}
                   onChange={handleInputChance}
                   name="youtube"
                 />
@@ -309,7 +311,7 @@ const EditProfile = (user) => {
 
               <FormControl
                 variant="filled"
-                sx={{ width: "20%", color: "white" }}
+                sx={{ width: "45%", color: "white" }}
               >
                 <InputLabel sx={{ background: "none", color: "gray" }}>
                   {" "}
@@ -318,7 +320,7 @@ const EditProfile = (user) => {
                 </InputLabel>
                 <FilledInput
                   sx={{ background: "none", color: "white", width: "100%" }}
-                  value={formData.website}
+                  value={formData?.website}
                   onChange={handleInputChance}
                   name="website"
                 />
@@ -326,7 +328,7 @@ const EditProfile = (user) => {
 
               <FormControl
                 variant="filled"
-                sx={{ width: "20%", color: "white" }}
+                sx={{ width: "45%", color: "white" }}
               >
                 <InputLabel sx={{ background: "none", color: "gray" }}>
                   {" "}
@@ -335,11 +337,12 @@ const EditProfile = (user) => {
                 </InputLabel>
                 <FilledInput
                   sx={{ background: "none", color: "white", width: "100%" }}
-                  value={formData.twitter}
+                  value={formData?.twitter}
                   onChange={handleInputChance}
                   name="twitter"
                 />
               </FormControl>
+           
             </CardActions>
           </Card>
         </form>
