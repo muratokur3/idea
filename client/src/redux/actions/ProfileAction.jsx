@@ -67,7 +67,15 @@ const getFollowing = (username) => async (dispatch) => {
 };
 
 const follow = (followerId, followingId, user) => async (dispatch) => {
-  console.log(user);
+  if(!user)
+  {
+   user = await axios.get(`${apiUrl}/api/users/id/${followingId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    
+  }
   try {
     const response = await axios.put(
       `${apiUrl}/api/users/follow/${followerId}/${followingId}`,

@@ -1,5 +1,5 @@
 import { follow, unfollow } from "../../redux/actions/ProfileAction";
-import { Avatar, Button, CardContent, Typography } from "@mui/material";
+import { Avatar, Box, Button, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CardActions from "@mui/material/CardActions";
@@ -65,32 +65,29 @@ const UserCard = ({ user }) => {
         title={`${user.name} ${user.surname}`}
         titleTypographyProps={{ fontSize: "1rem" }}
         subheader={
-          <Typography
+           <Typography
             onClick={() => navigate(`/${user.username}`)}
             sx={{ fontSize: "0.8rem", color: "gray", cursor: "pointer" }}
           >
             @{user.username}
           </Typography>
+          
         }
        
       />
-      {/* <Box sx={{ display: "flex", alignItems:"end",gap:"5px" }}>
-           
-           <Typography sx={{ fontSize: "10px" }}>
-            {user.followers.length} Takipçi {user.following.length} Takip
-            Edilen
-          </Typography>
-          
-        </Box> */}
+     
       <CardContent
         sx={{
           color: "white",
           fontSize: "0.7rem",
           padding: "10px",
         }}
-      >
+      > <Typography sx={{ fontSize: "10px",color:"white" }}>
+           {user.followers.length} Takipçi {user.following.length} Takip
+           Edilen
+         </Typography>
         <p style={{ fontSize: "13px" }}>
-          🖥️ 😍bir yazılım geliştirici ve tasarımcıyım 💻👨🏻‍💻😅🔆
+         {user?.bio?.slice(0, 80)}
         </p>
       </CardContent>
     </Card>

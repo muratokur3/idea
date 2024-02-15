@@ -38,6 +38,7 @@ router.put("/ubdateUser/:id", async (req, res) => {
   }
 });
 
+
 //tüm kullanıcıları getirir
 router.get("/", async (req, res) => {
   try {
@@ -56,6 +57,20 @@ router.get("/:username", async (req, res) => {
   }
   try {
     const user = await UserChema.findOne({ username: req.params.username });
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+//kullanıcı id'sine göre kullanıcı getirir
+router.get("/id/:id", async (req, res) => {
+  if (!(await UserChema.findById(req.params.id))) {
+    return res.status(404).json("Kullanıcı bulunamadı");
+  }
+  try {
+    const user = await UserChema.findById(req.params.id);
     res.status(200).json(user);
   } catch (error) {
     console.log(error.message);

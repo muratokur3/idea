@@ -12,9 +12,9 @@ import IconButton from "@mui/material/IconButton";
 import StarIcon from "@mui/icons-material/Star";
 import { Link, useNavigate } from "react-router-dom";
 import Collapse from "@mui/material/Collapse";
-import { Avatar, Box } from "@mui/material";
+import { Avatar, Box, Button } from "@mui/material";
 import { red } from "@mui/material/colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
@@ -27,11 +27,13 @@ import {
   unLike,
 } from "../../redux/actions/PostActions";
 import ActionsButton from "../../Modals/ActionsButton";
+import { follow, unfollow } from "../../redux/actions/ProfileAction";
 const Post = ({ post }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const LoginUserId = localStorage.getItem("userId");
+  const activeUser = useSelector((state) => state.authentication.user);
   const ExpandMore = styled(IconButton)(({ expand }) => ({
     color: "white",
   }));
@@ -69,10 +71,35 @@ const Post = ({ post }) => {
           </Avatar>
         }
         action={
-         <ActionsButton actions={[
+          <Box display={"flex"}>
+            {
+       activeUser &&   post.userId!==activeUser.id &&
+            <IconButton aria-label="settings">
+              {new Set(activeUser.following).has(post.userId) ? 
+              (
+                <Typography
+                 sx={{color:"white",fontSize:"10px"}}
+                >
+                  Takibi Edilen
+                </Typography> 
+              )
+           : (
+              <Button
+                className="follow-button"
+                variant="contained"
+                onClick={() => dispatch(follow(activeUser.id, post.userId))}
+              >
+                Takip Et
+              </Button>
+            )}
+          </IconButton>
+          }
+            <ActionsButton actions={[
             { label: "Bildir", onClick: () => {alert("bildir")} },
             post.userId === LoginUserId&&{ label: "Sil", onClick: () => {alert("sil")} },
           ]} />
+          </Box>
+         
         }
         title={post.name + " " + post.surname}
         subheader={
