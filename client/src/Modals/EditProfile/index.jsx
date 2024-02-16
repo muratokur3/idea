@@ -234,7 +234,7 @@ const EditProfile = (user) => {
                       value={formData.bio}
                       onChange={handleInputChance}
                       minRows={3}
-                      maxRows={10}
+                      maxRows={6}
                       maxLength={300}
                       placeholder="Bio"
                       name="bio"
