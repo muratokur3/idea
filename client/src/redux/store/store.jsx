@@ -6,6 +6,7 @@ import hashtagSlice from "../slices/HashtagSlice";
 import filterSlice from "../slices/FilterSlice";
 import profileSlice from "../slices/ProfileSlice";
 import projectSlice from "../slices/ProjectSlice";
+import searchSlice  from "../slices/SearchSlice";
 
 
 
@@ -18,6 +19,7 @@ const store = configureStore({
         filterPosts: filterSlice,
         profile: profileSlice,
         project: projectSlice,
+        search: searchSlice,
     },
     });
     export default store;

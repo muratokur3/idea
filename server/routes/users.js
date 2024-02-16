@@ -38,7 +38,6 @@ router.put("/ubdateUser/:id", async (req, res) => {
   }
 });
 
-
 //tüm kullanıcıları getirir
 router.get("/", async (req, res) => {
   try {
