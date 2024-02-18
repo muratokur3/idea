@@ -6,6 +6,9 @@ import Post from "./Post.jsx";
 
 const ListPost = ({ data,getPosts }) => {
   return (
+    
+
+   
     <InfinieScroll
       dataLength={data.posts.length}
       next={()=>getPosts()}
@@ -17,7 +20,6 @@ const ListPost = ({ data,getPosts }) => {
         <Post key={index} post={post}/>
       ))}
     </InfinieScroll>
-     
   );
 };
 

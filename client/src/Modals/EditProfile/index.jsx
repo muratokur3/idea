@@ -11,7 +11,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LanguageIcon from "@mui/icons-material/Language";
 import XIcon from "@mui/icons-material/X";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import {
   Avatar,
   Box,
@@ -19,8 +19,6 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  IconButton,
-  Typography,
 } from "@mui/material";
 import { setEditProfilePage } from "../../redux/slices/UiSlice";
 import { useDispatch } from "react-redux";
@@ -109,7 +107,11 @@ const EditProfile = (user) => {
                 alignItems: "start",
               }}
               avatar={
-                <Avatar
+                <Box sx={{
+                  position:"relative"
+                  
+                }}>
+                  <Avatar
                   src={user.user.avatar}
                   sx={{
                     width: 150,
@@ -120,7 +122,19 @@ const EditProfile = (user) => {
                 >
                   R
                 </Avatar>
+                <Button 
+                sx={{
+                  width: "40px",
+                  height: "40px",
+                  position:"absolute",
+                  bottom:"-5%",
+                  right:"-5%",
+                }}><AddAPhotoIcon/></Button>
+                <input type="file" name="avatar" />
+                </Box>
+                
               }
+              
               title={
                 <Card
                   sx={{

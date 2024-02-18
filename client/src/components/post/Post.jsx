@@ -27,7 +27,7 @@ import {
   unLike,
 } from "../../redux/actions/PostActions";
 import ActionsButton from "../../Modals/ActionsButton";
-import { follow, unfollow } from "../../redux/actions/ProfileAction";
+import { follow } from "../../redux/actions/ProfileAction";
 const Post = ({ post }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,8 +56,8 @@ const Post = ({ post }) => {
       sx={{
         maxWidth: "100%",
         backgroundColor: "rgba(13, 13, 13, 0.63)",
-        marginTop: "10px",
-        paddingLeft: "1%",
+        borderBottom:"1px solid rgba(71, 67, 67, 0.897);",
+        padding: "1%",
       }}
     >
       <CardHeader
@@ -85,6 +85,7 @@ const Post = ({ post }) => {
               )
            : (
               <Button
+              size="small"
                 className="follow-button"
                 variant="contained"
                 onClick={() => dispatch(follow(activeUser.id, post.userId))}

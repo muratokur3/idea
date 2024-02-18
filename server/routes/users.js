@@ -3,10 +3,25 @@ const router = express.Router();
 const UserChema = require("../models/User");
 const bcrypt = require("bcryptjs");
 
+const multer = require("multer");
+const storage=multer.diskStorage({
+  destination:(req,file,cb)=>{
+    cb(null,"./uploads/images/avatars");
+  },
+  filename:(req,file,cb)=>{
+    cb(null,file.originalname);
+  }
+});
+const upload = multer({storage});
+
 const generateRandomAvatar = () => {
   const randomAvatar = Math.floor(Math.random() * 70 + 1);
   return `https://i.pravatar.cc/300?img=${randomAvatar}`;
 };
+
+router.post("/upload",upload.single("file"), async (req, res) => {
+  res.status(200).json(req.file);
+});
 
 //gelen kullanıcı bilgilerine göre kullanıcıyı günceller
 router.put("/ubdateUser/:id", async (req, res) => {

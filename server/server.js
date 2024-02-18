@@ -23,7 +23,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(cors());
 
-
 app.use("/api", mainRoute);
 
 app.listen(port, () => {
