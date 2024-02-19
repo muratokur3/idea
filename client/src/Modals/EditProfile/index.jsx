@@ -11,7 +11,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LanguageIcon from "@mui/icons-material/Language";
 import XIcon from "@mui/icons-material/X";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import {
   Avatar,
   Box,
@@ -22,19 +22,38 @@ import {
 } from "@mui/material";
 import { setEditProfilePage } from "../../redux/slices/UiSlice";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./edit-profile.scss";
 import { ubdateProfile } from "../../redux/actions/ProfileAction";
+
 const EditProfile = (user) => {
   const dispatch = useDispatch();
+  const avatarFileInputRef = useRef(null);
+  const backgroundFileInputRef = useRef(null);
+
+  const chanceAvatarClick = () => {
+    avatarFileInputRef.current.click();
+  };
+
+  const chanceBackgroundClick = () => {
+    backgroundFileInputRef.current.click();
+  };
+
+ 
+
+  const [avatar, setAvatar] = useState({
+    adress: "",
+    file: null,
+  });
+
+  const [background, setBackground] = useState({adress:user.user.background,file:null});
+
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
     username: "",
     bio: "",
     location: "",
-    avatar: "",
-    background: "",
     socialAdress: {
       github: "",
       linkedin: "",
@@ -55,7 +74,6 @@ const EditProfile = (user) => {
       username: user.user.username,
       bio: user.user.bio,
       location: user.user.location,
-      avatar: user.user.avatar,
       background: user.user.background,
       github: user.user.socialAdress.github,
       linkedin: user.user.socialAdress.linkedin,
@@ -63,6 +81,7 @@ const EditProfile = (user) => {
       website: user.user.socialAdress.website,
       twitter: user.user.socialAdress.twitter,
     });
+    setAvatar({ adress: user.user.avatar, file: null });
   }, [user]);
 
   const handleSubmit = (e) => {
@@ -74,8 +93,6 @@ const EditProfile = (user) => {
       username: formData.username,
       bio: formData.bio,
       location: formData.location,
-      avatar: formData.avatar,
-      background: formData.background,
       socialAdress: {
         github: formData.github,
         linkedin: formData.linkedin,
@@ -85,8 +102,7 @@ const EditProfile = (user) => {
       },
     };
 
-    dispatch(ubdateProfile(data));
-    
+    dispatch(ubdateProfile(data, avatar.file,background.file));
   };
 
   return (
@@ -96,9 +112,51 @@ const EditProfile = (user) => {
         onClick={() => dispatch(setEditProfilePage(false))}
       ></div>
       <div id="box-edit-profile">
-        <form onSubmit={handleSubmit} id="edit-profile-form">
+        <form
+          onSubmit={handleSubmit}
+          id="edit-profile-form"
+          encType="multipart/form-data"
+        >
           <Card id="user-detail-card">
-            <img id="background-image" src={user.user.background} />
+            <Box sx={{
+              position: "relative",
+              
+            }}>
+              <img id="background-image" src={background.adress} />
+            <Button
+                    sx={{
+                      width: "140px",
+                      height: "140px",
+                      position: "absolute",
+                      bottom: "0",
+                      right: "0",
+                    }}
+                    onClick={chanceBackgroundClick}
+                    onChange={e=>{
+                      setAvatar({
+                        adress: URL.createObjectURL(e.target.files[0]),
+                        file: e.target.files[0],
+                      })
+                    }}
+                  >
+                    <AddAPhotoIcon />
+                  </Button>
+                  <input
+                    fontSize="small"
+                    type="file"
+                    id="background"
+                    name="background"
+                    ref={backgroundFileInputRef}
+                    onChange={e=>{
+                      setBackground({
+                        adress: URL.createObjectURL(e.target.files[0]),
+                        file: e.target.files[0],
+                      })
+                    }}
+                    style={{ display: "none" }}
+                   />
+            </Box>
+            
             <CardHeader
               sx={{
                 background: "none",
@@ -107,34 +165,51 @@ const EditProfile = (user) => {
                 alignItems: "start",
               }}
               avatar={
-                <Box sx={{
-                  position:"relative"
-                  
-                }}>
-                  <Avatar
-                  src={user.user.avatar}
+                <Box
                   sx={{
-                    width: 150,
-                    height: 150,
-                    border: "5px solid black",
+                    position: "relative",
                   }}
-                  aria-label="recipe"
                 >
-                  R
-                </Avatar>
-                <Button 
-                sx={{
-                  width: "40px",
-                  height: "40px",
-                  position:"absolute",
-                  bottom:"-5%",
-                  right:"-5%",
-                }}><AddAPhotoIcon/></Button>
-                <input type="file" name="avatar" />
+                  <Avatar
+                    src={avatar.adress}
+                    sx={{
+                      width: 150,
+                      height: 150,
+                      border: "5px solid black",
+                    }}
+                    aria-label="recipe"
+                  >
+                    R
+                  </Avatar>
+                  <Button
+                    sx={{
+                      width: "40px",
+                      height: "40px",
+                      position: "absolute",
+                      bottom: "-5%",
+                      right: "-5%",
+                    }}
+                    onClick={chanceAvatarClick}
+                  >
+                    <AddAPhotoIcon />
+                  </Button>
+                  <input
+                    fontSize="small"
+                    type="file"
+                    id="avatar"
+                    name="avatar"
+                    ref={avatarFileInputRef}
+                    onChange={e=>{
+                      setAvatar({
+                        adress: URL.createObjectURL(e.target.files[0]),
+                        file: e.target.files[0],
+                      })
+                    }}
+                    style={{ display: "none" }}
+                   
+                  />
                 </Box>
-                
               }
-              
               title={
                 <Card
                   sx={{
@@ -272,7 +347,6 @@ const EditProfile = (user) => {
                 justifyContent: "center",
               }}
             >
-              
               <FormControl
                 variant="filled"
                 sx={{ width: "45%", color: "white" }}
@@ -356,7 +430,6 @@ const EditProfile = (user) => {
                   name="twitter"
                 />
               </FormControl>
-           
             </CardActions>
           </Card>
         </form>

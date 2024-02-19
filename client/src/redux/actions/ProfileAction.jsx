@@ -7,7 +7,6 @@ import {
 } from "../slices/ProfileSlice";
 import { setEditProfilePage } from "../slices/UiSlice";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
-
 const getProfile = (Username) => async (dispatch) => {
   try {
     const response = await axios.get(`${apiUrl}/api/users/${Username}`, {
@@ -23,18 +22,42 @@ const getProfile = (Username) => async (dispatch) => {
   }
 };
 
-const ubdateProfile = (user) => async (dispatch) => {
-  const response = await axios.put(`${apiUrl}/api/users/ubdateUser/${user._id}`, user, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+const ubdateProfile = (user, avatar) => async (dispatch) => {
+  const ubdateAvatar = async () => {
+    const data = new FormData();
+    data.append("file", avatar);
+    data.append("username", user.username)
+    const response = await axios.post(`${apiUrl}/api/users/upload?username=${user.username}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if (response.status === 200) {
+      console.log("Profil resmi güncellendi", response.data.filename);
+      return `${apiUrl}/uploads/images/avatars/${response.data.filename}`;
+    } else {
+      alert("Profil resmi güncellenemedi");
+    }
+  };
+  const newImageUrl=await ubdateAvatar();
+  console.log(newImageUrl);
+
+  const response = await axios.put(
+    `${apiUrl}/api/users/ubdateUser/${user._id}`,
+    {...user,avatar:newImageUrl?newImageUrl:user.avatar},
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   if (response.status === 200) {
-    dispatch(setProfile(user));
     alert("Profiliniz başarıyla güncellendi");
     dispatch(setEditProfilePage(false));
-  }
-  else{
+    
+    dispatch(setProfile({...user,avatar:newImageUrl?newImageUrl:user.avatar}));
+
+  } else {
     alert("Profiliniz güncellenemedi");
   }
 };
@@ -67,14 +90,12 @@ const getFollowing = (username) => async (dispatch) => {
 };
 
 const follow = (followerId, followingId, user) => async (dispatch) => {
-  if(!user)
-  {
-   user = await axios.get(`${apiUrl}/api/users/id/${followingId}`, {
+  if (!user) {
+    user = await axios.get(`${apiUrl}/api/users/id/${followingId}`, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-    
   }
   try {
     const response = await axios.put(
@@ -129,4 +150,11 @@ const unfollow = (followerId, followingId, user) => async (dispatch) => {
   }
 };
 
-export { getProfile,ubdateProfile, getFollowers, getFollowing, follow, unfollow };
+export {
+  getProfile,
+  ubdateProfile,
+  getFollowers,
+  getFollowing,
+  follow,
+  unfollow,
+};

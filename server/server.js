@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require('path');
 const mainRoute = require("./routes");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -22,6 +23,8 @@ const connectDB = async () => {
 app.use(logger("dev"));
 app.use(express.json());
 app.use(cors());
+
+app.use('/uploads', express.static('uploads'));
 
 app.use("/api", mainRoute);
 

@@ -1,50 +1,81 @@
 const express = require("express");
 const router = express.Router();
 const UserChema = require("../models/User");
-const bcrypt = require("bcryptjs");
-
 const multer = require("multer");
-const storage=multer.diskStorage({
-  destination:(req,file,cb)=>{
-    cb(null,"./uploads/images/avatars");
+const bcrypt = require("bcryptjs");
+const fs = require("fs");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/images/avatars");
   },
-  filename:(req,file,cb)=>{
-    cb(null,file.originalname);
-  }
+  filename: (req, file, cb) => {
+    const directoryPath = "./uploads/images/avatars"; // Dosya dizini
+    const username = req.query.username;
+
+    // Dosyanın varlığını kontrol et
+    fs.readdir(directoryPath, (err, files) => {
+      if (err) {
+        console.error("Dosya dizini okunurken bir hata oluştu:", err);
+        cb(err);
+        return;
+      }
+
+      // Dosya dizinindeki her dosya için kontrol yap
+      files.some((existingFile) => {
+        // Dosya isminin uzantısız kısmını al ve aranan dosya ismiyle karşılaştır
+        const fileName = existingFile.split(".")[0];
+        if (fileName === username) {
+          // Dosya varsa sil
+          fs.unlink(path.join(directoryPath, existingFile), (err) => {
+            if (err) {
+              console.error("Dosya silinirken bir hata oluştu:", err);
+              cb(err);
+              return;
+            }
+            cb(null, `${username}.${file.originalname.split(".").pop()}`);
+          });
+        } else {
+          // Dosya yoksa dosya adını kullanarak devam et
+          cb(null, `${username}.${file.originalname.split(".").pop()}`);
+        }
+      });
+    });
+  },
 });
-const upload = multer({storage});
+
+const upload = multer({ storage });
+
+router.post("/upload", upload.single("file"), async (req, res) => {
+  res.status(200).json(req.file);
+});
 
 const generateRandomAvatar = () => {
   const randomAvatar = Math.floor(Math.random() * 70 + 1);
   return `https://i.pravatar.cc/300?img=${randomAvatar}`;
 };
 
-router.post("/upload",upload.single("file"), async (req, res) => {
-  res.status(200).json(req.file);
-});
-
 //gelen kullanıcı bilgilerine göre kullanıcıyı günceller
 router.put("/ubdateUser/:id", async (req, res) => {
   try {
     const user = await UserChema.findById(req.params.id);
     if (user.username === req.body.username) {
-      await UserChema
-        .findByIdAndUpdate(req.params.id, {
-          $set: req.body,
-        })
-        .exec();
+      await UserChema.findByIdAndUpdate(req.params.id, {
+        $set: req.body,
+      }).exec();
       res.status(200).json("Kullanıcı güncellendi");
     } else {
-      if (await UserChema.findOne({
-        username: req.body.username
-      })) {
+      if (
+        await UserChema.findOne({
+          username: req.body.username,
+        })
+      ) {
         return res.status(403).json("Kullanıcı adı zaten kullanılıyor");
       }
-      await UserChema
-        .findByIdAndUpdate(req.params.id, {
-          $set: req.body,
-        })
-        .exec();
+      await UserChema.findByIdAndUpdate(req.params.id, {
+        $set: req.body,
+      }).exec();
       res.status(200).json("Kullanıcı güncellendi");
     }
   } catch (error) {
