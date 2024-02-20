@@ -23,30 +23,24 @@ import {
 import { setEditProfilePage } from "../../redux/slices/UiSlice";
 import { useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
+import { updateProfile } from "../../redux/actions/ProfileAction";
 import "./edit-profile.scss";
-import { ubdateProfile } from "../../redux/actions/ProfileAction";
 
 const EditProfile = (user) => {
   const dispatch = useDispatch();
   const avatarFileInputRef = useRef(null);
   const backgroundFileInputRef = useRef(null);
 
-  const chanceAvatarClick = () => {
-    avatarFileInputRef.current.click();
-  };
-
-  const chanceBackgroundClick = () => {
-    backgroundFileInputRef.current.click();
-  };
-
- 
-
   const [avatar, setAvatar] = useState({
-    adress: "",
+    adress: user?.user?.avatar,
     file: null,
   });
+ 
 
-  const [background, setBackground] = useState({adress:user.user.background,file:null});
+  const [background, setBackground] = useState({
+    adress: user?.user?.background,
+    file: null,
+  });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -54,17 +48,38 @@ const EditProfile = (user) => {
     username: "",
     bio: "",
     location: "",
-    socialAdress: {
-      github: "",
-      linkedin: "",
-      youtube: "",
-      website: "",
-      twitter: "",
-    },
+    github: "",
+    linkedin: "",
+    youtube: "",
+    website: "",
+    twitter: "",
   });
 
   const handleInputChance = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const data = {
+      _id: user.user._id,
+      name: formData.name,
+      surname: formData.surname,
+      username: formData.username,
+      bio: formData.bio,
+      location: formData.location,
+      avatar: user.user.avatar,
+      background: user.user.background,
+      socialAdress: {
+        github: formData.github,
+        linkedin: formData.linkedin,
+        youtube: formData.youtube,
+        website: formData.website,
+        twitter: formData.twitter,
+      },
+    };
+    dispatch(updateProfile(data, avatar.file, background.file));
   };
 
   useEffect(() => {
@@ -74,37 +89,13 @@ const EditProfile = (user) => {
       username: user.user.username,
       bio: user.user.bio,
       location: user.user.location,
-      background: user.user.background,
       github: user.user.socialAdress.github,
       linkedin: user.user.socialAdress.linkedin,
       youtube: user.user.socialAdress.youtube,
       website: user.user.socialAdress.website,
       twitter: user.user.socialAdress.twitter,
     });
-    setAvatar({ adress: user.user.avatar, file: null });
   }, [user]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      _id: user.user._id,
-      name: formData.name,
-      surname: formData.surname,
-      username: formData.username,
-      bio: formData.bio,
-      location: formData.location,
-      socialAdress: {
-        github: formData.github,
-        linkedin: formData.linkedin,
-        youtube: formData.youtube,
-        website: formData.website,
-        twitter: formData.twitter,
-      },
-    };
-
-    dispatch(ubdateProfile(data, avatar.file,background.file));
-  };
-
   return (
     <div id="edit-profile-page">
       <div
@@ -118,45 +109,42 @@ const EditProfile = (user) => {
           encType="multipart/form-data"
         >
           <Card id="user-detail-card">
-            <Box sx={{
-              position: "relative",
-              
-            }}>
+            <Box
+              sx={{
+                position: "relative",
+              }}
+            >
               <img id="background-image" src={background.adress} />
-            <Button
-                    sx={{
-                      width: "140px",
-                      height: "140px",
-                      position: "absolute",
-                      bottom: "0",
-                      right: "0",
-                    }}
-                    onClick={chanceBackgroundClick}
-                    onChange={e=>{
-                      setAvatar({
-                        adress: URL.createObjectURL(e.target.files[0]),
-                        file: e.target.files[0],
-                      })
-                    }}
-                  >
-                    <AddAPhotoIcon />
-                  </Button>
-                  <input
-                    fontSize="small"
-                    type="file"
-                    id="background"
-                    name="background"
-                    ref={backgroundFileInputRef}
-                    onChange={e=>{
-                      setBackground({
-                        adress: URL.createObjectURL(e.target.files[0]),
-                        file: e.target.files[0],
-                      })
-                    }}
-                    style={{ display: "none" }}
-                   />
+              <Button
+                sx={{
+                  width: "140px",
+                  height: "140px",
+                  position: "absolute",
+                  bottom: "0",
+                  right: "0",
+                }}
+                onClick={() => {
+                  backgroundFileInputRef.current.click();
+                }}
+              >
+                <AddAPhotoIcon />
+              </Button>
+              <input
+                fontSize="small"
+                type="file"
+                id="background"
+                name="background"
+                ref={backgroundFileInputRef}
+                onChange={(e) => {
+                  setBackground({
+                    adress: URL.createObjectURL(e.target.files[0]),
+                    file: e.target.files[0],
+                  });
+                }}
+                style={{ display: "none" }}
+              />
             </Box>
-            
+
             <CardHeader
               sx={{
                 background: "none",
@@ -189,7 +177,9 @@ const EditProfile = (user) => {
                       bottom: "-5%",
                       right: "-5%",
                     }}
-                    onClick={chanceAvatarClick}
+                    onClick={() => {
+                      avatarFileInputRef.current.click();
+                    }}
                   >
                     <AddAPhotoIcon />
                   </Button>
@@ -199,14 +189,13 @@ const EditProfile = (user) => {
                     id="avatar"
                     name="avatar"
                     ref={avatarFileInputRef}
-                    onChange={e=>{
+                    onChange={(e) => {
                       setAvatar({
                         adress: URL.createObjectURL(e.target.files[0]),
                         file: e.target.files[0],
-                      })
+                      });
                     }}
                     style={{ display: "none" }}
-                   
                   />
                 </Box>
               }

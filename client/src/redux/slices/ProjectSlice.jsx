@@ -13,7 +13,6 @@ export const projectSlice = createSlice({
   initialState,
   reducers: {
     setProjects: (state, action) => {
-      console.log(action.payload);
       if (action.payload.pagination.page === 2) {
         state.projects = action.payload.projects;
       } else {

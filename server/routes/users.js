@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const fs = require("fs");
 const path = require("path");
 
-const storage = multer.diskStorage({
+const storageAvatar = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads/images/avatars");
   },
@@ -21,7 +21,6 @@ const storage = multer.diskStorage({
         cb(err);
         return;
       }
-
       // Dosya dizinindeki her dosya için kontrol yap
       files.some((existingFile) => {
         // Dosya isminin uzantısız kısmını al ve aranan dosya ismiyle karşılaştır
@@ -45,10 +44,67 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const storageBackground = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/images/backgrounds");
+  },
+  filename: (req, file, cb) => {
+    const directoryPath = "./uploads/images/backgrounds"; // Dosya dizini
+    const username = req.query.username;
 
-router.post("/upload", upload.single("file"), async (req, res) => {
+    // Dosyanın varlığını kontrol et
+    fs.readdir(directoryPath, (err, files) => {
+      if (err) {
+        console.error("Dosya dizini okunurken bir hata oluştu:", err);
+        cb(err);
+        return;
+      }
+      // Dosya dizinindeki her dosya için kontrol yap
+      files.some((existingFile) => {
+        // Dosya isminin uzantısız kısmını al ve aranan dosya ismiyle karşılaştır
+        const fileName = existingFile.split(".")[0];
+        if (fileName === username) {
+          // Dosya varsa sil
+          fs.unlink(path.join(directoryPath, existingFile), (err) => {
+            if (err) {
+              console.error("Dosya silinirken bir hata oluştu:", err);
+              cb(err);
+              return;
+            }
+            cb(null, `${username}.${file.originalname.split(".").pop()}`);
+          });
+        } else {
+          // Dosya yoksa dosya adını kullanarak devam et
+          cb(null, `${username}.${file.originalname.split(".").pop()}`);
+        }
+      });
+    });
+  },
+});
+
+const uploadAvatar = multer({storage:storageAvatar });
+const uploadBackground = multer({ storage:storageBackground });
+
+//kullanıcı avatarını günceller
+router.post("/upload/avatars", uploadAvatar.single("file"), async (req, res) => {
+  console.log(req.query.username);
+  if (!req.file) {
+   res.status(404).json("Dosya yüklenemedi");
+  }
+  else{
   res.status(200).json(req.file);
+  }
+});
+
+// kullanıcı arkaplan resmini günceller
+router.post("/upload/backgrounds", uploadBackground.single("file"), async (req, res) => {
+  console.log(req.query.username);
+  if (!req.file) {
+   res.status(404).json("Dosya yüklenemedi");
+  }
+  else{
+  res.status(200).json(req.file);
+  }
 });
 
 const generateRandomAvatar = () => {

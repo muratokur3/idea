@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const UserChema = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 const generateRandomAvatar = () => {
   const randomAvatar = Math.floor(Math.random() * 70 + 1);
@@ -46,14 +47,14 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res.status(401).json("Böyle bir kullanıcı bulunamadı");
     }
-   const isPasswordValid =await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     if (user.isDeleted) {
       return res.status(401).json("Bu kullanıcının hesabı dondurulmuş");
     }
 
-   if (!isPasswordValid) {
-    return res.status(401).json("Hatalı şifre");
-    } 
+    if (!isPasswordValid) {
+      return res.status(401).json("Hatalı şifre");
+    }
 
     const payload = {
       id: user._id,
@@ -70,9 +71,50 @@ router.post("/login", async (req, res) => {
       favorites: user.favorites,
       notifications: user.notifications,
     };
-    
-    return res.status(200).json(payload);
+    // const token = jwt.sign(
+    //   { id: user._id, username: user.username },
+    //   "secret",
+    //   {
+    //     expiresIn: "7d",
+    //   }
+    // );
 
+    return res.status(200).json(payload);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+router.post("/log", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await UserChema.findOne({ email });
+    if (!user) {
+      return res.status(401).json("Böyle bir kullanıcı bulunamadı");
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (user.isDeleted) {
+      return res.status(401).json("Bu kullanıcının hesabı dondurulmuş");
+    }
+
+    if (!isPasswordValid) {
+      return res.status(401).json("Hatalı şifre");
+    }
+
+    const payload = {
+      id: user._id,
+      username: user.username,
+    };
+    const token = jwt.sign(payload, "secret");
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 5,
+    });
+
+    return res.status(200).json(payload);
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");

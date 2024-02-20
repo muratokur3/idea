@@ -22,29 +22,71 @@ const getProfile = (Username) => async (dispatch) => {
   }
 };
 
-const ubdateProfile = (user, avatar) => async (dispatch) => {
+const updateProfile = (user, avatar, background) => async (dispatch) => {
   const ubdateAvatar = async () => {
-    const data = new FormData();
-    data.append("file", avatar);
-    data.append("username", user.username)
-    const response = await axios.post(`${apiUrl}/api/users/upload?username=${user.username}`, data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    if (response.status === 200) {
-      console.log("Profil resmi güncellendi", response.data.filename);
-      return `${apiUrl}/uploads/images/avatars/${response.data.filename}`;
-    } else {
-      alert("Profil resmi güncellenemedi");
+    console.log("Profil resmi güncelleniyor", avatar, user.username);
+    try {
+      const avatarfile = new FormData();
+      avatarfile.append("file", await avatar);
+      const response = await axios.post(
+        `${apiUrl}/api/users/upload/avatars?username=${user?.username}`,
+        avatarfile,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.status === 200) {
+        console.log("Profil resmi güncellendi", response.data.filename);
+        return `${apiUrl}/uploads/images/avatars/${response.data.filename}`;
+      }
+    } catch (error) {
+      console.log("avatar olmadı", error, error.message);
     }
   };
-  const newImageUrl=await ubdateAvatar();
-  console.log(newImageUrl);
+
+  const ubdateBackground = async () => {
+    console.log("background güncelleniyor", background, user.username);
+
+    try {
+      const data = new FormData();
+      data.append("file", await background);
+      const responseBackground = await axios.post(
+        `${apiUrl}/api/users/upload/backgrounds?username=${user?.username}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (responseBackground.status === 200) {
+        console.log(
+          "Arkaplan resmi güncellendi",
+          responseBackground.data.filename
+        );
+        return `${apiUrl}/uploads/images/backgrounds/${responseBackground.data.filename}`;
+      }
+
+      console.log("Arkaplan resmi güncellenemedi", responseBackground);
+    } catch (error) {
+      console.log("Arkaplan resmi güncellenemedi", error.message);
+    }
+  };
+
+  const newAvatarUrl = avatar ? await ubdateAvatar() : user?.avatar;
+  const newBackgroundUrl = background
+    ? await ubdateBackground()
+    : user?.background;
 
   const response = await axios.put(
     `${apiUrl}/api/users/ubdateUser/${user._id}`,
-    {...user,avatar:newImageUrl?newImageUrl:user.avatar},
+    {
+      ...user,
+      avatar: newAvatarUrl,
+      background: newBackgroundUrl,
+    },
     {
       headers: {
         "Content-Type": "application/json",
@@ -54,9 +96,14 @@ const ubdateProfile = (user, avatar) => async (dispatch) => {
   if (response.status === 200) {
     alert("Profiliniz başarıyla güncellendi");
     dispatch(setEditProfilePage(false));
-    
-    dispatch(setProfile({...user,avatar:newImageUrl?newImageUrl:user.avatar}));
 
+    dispatch(
+      setProfile({
+        ...user,
+        avatar: newAvatarUrl ? newAvatarUrl : user.avatar,
+        background: newBackgroundUrl ? newBackgroundUrl : user.background,
+      })
+    );
   } else {
     alert("Profiliniz güncellenemedi");
   }
@@ -152,9 +199,9 @@ const unfollow = (followerId, followingId, user) => async (dispatch) => {
 
 export {
   getProfile,
-  ubdateProfile,
   getFollowers,
   getFollowing,
   follow,
   unfollow,
+  updateProfile,
 };

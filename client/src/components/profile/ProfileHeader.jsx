@@ -31,7 +31,6 @@ const UserDetail = ({ profileData }) => {
   const activeUser = useSelector((state) => state.authentication.user);
   const profileUSerData = useSelector((state) => state.profile.user);
   const profileUserPosts = useSelector((state) => state.posts.profilePosts);
-  const background = "https://picsum.photos/1024/500?random=1";
   const navigate = useNavigate();
   const editProfilePage = useSelector((state) => state.ui.editProfilePage);
 
@@ -40,7 +39,8 @@ const UserDetail = ({ profileData }) => {
       {editProfilePage && <EditProfile user={profileData.user} />}
 
       <Card id="user-detail-card">
-        <img id="background-image" src={background} />
+        <img id="background-image" src={profileData.user.background} />
+        <div id="background-image-opacity"></div>
         <CardHeader
           avatar={
             <Avatar
