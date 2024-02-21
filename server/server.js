@@ -4,11 +4,12 @@ const path = require('path');
 const mainRoute = require("./routes");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+dotenv.config();
+const bodyParser = require("body-parser");
 const logger = require("morgan");
 const cors = require("cors");
 const port = 7000;
-dotenv.config();
-
+const checkJwt = require('./middleware/auth');
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_CONNECTION_STRING);
@@ -26,7 +27,7 @@ app.use(cors());
 
 app.use('/uploads', express.static('uploads'));
 
-app.use("/api", mainRoute);
+app.use("/api",checkJwt, mainRoute);
 
 app.listen(port, () => {
   connectDB();

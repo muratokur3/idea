@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const UserChema = require("../models/User");
 const jwt = require("jsonwebtoken");
-
 const generateRandomAvatar = () => {
   const randomAvatar = Math.floor(Math.random() * 70 + 1);
   return `https://i.pravatar.cc/300?img=${randomAvatar}`;
@@ -106,15 +105,19 @@ router.post("/log", async (req, res) => {
     const payload = {
       id: user._id,
       username: user.username,
+      exp: Math.floor(Date.now() / 1000) + 60 * 5,
+      issuer:"idea.com",
     };
-    const token = jwt.sign(payload, "secret");
+    const token = jwt.sign(payload, process.env.SECRET_KEY);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 5,
-    });
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   maxAge: 1000 * 60 * 5,
+    // });
+   
+    
 
-    return res.status(200).json(payload);
+    return res.status(200).json(token);
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
