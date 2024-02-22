@@ -22,6 +22,8 @@ const getHomeData = (pagination) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
+      
     });
     dispatch(
       setHome({
@@ -43,8 +45,9 @@ const getPrivateMeData = (pagination) => async (dispatch) => {
           page: pagination.page,
         },
         headers: {
-          "Content-Type": "application/json",
-        },
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
       }
     );
     dispatch(
@@ -64,7 +67,10 @@ const getExploreData = (pagination) => async (dispatch) => {
       params: {
         page: pagination.page,
       },
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
     });
     dispatch(
       setExplore({
@@ -84,7 +90,10 @@ const getHashtagExploreData = (pagination, hashtag) => async (dispatch) => {
         hashtagname: hashtag,
         page: pagination.page,
       },
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
     });
     dispatch(
       setHashtagExplore({
@@ -105,7 +114,10 @@ const getFavoritesPosts = (pagination) => async (dispatch) => {
         params: {
           page: pagination.page,
         },
-        headers: { "Content-Type": "application/json" },
+        headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
       }
     );
     dispatch(
@@ -127,7 +139,10 @@ const getProfilePosts = (pagination, username) => async (dispatch) => {
         params: {
           page: pagination.page,
         },
-        headers: { "Content-Type": "application/json" },
+        headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
       }
     );
     dispatch(
@@ -147,7 +162,7 @@ const getProfileLikesPosts = (pagination, username) => async (dispatch) => {
       params: {
         page: pagination.page,
       },
-      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
     });
     dispatch(
       setProfileLikes({
@@ -166,6 +181,7 @@ const createPost = (post) => async () => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
   } catch (error) {
     console.error("veri kaydederken hata oluştu:", error);
@@ -176,7 +192,10 @@ const like = (post) => async (dispatch) => {
   try {
     // Sunucuya beğeni isteği gönder
     const response = await axios.post(
-      `${urlApi}/api/posts/like/${post._id}/${userId}`
+      `${urlApi}/api/posts/like/${post._id}/${userId}`,
+      {
+        withCredentials: true,
+      }
     );
     const newPost = {
       ...post,
@@ -189,7 +208,7 @@ const like = (post) => async (dispatch) => {
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData( newPost ));
+      dispatch(setLikeData(newPost));
       // Başarılı beğeni işlemi
       console.log("Post beğenildi");
     }
@@ -205,7 +224,11 @@ const unLike = (post) => async (dispatch) => {
 
     // Sunucuya beğeni geri alma isteği gönder
     const response = await axios.post(
-      `${urlApi}/api/posts/unlike/${post._id}/${userId}`
+      `${urlApi}/api/posts/unlike/${post._id}/${userId}`,
+      {
+      withCredentials: true,
+
+      }
     );
     const newPost = {
       ...post,
@@ -229,7 +252,10 @@ const unLike = (post) => async (dispatch) => {
 const favorite = (post) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${urlApi}/api/posts/favorites/${post._id}/${userId}`
+      `${urlApi}/api/posts/favorites/${post._id}/${userId}`,
+      {
+        withCredentials: true,
+      }
     );
     const newPost = {
       ...post,
@@ -240,7 +266,7 @@ const favorite = (post) => async (dispatch) => {
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData( newPost ));
+      dispatch(setLikeData(newPost));
       // Başarılı beğeni işlemi
       console.log("favoriye eklendi");
     }
@@ -252,19 +278,21 @@ const favorite = (post) => async (dispatch) => {
 const unFavorite = (post) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${urlApi}/api/posts/unfavorites/${post._id}/${userId}`
+      `${urlApi}/api/posts/unfavorites/${post._id}/${userId}`,
+      {
+        withCredentials: true,
+      }
     );
     const newPost = {
       ...post,
-      favorites:
-        new Set(post.favorites).has(userId)
-        ?post.favorites.filter((id) => id !== userId)
+      favorites: new Set(post.favorites).has(userId)
+        ? post.favorites.filter((id) => id !== userId)
         : post.favorites,
     };
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData( newPost ));
+      dispatch(setLikeData(newPost));
       // Başarılı beğeni işlemi
       console.log("favoriden çıkarıldı");
     }

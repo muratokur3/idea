@@ -13,6 +13,7 @@ const getProfile = (Username) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
     if (response.data) {
       dispatch(setProfile(response.data));
@@ -35,6 +36,7 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          withCredentials: true,
         }
       );
       if (response.status === 200) {
@@ -59,6 +61,7 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          withCredentials: true,
         }
       );
       if (responseBackground.status === 200) {
@@ -88,9 +91,11 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
       background: newBackgroundUrl,
     },
     {
+
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     }
   );
   if (response.status === 200) {
@@ -112,7 +117,10 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
 const getFollowers = (username) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${apiUrl}/api/users/followers/${username}`
+      `${apiUrl}/api/users/followers/${username}`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (response.data) {
@@ -126,7 +134,10 @@ const getFollowers = (username) => async (dispatch) => {
 const getFollowing = (username) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${apiUrl}/api/users/following/${username}`
+      `${apiUrl}/api/users/following/${username}`,
+      {
+        withCredentials: true,
+      }
     );
     if (response.data) {
       dispatch(setFollowing(response.data));
@@ -142,6 +153,7 @@ const follow = (followerId, followingId, user) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
   }
   try {
@@ -151,6 +163,7 @@ const follow = (followerId, followingId, user) => async (dispatch) => {
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       }
     );
 
@@ -178,6 +191,7 @@ const unfollow = (followerId, followingId, user) => async (dispatch) => {
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       }
     );
 

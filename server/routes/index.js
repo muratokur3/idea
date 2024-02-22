@@ -1,4 +1,6 @@
 const express = require("express");
+const checkJwt = require('../middleware/auth');
+
 const router = express.Router();
 
 const authRoute = require("./auth.js");
@@ -9,10 +11,10 @@ const projectRoute= require("./projects.js");
 const searchRoute= require("./searchs.js");
 
 router.use("/auth", authRoute);
-router.use("/users", UserRoute);
-router.use("/posts", postRoute);
-router.use("/hashtags", hashtagRoute);
-router.use("/projects", projectRoute);
-router.use("/search", searchRoute);
+router.use("/users",checkJwt, UserRoute);
+router.use("/posts",checkJwt, postRoute);
+router.use("/hashtags",checkJwt, hashtagRoute);
+router.use("/projects",checkJwt, projectRoute);
+router.use("/search",checkJwt, searchRoute);
 
 module.exports = router;

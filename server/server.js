@@ -1,15 +1,13 @@
 const express = require("express");
+const cookieParser = require('cookie-parser');
 const app = express();
-const path = require('path');
 const mainRoute = require("./routes");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
-const bodyParser = require("body-parser");
 const logger = require("morgan");
 const cors = require("cors");
 const port = 7000;
-const checkJwt = require('./middleware/auth');
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_CONNECTION_STRING);
@@ -23,11 +21,18 @@ const connectDB = async () => {
 //middleware
 app.use(logger("dev"));
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:3000","localhost"],
+  credentials: true,
+  httpOnly: true,
+  domain: "localhost",
+  path: "/",
+  session: true,
+}));
 
 app.use('/uploads', express.static('uploads'));
-
-app.use("/api",checkJwt, mainRoute);
+app.use("/api", mainRoute);
 
 app.listen(port, () => {
   connectDB();

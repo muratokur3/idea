@@ -5,7 +5,10 @@ const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const getUser = async (userId) => {
   try {
-    const response = await axios.get(`${apiUrl}/api/users/${userId}`);
+    const response = await axios.get(`${apiUrl}/api/users/${userId}`,
+      {
+        withCredentials: true,
+      });
     return response.data;
   } catch (error) {
     console.log(error);

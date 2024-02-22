@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const UserChema = require("../models/User");
 const jwt = require("jsonwebtoken");
+
 const generateRandomAvatar = () => {
   const randomAvatar = Math.floor(Math.random() * 70 + 1);
   return `https://i.pravatar.cc/300?img=${randomAvatar}`;
@@ -55,7 +56,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json("Hatalı şifre");
     }
 
-    const payload = {
+    const payload1 = {
       id: user._id,
       name: user.name,
       surname: user.surname,
@@ -70,19 +71,43 @@ router.post("/login", async (req, res) => {
       favorites: user.favorites,
       notifications: user.notifications,
     };
-    // const token = jwt.sign(
-    //   { id: user._id, username: user.username },
-    //   "secret",
-    //   {
-    //     expiresIn: "7d",
-    //   }
-    // );
+   
+    const payload = {
+      sub: user._id,
+      username: user.username,
+      exp: Math.floor(Date.now() / 1000) + 60 * 5,
+      issuer:"idea.com",
+    };
+    const token = jwt.sign(payload, process.env.SECRET_KEY);
 
-    return res.status(200).json(payload);
+    res.cookie("teknoToken", token, {
+      httpOnly: true,
+      domain: "localhost",
+      path: "/",
+      session: true,
+      expires: new Date(Date.now() + 60 * 5 * 1000),
+      maxAge: 1000 * 60 *5,
+    });
+   
+    
+
+    return res.status(200).json(payload1);
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
   }
+});
+
+// Kullanıcı çıkışı Logout
+router.get("/logout", async (req, res) => {
+  try {
+    res.clearCookie("teknoToken");
+    res.status(200).json("Çıkış başarılı");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+ 
 });
 
 router.post("/log", async (req, res) => {
@@ -103,17 +128,17 @@ router.post("/log", async (req, res) => {
     }
 
     const payload = {
-      id: user._id,
+      sub: user._id,
       username: user.username,
       exp: Math.floor(Date.now() / 1000) + 60 * 5,
       issuer:"idea.com",
     };
     const token = jwt.sign(payload, process.env.SECRET_KEY);
 
-    // res.cookie("token", token, {
-    //   httpOnly: true,
-    //   maxAge: 1000 * 60 * 5,
-    // });
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 5,
+    });
    
     
 

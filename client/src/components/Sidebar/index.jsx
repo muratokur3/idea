@@ -7,9 +7,9 @@ import { Button, Fade, IconButton, Menu, MenuItem } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setLogin,setUser } from "../../redux/slices/AuthSlice";
 import { setAuthPage } from "../../redux/slices/UiSlice";
 import "./sidebar.scss";
+import { logout } from "../../redux/actions/AuthAction";
 const Sidebar = () => {
   const navigate=useNavigate();
   const authentication = useSelector((state) => state.authentication);
@@ -23,11 +23,8 @@ const Sidebar = () => {
     setAnchorEl(null);
   };
   const lagout = () => {
-    localStorage.clear();
-    dispatch(setLogin(false));
-    dispatch(setUser({}));
+    dispatch(logout());
     setAnchorEl(null);
-    navigate("/");
   }
   return (
     <div id="sidebar-container">

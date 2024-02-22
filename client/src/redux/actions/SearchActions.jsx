@@ -12,6 +12,7 @@ const getSearchResults = (searchReq) => async (dispatch) => {
     headers: {
       "Content-Type": "application/json",
     },
+    withCredentials: true,
   });
   if (response.status === 200) {
     console.log(response.data);

@@ -12,6 +12,7 @@ const getProjects = (pagination, username) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
     if (response.status === 200 ) {
       console.log(response.data);
@@ -28,6 +29,7 @@ const createProject = (data) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
 
     if (response.status === 200) {

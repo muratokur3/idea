@@ -1,17 +1,24 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
-    const token = req.headers.authorization.split(" ")[1];
+module.exports = async (req, res, next) => {
+    const token = req.cookies.teknoToken; // Cookie'den tokeni al
+     console.log("cooki geldi", token);
     if (!token) {
         return res.status(401).json("You need to login");
-    }
+    } 
+   
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        console.log(decoded);
-        next();
-    } catch (error) {
-        console.log(error.message);
-        return res.status(401).json("You need to login");
+    const decoded = jwt.verify(token, process.env.SECRET_KEY); // Tokeni doğrula
+    req.user = decoded;
+    console.log(decoded);
+    next();
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json("Token süresi doldu");
+    } else if (error.name === "JsonWebTokenError") {
+      return res.status(401).json("Geçersiz token");
+    } else {
+      return res.status(401).json("Yetkisiz erişim");
     }
+  }
 };
