@@ -1,7 +1,6 @@
 import axios from "axios";
 import { setLogin, setUser } from "../slices/AuthSlice";
 import { setAuthItem, setAuthPage } from "../slices/UiSlice";
-import { useNavigate } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 //kullanıcı kayıt olurken kullanılır
@@ -33,11 +32,8 @@ const loginClient = (data) => async (dispatch) => {
       withCredentials: true,
     });
     if (response.status === 200) {
-      localStorage.setItem("username", response.data.username);
-      localStorage.setItem("userId", response.data.id);
       localStorage.setItem("isLogin", true);
       localStorage.setItem("avatar", response.data.avatar);
-      localStorage.setItem("user", JSON.stringify(response.data));
       dispatch(setLogin(true));
       dispatch(setUser(response.data));
       dispatch(setAuthPage(false));
@@ -50,24 +46,4 @@ const loginClient = (data) => async (dispatch) => {
   }
 };
 
-//kullanıcı çıkış yaparken kullanılır
-const logout = () => async (dispatch) => {
-  const navigate = useNavigate();
-  try {
-    await axios.get(`${apiUrl}/api/auth/logout`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    });
-    localStorage.clear();
-    dispatch(setLogin(false));
-    dispatch(setUser({}));
-    navigate("/");
-
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export {  registerUser, loginClient, logout };
+export {  registerUser, loginClient };

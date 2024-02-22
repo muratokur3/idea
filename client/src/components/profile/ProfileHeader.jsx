@@ -27,8 +27,8 @@ import { setEditProfilePage } from "../../redux/slices/UiSlice";
 /* eslint-disable react/prop-types */
 const UserDetail = ({ profileData }) => {
   const dispatch = useDispatch();
-  const activeUserId = localStorage.getItem("userId");
   const activeUser = useSelector((state) => state.authentication.user);
+  const activeUserId = activeUser._id;
   const profileUSerData = useSelector((state) => state.profile.user);
   const profileUserPosts = useSelector((state) => state.posts.profilePosts);
   const navigate = useNavigate();

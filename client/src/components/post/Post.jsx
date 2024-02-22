@@ -1,7 +1,6 @@
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import CardContent from "@mui/material/CardContent";
@@ -32,8 +31,9 @@ const Post = ({ post }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
-  const LoginUserId = localStorage.getItem("userId");
   const activeUser = useSelector((state) => state.authentication.user);
+  const LoginUserId = "65aeda920d5e565c34ce6d93";
+  // eslint-disable-next-line no-unused-vars
   const ExpandMore = styled(IconButton)(({ expand }) => ({
     color: "white",
   }));
@@ -47,6 +47,7 @@ const Post = ({ post }) => {
   });
   const [expanded, setExpanded] = useState(false);
 
+ 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -73,7 +74,7 @@ const Post = ({ post }) => {
         action={
           <Box display={"flex"}>
             {
-       activeUser &&   post.userId!==activeUser.id &&
+       activeUser &&  post.userId!==LoginUserId &&
             <IconButton aria-label="settings">
               {new Set(activeUser.following).has(post.userId) ? 
               (
@@ -88,7 +89,7 @@ const Post = ({ post }) => {
               size="small"
                 className="follow-button"
                 variant="contained"
-                onClick={() => dispatch(follow(activeUser.id, post.userId))}
+                onClick={() => dispatch(follow(LoginUserId, post.userId))}
               >
                 Takip Et
               </Button>
@@ -97,7 +98,7 @@ const Post = ({ post }) => {
           }
             <ActionsButton actions={[
             { label: "Bildir", onClick: () => {alert("bildir")} },
-            post.userId === LoginUserId&&{ label: "Sil", onClick: () => {alert("sil")} },
+             post.userId === LoginUserId&&{ label: "Sil", onClick: () => {alert("sil")} },
           ]} />
           </Box>
          
@@ -145,7 +146,7 @@ const Post = ({ post }) => {
       >
         <Box>
           <IconButton aria-label="like">
-            {post.likes.some((id) => id === LoginUserId) ? (
+            {post.likes.some((id) =>  id === LoginUserId) ? (
               <FavoriteIcon onClick={() => dispatch(unLike(post))} />
             ) : (
               <FavoriteBorderIcon onClick={() => dispatch(like(post))} />
@@ -158,7 +159,7 @@ const Post = ({ post }) => {
             <IosShareIcon />
           </IconButton>
           <IconButton aria-label="favorites">
-            {post.favorites.find((userId) => userId === LoginUserId) ? (
+            {post.favorites.find((userId) =>  userId === LoginUserId) ? (
               <StarIcon onClick={() => dispatch(unFavorite(post))} />
             ) : (
               <StarBorderIcon onClick={() => dispatch(favorite(post))} />

@@ -11,6 +11,7 @@ import "./project.scss";
 
 const Project = () => {
   const projectData = useSelector((state) => state.project);
+  const activeUser = useSelector((state) => state.authentication.user);
   const dispatch = useDispatch();
   const { username } = useParams();
 
@@ -20,7 +21,7 @@ const Project = () => {
 
   return (
     <div id="project-container">
-     {username === localStorage.getItem("username") && (
+     {username === activeUser?.username && (
         <Button
         variant="contained"
         color="primary"

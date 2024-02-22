@@ -4,14 +4,14 @@ import { useEffect } from "react";
 import { getFavoritesPosts } from "../redux/actions/PostActions";
 const Favorite = () => {
   const favoriteData = useSelector((state) => state.posts.favorites);
-  const username = localStorage.getItem("username");
+  const username = useSelector((state) => state.authentication.user.username);
   const dispatch = useDispatch();
   
   useEffect(() => {
-    dispatch(getFavoritesPosts({page:1,hasMore:true}));
+    dispatch(getFavoritesPosts({page:1,hasMore:true},username));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return <ListPost data={favoriteData} getPosts={()=>dispatch(getFavoritesPosts(favoriteData.pagination, username))} />;
+  return <ListPost data={favoriteData} getPosts={()=>dispatch(getFavoritesPosts(favoriteData?.pagination, username))} />;
 };
 
 export default Favorite;

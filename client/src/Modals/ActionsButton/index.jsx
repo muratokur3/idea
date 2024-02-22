@@ -41,8 +41,8 @@ const ActionsButton = ({ actions }) => {
         }}
       >
         {actions.map((action, index) => (
-          <MenuItem key={index} onClick={action.onClick}>
-            {action.label}
+          <MenuItem key={index} onClick={action?.onClick}>
+            {action?.label}
           </MenuItem>
         ))}
       </Menu>

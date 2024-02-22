@@ -57,7 +57,7 @@ router.post("/login", async (req, res) => {
     }
 
     const payload1 = {
-      id: user._id,
+      _id: user._id,
       name: user.name,
       surname: user.surname,
       username: user.username,
@@ -75,6 +75,7 @@ router.post("/login", async (req, res) => {
     const payload = {
       sub: user._id,
       username: user.username,
+      rol: user.rol,
       exp: Math.floor(Date.now() / 1000) + 60 * 5,
       issuer:"idea.com",
     };

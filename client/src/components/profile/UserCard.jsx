@@ -1,8 +1,7 @@
 import { follow, unfollow } from "../../redux/actions/ProfileAction";
-import { Avatar, Box, Button, CardContent, Typography } from "@mui/material";
+import { Avatar, Button, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import CardHeader from "@mui/material/CardHeader";
 import { red } from "@mui/material/colors";
@@ -12,7 +11,6 @@ import PropTypes from "prop-types";
 const UserCard = ({ user }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const activeUserId = localStorage.getItem("userId");
   const activeUser = useSelector((state) => state.authentication.user);
 
   return (
@@ -41,7 +39,7 @@ const UserCard = ({ user }) => {
                   className="follow-button"
                   variant="contained"
                   onClick={() =>
-                    dispatch(unfollow(activeUserId, user._id, user))
+                    dispatch(unfollow(activeUser._id, user._id, user))
                   }
                 >
                   Takibi Bırak
@@ -54,7 +52,7 @@ const UserCard = ({ user }) => {
                 <Button
                   className="follow-button"
                   variant="contained"
-                  onClick={() => dispatch(follow(activeUserId, user._id, user))}
+                  onClick={() => dispatch(follow(activeUser._id, user._id, user))}
                 >
                   Takip Et
                 </Button>

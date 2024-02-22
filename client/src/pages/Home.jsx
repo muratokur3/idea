@@ -14,6 +14,8 @@ const Home = () => {
   const homeData = useSelector((state) => state.posts.home);
   const privateMeData = useSelector((state) => state.posts.privateMe);
 
+  
+
   useEffect(() => {
     homeData.posts.length === 0 && dispatch(getHomeData(homeData.pagination));
     filterName !== "all" && privateMeData.posts.length === 0 && dispatch(getPrivateMeData(privateMeData.pagination));

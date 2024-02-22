@@ -9,9 +9,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setAuthPage } from "../../redux/slices/UiSlice";
 import "./sidebar.scss";
-import { logout } from "../../redux/actions/AuthAction";
+import axios from "axios";
+import { setLogin, setUser } from "../../redux/slices/AuthSlice";
 const Sidebar = () => {
-  const navigate=useNavigate();
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
+const navigate=useNavigate();
   const authentication = useSelector((state) => state.authentication);
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -22,8 +24,23 @@ const Sidebar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const lagout = () => {
-    dispatch(logout());
+  const lagout = async() => {
+      try {
+        await axios.get(`${apiUrl}/api/auth/logout`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        });
+        localStorage.clear();
+        dispatch(setLogin(false));
+        dispatch(setUser({}));
+        navigate("/");
+    
+      } catch (error) {
+        console.log(error);
+      }
+    
     setAnchorEl(null);
   }
   return (
@@ -37,7 +54,7 @@ const Sidebar = () => {
         <div id="menu-profile-detail">
           <Avatar
             alt="Remy Sharp"
-            src={authentication.user.avatar}
+            src={authentication?.user?.avatar}
             sx={{ width: 45, height: 45 }}
           />
           <div>

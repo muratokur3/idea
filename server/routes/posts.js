@@ -65,6 +65,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+
 //çoklu post oluşturur
 // router.post("/createMany", async (req, res) => {
 //   try {
@@ -86,6 +87,7 @@ router.post("/", async (req, res) => {
 //     res.status(500).json("Server Error");
 //   }
 // });
+
 
 //tüm postları getirir
 router.get("/", async (req, res) => {
