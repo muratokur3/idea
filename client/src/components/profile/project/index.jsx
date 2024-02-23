@@ -41,8 +41,7 @@ const Project = () => {
         loader={<ProjectSkeleton />}
         endMessage={
           <p style={{ textAlign: "center", fontSize: ".8rem" }}>
-            {projectData.projects.length} öğe listelendi. Gösterilecek başka
-            proje yok
+            {projectData.projects.length} öğe
           </p>
         }
       ></InfinieScroll>

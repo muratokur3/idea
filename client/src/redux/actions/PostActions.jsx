@@ -81,14 +81,13 @@ const getPrivateMeData = (pagination) => async (dispatch) => {
 
 const getExploreData = (pagination) => async (dispatch) => {
   try {
-    const response = await axios.get(`${urlApi}/api/posts/explore`, {
+    const response = await axios.get(`${urlApi}/api/quest/posts/explore`, {
       params: {
         page: pagination.page,
       },
       headers: {
         "Content-Type": "application/json",
       },
-      withCredentials: true,
     });
     dispatch(
       setExplore({
@@ -103,7 +102,7 @@ const getExploreData = (pagination) => async (dispatch) => {
 
 const getHashtagExploreData = (pagination, hashtag) => async (dispatch) => {
   try {
-    const response = await axios.get(`${urlApi}/api/posts/explore/hashtag`, {
+    const response = await axios.get(`${urlApi}/api/quest/posts/explore/hashtag`, {
       params: {
         hashtagname: hashtag,
         page: pagination.page,
@@ -111,7 +110,6 @@ const getHashtagExploreData = (pagination, hashtag) => async (dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
-      withCredentials: true,
     });
     dispatch(
       setHashtagExplore({
@@ -153,7 +151,7 @@ const getFavoritesPosts = (pagination,username) => async (dispatch) => {
 const getProfilePosts = (pagination, username) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${urlApi}/api/posts/profile/${username}`,
+      `${urlApi}/api/quest/posts/profile/${username}`,
       {
         params: {
           page: pagination.page,

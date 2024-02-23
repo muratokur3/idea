@@ -19,30 +19,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-//kullanıc id değerine göre projeleri getirir
-router.get("/:username", async (req, res) => {
-  try {
-    const username = req.params.username;
-    const currentUser = await UserChema.findOne({ username: username });
-    const page = parseInt(req.query.page);
-    const limit = 2;
-    const startIndex = (page - 1) * limit;
-
-    const projects = await ProjectChema.find({ userId: currentUser._id })
-      .sort({ createdAt: -1 })
-      .skip(startIndex)
-      .limit(limit);
-
-    const pagination = {
-      page: page + 1,
-      hasMore: projects.length < limit ? false : true,
-    };
-    res.status(200).json({ projects, pagination });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
 
 //id ye göre projeyı getirir
 router.get("/:id", async (req, res) => {

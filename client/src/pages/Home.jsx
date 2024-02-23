@@ -25,6 +25,7 @@ const Home = () => {
 
   return (
     <div id="home-container">
+
       {isLogin && (
         <Tabs value={filterName} id="tabs" centered textColor="white">
           <Tab
@@ -39,6 +40,9 @@ const Home = () => {
           />
         </Tabs>
       )}
+     
+      
+
       {isLogin && <NewPost />}
       {filterName === "all" && <ListPost data={homeData} getPosts={() => dispatch(getHomeData(homeData.pagination))} />}
       {filterName !== "all" && <ListPost data={privateMeData} getPosts={() => dispatch(getPrivateMeData(privateMeData.pagination))} />}

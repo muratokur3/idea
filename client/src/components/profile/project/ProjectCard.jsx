@@ -136,6 +136,6 @@ const ProjectCard = ({ project }) => {
 };
 
 export default ProjectCard;
-ProjectCard.PropTypes = {
+ProjectCard.propTypes = {
   project: PropTypes.object,
 };

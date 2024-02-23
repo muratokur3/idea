@@ -9,7 +9,7 @@ import { setEditProfilePage } from "../slices/UiSlice";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 const getProfile = (Username) => async (dispatch) => {
   try {
-    const response = await axios.get(`${apiUrl}/api/users/${Username}`, {
+    const response = await axios.get(`${apiUrl}/api/quest/${Username}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -117,7 +117,7 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
 const getFollowers = (username) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${apiUrl}/api/users/followers/${username}`,
+      `${apiUrl}/api/quest/followers/${username}`,
       {
         withCredentials: true,
       }
@@ -134,7 +134,7 @@ const getFollowers = (username) => async (dispatch) => {
 const getFollowing = (username) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${apiUrl}/api/users/following/${username}`,
+      `${apiUrl}/api/quest/following/${username}`,
       {
         withCredentials: true,
       }

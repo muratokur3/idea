@@ -85,7 +85,7 @@ const Menu = () => {
                 <ListItemIcon>
                   <StarBorderIcon />
                 </ListItemIcon>
-                <ListItemText primary="Favoriler" 
+                <ListItemText primary="Favorilerim"
               sx={{ display: widthThreshold ? "none" : "block" }}/>
               </ListItemButton>
             </ListItem>

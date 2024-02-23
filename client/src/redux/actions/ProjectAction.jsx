@@ -5,7 +5,7 @@ const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const getProjects = (pagination, username) => async (dispatch) => {
   try {
-    const response = await axios.get(`${apiUrl}/api/projects/${username}`, {
+    const response = await axios.get(`${apiUrl}/api/quest/projects/${username}`, {
       params: {
         page: pagination.page,
       },

@@ -14,7 +14,7 @@ const ListPost = ({ data,getPosts }) => {
       next={()=>getPosts()}
       hasMore={data.pagination.hasMore}
       loader={<PostSkeleton />}
-      endMessage={<p style={{textAlign:"center", fontSize:".8rem"}}>{data.posts.length} öğe listelendi. Gösterilecek başka post yok</p>}
+      endMessage={<p style={{textAlign:"center", fontSize:".8rem",marginTop:"20px"}}>{data.posts.length} öğe</p>}
     >
      {data.posts.map((post, index) => (
         <Post key={index} post={post}/>

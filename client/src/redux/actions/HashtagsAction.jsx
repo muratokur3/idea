@@ -16,7 +16,7 @@ const getHashtags = () => async (dispatch) => {
 };
 const getHashtagsExplore = () => async (dispatch) => {
   try {
-    const response = await axios.get(`${urlApi}/api/hashtags/explore`, {
+    const response = await axios.get(`${urlApi}/api/quest/hashtags/explore`, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     });

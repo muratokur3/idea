@@ -163,62 +163,6 @@ router.get("/privateMe/:userId", async (req, res) => {
   }
 });
 
-//keşfet sayfası için en çok beğenilen ve oluşturma tarihine göre postları getirir
-router.get("/explore", async (req, res) => {
-  try {
-    const page = parseInt(req.query.page);
-    const limit = 5;
-    const startIndex = (page - 1) * limit;
-
-    const allPosts = await PostChema.find()
-      .sort({ likesCount: -1, createdAt: -1 })
-      .limit(limit)
-      .skip(startIndex);
-
-    const pagination = {
-      page: page + 1,
-      hasMore: allPosts.length === limit,
-    };
-
-    res
-      .status(200)
-      .json({ posts: await concatPostDetails(allPosts), pagination });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-//hashtag e göre postları getirir
-router.get("/explore/hashtag", async (req, res) => {
-  try {
-    const hashtag = req.query.hashtagname;
-    console.log(hashtag);
-    const page = parseInt(req.query.page);
-    const limit = 5;
-    const startIndex = (page - 1) * limit;
-    const currentHashtag = await HashtagChema.findOne({ name: hashtag });
-    const hashtagPosts = await PostChema.find({
-      hashtags: { $in: currentHashtag._id },
-    })
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .skip(startIndex);
-
-    const pagination = {
-      page: page + 1,
-      hasMore: hashtagPosts.length === limit,
-    };
-
-    res
-      .status(200)
-      .json({ posts: await concatPostDetails(hashtagPosts), pagination });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
 //kişinin favori postlarını getirir
 router.get("/favorite/:username", async (req, res) => {
   try {
@@ -242,48 +186,6 @@ router.get("/favorite/:username", async (req, res) => {
     res
       .status(200)
       .json({ posts: await concatPostDetails(favoritesPost), pagination });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-//id ye göre post getirir
-router.get("/:id", async (req, res) => {
-  if (!(await PostChema.findById(req.params.id))) {
-    return res.status(404).json("Post not found");
-  }
-  try {
-    const postId = req.params.id;
-    const post = await PostChema.findById(postId);
-    res.status(200).json(await concatPostDetails(post));
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-//userId den postları getirir(profile)
-router.get("/profile/:username", async (req, res) => {
-  try {
-    const currentUser = await UserChema.findOne({
-      username: req.params.username,
-    });
-    const page = parseInt(req.query.page);
-    const limit = 5;
-    const startIndex = (page - 1) * limit;
-    const userPosts = await PostChema.find({ userId: currentUser._id })
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .skip(startIndex);
-
-    const pagination = {
-      page: page + 1,
-      hasMore: userPosts.length === limit,
-    };
-    res
-      .status(200)
-      .json({ posts: await concatPostDetails(userPosts), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
