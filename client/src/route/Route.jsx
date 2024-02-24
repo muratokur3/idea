@@ -16,7 +16,7 @@ import LikeMe from "../pages/LikeMe";
 import Home from "../pages/Home";
 
 function ClientRoutes() {
-    return (
+  return (
         <Routes>
           <Route path="/*" element={<ClientLayout/>}>
             <Route index element={<Home />} />

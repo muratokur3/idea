@@ -15,7 +15,6 @@ const getSearchResults = (searchReq) => async (dispatch) => {
     withCredentials: true,
   });
   if (response.status === 200) {
-    console.log(response.data);
     dispatch(setSearch(response.data));
   }
 };

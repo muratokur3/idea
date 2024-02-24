@@ -32,14 +32,14 @@ const UserCard = ({ user }) => {
           </Avatar>
         }
         action={
-          user.followers.some((u) => u === activeUser.id) ? (
+          user?.followers?.some((u) => u === activeUser?._id) ? (
             <IconButton aria-label="settings">
-              {activeUser && activeUser.id !== user._id && (
+              {activeUser && activeUser?._id !== user?._id && (
                 <Button
                   className="follow-button"
                   variant="contained"
                   onClick={() =>
-                    dispatch(unfollow(activeUser._id, user._id, user))
+                    dispatch(unfollow(activeUser?._id, user?._id, user))
                   }
                 >
                   Takibi Bırak
@@ -48,11 +48,11 @@ const UserCard = ({ user }) => {
             </IconButton>
           ) : (
             <IconButton aria-label="settings">
-              {activeUser && activeUser.id !== user._id && (
+              {activeUser && activeUser?._id !== user?._id && (
                 <Button
                   className="follow-button"
                   variant="contained"
-                  onClick={() => dispatch(follow(activeUser._id, user._id, user))}
+                  onClick={() => dispatch(follow(activeUser?._id, user?._id, user))}
                 >
                   Takip Et
                 </Button>

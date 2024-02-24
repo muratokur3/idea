@@ -12,7 +12,7 @@ const searchRoute= require("./searchs.js");
 const qusetRoute = require("./quest.js");
 
 router.use("/auth", authRoute);
-router.use("/users",checkJwt, UserRoute);
+router.use("/users", UserRoute);
 router.use("/posts",checkJwt, postRoute);
 router.use("/hashtags",checkJwt, hashtagRoute);
 router.use("/projects",checkJwt, projectRoute);

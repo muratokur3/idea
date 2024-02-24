@@ -12,7 +12,6 @@ export const searchSlice = createSlice({
   initialState,
   reducers: {
     setSearch: (state, action) => {
-      console.log(action.payload);
       state.users = action.payload.users;
       state.hashtags = action.payload.hashtags;
     }

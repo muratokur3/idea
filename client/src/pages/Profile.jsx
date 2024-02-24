@@ -60,10 +60,8 @@ const ProfileLayout = () => {
         {
           margin: "20px",
           borderRadius: "10px",
-          
         }
       }>
-
       {page()}
       </Box>
     </div>

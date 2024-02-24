@@ -8,8 +8,9 @@ import "./auth.scss";
 const Auth = () => {
   const dispatch = useDispatch();
   const authItem = useSelector((state) => state.ui.authItem);
+  const authPage = useSelector((state) => state.ui.authPage);
   return (
-    <div id="auth-container">
+    <div id="auth-container" style={{display:authPage?"flex":"none"}}>
       <div id="modal-overlay" onClick={() => dispatch(setAuthPage(false))}></div>
       <div id="auth-center-box">
       {authItem=="register" && <Register /> }
@@ -19,7 +20,7 @@ const Auth = () => {
        <Button
           className="close-login-page"
           onClick={() => dispatch(setAuthPage(false))}
-          TransitionComponent={Fade}
+          transitioncomponent={Fade}
         >
           X
         </Button>
@@ -27,6 +28,7 @@ const Auth = () => {
      
     </div>
   );
+  
 };
 
 export default Auth;

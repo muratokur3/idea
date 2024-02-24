@@ -117,7 +117,6 @@ router.get("/timeline/:userId", async (req, res) => {
       .limit(limit)
       .skip(startIndex);
 
-    console.log(page);
     const pagination = {
       page: page + 1,
       hasMore: allPosts.length === limit,
@@ -147,7 +146,6 @@ router.get("/privateMe/:userId", async (req, res) => {
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip(startIndex);
-    console.log(page);
 
     const pagination = {
       page: page + 1,

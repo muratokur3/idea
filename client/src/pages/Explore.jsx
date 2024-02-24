@@ -146,7 +146,7 @@ const Explore = () => {
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
-            TransitionComponent={Fade}
+            transitioncomponent={Fade}
             PaperProps={{
               style: {
                 backgroundColor: "black",

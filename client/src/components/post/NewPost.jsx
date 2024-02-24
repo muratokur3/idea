@@ -18,14 +18,14 @@ const NewPost = () => {
   const [selectedHashtags, setSelectedHashtags] = useState([]);
   const hashtags = useSelector((state) => state.hashtags.hashtags);
   const user = useSelector((state) => state.authentication.user);
-
+  const newPostPage = useSelector((state) => state.ui.newPostPage);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newPost = {
-      userId: user.id,
-      title:title,
+      userId: user._id,
+      title: title,
       content,
       hashtags: selectedHashtags.map((hashtag) => hashtag._id),
     };
@@ -35,18 +35,30 @@ const NewPost = () => {
     setSelectedHashtags([]);
     dispatch(setNewPostPage(false));
   };
- 
+
   return (
-    <div id="share-container">
+    <div
+      id="share-container"
+      style={{ display: newPostPage ? "flex" : "none" }}
+    >
       <Avatar
         alt="Remy Sharp"
         src={user?.avatar}
         sx={{ width: 80, height: 80 }}
       />
       <form onSubmit={handleSubmit} id="new-post-form">
-      <p style={{color:"rgba(105, 102, 102, 0.697)",position:"absolute",top:0,right:0}}>{175-title.length}</p>
+        <p
+          style={{
+            color: "rgba(105, 102, 102, 0.697)",
+            position: "absolute",
+            top: 0,
+            right: 0,
+          }}
+        >
+          {175 - title.length}
+        </p>
 
-      <TextareaAutosize
+        <TextareaAutosize
           className="title-textarea"
           value={title}
           onChange={(e) => {
@@ -79,7 +91,16 @@ const NewPost = () => {
           }}
           required
         />
-         <p style={{color:"rgba(105, 102, 102, 0.697)",position:"absolute",top:"33%",right:0}}>{1500-content.length}</p>
+        <p
+          style={{
+            color: "rgba(105, 102, 102, 0.697)",
+            position: "absolute",
+            top: "33%",
+            right: 0,
+          }}
+        >
+          {1500 - content.length}
+        </p>
         <Autocomplete
           onChange={(e, value) => {
             setSelectedHashtags(value);
@@ -91,7 +112,7 @@ const NewPost = () => {
           limitTags={3}
           id="multiple-limit-tags"
           options={hashtags}
-          getOptionLabel={(option) => "#"+option.name}
+          getOptionLabel={(option) => "#" + option.name}
           renderInput={(params) => (
             <TextField
               {...params}

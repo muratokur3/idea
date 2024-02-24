@@ -164,8 +164,7 @@ const follow = (followerId, followingId, user) => async (dispatch) => {
           "Content-Type": "application/json",
         },
         withCredentials: true,
-      }
-    );
+      });
 
     if (response.status === 200) {
       console.log("Takip işlemi başarılı");
@@ -205,7 +204,6 @@ const unfollow = (followerId, followingId, user) => async (dispatch) => {
       };
       dispatch(ubdateUserFollow(newUser));
     }
-    console.log(response.data);
   } catch (error) {
     console.log(error);
   }

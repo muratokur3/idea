@@ -9,7 +9,7 @@ const ProfileMenu = () => {
   const profilePage = useSelector((state) => state.ui.profilePage);
   return (
     <div id="profile-menu-container">
-      <Tabs value={profilePage} centered textColor="white">
+      <Tabs value={profilePage} centered textColor="inherit">
       
         <Tab
           value={"posts"}

@@ -9,63 +9,66 @@ import {
   setHashtagExplore,
   setLikeData,
 } from "../slices/PostSlice";
-import { useSelector } from "react-redux";
 const urlApi = import.meta.env.VITE_API_BASE_URL;
 
-const getHomeData = (pagination) => async (dispatch) => {
-  if(localStorage.getItem("isLogin") !== "ture"){
-    const response = await axios.get(`${urlApi}/api/quest/posts/timeline`, {
-      params: {
-        page: pagination.page,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    dispatch(
-      setHome({
-        posts: await response.data.posts,
-        pagination: await response.data.pagination,
-      })
-    );
-  }
-  const user =await useSelector((state) => state.authentication.user);
-  try {
-    const response = await axios.get(`${urlApi}/api/posts/timeline/${user._id}`, {
-      params: {
-        page: pagination.page,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-      
-    });
-    dispatch(
-      setHome({
-        posts: await response.data.posts,
-        pagination: await response.data.pagination,
-      })
-    );
-  } catch (error) {
-    console.error("Veri gelirken hata oluştu:", error);
+const getHomeData = (pagination, loginedUserId) => async (dispatch) => {
+  if (localStorage.getItem("isLogin") !== "ture") {
+    try {
+      const response = await axios.get(`${urlApi}/api/quest/posts/timeline`, {
+        params: {
+          page: pagination.page,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      dispatch(
+        setHome({
+          posts: await response.data.posts,
+          pagination: await response.data.pagination,
+        })
+      );
+    } catch (error) {
+      console.error("Veri gelirken hata oluştu:", error);
+    }
+  } else {
+    try {
+      const response = await axios.get(
+        `${urlApi}/api/posts/timeline/${loginedUserId}`,
+        {
+          params: {
+            page: pagination.page,
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      dispatch(
+        setHome({
+          posts: await response.data.posts,
+          pagination: await response.data.pagination,
+        })
+      );
+    } catch (error) {
+      console.error("Veri gelirken hata oluştu:", error);
+    }
   }
 };
 
-const getPrivateMeData = (pagination) => async (dispatch) => {
-  const user =await useSelector((state) => state.authentication.user);
-
+const getPrivateMeData = (pagination, loginedUserId) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${urlApi}/api/posts/privateMe/${user._id}`,
+      `${urlApi}/api/posts/privateMe/${loginedUserId}`,
       {
         params: {
           page: pagination.page,
         },
         headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
       }
     );
     dispatch(
@@ -102,15 +105,18 @@ const getExploreData = (pagination) => async (dispatch) => {
 
 const getHashtagExploreData = (pagination, hashtag) => async (dispatch) => {
   try {
-    const response = await axios.get(`${urlApi}/api/quest/posts/explore/hashtag`, {
-      params: {
-        hashtagname: hashtag,
-        page: pagination.page,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.get(
+      `${urlApi}/api/quest/posts/explore/hashtag`,
+      {
+        params: {
+          hashtagname: hashtag,
+          page: pagination.page,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     dispatch(
       setHashtagExplore({
         posts: await response.data.posts,
@@ -122,8 +128,7 @@ const getHashtagExploreData = (pagination, hashtag) => async (dispatch) => {
   }
 };
 
-const getFavoritesPosts = (pagination,username) => async (dispatch) => {
-
+const getFavoritesPosts = (pagination, username) => async (dispatch) => {
   try {
     const response = await axios.get(
       `${urlApi}/api/posts/favorite/${username}`,
@@ -132,9 +137,9 @@ const getFavoritesPosts = (pagination,username) => async (dispatch) => {
           page: pagination.page,
         },
         headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
       }
     );
     dispatch(
@@ -157,9 +162,9 @@ const getProfilePosts = (pagination, username) => async (dispatch) => {
           page: pagination.page,
         },
         headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
       }
     );
     dispatch(
@@ -205,23 +210,25 @@ const createPost = (post) => async () => {
   }
 };
 
-const like = (post) => async (dispatch) => {
-  const user =await useSelector((state) => state.authentication.user);
+const like = (post, LoginUserId) => async (dispatch) => {
   try {
     // Sunucuya beğeni isteği gönder
     const response = await axios.post(
-      `${urlApi}/api/posts/like/${post._id}/${user._id}`,
+      `${urlApi}/api/posts/like/${post._id}/${LoginUserId}`,
       {
+        headers: {
+          "Content-Type": "application/json",
+        },
         withCredentials: true,
       }
     );
     const newPost = {
       ...post,
-      likes: new Set(post.likes).has(user._id)
+      likes: new Set(post.likes).has(LoginUserId)
         ? post.likes
-        : [...post.likes, user._id],
+        : [...post.likes, LoginUserId],
       likesCount:
-        new Set(post.likes).has(user._id) === false && post.likesCount + 1,
+        new Set(post.likes).has(LoginUserId) === false && post.likesCount + 1,
     };
 
     // Potansiyel hatalar için API yanıtını kontrol et
@@ -236,26 +243,27 @@ const like = (post) => async (dispatch) => {
   }
 };
 
-const unLike = (post) => async (dispatch) => {
-  const user =await useSelector((state) => state.authentication.user);
+const unLike = (post, LoginUserId) => async (dispatch) => {
   try {
     // Kullanıcıya beğeni geri alma işlemi gerçekleştiriliyor olarak göster
 
     // Sunucuya beğeni geri alma isteği gönder
     const response = await axios.post(
-      `${urlApi}/api/posts/unlike/${post._id}/${user._id}`,
+      `${urlApi}/api/posts/unlike/${post._id}/${LoginUserId}`,
       {
-      withCredentials: true,
-
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
       }
     );
     const newPost = {
       ...post,
       likes:
-        new Set(post.likes).has(user._id) &&
-        post.likes.filter((id) => id !== user._id),
+        new Set(post.likes).has(LoginUserId) &&
+        post.likes.filter((id) => id !== LoginUserId),
       likesCount:
-        new Set(post.likes).has(user._id) === true && post.likesCount - 1,
+        new Set(post.likes).has(LoginUserId) === true && post.likesCount - 1,
     };
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
@@ -268,20 +276,19 @@ const unLike = (post) => async (dispatch) => {
   }
 };
 
-const favorite = (post) => async (dispatch) => {
-  const user =await useSelector((state) => state.authentication.user);
+const favorite = (post, loginedUserId) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${urlApi}/api/posts/favorites/${post._id}/${user._id}`,
+      `${urlApi}/api/posts/favorites/${post._id}/${loginedUserId}`,
       {
         withCredentials: true,
       }
     );
     const newPost = {
       ...post,
-      favorites: new Set(post.favorites).has(user._id)
+      favorites: new Set(post.favorites).has(loginedUserId)
         ? post.favorites
-        : [...post.favorites, user._id],
+        : [...post.favorites, loginedUserId],
     };
 
     // Potansiyel hatalar için API yanıtını kontrol et
@@ -295,20 +302,18 @@ const favorite = (post) => async (dispatch) => {
   }
 };
 
-const unFavorite = (post) => async (dispatch) => {
-  const user =await useSelector((state) => state.authentication.user);
-
+const unFavorite = (post, loginedUserId) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${urlApi}/api/posts/unfavorites/${post._id}/${user._id}`,
+      `${urlApi}/api/posts/unfavorites/${post._id}/${loginedUserId}`,
       {
         withCredentials: true,
       }
     );
     const newPost = {
       ...post,
-      favorites: new Set(post.favorites).has(user._id)
-        ? post.favorites.filter((id) => id !== user._id)
+      favorites: new Set(post.favorites).has(loginedUserId)
+        ? post.favorites.filter((id) => id !== loginedUserId)
         : post.favorites,
     };
 

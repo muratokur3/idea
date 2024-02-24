@@ -15,7 +15,6 @@ const getProjects = (pagination, username) => async (dispatch) => {
       withCredentials: true,
     });
     if (response.status === 200 ) {
-      console.log(response.data);
       dispatch(setProjects(response.data));
     }
   } catch (error) {
@@ -33,7 +32,6 @@ const createProject = (data) => async (dispatch) => {
     });
 
     if (response.status === 200) {
-      console.log(response.data);
       dispatch(setNewProject(response.data));
     }
   } catch (error) {

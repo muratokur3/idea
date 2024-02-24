@@ -3,8 +3,10 @@ import PostSkeleton from "../skeleton/PostSkeleton.jsx";
 import PropTypes from "prop-types";
 import "./scss/list-post.scss";
 import Post from "./Post.jsx";
+import { useSelector } from "react-redux";
 
 const ListPost = ({ data,getPosts }) => {
+  const activeUser =useSelector((state) => state.authentication.user);
   return (
     
 
@@ -17,7 +19,7 @@ const ListPost = ({ data,getPosts }) => {
       endMessage={<p style={{textAlign:"center", fontSize:".8rem",marginTop:"20px"}}>{data.posts.length} öğe</p>}
     >
      {data.posts.map((post, index) => (
-        <Post key={index} post={post}/>
+        <Post key={index} post={post} activeUser={activeUser}/>
       ))}
     </InfinieScroll>
   );

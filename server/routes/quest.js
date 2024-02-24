@@ -61,7 +61,6 @@ router.get("/posts/timeline", async (req, res) => {
         .limit(limit)
         .skip(startIndex);
   
-      console.log(page);
       const pagination = {
         page: page + 1,
         hasMore: allPosts.length === limit,

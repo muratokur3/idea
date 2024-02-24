@@ -73,9 +73,9 @@ const UserDetail = ({ profileData }) => {
                         Profili Düzenle
                       </Button>
                     ) : (
-                      activeUserId !== profileData.user._id &&
-                      (profileData.followers.length > 0 &&
-                      profileUSerData.followers.some(
+                      activeUserId !== profileData?.user?._id &&
+                      (profileData?.followers?.length > 0 &&
+                      profileUSerData?.followers?.some(
                         (id) => id === activeUserId
                       ) ? (
                         <IconButton aria-label="settings">
@@ -86,7 +86,7 @@ const UserDetail = ({ profileData }) => {
                               dispatch(
                                 unfollow(
                                   activeUserId,
-                                  profileData.user._id,
+                                  profileData?.user._id,
                                   activeUser
                                 )
                               )

@@ -32,11 +32,11 @@ const Login = () => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = () => {
-    event.preventDefault();
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
   };
   return (
-    <div id="login-container">
+    <div id="login-container" >
       <form onSubmit={login}>
         <h1>Giriş Yap</h1>
 
@@ -83,7 +83,7 @@ const Login = () => {
       <Button
         className="close-login-page"
         onClick={() => dispatch(setAuthPage(false))}
-        TransitionComponent={Fade}
+        transitioncomponent={Fade}
       >
         X
       </Button>

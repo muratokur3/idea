@@ -23,7 +23,6 @@ const Register = () => {
   });
   const register = async (e) => {
     e.preventDefault();
-    console.log(formData);
     dispatch(registerUser(formData));
   };
   const [showPassword, setShowPassword] = useState(false);

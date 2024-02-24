@@ -20,7 +20,7 @@ const Follow = () => {
         value={follow}
         id="tabs"
         centered
-        textColor="white"
+        textColor="inherit"
       >
         <Tab
           value={"following"}
