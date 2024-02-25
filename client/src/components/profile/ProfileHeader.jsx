@@ -1,7 +1,4 @@
-import {
-  follow,
-  unfollow,
-} from "../../redux/actions/ProfileAction";
+import { follow, unfollow } from "../../redux/actions/ProfileAction";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LanguageIcon from "@mui/icons-material/Language";
@@ -33,6 +30,13 @@ const UserDetail = ({ profileData }) => {
   const profileUserPosts = useSelector((state) => state.posts.profilePosts);
   const navigate = useNavigate();
   const editProfilePage = useSelector((state) => state.ui.editProfilePage);
+  const handleFollow = () => {
+    activeUserId !== profileData?.user?._id &&
+      (profileData?.followers?.length > 0 &&
+      profileUSerData?.followers?.some((id) => id === activeUserId)
+        ? dispatch(unfollow(activeUserId, profileData?.user._id, activeUser))
+        : dispatch(follow(activeUserId, profileData.user._id, activeUser)));
+  };
 
   return (
     <>
@@ -63,7 +67,7 @@ const UserDetail = ({ profileData }) => {
             >
               <CardHeader
                 action={
-                  <box>
+                  <Box>
                     {activeUser && profileUSerData._id === activeUserId ? (
                       <Button
                         variant="contained"
@@ -73,49 +77,20 @@ const UserDetail = ({ profileData }) => {
                         Profili Düzenle
                       </Button>
                     ) : (
-                      activeUserId !== profileData?.user?._id &&
-                      (profileData?.followers?.length > 0 &&
-                      profileUSerData?.followers?.some(
-                        (id) => id === activeUserId
-                      ) ? (
-                        <IconButton aria-label="settings">
-                          <Button
-                            className="follow-button"
-                            variant="contained"
-                            onClick={() =>
-                              dispatch(
-                                unfollow(
-                                  activeUserId,
-                                  profileData?.user._id,
-                                  activeUser
-                                )
-                              )
-                            }
-                          >
-                            Takibi Bırak
-                          </Button>
-                        </IconButton>
-                      ) : (
-                        <IconButton aria-label="settings">
-                          <Button
-                            className="follow-button"
-                            variant="contained"
-                            onClick={() =>
-                              dispatch(
-                                follow(
-                                  activeUserId,
-                                  profileData.user._id,
-                                  activeUser
-                                )
-                              )
-                            }
-                          >
-                            Takip Et
-                          </Button>
-                        </IconButton>
-                      ))
+                      <Button
+                        aria-label="settings"
+                        className="follow-button"
+                        onClick={handleFollow}
+                      >
+                        {profileData?.followers?.length > 0 &&
+                        profileUSerData?.followers?.some(
+                          (id) => id === activeUserId
+                        )
+                          ? "Takibi Bırak"
+                          : "Takip Et"}
+                      </Button>
                     )}
-                  </box>
+                  </Box>
                 }
                 title={`${profileData.user.name} ${profileData.user.surname}`}
                 titleTypographyProps={{ fontSize: "1rem" }}
@@ -162,14 +137,12 @@ const UserDetail = ({ profileData }) => {
           }}
         >
           <Typography>
-          {profileData?.user?.following?.length} Takip Edilen
+            {profileData?.user?.following?.length} Takip Edilen
           </Typography>
-         <Typography>
-          {profileData?.user?.followers?.length} Takipçi
-         </Typography>
           <Typography>
-          {profileUserPosts?.posts.length} Gönderi
+            {profileData?.user?.followers?.length} Takipçi
           </Typography>
+          <Typography>{profileUserPosts?.posts.length} Gönderi</Typography>
           <a href={profileData?.user?.socialAdress?.website}>
             <LanguageIcon fontSize="small" />
           </a>

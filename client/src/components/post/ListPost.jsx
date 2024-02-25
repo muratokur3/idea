@@ -19,7 +19,7 @@ const ListPost = ({ data,getPosts }) => {
       endMessage={<p style={{textAlign:"center", fontSize:".8rem",marginTop:"20px"}}>{data.posts.length} öğe</p>}
     >
      {data.posts.map((post, index) => (
-        <Post key={index} post={post} activeUser={activeUser}/>
+        <Post key={index} post={post} activeUser={activeUser?activeUser:null}/>
       ))}
     </InfinieScroll>
   );

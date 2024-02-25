@@ -1,16 +1,14 @@
-import { follow, unfollow } from "../../redux/actions/ProfileAction";
-import { Avatar, Button, CardContent, Typography } from "@mui/material";
+import { Avatar,  CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import IconButton from "@mui/material/IconButton";
+import {  useSelector } from "react-redux";
 import CardHeader from "@mui/material/CardHeader";
 import { red } from "@mui/material/colors";
 import Card from "@mui/material/Card";
 import PropTypes from "prop-types";
+import Followactions from "../actions/FollowActions";
 
 const UserCard = ({ user }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const activeUser = useSelector((state) => state.authentication.user);
 
   return (
@@ -32,33 +30,7 @@ const UserCard = ({ user }) => {
           </Avatar>
         }
         action={
-          user?.followers?.some((u) => u === activeUser?._id) ? (
-            <IconButton aria-label="settings">
-              {activeUser && activeUser?._id !== user?._id && (
-                <Button
-                  className="follow-button"
-                  variant="contained"
-                  onClick={() =>
-                    dispatch(unfollow(activeUser?._id, user?._id, user))
-                  }
-                >
-                  Takibi Bırak
-                </Button>
-              )}
-            </IconButton>
-          ) : (
-            <IconButton aria-label="settings">
-              {activeUser && activeUser?._id !== user?._id && (
-                <Button
-                  className="follow-button"
-                  variant="contained"
-                  onClick={() => dispatch(follow(activeUser?._id, user?._id, user))}
-                >
-                  Takip Et
-                </Button>
-              )}
-            </IconButton>
-          )
+      activeUser._id&&<Followactions user={user} activeUser={activeUser}/>
         }
         title={`${user.name} ${user.surname}`}
         titleTypographyProps={{ fontSize: "1rem" }}

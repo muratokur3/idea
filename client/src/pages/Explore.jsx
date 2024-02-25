@@ -49,9 +49,10 @@ const Explore = () => {
   };
 
   let blurTimeout;
-  const resultItemHashtags = (hashtag) => {
+  const resultItemHashtags = (hashtag,i) => {
     return (
       <Card
+      key={i}
         sx={{
           borderRadius: "10px",
           backgroundColor: "transparent",
@@ -74,9 +75,10 @@ const Explore = () => {
     );
   };
 
-  const resultItemUsers = (user) => {
+  const resultItemUsers = (user, i) => {
     return (
       <Card
+        key={i}
         sx={{
           maxWidth: "100%",
           backgroundColor: "rgba(10, 9, 9, 0.713)",
@@ -114,6 +116,7 @@ const Explore = () => {
       </Card>
     );
   };
+
   return (
     <div id="explore-container">
       <div id="search-box">
@@ -129,11 +132,9 @@ const Explore = () => {
             position: "relative",
           }}
         >
-          
-
-          <IconButton sx={{ p: "10px" }} aria-label="menu"
-            id="long-button"
-            aria-haspopup="true"
+          <IconButton
+            sx={{ p: "10px" }}
+            aria-label="menu"
             onClick={handleClick}
           >
             <MenuIcon fontSize="small" />
@@ -157,7 +158,8 @@ const Explore = () => {
           >
             <RadioGroup value={searchFilter}>
               <MenuItem>
-                <Radio value="all" onChange={() => setSearchFilter("all")} /> Tümü
+                <Radio value="all" onChange={() => setSearchFilter("all")} />{" "}
+                Tümü
               </MenuItem>
               <MenuItem>
                 <Radio
@@ -192,10 +194,13 @@ const Explore = () => {
             }
           />
 
-          <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-            <Button onClick={handleSearch}>
-              <SearchIcon />
-            </Button>
+          <IconButton
+            type="button"
+            sx={{ p: "10px" }}
+            aria-label="search"
+            onClick={handleSearch}
+          >
+            <SearchIcon />
           </IconButton>
 
           <Box
@@ -213,7 +218,6 @@ const Explore = () => {
               border: "1px solid gray",
               borderRadius: "5px",
               color: "white",
-              zIndex: "100",
               padding:
                 (searchData?.users?.length > 0 ||
                   searchData?.hashtags?.length > 0) &&
@@ -225,7 +229,7 @@ const Explore = () => {
                 Kullanıcılar
               </Typography>
             )}
-            {searchData?.users?.map((user) => resultItemUsers(user))}
+            {searchData?.users?.map((user, i) => resultItemUsers(user, i))}
             {searchData?.hashtags?.length > 0 && (
               <Typography sx={{ color: "white", textAlign: "center" }}>
                 Hashtags
@@ -233,7 +237,7 @@ const Explore = () => {
             )}{" "}
             {searchData?.hashtags
               ?.slice(0, 5)
-              .map((hashtag) => resultItemHashtags(hashtag))}
+              .map((hashtag,i) => resultItemHashtags(hashtag,i))}
           </Box>
         </Paper>
       </div>

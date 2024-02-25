@@ -5,6 +5,7 @@ import {
 import ListPost from "../post/ListPost";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { Typography } from "@mui/material";
 const ExploreLayout = () => {
   const hashtagExploreData = useSelector((state) => state.posts.hashtagExplore);
   const dispatch = useDispatch();
@@ -16,6 +17,12 @@ const ExploreLayout = () => {
   }, [hashtag,dispatch]);
   return (
     <>
+      <Typography
+      sx={{
+        fontSize: "1.5rem",
+        padding: "1rem",
+        fontFamily: "roboto",
+      }}>#{hashtag}</Typography>
       <ListPost
         data={hashtagExploreData}
         getPosts={() =>

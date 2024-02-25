@@ -36,9 +36,15 @@ const Register = () => {
   return (
     <div id="register-container">
       <form onSubmit={register}>
-        <h1>Kaydol</h1>
+      <h1
+         style={{
+          cursor: "pointer",
+          marginTop: "10px",
+          fontFamily: "monospace",
+          color: "gray",
+        }}>Kayıt ol</h1>
         <Box sx={{ display: "flex", gap: "30px" }}>
-          <FormControl variant="filled" sx={{ width: "50%" }}>
+          <FormControl variant="standard" sx={{ width: "50%" }}>
             <InputLabel>Ad</InputLabel>
             <FilledInput
               sx={{ background: "none", width: "100%" }}
@@ -110,10 +116,19 @@ const Register = () => {
           />
         </FormControl>
 
-        <Button variant="outlined" type="submit">
+        <Button type="submit" sx={{
+          color: "white",
+          border: "1px solid gray",
+          borderRadius: "20px",
+          padding: "5px 30px",
+        }}>
           Kayıt Ol
         </Button>
-        <a style={{cursor:"pointer"}} onClick={() => dispatch(setAuthItem("login"))}>Zaten hesabım var</a>
+        <a style={{cursor:"pointer",
+        marginTop: "10px",
+        fontSize:".6rem",
+        fontFamily: "monospace",
+        }} onClick={() => dispatch(setAuthItem("login"))}>Zaten hesabım var</a>
       </form>
     </div>
   );

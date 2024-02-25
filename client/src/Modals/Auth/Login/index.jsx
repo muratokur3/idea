@@ -38,7 +38,13 @@ const Login = () => {
   return (
     <div id="login-container" >
       <form onSubmit={login}>
-        <h1>Giriş Yap</h1>
+        <h1
+         style={{
+          cursor: "pointer",
+          marginTop: "10px",
+          fontFamily: "monospace",
+          color: "gray",
+        }}>Giriş Yap</h1>
 
         <FormControl variant="filled" sx={{ width: "50%" }}>
           <InputLabel>Kullanıcı adı</InputLabel>
@@ -76,7 +82,12 @@ const Login = () => {
           />
         </FormControl>
 
-        <Button variant="outlined" type="submit">
+        <Button type="submit" sx={{
+          color: "white",
+          border: "1px solid gray",
+          borderRadius: "20px",
+          padding: "5px 30px",
+        }}>
           Giriş Yap
         </Button>
       </form>
@@ -87,7 +98,15 @@ const Login = () => {
       >
         X
       </Button>
-      <a onClick={() => dispatch(setAuthItem("register"))}>Kaydol</a>
+      <a
+      style={{
+        cursor: "pointer",
+        marginTop: "10px",
+        fontSize:".6rem",
+        fontFamily: "monospace",
+        color: "white",
+      }}
+      onClick={() => dispatch(setAuthItem("register"))}>Kayıt ol</a>
     </div>
   );
 };

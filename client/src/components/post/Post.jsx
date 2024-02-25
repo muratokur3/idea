@@ -15,7 +15,6 @@ import { Avatar, Box, Button } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useDispatch } from "react-redux";
 import Card from "@mui/material/Card";
-import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import "./scss/post.scss";
@@ -36,7 +35,25 @@ const Post = ({ post, activeUser }) => {
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const LoginUserId = activeUser?._id;
- 
+
+  const handleLike = () => {
+    LoginUserId
+      ? dispatch(
+          post?.likes?.some((id) => id === LoginUserId)
+            ? unLike(post, LoginUserId)
+            : like(post, LoginUserId)
+        )
+      : alert("Giriş yapmalısınız");
+  };
+  const handleFavorite = () => {
+    LoginUserId
+      ? dispatch(
+          post?.favorites?.find((userId) => userId === LoginUserId)
+            ? unFavorite(post, LoginUserId)
+            : favorite(post, LoginUserId)
+        )
+      : alert("Giriş yapmalısınız");
+  };
 
   return (
     <Card
@@ -59,23 +76,27 @@ const Post = ({ post, activeUser }) => {
         }
         action={
           <Box display={"flex"}>
-            {activeUser &&
-              post?.userId !== LoginUserId &&
-              (new Set(activeUser?.following).has(post?.userId) ? (
-                <Typography sx={{ color: "white", fontSize: "10px" }}>
-                  Takibi Edilen
-                </Typography>
-              ) : (
-                <Button
-                  variant="contained"
-                  size="small"
-                  onClick={() =>
-                    dispatch(follow(post?.userId, LoginUserId, activeUser))
-                  }
-                >
-                  Takip Et
-                </Button>
-              ))}
+            {LoginUserId && (
+              <Box>
+                {" "}
+                {post?.userId !== LoginUserId &&
+                  (new Set(activeUser?.following).has(post?.userId) ? (
+                    <Typography sx={{ color: "white", fontSize: "10px" }}>
+                      Takibi Edilen
+                    </Typography>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() =>
+                        dispatch(follow(post?.userId, LoginUserId, activeUser))
+                      }
+                    >
+                      Takip Et
+                    </Button>
+                  ))}
+              </Box>
+            )}
             <ActionsButton
               actions={[
                 {
@@ -136,16 +157,7 @@ const Post = ({ post, activeUser }) => {
         sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
       >
         <Box>
-          <IconButton
-            aria-label="like"
-            onClick={() =>
-              dispatch(
-                post?.likes?.some((id) => id === LoginUserId)
-                  ? unLike(post, LoginUserId)
-                  : like(post, LoginUserId)
-              )
-            }
-          >
+          <IconButton aria-label="like" onClick={handleLike}>
             {post?.likes?.some((id) => id === LoginUserId) ? (
               <FavoriteIcon />
             ) : (
@@ -158,14 +170,7 @@ const Post = ({ post, activeUser }) => {
           <IconButton aria-label="share">
             <IosShareIcon />
           </IconButton>
-          <IconButton
-            aria-label="favorites"
-            onClick={() =>
-              post?.favorites?.find((userId) => userId === LoginUserId)
-                ? dispatch(unFavorite(post, LoginUserId))
-                : dispatch(favorite(post, LoginUserId))
-            }
-          >
+          <IconButton aria-label="favorites" onClick={handleFavorite}>
             {post?.favorites?.find((userId) => userId === LoginUserId) ? (
               <StarIcon />
             ) : (
