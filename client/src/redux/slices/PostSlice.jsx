@@ -106,7 +106,7 @@ export const postSlice = createSlice({
         state.profileLikes.pagination = action.payload.pagination;
       }
     },
-    setLikeData: (state, action) => {
+    setUbdateData: (state, action) => {
       const newPost = action.payload;
 
       state.home.posts = state.home.posts.map((p) =>
@@ -142,6 +142,6 @@ export const {
   setFavorites,
   setProfilePosts,
   setProfileLikes,
-  setLikeData,
+  setUbdateData,
 } = postSlice.actions;
 export default postSlice.reducer;

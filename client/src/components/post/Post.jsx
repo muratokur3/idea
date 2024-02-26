@@ -1,14 +1,10 @@
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
-import StarIcon from "@mui/icons-material/Star";
 import { Link, useNavigate } from "react-router-dom";
 import Collapse from "@mui/material/Collapse";
 import { Avatar, Box, Button } from "@mui/material";
@@ -17,15 +13,12 @@ import { useDispatch } from "react-redux";
 import Card from "@mui/material/Card";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import "./scss/post.scss";
-import {
-  favorite,
-  like,
-  unFavorite,
-  unLike,
-} from "../../redux/actions/PostActions";
 import ActionsButton from "../../Modals/ActionsButton";
 import { follow } from "../../redux/actions/ProfileAction";
+import LikeActions from "../actions/LikeActions";
+import "./scss/post.scss";
+import FavoriteActions from "../actions/FavoriteActions";
+
 const Post = ({ post, activeUser }) => {
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
@@ -34,26 +27,7 @@ const Post = ({ post, activeUser }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
-  const LoginUserId = activeUser?._id;
-
-  const handleLike = () => {
-    LoginUserId
-      ? dispatch(
-          post?.likes?.some((id) => id === LoginUserId)
-            ? unLike(post, LoginUserId)
-            : like(post, LoginUserId)
-        )
-      : alert("Giriş yapmalısınız");
-  };
-  const handleFavorite = () => {
-    LoginUserId
-      ? dispatch(
-          post?.favorites?.find((userId) => userId === LoginUserId)
-            ? unFavorite(post, LoginUserId)
-            : favorite(post, LoginUserId)
-        )
-      : alert("Giriş yapmalısınız");
-  };
+  const loginUserId = activeUser?._id;
 
   return (
     <Card
@@ -76,10 +50,10 @@ const Post = ({ post, activeUser }) => {
         }
         action={
           <Box display={"flex"}>
-            {LoginUserId && (
+            {loginUserId && (
               <Box>
                 {" "}
-                {post?.userId !== LoginUserId &&
+                {post?.userId !== loginUserId &&
                   (new Set(activeUser?.following).has(post?.userId) ? (
                     <Typography sx={{ color: "white", fontSize: "10px" }}>
                       Takibi Edilen
@@ -89,7 +63,7 @@ const Post = ({ post, activeUser }) => {
                       variant="contained"
                       size="small"
                       onClick={() =>
-                        dispatch(follow(post?.userId, LoginUserId, activeUser))
+                        dispatch(follow(post?.userId, loginUserId, activeUser))
                       }
                     >
                       Takip Et
@@ -105,7 +79,7 @@ const Post = ({ post, activeUser }) => {
                     alert("bildir");
                   },
                 },
-                post?.userId === LoginUserId && {
+                post?.userId === loginUserId && {
                   label: "Sil",
                   onClick: () => {
                     alert("sil");
@@ -157,25 +131,15 @@ const Post = ({ post, activeUser }) => {
         sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
       >
         <Box>
-          <IconButton aria-label="like" onClick={handleLike}>
-            {post?.likes?.some((id) => id === LoginUserId) ? (
-              <FavoriteIcon />
-            ) : (
-              <FavoriteBorderIcon />
-            )}
-            <p style={{ color: "gray", fontSize: "1.2rem" }}>
-              {post?.likesCount}
-            </p>
-          </IconButton>
+          {activeUser._id && (
+            <>
+              <LikeActions post={post} loginUserId={loginUserId} />
+              <FavoriteActions post={post} loginUserId={loginUserId} />
+            </>
+          )}
+
           <IconButton aria-label="share">
             <IosShareIcon />
-          </IconButton>
-          <IconButton aria-label="favorites" onClick={handleFavorite}>
-            {post?.favorites?.find((userId) => userId === LoginUserId) ? (
-              <StarIcon />
-            ) : (
-              <StarBorderIcon />
-            )}
           </IconButton>
         </Box>
         <IconButton
@@ -199,7 +163,6 @@ const Post = ({ post, activeUser }) => {
 };
 
 export default Post;
-
 Post.propTypes = {
   post: PropTypes.object,
   activeUser: PropTypes.object,

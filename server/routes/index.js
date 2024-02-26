@@ -15,9 +15,9 @@ router.use("/auth", authRoute);
 router.use("/users", UserRoute);
 router.use("/search", searchRoute);
 router.use("/quest", qusetRoute);
-router.use("/posts",checkJwt, postRoute);
-router.use("/hashtags",checkJwt, hashtagRoute);
-router.use("/projects",checkJwt, projectRoute);
+router.use("/posts", postRoute);
+router.use("/hashtags", hashtagRoute);
+router.use("/projects", projectRoute);
 
 
 module.exports = router;

@@ -1,10 +1,16 @@
--Ayarlar sayfası
-    -cv olsun/olmasın
-    -şifre değiştir
-    
--JTW token
--giriş yapılmamış ise kontroller
--sol alt köşedeki profil bilgisi düzenlenmesi
--keşfet sayfasında arama
-    -filtreleme(kişi-post-hashtag)
-
+İdea
+- [+ ] Favori ve beğeninin komponente ayrılması
+- [ ] profil detay kutucuğu
+- [ ] Hashtag takip 
+- [ ] Fikir ve proje bana özel olayı
+- [ ] Posta ve projeye resim ekleme
+- [ ] Post sayfası
+- [ ] Post paylaş
+- [ ] Linkler
+- [ ] Ayarlar
+- [ ] Şifre değiştir
+- [ ] Tema
+- [ ] Tasarım uyumluluk
+- [ ] Kod temizliği
+- [ ] Test
+- [ ] Yayındayız

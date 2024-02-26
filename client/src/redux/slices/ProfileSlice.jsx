@@ -19,7 +19,7 @@ const profileSlice = createSlice({
       state.followers = action.payload;
     },
     ubdateUserFollow: (state, action) => {
-      const  newUser  = action.payload;
+      const newUser = action.payload;
       state.following = state.following.map((user) =>
         user._id === newUser._id ? newUser : user
       );
@@ -34,9 +34,14 @@ const profileSlice = createSlice({
           : [...state.user.followers, newUser._id],
       };
     },
+   
   },
 });
 
-export const { setProfile, setFollowers, setFollowing, ubdateUserFollow } =
-  profileSlice.actions;
+export const {
+  setProfile,
+  setFollowers,
+  setFollowing,
+  ubdateUserFollow,
+} = profileSlice.actions;
 export default profileSlice.reducer;

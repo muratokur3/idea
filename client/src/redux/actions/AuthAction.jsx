@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setLogin, setUser } from "../slices/AuthSlice";
+import { setLoginedHashtags, setLogin, setUser } from "../slices/AuthSlice";
 import { setAuthItem, setAuthPage } from "../slices/UiSlice";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -36,6 +36,7 @@ const loginClient = (data) => async (dispatch) => {
       localStorage.setItem("avatar", response.data.avatar);
       dispatch(setLogin(true));
       dispatch(setUser(response.data));
+      dispatch(setLoginedHashtags(response.data.hashtags));
       dispatch(setAuthPage(false));
       alert("Giriş başarılı");
     } else alert("Kullanıcı adı veya şifre hatalı");

@@ -55,7 +55,15 @@ router.post("/login", async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json("Hatalı şifre");
     }
+    const userHastags = await UserChema.findById(user._id).populate(
+      "hashtags",
+      ["name"]
+    );
 
+    const hashtagNames =await userHastags.hashtags.map((hashtag) => {
+      return hashtag.name;
+      
+    });
     const payload1 = {
       _id: user._id,
       name: user.name,
@@ -69,15 +77,16 @@ router.post("/login", async (req, res) => {
       following: user.following,
       posts: user.posts,
       favorites: user.favorites,
+      hashtags: hashtagNames,
       notifications: user.notifications,
     };
-   
+
     const payload = {
       sub: user._id,
       username: user.username,
       rol: user.rol,
       exp: Math.floor(Date.now() / 1000) + 60 * 5,
-      issuer:"idea.com",
+      issuer: "idea.com",
     };
     const token = jwt.sign(payload, process.env.SECRET_KEY);
 
@@ -87,10 +96,8 @@ router.post("/login", async (req, res) => {
       path: "/",
       session: true,
       expires: new Date(Date.now() + 60 * 5 * 1000),
-      maxAge: 1000 * 60 *5,
+      maxAge: 1000 * 60 * 5,
     });
-   
-    
 
     return res.status(200).json(payload1);
   } catch (error) {
@@ -104,46 +111,6 @@ router.get("/logout", async (req, res) => {
   try {
     res.clearCookie("teknoToken");
     res.status(200).json("Çıkış başarılı");
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
- 
-});
-
-router.post("/log", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    const user = await UserChema.findOne({ email });
-    if (!user) {
-      return res.status(401).json("Böyle bir kullanıcı bulunamadı");
-    }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (user.isDeleted) {
-      return res.status(401).json("Bu kullanıcının hesabı dondurulmuş");
-    }
-
-    if (!isPasswordValid) {
-      return res.status(401).json("Hatalı şifre");
-    }
-
-    const payload = {
-      sub: user._id,
-      username: user.username,
-      exp: Math.floor(Date.now() / 1000) + 60 * 5,
-      issuer:"idea.com",
-    };
-    const token = jwt.sign(payload, process.env.SECRET_KEY);
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 5,
-    });
-   
-    
-
-    return res.status(200).json(token);
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");

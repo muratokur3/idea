@@ -7,7 +7,7 @@ import {
   setProfilePosts,
   setProfileLikes,
   setHashtagExplore,
-  setLikeData,
+  setUbdateData,
 } from "../slices/PostSlice";
 const urlApi = import.meta.env.VITE_API_BASE_URL;
 
@@ -222,7 +222,7 @@ const like = (post, LoginUserId) => async (dispatch) => {
         withCredentials: true,
       }
     );
-    const newPost = {
+    const newPost =await {
       ...post,
       likes: new Set(post.likes).has(LoginUserId)
         ? post.likes
@@ -233,7 +233,7 @@ const like = (post, LoginUserId) => async (dispatch) => {
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData(newPost));
+      dispatch(setUbdateData(newPost));
       // Başarılı beğeni işlemi
       console.log("Post beğenildi");
     }
@@ -245,19 +245,14 @@ const like = (post, LoginUserId) => async (dispatch) => {
 
 const unLike = (post, LoginUserId) => async (dispatch) => {
   try {
-    // Kullanıcıya beğeni geri alma işlemi gerçekleştiriliyor olarak göster
-
-    // Sunucuya beğeni geri alma isteği gönder
+// Sunucuya beğeni geri alma isteği gönder
     const response = await axios.post(
       `${urlApi}/api/posts/unlike/${post._id}/${LoginUserId}`,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
         withCredentials: true,
       }
     );
-    const newPost = {
+    const newPost =await {
       ...post,
       likes:
         new Set(post.likes).has(LoginUserId) &&
@@ -267,7 +262,7 @@ const unLike = (post, LoginUserId) => async (dispatch) => {
     };
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData(newPost));
+      dispatch(setUbdateData(newPost));
       console.log("Post beğenisi geri alındı");
     }
   } catch (error) {
@@ -284,16 +279,17 @@ const favorite = (post, loginedUserId) => async (dispatch) => {
         withCredentials: true,
       }
     );
-    const newPost = {
-      ...post,
-      favorites: new Set(post.favorites).has(loginedUserId)
-        ? post.favorites
-        : [...post.favorites, loginedUserId],
-    };
-
+    
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData(newPost));
+      const newPost = await{
+        ...post,
+        favorites: new Set(post.favorites).has(loginedUserId)
+          ? post.favorites
+          : [...post.favorites, loginedUserId],
+      };
+  
+      dispatch(setUbdateData(newPost));
       // Başarılı beğeni işlemi
       console.log("favoriye eklendi");
     }
@@ -310,16 +306,17 @@ const unFavorite = (post, loginedUserId) => async (dispatch) => {
         withCredentials: true,
       }
     );
-    const newPost = {
-      ...post,
-      favorites: new Set(post.favorites).has(loginedUserId)
-        ? post.favorites.filter((id) => id !== loginedUserId)
-        : post.favorites,
-    };
+    
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setLikeData(newPost));
+      const newPost =await {
+        ...post,
+        favorites: new Set(post.favorites).has(loginedUserId)
+          ? post.favorites.filter((id) => id !== loginedUserId)
+          : post.favorites,
+      };
+      dispatch(setUbdateData(newPost));
       // Başarılı beğeni işlemi
       console.log("favoriden çıkarıldı");
     }

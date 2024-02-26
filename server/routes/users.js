@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const UserChema = require("../models/User");
+const HashtagChema = require("../models/Hashtag");
 const multer = require("multer");
 const bcrypt = require("bcryptjs");
 const fs = require("fs");
@@ -214,6 +215,62 @@ router.put("/unfollow/:followerId/:followingId", async (req, res) => {
       res.status(200).json("Kullanıcıyı takipi bırakıldı");
     } else {
       res.status(403).json("Kullanıcıyı zaten takip etmiyorsunuz");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+//hashtag takip et
+router.put("/followHashtag/:userId/:hashtagname", async (req, res) => {
+  const { userId, hashtagname } = req.params;
+  const hashtag = await HashtagChema.findOne({
+    name: hashtagname,
+  });
+  const hashtagId =await hashtag._id;
+  try {
+    const user = await UserChema
+      .findById(userId)
+      .exec();
+    if (!user.hashtags.includes(hashtagId)) {
+      await
+        UserChema.findByIdAndUpdate
+        (userId, {
+          $push: { hashtags: hashtagId },
+        });
+      res.status(200).json("Hashtag takip edildi");
+    }
+    else {
+      res.status(403).json("Hashtag zaten takip ediliyor");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+//hashtag takip etmeyi bırak
+router.put("/unfollowHashtag/:userId/:hashtagname", async (req, res) => {
+  const { userId, hashtagname } = req.params;
+  try {
+    const hashtag = await HashtagChema.findOne({
+      name: hashtagname,
+    });
+    const hashtagId =await hashtag._id;
+    const user = await UserChema
+      .findById(userId)
+      .exec();
+    if (user.hashtags.includes(hashtagId)) {
+      await
+        UserChema.findByIdAndUpdate
+        (userId, {
+          $pull: { hashtags: hashtagId },
+        });
+      res.status(200).json("Hashtag takip bırakıldı");
+    }
+    else {
+      res.status(403).json("Hashtag zaten takip edilmiyor");
     }
   } catch (error) {
     console.log(error.message);
