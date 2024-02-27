@@ -8,6 +8,8 @@ import { Route, Routes } from "react-router-dom";
 import PostsPage from "../admin/pages/PostsPage";
 import UsersPage from "../admin/pages/UsersPage";
 import AdminLayout from "../Layout/AdminLayout";
+import SingleProject from "../pages/SingleProject";
+import SinglePost from "../pages/SinglePost";
 import Favorite from "../pages/Favorite";
 import Settings from "../pages/Settings";
 import Explore from "../pages/Explore";
@@ -23,6 +25,8 @@ function ClientRoutes() {
             <Route path="explore" element={<Explore/>}>
               <Route index element={<ExploreMain/>}/>
               <Route path=":hashtag" element={<ExplorePosts/>}/>
+              <Route path="post/:username/:id" element={<SinglePost/>}/>
+              <Route path="project/:username/:id" element={<SingleProject/>}/>
             </Route>
             <Route path=":username" element={<Profile />}/>
             <Route path="favorite" element={<Favorite/>}/>

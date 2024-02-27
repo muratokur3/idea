@@ -117,4 +117,23 @@ router.get("/logout", async (req, res) => {
   }
 });
 
+// Kullanıcı şifre değiştirme
+router.post("/changePassword/:id", async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const user = await UserChema.findById(req.params.id);
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json("Eski şifreniz hatalı");
+    }
+    user.password = bcrypt.hashSync(newPassword, 10);
+    await user.save();
+    res.status(200).json("Şifre başarıyla değiştirildi");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+}
+);
+
 module.exports = router;

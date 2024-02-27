@@ -20,6 +20,7 @@ import "./scss/post.scss";
 import FavoriteActions from "../actions/FavoriteActions";
 
 const Post = ({ post, activeUser }) => {
+  const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -102,7 +103,12 @@ const Post = ({ post, activeUser }) => {
       />
 
       <CardContent>
-        <Typography variant="body2" color="white" padding="10px">
+        <Typography
+          variant="body2"
+          color="white"
+          padding="10px"
+          onClick={() => navigate(`/explore/post/${post?.username}/${post?._id}`)}
+        >
           {post?.title}
         </Typography>
         {post?.hashtagsName?.map((hashtag) => (
@@ -138,8 +144,22 @@ const Post = ({ post, activeUser }) => {
             </>
           )}
 
-          <IconButton aria-label="share">
-            <IosShareIcon />
+          <IconButton aria-label="share"
+          onClick={async () => {
+            if (navigator.share) {
+              navigator
+                .share({
+                  title: "Şahane fikir", // İsteğe bağlı
+                  text: "idea sitesinde çok güzel bir fikir buldum", // İsteğe bağlı
+                  url: `${webSiteUrl}/explore/post/${post.username}/${post._id}`, // İsteğe bağlı
+                })
+                .catch((error) => console.log("Paylaşım hatası", error));
+            } else {
+              // navigator.share API'si desteklenmiyor
+              console.log("Paylaşım API'si desteklenmiyor");
+            }
+          }}>
+            <IosShareIcon/>
           </IconButton>
         </Box>
         <IconButton

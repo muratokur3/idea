@@ -16,6 +16,8 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import IosShareIcon from "@mui/icons-material/IosShare";
 import { Box } from "@mui/material";
 import ActionsButton from "../../../Modals/ActionsButton";
+import { useNavigate } from "react-router-dom";
+const webSiteUrl=import.meta.env.VITE_WEBSITE_BASE_URL;
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -30,6 +32,7 @@ const ExpandMore = styled((props) => {
 
 const ProjectCard = ({ project }) => {
   const [expanded, setExpanded] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -49,7 +52,7 @@ const ProjectCard = ({ project }) => {
       <CardHeader
         avatar={
           <Avatar
-            src={project.logo}
+            src={project?.logo}
             sx={{ bgcolor: red[500], width:"60px", height:"60px" }}
             aria-label="recipe"
           >
@@ -62,23 +65,39 @@ const ProjectCard = ({ project }) => {
 
            ]} />
          }
-        title={project.name}
+        title={project?.name}
         titleTypographyProps={{ color: "white", fontSize: "1.2rem" }}
         subheader={
-          <Typography
+          <Box
+          sx={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+          
+          }}>
+            <Typography
             sx={{ fontSize: "0.8rem", color: "gray", cursor: "pointer" }}
           >
-            {project.createDate}
+            {project?.createDate}
           </Typography>
+          <Typography
+            sx={{ fontSize: "0.8rem", color: "gray", cursor: "pointer" }}
+            onClick={() => navigate(`/${project?.username}`)}
+          >
+            @{project?.username}
+          </Typography>
+          </Box>
         }
         subheaderTypographyProps={{ color: "gray" }}
       />
 
       <CardContent>
-        <Typography variant="body2" color="white" padding="10px">
-          {project.title}
+        <Typography variant="body2" color="white" padding="10px"
+         onClick={() => navigate(`/explore/project/${project?.username}/${project?._id}`)}
+        >
+          {project?.title}
         </Typography>
-        {/* {project.hashtagsName.map((hashtag) => (
+        {/* {project?.hashtagsName.map((hashtag) => (
           <Link
             key={hashtag}
             variant="body3"
@@ -111,7 +130,22 @@ const ProjectCard = ({ project }) => {
             <GitHubIcon />
           </IconButton>
           <IconButton aria-label="share">
-            <IosShareIcon />
+          <IosShareIcon
+              onClick={async () => {
+                if (navigator.share) {
+                  navigator
+                    .share({
+                      title: "Şahane fikir", // İsteğe bağlı
+                      text: "idea sitesinde çok güzel bir fikir buldum", // İsteğe bağlı
+                      url: `${webSiteUrl}/explore/project/${project?.username}/${project?._id}`, // İsteğe bağlı
+                    })
+                    .catch((error) => console.log("Paylaşım hatası", error));
+                } else {
+                  // navigator.share API'si desteklenmiyor
+                  console.log("Paylaşım API'si desteklenmiyor");
+                }
+              }}
+            />
           </IconButton>
         </Box>
         <ExpandMore
@@ -128,7 +162,7 @@ const ProjectCard = ({ project }) => {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent style={{ backgroundColor: "gray" }}>
-          <Typography paragraph>{project.content}</Typography>
+          <Typography paragraph>{project?.content}</Typography>
         </CardContent>
       </Collapse>
     </Card>

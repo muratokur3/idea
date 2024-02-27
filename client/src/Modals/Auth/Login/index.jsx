@@ -47,7 +47,7 @@ const Login = () => {
         }}>Giriş Yap</h1>
 
         <FormControl variant="filled" sx={{ width: "50%" }}>
-          <InputLabel>Kullanıcı adı</InputLabel>
+          <InputLabel>Email</InputLabel>
           <FilledInput
             sx={{ background: "none", width: "100%" }}
             value={formData.email}

@@ -58,11 +58,35 @@ const EditProfile = (user) => {
   const handleInputChance = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+    // const data = {
+    //   _id: user.user._id,
+    //   name: formData.name,
+    //   surname: formData.surname,
+    //   username: formData.username,
+    //   bio: formData.bio,
+    //   location: formData.location,
+    //   avatar: user.user.avatar,
+    //   background: user.user.background,
+    //   socialAdress: {
+    //     github: formData.github,
+    //     linkedin: formData.linkedin,
+    //     youtube: formData.youtube,
+    //     website: formData.website,
+    //     twitter: formData.twitter,
+    //   },
+    // };
+    // dispatch(updateProfile(data, avatar.file, background.file));
 
+  function validateUsername(inputValue) {
+    const regex = /^(?!.*\b(www|http|https|\/)\b).*$/;
+    return regex.test(inputValue);
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const data = {
+   if (validateUsername(formData.github)&& validateUsername(formData.linkedin) && validateUsername(formData.youtube) && validateUsername(formData.website) && validateUsername(formData.twitter))
+   {
+     const data = {
       _id: user.user._id,
       name: formData.name,
       surname: formData.surname,
@@ -80,7 +104,14 @@ const EditProfile = (user) => {
       },
     };
     dispatch(updateProfile(data, avatar.file, background.file));
+
+  } else {
+    alert("lütfen sosyal medya hesaplarınızda sadece kullanıcı adınızı giriniz")
+    
+   }
   };
+
+
 
   useEffect(() => {
     setFormData({
@@ -391,6 +422,22 @@ const EditProfile = (user) => {
                 sx={{ width: "45%", color: "white" }}
               >
                 <InputLabel sx={{ background: "none", color: "gray" }}>
+                  <XIcon fontSize="small" />
+                  Twitter
+                </InputLabel>
+                <FilledInput
+                  sx={{ background: "none", color: "white", width: "100%" }}
+                  value={formData?.twitter}
+                  onChange={handleInputChance}
+                  name="twitter"
+                />
+              </FormControl>
+
+              <FormControl
+                variant="filled"
+                sx={{ width: "50%", color: "white" }}
+              >
+                <InputLabel sx={{ background: "none", color: "gray" }}>
                   {" "}
                   <LanguageIcon fontSize="small" />
                   Website
@@ -403,22 +450,6 @@ const EditProfile = (user) => {
                 />
               </FormControl>
 
-              <FormControl
-                variant="filled"
-                sx={{ width: "45%", color: "white" }}
-              >
-                <InputLabel sx={{ background: "none", color: "gray" }}>
-                  {" "}
-                  <XIcon fontSize="small" />
-                  Twitter
-                </InputLabel>
-                <FilledInput
-                  sx={{ background: "none", color: "white", width: "100%" }}
-                  value={formData?.twitter}
-                  onChange={handleInputChance}
-                  name="twitter"
-                />
-              </FormControl>
             </CardActions>
           </Card>
         </form>
@@ -426,7 +457,7 @@ const EditProfile = (user) => {
           className="close-edit-profile-page"
           onClick={() => dispatch(setEditProfilePage(false))}
         >
-          X
+          ⅹ
         </Button>
       </div>
     </div>

@@ -6,75 +6,89 @@ const HashtagChema = require("../models/Hashtag");
 const ProjectChema = require("../models/Project");
 
 const concatPostDetails = async (posts) => {
-    // Benzersiz kullanıcı ID'lerini topla
-    const userIds = posts.map((post) => post.userId);
-  
-    // Tek bir sorgu ile tüm kullanıcı detaylarını al
-    const userDetails = await UserChema.find({
-      _id: { $in: userIds },
-    });
-  
-    // Benzersiz hashtag ID'lerini topla
-    const hashtagIds = posts.reduce((acc, post) => {
-      if (post.hashtags.length > 0) {
-        acc.push(...post.hashtags.map((hashtag) => hashtag.toString()));
-      }
-      return acc;
-    }, []);
-  
-    // Tek bir sorgu ile tüm hashtag detaylarını al
-    const hashtagDetails = await HashtagChema.find({
-      _id: { $in: hashtagIds },
-    });
-  
-    // Postları kullanıcı detayları ile birleştir
-    const postUser = posts.map((post) => {
-      const hashtags = hashtagDetails
-        .filter((hashtag) => post.hashtags.includes(hashtag._id.toString()))
-        .map((hashtag) => hashtag.name);
-      const user = userDetails.find(
-        (user) => post.userId.toString() === user._id.toString()
-      );
-      return {
-        ...post._doc,
-        name: user.name,
-        surname: user.surname,
-        avatar: user.avatar,
-        username: user.username,
-        hashtagsName: hashtags,
-      };
-    });
-    return postUser;
-  };
-  
+  // Benzersiz kullanıcı ID'lerini topla
+  const userIds = posts.map((post) => post.userId);
+
+  // Tek bir sorgu ile tüm kullanıcı detaylarını al
+  const userDetails = await UserChema.find({
+    _id: { $in: userIds },
+  });
+
+  // Benzersiz hashtag ID'lerini topla
+  const hashtagIds = posts.reduce((acc, post) => {
+    if (post.hashtags.length > 0) {
+      acc.push(...post.hashtags.map((hashtag) => hashtag.toString()));
+    }
+    return acc;
+  }, []);
+
+  // Tek bir sorgu ile tüm hashtag detaylarını al
+  const hashtagDetails = await HashtagChema.find({
+    _id: { $in: hashtagIds },
+  });
+
+  // Postları kullanıcı detayları ile birleştir
+  const postUser = posts.map((post) => {
+    const hashtags = hashtagDetails
+      .filter((hashtag) => post.hashtags.includes(hashtag._id.toString()))
+      .map((hashtag) => hashtag.name);
+    const user = userDetails.find(
+      (user) => post.userId.toString() === user._id.toString()
+    );
+    return {
+      ...post._doc,
+      name: user.name,
+      surname: user.surname,
+      avatar: user.avatar,
+      username: user.username,
+      hashtagsName: hashtags,
+    };
+  });
+  return postUser;
+};
+
+const concatProjectDetails = async (projects) => {
+  const userIds = projects.map((project) => project.userId);
+  const userDetails = await UserChema.find({
+    _id: { $in: userIds },
+  });
+  const projectUser = projects.map((project) => {
+    const user = userDetails.find(
+      (user) => project.userId.toString() === user._id.toString()
+    );
+    return {
+      ...project._doc,
+      username: user.username,
+    };
+  });
+  return projectUser;
+}
 
 //kişinin takip ettiği postları sayfalandırarak limit değerine göre getirir
 router.get("/posts/timeline", async (req, res) => {
-    try {
-      const page = parseInt(req.query.page);
-      const limit = 5;
-      const startIndex = (page - 1) * limit;
-      const allPosts = await PostChema
-        .find
-        ()
-        .sort({ createdAt: 1 })
-        .limit(limit)
-        .skip(startIndex);
-  
-      const pagination = {
-        page: page + 1,
-        hasMore: allPosts.length === limit,
-      };
-      res
-        .status(200)
-        .json({ posts: await concatPostDetails(allPosts), pagination });
-    } catch (error) {
-      console.log(error.message);
-      res.status(500).json("Server Error");
-    }
-  });
+  try {
+    const page = parseInt(req.query.page);
+    const limit = 5;
+    const startIndex = (page - 1) * limit;
+    const allPosts = await PostChema.find()
+      .sort({ createdAt: 1 })
+      .limit(limit)
+      .skip(startIndex);
 
-  //kullanıcı adına göre kullanıcı getirir
+    const pagination = {
+      page: page + 1,
+      hasMore: allPosts.length === limit,
+    };
+    res
+      .status(200)
+      .json({ posts: await concatPostDetails(allPosts), pagination });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+//kullanıcı adına göre kullanıcı getirir
 router.get("/:username", async (req, res) => {
   if (!(await UserChema.findOne({ username: req.params.username }))) {
     return res.status(404).json("Kullanıcı bulunamadı");
@@ -197,20 +211,30 @@ router.get("/posts/explore/hashtag", async (req, res) => {
   }
 });
 
-//id ye göre post getirir
-router.get("/:id", async (req, res) => {
-  if (!(await PostChema.findById(req.params.id))) {
-    return res.status(404).json("Post not found");
-  }
+//post id değerine göre postu getirir
+router.get("/explore/singlepost/:id", async (req, res) => {
   try {
-    const postId = req.params.id;
-    const post = await PostChema.findById(postId);
-    res.status(200).json(await concatPostDetails(post));
+    const post = await PostChema.findById(req.params.id);
+    res.status(200).json(await concatPostDetails([post]));
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
   }
 });
+
+//post id değerine göre projeyi getirir
+router.get("/explore/singleproject/:id", async (req, res) => {
+  try {
+    const project = await ProjectChema.findById(req.params.id);
+    res.status(200).json(
+      await concatProjectDetails([project])
+    );
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
 
 //userId den postları getirir(profile)
 router.get("/posts/profile/:username", async (req, res) => {
@@ -257,12 +281,11 @@ router.get("/projects/:username", async (req, res) => {
       page: page + 1,
       hasMore: projects.length < limit ? false : true,
     };
-    res.status(200).json({ projects, pagination });
+    res.status(200).json({ projects:await concatProjectDetails(projects), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
   }
 });
 
-
-  module.exports = router;
+module.exports = router;
