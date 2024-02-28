@@ -174,8 +174,8 @@ const ChangePassword = () => {
       </FormControl>
     </AccordionDetails>
     <AccordionActions>
-      <Button onClick={handleCancelPassword}>İptal Et</Button>
-      <Button onClick={handleChancePassword}>Kaydet</Button>
+      <Button color="secondary" onClick={handleCancelPassword}>İptal Et</Button>
+      <Button color="primary" onClick={handleChancePassword}>Kaydet</Button>
     </AccordionActions>
   </Accordion>
   )

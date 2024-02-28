@@ -16,8 +16,8 @@ import { useState } from "react";
 import ActionsButton from "../../Modals/ActionsButton";
 import { follow } from "../../redux/actions/ProfileAction";
 import LikeActions from "../actions/LikeActions";
-import "./scss/post.scss";
 import FavoriteActions from "../actions/FavoriteActions";
+import { useTheme } from "@mui/material/styles";
 
 const Post = ({ post, activeUser }) => {
   const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
@@ -29,21 +29,23 @@ const Post = ({ post, activeUser }) => {
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const loginUserId = activeUser?._id;
-
+  const theme = useTheme();
   return (
     <Card
       sx={{
-        maxWidth: "100%",
-        backgroundColor: "rgba(13, 13, 13, 0.63)",
-        borderBottom: "1px solid rgba(71, 67, 67, 0.897);",
+        width: "100%",
         padding: "1%",
+        marginTop: "10px",
+        borderRadius: "30px",
+        boxShadow: "none",
+        background: `${theme.palette.postBackground.default}`,
       }}
     >
       <CardHeader
         avatar={
           <Avatar
             src={post?.avatar}
-            sx={{ bgcolor: red[500] }}
+            sx={{ bgcolor: red[500], width: "50px", height: "50px" }}
             aria-label="recipe"
           >
             R
@@ -56,7 +58,7 @@ const Post = ({ post, activeUser }) => {
                 {" "}
                 {post?.userId !== loginUserId &&
                   (new Set(activeUser?.following).has(post?.userId) ? (
-                    <Typography sx={{ color: "white", fontSize: "10px" }}>
+                    <Typography color="primary" sx={{ fontSize: "10px" }}>
                       Takibi Edilen
                     </Typography>
                   ) : (
@@ -91,23 +93,26 @@ const Post = ({ post, activeUser }) => {
           </Box>
         }
         title={post?.name + " " + post?.surname}
+        titleTypographyProps={{ color: "primary" }}
         subheader={
           <Typography
+            color="secondary"
             onClick={() => navigate(`/${post?.username}`)}
-            sx={{ fontSize: "0.8rem", color: "gray", cursor: "pointer" }}
+            sx={{ fontSize: "0.8rem", cursor: "pointer" }}
           >
             @{post?.username}
           </Typography>
         }
-        subheaderTypographyProps={{ color: "gray" }}
       />
 
       <CardContent>
         <Typography
           variant="body2"
-          color="white"
+          color="primary"
           padding="10px"
-          onClick={() => navigate(`/explore/post/${post?.username}/${post?._id}`)}
+          onClick={() =>
+            navigate(`/explore/post/${post?.username}/${post?._id}`)
+          }
         >
           {post?.title}
         </Typography>
@@ -120,10 +125,11 @@ const Post = ({ post, activeUser }) => {
               fontSize: ".8rem",
               display: "inline-block",
               marginRight: "10px",
-              color: "black",
-              backgroundColor: "gray",
+              color: `${theme.palette.primary.main}`,
+              // backgroundColor: "rgba(140, 136, 136, 0.937)",
+              border: `1px dotted ${theme.palette.primary.main}`,
+              padding: "1% 2%",
               borderRadius: "10px",
-              padding: "5px",
               cursor: "pointer",
             }}
             to={`/explore/${hashtag}`}
@@ -144,22 +150,24 @@ const Post = ({ post, activeUser }) => {
             </>
           )}
 
-          <IconButton aria-label="share"
-          onClick={async () => {
-            if (navigator.share) {
-              navigator
-                .share({
-                  title: "Şahane fikir", // İsteğe bağlı
-                  text: "idea sitesinde çok güzel bir fikir buldum", // İsteğe bağlı
-                  url: `${webSiteUrl}/explore/post/${post.username}/${post._id}`, // İsteğe bağlı
-                })
-                .catch((error) => console.log("Paylaşım hatası", error));
-            } else {
-              // navigator.share API'si desteklenmiyor
-              console.log("Paylaşım API'si desteklenmiyor");
-            }
-          }}>
-            <IosShareIcon/>
+          <IconButton
+            aria-label="share"
+            onClick={async () => {
+              if (navigator.share) {
+                navigator
+                  .share({
+                    title: "Şahane fikir", // İsteğe bağlı
+                    text: "idea sitesinde çok güzel bir fikir buldum", // İsteğe bağlı
+                    url: `${webSiteUrl}/explore/post/${post.username}/${post._id}`, // İsteğe bağlı
+                  })
+                  .catch((error) => console.log("Paylaşım hatası", error));
+              } else {
+                // navigator.share API'si desteklenmiyor
+                console.log("Paylaşım API'si desteklenmiyor");
+              }
+            }}
+          >
+            <IosShareIcon />
           </IconButton>
         </Box>
         <IconButton
@@ -168,14 +176,16 @@ const Post = ({ post, activeUser }) => {
           aria-label="show more"
         >
           <ExpandMoreIcon />
-          <Typography fontSize={12} color="white" padding="10px">
+          <Typography fontSize={12} color="primary" padding="10px">
             detaylar
           </Typography>
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent style={{ backgroundColor: "gray" }}>
-          <Typography paragraph>{post?.content}</Typography>
+        <CardContent background={`${theme.palette.postBackground.default}`}>
+          <Typography color="primary" paragraph>
+            {post?.content}
+          </Typography>
         </CardContent>
       </Collapse>
     </Card>

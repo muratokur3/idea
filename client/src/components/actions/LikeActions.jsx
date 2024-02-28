@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { IconButton } from '@mui/material'
+import { IconButton, Typography } from '@mui/material'
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { like, unLike } from '../../redux/actions/PostActions';
@@ -24,9 +24,9 @@ const LikeActions = ({post,loginUserId}) => {
             ) : (
               <FavoriteBorderIcon />
             )}
-            <p style={{ color: "gray", fontSize: "1.2rem" }}>
+            <Typography color= "primary" sx={{  fontSize: "1.3rem",marginLeft:"5px" }}>
               {post?.likesCount}
-            </p>
+            </Typography>
           </IconButton>
   )
 }

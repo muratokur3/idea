@@ -3,9 +3,10 @@ import NewPost from "../components/post/NewPost";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from "../redux/slices/FilterSlice";
 import "./home.scss";
-import { Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { getHomeData, getPrivateMeData, } from "../redux/actions/PostActions";
 import { useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const Home = () => {
   const filterName = useSelector((state) => state.filterPosts.filterName);
   const homeData = useSelector((state) => state.posts.home);
   const privateMeData = useSelector((state) => state.posts.privateMe);
-
+const theme=useTheme();
   useEffect(() => {
     homeData.posts.length === 0 && dispatch(getHomeData(homeData.pagination,loginedUserId));
     filterName !== "all" && privateMeData.posts.length === 0 && dispatch(getPrivateMeData(privateMeData.pagination,loginedUserId));
@@ -23,18 +24,20 @@ const Home = () => {
 
 
   return (
-    <div id="home-container">
-
+    <Box>
       {isLogin && (
-        <Tabs value={filterName} id="tabs" centered textColor="inherit">
+        <Tabs sx={{
+          backgroundColor:"secondary.main",
+        }} value={filterName} centered textColor="prmary.main" indicatorColor="primary" 
+        >
           <Tab
             value={"all"}
-            label="Tümü"
+            label="kişilerim"
             onClick={() => dispatch(setFilter("all"))}
           />
           <Tab
             value={"privateme"}
-            label="Bana Özel"
+            label="etiketlerim"
             onClick={() => dispatch(setFilter("privateme"))}
           />
         </Tabs>
@@ -47,7 +50,7 @@ const Home = () => {
       {filterName !== "all" && <ListPost data={privateMeData} getPosts={() => dispatch(getPrivateMeData(privateMeData.pagination,loginedUserId))} />}
 
 
-    </div>
+    </Box>
   );
 };
 

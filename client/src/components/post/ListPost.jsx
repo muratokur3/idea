@@ -1,16 +1,12 @@
 import InfinieScroll from "react-infinite-scroll-component";
 import PostSkeleton from "../skeleton/PostSkeleton.jsx";
 import PropTypes from "prop-types";
-import "./scss/list-post.scss";
 import Post from "./Post.jsx";
 import { useSelector } from "react-redux";
 
 const ListPost = ({ data,getPosts }) => {
   const activeUser =useSelector((state) => state.authentication.user);
   return (
-    
-
-   
     <InfinieScroll
       dataLength={data.posts.length}
       next={()=>getPosts()}

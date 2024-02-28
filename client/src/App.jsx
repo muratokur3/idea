@@ -5,10 +5,7 @@ import LayoutRoute from './route/Route'
 function App() {
 
   return (
-    <>
-    
      <LayoutRoute/>
-    </>
   )
 }
 

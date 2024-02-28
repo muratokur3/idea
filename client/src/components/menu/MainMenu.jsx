@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNewPostPage } from "../../redux/slices/UiSlice";
 import "./scss/main-menu.scss";
 import { useEffect, useState } from "react";
+import { useTheme } from '@mui/material/styles';
 const Menu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const Menu = () => {
   const location = useLocation();
   const locPath = location.pathname;
   const [widthThreshold, setWidthThreshold] = useState(window.innerWidth < 1235);
-
+  const theme = useTheme();
   useEffect(() => {
     const handleResize = () => {
       setWidthThreshold(window.innerWidth < 1235);
@@ -51,10 +52,11 @@ const Menu = () => {
         <ListItem disablePadding className={locPath === "/" ? "active" : ""} sx={{width: widthThreshold ? "60px" : "95%"}} >
           <ListItemButton onClick={() => navigate("/")}>
             <ListItemIcon>
-              <HomeIcon />
+              <HomeIcon color="secondary"/>
             </ListItemIcon>
             <ListItemText
               primary="Anasayfa"
+              primaryTypographyProps={{ color: theme.palette.primary.main }}
               sx={{ display: widthThreshold ? "none" : "block"}}
             />
           </ListItemButton>
@@ -70,6 +72,7 @@ const Menu = () => {
               <SearchIcon />
             </ListItemIcon>
             <ListItemText primary="Keşfet" 
+              primaryTypographyProps={{ color: theme.palette.primary.main }}
               sx={{ display: widthThreshold ? "none" : "block" }}/>
           </ListItemButton>
         </ListItem>
@@ -83,9 +86,10 @@ const Menu = () => {
             >
               <ListItemButton onClick={() => navigate("/favorite")}>
                 <ListItemIcon>
-                  <StarBorderIcon />
+                  <StarBorderIcon/>
                 </ListItemIcon>
-                <ListItemText primary="Favoriler"
+                <ListItemText primary="Favorile"
+              primaryTypographyProps={{ color: theme.palette.primary.main }}
               sx={{ display: widthThreshold ? "none" : "block" }}/>
               </ListItemButton>
             </ListItem>
@@ -100,6 +104,7 @@ const Menu = () => {
                   <FavoriteBorderIcon />
                 </ListItemIcon>
                 <ListItemText primary="Beğeni" 
+              primaryTypographyProps={{ color: theme.palette.primary.main }}
               sx={{ display: widthThreshold ? "none" : "block" }}/>
               </ListItemButton>
             </ListItem>
@@ -114,6 +119,7 @@ const Menu = () => {
                   <PermIdentityIcon />
                 </ListItemIcon>
                 <ListItemText primary="Profilim" 
+              primaryTypographyProps={{ color: theme.palette.primary.main }}
               sx={{ display: widthThreshold ? "none" : "block" }}/>
               </ListItemButton>
             </ListItem>
@@ -128,6 +134,7 @@ const Menu = () => {
                   <SettingsIcon />
                 </ListItemIcon>
                 <ListItemText primary="Ayarlar" 
+              primaryTypographyProps={{ color: theme.palette.primary.main }}
               sx={{ display: widthThreshold ? "none" : "block" }}/>
               </ListItemButton>
             </ListItem>
@@ -136,9 +143,15 @@ const Menu = () => {
       </List>
       {isLogin && (
         <Button
-          id="new-idea"
           variant="outlined"
-          sx={{ width: widthThreshold ? "15px" : "80%" }}
+          color="primary"
+          
+          sx={{ width: widthThreshold ? "15px" : "80%",
+          borderRadius: "60px",
+          borderColor: "gray",
+          "&:hover": {
+              borderColor: "white"
+          } }}
           onClick={() => dispatch(setNewPostPage(true))}
         >
          {widthThreshold? "+":"yeni"}
