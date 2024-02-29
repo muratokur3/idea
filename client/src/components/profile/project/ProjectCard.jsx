@@ -17,6 +17,7 @@ import IosShareIcon from "@mui/icons-material/IosShare";
 import { Box } from "@mui/material";
 import ActionsButton from "../../../Modals/ActionsButton";
 import { useNavigate } from "react-router-dom";
+import {useTheme} from "@mui/material/styles";
 const webSiteUrl=import.meta.env.VITE_WEBSITE_BASE_URL;
 
 const ExpandMore = styled((props) => {
@@ -31,6 +32,7 @@ const ExpandMore = styled((props) => {
 }));
 
 const ProjectCard = ({ project }) => {
+  const theme=useTheme();
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
 
@@ -41,9 +43,9 @@ const ProjectCard = ({ project }) => {
   return (
     <Card
       sx={{
-        width: "70%",
+        width: "80%",
         maxWidth: "100%",
-        backgroundColor: "rgba(13, 13, 13, 0.63)",
+        background: `${theme.palette.postBackground.default} !important`,
         marginTop: "10px",
         borderRadius: "25px",
         border: "1px solid rgba(165, 157, 157, 0.529)",
@@ -66,7 +68,7 @@ const ProjectCard = ({ project }) => {
            ]} />
          }
         title={project?.name}
-        titleTypographyProps={{ color: "white", fontSize: "1.2rem" }}
+        titleTypographyProps={{ color: "primary", fontSize: "1.2rem" }}
         subheader={
           <Box
           sx={{
@@ -76,23 +78,24 @@ const ProjectCard = ({ project }) => {
           
           }}>
             <Typography
-            sx={{ fontSize: "0.8rem", color: "gray", cursor: "pointer" }}
+            color="secondary"
+            sx={{ fontSize: "0.8rem", cursor: "pointer" }}
           >
             {project?.createDate}
           </Typography>
           <Typography
-            sx={{ fontSize: "0.8rem", color: "gray", cursor: "pointer" }}
+          color="secondary"
+            sx={{ fontSize: "0.8rem", cursor: "pointer" }}
             onClick={() => navigate(`/${project?.username}`)}
           >
             @{project?.username}
           </Typography>
           </Box>
         }
-        subheaderTypographyProps={{ color: "gray" }}
       />
 
       <CardContent>
-        <Typography variant="body2" color="white" padding="10px"
+        <Typography variant="body2" color="primary" padding="10px"
          onClick={() => navigate(`/explore/project/${project?.username}/${project?._id}`)}
         >
           {project?.title}
@@ -155,7 +158,7 @@ const ProjectCard = ({ project }) => {
           aria-label="show more"
         >
           <ExpandMoreIcon />
-          <Typography fontSize={12} color="white" padding="10px">
+          <Typography fontSize={12} color="primary" padding="10px">
             detaylar
           </Typography>
         </ExpandMore>

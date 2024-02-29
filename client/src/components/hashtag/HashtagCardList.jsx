@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Card, CardHeader, Typography } from "@mui/material";
+import { Box, Card, CardHeader, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getHashtagsExplore } from "../../redux/actions/HashtagsAction";
@@ -22,7 +22,7 @@ const HashtagCardList = () => {
   return (
     <>
       {hashtagsExplore.map((hashtag, index) => (
-        <div key={index} className="hashtag">
+        <Box key={index}>
           <Card
             sx={{
               backgroundColor: "transparent",
@@ -35,9 +35,10 @@ const HashtagCardList = () => {
                 <Typography
                   gutterBottom
                   component="div"
+                  color="primary"
                   onClick={() => navigate(`${hashtag.name}`)}
                 >
-                  {hashtag.name}
+                  #{hashtag.name}
                 </Typography>
               }
               subheader={
@@ -55,7 +56,7 @@ const HashtagCardList = () => {
               }
             ></CardHeader>
           </Card>
-        </div>
+        </Box>
       ))}
     </>
   );

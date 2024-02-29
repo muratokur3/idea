@@ -4,6 +4,7 @@ const initialState = {
   themeMode: "Dark",
   lightTheme: {
     palette: {
+      mode: "light",
       primary: { main: "rgb(0,0,0)" },
       secondary: { main: "rgba(112, 106, 106, 0.937)" },
       background: { default: "rgb(255, 255, 255)"},
@@ -16,6 +17,7 @@ const initialState = {
   },
   darkTheme: {
     palette: {
+      mode: "dark",
       primary: { main: "rgb(250, 250, 250)" },
       secondary: { main: "rgba(112, 106, 106, 0.937)" },
       background: { default: "rgb(0, 0, 0)" },

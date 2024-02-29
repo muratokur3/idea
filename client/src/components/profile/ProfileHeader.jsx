@@ -17,10 +17,10 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
-import "./scss/profile-header.scss";
 import { useNavigate } from "react-router-dom";
 import EditProfile from "../../Modals/EditProfile";
 import { setEditProfilePage } from "../../redux/slices/UiSlice";
+import { useTheme } from "@mui/material/styles";
 /* eslint-disable react/prop-types */
 const UserDetail = ({ profileData }) => {
   const dispatch = useDispatch();
@@ -37,14 +37,40 @@ const UserDetail = ({ profileData }) => {
         ? dispatch(unfollow(activeUserId, profileData?.user._id, activeUser))
         : dispatch(follow(activeUserId, profileData.user._id, activeUser)));
   };
-
+  const theme = useTheme();
   return (
     <>
       {editProfilePage && <EditProfile user={profileData.user} />}
 
-      <Card id="user-detail-card">
-        <img id="background-image" src={profileData.user.background} />
-        <div id="background-image-opacity"></div>
+      <Card
+        sx={{
+          width: "100%",
+          background: `${theme.palette.postBackground.default} !important`,
+          boxShadow: "none",
+        }}
+      >
+        <img
+          style={{
+            width: "100%",
+            height: "300px",
+            objectFit: "cover",
+            borderBottomRightRadius: "100px",
+            borderBottomLeftRadius: "100px",
+          }}
+          src={profileData.user.background}
+        />
+        <Box
+          sx={{
+            width: "100%",
+            height: "300px",
+            top: "0",
+            left: "0",
+            background: "rgba(0, 0, 0, 0.5)",
+            position: "absolute",
+            borderBottomRightRadius: "100px",
+            borderBottomLeftRadius: "100px",
+          }}
+        ></Box>
         <CardHeader
           avatar={
             <Avatar
@@ -52,7 +78,7 @@ const UserDetail = ({ profileData }) => {
               sx={{
                 width: 150,
                 height: 150,
-                border: "5px solid black",
+                border: `5px solid ${theme.palette.primary.main}`,
               }}
               aria-label="recipe"
             >
@@ -62,10 +88,13 @@ const UserDetail = ({ profileData }) => {
           title={
             <Card
               sx={{
-                background: "transparent",
+                background: "none",
+                boxShadow:"none"
               }}
             >
               <CardHeader
+              sx={{
+              }}
                 action={
                   <Box>
                     {activeUser && profileUSerData._id === activeUserId ? (
@@ -77,11 +106,7 @@ const UserDetail = ({ profileData }) => {
                         Profili Düzenle
                       </Button>
                     ) : (
-                      <Button
-                        aria-label="settings"
-                        className="follow-button"
-                        onClick={handleFollow}
-                      >
+                      <Button aria-label="contained" onClick={handleFollow}>
                         {profileData?.followers?.length > 0 &&
                         profileUSerData?.followers?.some(
                           (id) => id === activeUserId
@@ -93,14 +118,15 @@ const UserDetail = ({ profileData }) => {
                   </Box>
                 }
                 title={`${profileData.user.name} ${profileData.user.surname}`}
-                titleTypographyProps={{ fontSize: "1rem" }}
+                titleTypographyProps={{ color: "primary", fontSize: "1.2rem" }}
                 subheader={
                   <Box>
                     <Typography
                       onClick={() => navigate(`/${profileData.user.username}`)}
+                      color="secondary"
                       sx={{
                         fontSize: "0.8rem",
-                        color: "gray",
+
                         cursor: "pointer",
                       }}
                     >
@@ -108,7 +134,7 @@ const UserDetail = ({ profileData }) => {
                     </Typography>
                     <IconButton sx={{ paddingLeft: "0" }}>
                       <LocationOnIcon fontSize="small" />
-                      <Typography fontSize={15}>
+                      <Typography fontSize={15} color="primary">
                         {profileData.user.location}
                       </Typography>
                     </IconButton>
@@ -117,13 +143,14 @@ const UserDetail = ({ profileData }) => {
               />
 
               <CardContent
+                
                 sx={{
-                  color: "white",
                   fontSize: "0.7rem",
-                  padding: "10px",
+                  padding: "15px",
+                  color:`${theme.palette.primary.main}`
                 }}
               >
-                <p style={{ fontSize: "13px" }}>{profileData.user.bio}</p>
+                {profileData.user.bio}
               </CardContent>
             </Card>
           }
@@ -133,30 +160,29 @@ const UserDetail = ({ profileData }) => {
           sx={{
             display: "flex",
             justifyContent: "space-around",
-            margin: "30px 0",
           }}
         >
-          <Typography>
+          <Typography color="primary" fontSize="small">
             {profileData?.user?.following?.length} Takip Edilen
           </Typography>
-          <Typography>
+          <Typography color="primary" fontSize="small">
             {profileData?.user?.followers?.length} Takipçi
           </Typography>
-          <Typography>{profileUserPosts?.posts.length} Gönderi</Typography>
+          <Typography color="primary" fontSize="small">{profileUserPosts?.posts.length} Gönderi</Typography>
           <a href={profileData?.user?.socialAdress?.website}>
-            <LanguageIcon fontSize="small" />
+            <LanguageIcon fontSize="10px" />
           </a>
           <a href={profileData?.user?.socialAdress?.github}>
-            <GitHubIcon fontSize="small" />
+            <GitHubIcon fontSize="10px" />
           </a>
           <a href={profileData?.user?.socialAdress?.linkedin}>
-            <LinkedInIcon fontSize="small" />
+            <LinkedInIcon fontSize="10px" />
           </a>
           <a href={profileData?.user?.socialAdress?.youtube}>
-            <YouTubeIcon fontSize="small" />
+            <YouTubeIcon fontSize="10px" />
           </a>
           <a href={profileData?.user?.socialAdress?.twitter}>
-            <XIcon fontSize="small" />
+            <XIcon fontSize="10px" />
           </a>
         </CardActions>
       </Card>

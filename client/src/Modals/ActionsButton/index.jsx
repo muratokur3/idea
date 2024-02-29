@@ -12,7 +12,7 @@ const ActionsButton = ({ actions }) => {
     setAnchorEl(null);
   };
   return (
-    <div>
+    <>
       <IconButton
         aria-label="more"
         id="long-button"
@@ -46,7 +46,7 @@ const ActionsButton = ({ actions }) => {
           </MenuItem>
         ))}
       </Menu>
-    </div>
+    </>
   );
 };
 

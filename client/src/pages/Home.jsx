@@ -26,10 +26,14 @@ const theme=useTheme();
   return (
     <Box>
       {isLogin && (
-        <Tabs sx={{
-          backgroundColor:"secondary.main",
-        }} value={filterName} centered textColor="prmary.main" indicatorColor="primary" 
-        >
+        <Tabs value={filterName} centered textColor={theme.palette.mode === 'dark' ? 'inherit' : 'primary'}
+        sx={{
+          background: `${theme.palette.postBackground.default} !important`,
+          borderRadius: "10px",
+          position: "sticky",
+          top: "0",
+          left: "0",
+        }} >
           <Tab
             value={"all"}
             label="kişilerim"

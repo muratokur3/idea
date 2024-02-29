@@ -1,15 +1,20 @@
 /* eslint-disable react/prop-types */
-import "./scss/profile-menu.scss";
 import { Tab, Tabs } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfilePage } from "../../redux/slices/UiSlice";
-
+import { useTheme } from "@mui/material/styles";
 const ProfileMenu = () => {
   const dispatch = useDispatch();
   const profilePage = useSelector((state) => state.ui.profilePage);
+  const theme=useTheme();
   return (
-    <div id="profile-menu-container">
-      <Tabs value={profilePage} centered textColor="inherit">
+   
+      <Tabs value={profilePage} centered  textColor={theme.palette.mode === 'dark' ? 'inherit' : 'primary'}
+      sx={{
+        position: "sticky",
+        top: "0",
+        left: "0",
+      }}>
       
         <Tab
           value={"posts"}
@@ -27,7 +32,7 @@ const ProfileMenu = () => {
           onClick={() => dispatch(setProfilePage("follow"))}
         />
       </Tabs>
-    </div>
+
   );
 };
 
