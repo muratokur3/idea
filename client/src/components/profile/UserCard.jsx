@@ -6,17 +6,20 @@ import { red } from "@mui/material/colors";
 import Card from "@mui/material/Card";
 import PropTypes from "prop-types";
 import Followactions from "../actions/FollowActions";
+import { useTheme } from "@mui/material/styles";
 
 const UserCard = ({ user }) => {
   const navigate = useNavigate();
   const activeUser = useSelector((state) => state.authentication.user);
+  const theme=useTheme();
 
   return (
     <Card
       sx={{
         maxWidth: "100%",
-        backgroundColor: "rgba(10, 9, 9, 0.713)",
+        background: `${theme.palette.background.default}`,
         marginTop: "10px",
+        borderRadius: "10px",
       }}
     >
       <CardHeader
@@ -33,11 +36,12 @@ const UserCard = ({ user }) => {
       activeUser._id&&<Followactions user={user} activeUser={activeUser}/>
         }
         title={`${user.name} ${user.surname}`}
-        titleTypographyProps={{ fontSize: "1rem" }}
+        titleTypographyProps={{ fontSize: "1rem", color: "primary"}}
         subheader={
            <Typography
             onClick={() => navigate(`/${user.username}`)}
-            sx={{ fontSize: "0.8rem", color: "gray", cursor: "pointer" }}
+            color={"secondary"}
+            sx={{ fontSize: "0.8rem", cursor: "pointer" }}
           >
             @{user.username}
           </Typography>
@@ -48,17 +52,16 @@ const UserCard = ({ user }) => {
      
       <CardContent
         sx={{
-          color: "white",
           fontSize: "0.7rem",
           padding: "10px",
         }}
-      > <Typography sx={{ fontSize: "10px",color:"white" }}>
+      > <Typography color="primary" sx={{ fontSize: "10px" }}>
            {user.followers.length} Takipçi {user.following.length} Takip
            Edilen
          </Typography>
-        <p style={{ fontSize: "13px" }}>
+        <Typography color="primary" fontSize={".8rem"}>
          {user?.bio?.slice(0, 80)}
-        </p>
+        </Typography>
       </CardContent>
     </Card>
   );

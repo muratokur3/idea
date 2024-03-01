@@ -11,6 +11,7 @@ const ProfileMenu = () => {
    
       <Tabs value={profilePage} centered  textColor={theme.palette.mode === 'dark' ? 'inherit' : 'primary'}
       sx={{
+        backdropFilter: "blur(3px)",
         position: "sticky",
         top: "0",
         left: "0",

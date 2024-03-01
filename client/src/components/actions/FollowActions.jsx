@@ -11,7 +11,7 @@ const FollowActions = ({user,activeUser}) => {
         : dispatch(follow(activeUser?._id, user?._id, user));
   }
   return (
-    <Button aria-label="follow" variant="contained" color="primary"
+    <Button aria-label="follow" variant="contained" color="primary" size="small"
     onClick={handleFollow}>
       { new Set(user?.followers).has(activeUser?._id)? "Takibi Bırak" : "Takip Et"}
     </Button>

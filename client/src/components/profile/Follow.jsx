@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Tab, Tabs } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { getFollowers, getFollowing } from "../../redux/actions/ProfileAction";
+import { useTheme } from "@mui/material/styles";
 
 const Follow = () => {
+  const theme = useTheme();
   const { username } = useParams();
   const profile = useSelector((state) => state.profile);
   const [follow, setFollow] = useState("following");
@@ -20,7 +22,7 @@ const Follow = () => {
         value={follow}
         id="tabs"
         centered
-        textColor="inherit"
+        textColor={theme.palette.mode === "dark" ? "inherit" : "primary"}
       >
         <Tab
           value={"following"}
@@ -33,14 +35,14 @@ const Follow = () => {
           onClick={() => setFollow("followers")}
         />
       </Tabs>
-        {follow === "following" &&
-          profile.following.map((user) => (
-            <UserCard key={user._id} user={user} />
-          ))}
-        {follow === "followers" &&
-          profile.followers.map((user) => (
-            <UserCard key={user._id} user={user} />
-          ))}
+      {follow === "following" &&
+        profile.following.map((user) => (
+          <UserCard key={user._id} user={user} />
+        ))}
+      {follow === "followers" &&
+        profile.followers.map((user) => (
+          <UserCard key={user._id} user={user} />
+        ))}
     </Fragment>
   );
 };
