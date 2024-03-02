@@ -7,10 +7,9 @@ import Project from "../components/profile/project";
 import ListPost from "../components/post/ListPost";
 import Follow from "../components/profile/Follow";
 import { useEffect } from "react";
-import "./profile.scss";
 import NewProjectPage from "../Modals/NewProject";
 
-import { Box, } from "@mui/material";
+import { Box } from "@mui/material";
 import { getProfile } from "../redux/actions/ProfileAction";
 
 const ProfileLayout = () => {
@@ -20,12 +19,9 @@ const ProfileLayout = () => {
   const profilePage = useSelector((state) => state.ui.profilePage);
   const newProjectPage = useSelector((state) => state.ui.newProjectPage);
   const profilePostsData = useSelector((state) => state.posts.profilePosts);
-  useEffect(
-    () => {
-      dispatch(getProfile(username));
-    },
-    [username, dispatch]
-  );
+  useEffect(() => {
+    dispatch(getProfile(username));
+  }, [username, dispatch]);
   const page = () => {
     switch (profilePage) {
       case "posts":
@@ -51,20 +47,27 @@ const ProfileLayout = () => {
   }, [username]);
 
   return (
-    <div id="profile-layout-container">
-    
-      {newProjectPage&&<NewProjectPage />}
-     {profileData.user&& <ProfileHeader profileData={profileData} />}
+    <Box
+      sx={{
+        width: "100%",
+        height: "auto",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
+    >
+      {newProjectPage && <NewProjectPage />}
+      {profileData.user && <ProfileHeader profileData={profileData} />}
       <ProfileMenu />
-      <Box sx={
-        {
+      <Box
+        sx={{
           margin: "20px",
           borderRadius: "10px",
-        }
-      }>
-      {page()}
+        }}
+      >
+        {page()}
       </Box>
-    </div>
+    </Box>
   );
 };
 

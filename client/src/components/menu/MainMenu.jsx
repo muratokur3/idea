@@ -96,10 +96,10 @@ const Menu = () => {
 
             <ListItem
               disablePadding
-              className={locPath === "/likeMe" ? "active" : ""}
+              className={locPath === "/MyLikes" ? "active" : ""}
               sx={{width: widthThreshold ? "60px" : "95%"}}
             >
-              <ListItemButton onClick={() => navigate("/likeMe")}>
+              <ListItemButton onClick={() => navigate("/MyLikes")}>
                 <ListItemIcon>
                   <FavoriteBorderIcon />
                 </ListItemIcon>

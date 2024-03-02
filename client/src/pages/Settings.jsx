@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 import ChangePassword from "../components/settings/ChangePassword";
-import ThemaSettings from "../components/settings/ThemaSettings";
+import ThemaSettings from "../components/settings/Theme/ThemaSettings";
 
 const Settings = () => {
   return (

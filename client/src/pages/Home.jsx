@@ -2,7 +2,6 @@ import ListPost from "../components/post/ListPost";
 import NewPost from "../components/post/NewPost";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from "../redux/slices/FilterSlice";
-import "./home.scss";
 import { Box, Tab, Tabs } from "@mui/material";
 import { getHomeData, getPrivateMeData } from "../redux/actions/PostActions";
 import { useEffect } from "react";

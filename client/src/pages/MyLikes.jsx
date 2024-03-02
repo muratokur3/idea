@@ -3,7 +3,7 @@ import ListPost from "../components/post/ListPost"
 import {  useDispatch, useSelector } from "react-redux"
 import { getProfileLikesPosts } from "../redux/actions/PostActions";
 
-const LikeMe = () => {
+const MyLikes = () => {
   const username  =useSelector((state)=>state.authentication.user.username);
   const ProfileLikesData = useSelector((state) => state.posts.profileLikes);
   const dispatch=useDispatch();
@@ -24,4 +24,4 @@ const LikeMe = () => {
   )
 }
 
-export default LikeMe
+export default MyLikes
