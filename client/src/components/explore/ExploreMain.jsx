@@ -6,12 +6,10 @@ import { useEffect } from "react";
 const ExploreMain = () => {
   const dispatch = useDispatch();
   const exploreData = useSelector((state) => state.posts.explore);
-
   useEffect(() => {
    dispatch(getExploreData({page:1,hasMore:true}));
   }
   , []);
-
   return (
     <div>
       <HashtagCardList />
