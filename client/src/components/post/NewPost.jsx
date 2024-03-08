@@ -43,7 +43,6 @@ const NewPost = () => {
   return (
     <div
       id="share-container"
-      style={{ display: newPostPage ? "flex" : "none" }}
     >
       <Avatar
         alt="Remy Sharp"
