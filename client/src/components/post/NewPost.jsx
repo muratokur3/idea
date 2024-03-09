@@ -7,7 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import { Button, Paper } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { setNewPostPage } from "../../redux/slices/UiSlice";
@@ -41,17 +41,24 @@ const NewPost = () => {
   }, []);
 
   return (
-    <div
-      id="share-container"
-    >
+    <Box  sx={{
+      width: "100%",
+      height: "auto",
+      minHeight: "20vh",
+      maxHeight: "50vh",
+      display: "flex",
+      padding: "1rem",
+      gap: "1rem",
+      position: "relative",
+    }}>
       <Avatar
         alt="Remy Sharp"
         src={user?.avatar}
         sx={{ width: 80, height: 80 }}
       />
       <form onSubmit={handleSubmit} id="new-post-form">
-        <p
-          style={{
+        <Typography
+          sx={{
             color: "rgba(105, 102, 102, 0.697)",
             position: "absolute",
             top: 0,
@@ -59,10 +66,9 @@ const NewPost = () => {
           }}
         >
           {175 - title.length}
-        </p>
+        </Typography>
 
         <TextareaAutosize
-          className="title-textarea"
           value={title}
           onChange={(e) => {
             setTitle(e.target.value);
@@ -72,14 +78,23 @@ const NewPost = () => {
           maxLength={175}
           placeholder="Başlık"
           sx={{
-            marginBottom: "20px",
+            width: "100%",
+            border: "none",
+            outline: "none",
+            fontSize: "1.1rem",
+            maxHeight: "500px",
+            resize: "none",
+            background: "none",
+            overflow: "hidden",
+            borderBottom: "1px solid rgba(171, 164, 164, 0.937)",
+            "&::placeholder": {
+              fontSize: "1.1rem",
+            },
             fontFamily: "monospace",
-            fontSize: ".9rem",
           }}
           required
         />
         <TextareaAutosize
-          className="content-textarea"
           value={content}
           onChange={(e) => {
             setContent(e.target.value);
@@ -88,14 +103,25 @@ const NewPost = () => {
           maxLength={1500}
           placeholder="Açıklama"
           sx={{
+            width: "100%",
+            border: "none",
+            outline: "none",
+            fontSize: "1rem",
+            maxHeight: "500px",
+            resize: "none",
+            background: "none",
+            overflow: "hidden",
+            paddingTop: "5px",
+            "&::placeholder": {
+              fontSize: "1rem",
+            },
             marginBottom: "20px",
             fontFamily: "monospace",
-            fontSize: ".9rem",
           }}
           required
         />
-        <p
-          style={{
+        <Typography
+          sx={{
             color: "rgba(105, 102, 102, 0.697)",
             position: "absolute",
             top: "33%",
@@ -103,7 +129,7 @@ const NewPost = () => {
           }}
         >
           {1500 - content.length}
-        </p>
+        </Typography>
         <Autocomplete
           onChange={(e, value) => {
             setSelectedHashtags(value);
@@ -134,19 +160,47 @@ const NewPost = () => {
           )}
         />
         {/* <hr className="new-post-hr" /> */}
-        <div className="new-post-media">
-          <div className="new-post-media-icons">
+        <Box
+        sx={{
+          width: "100%",
+          height: "auto",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          paddingTop: "2%",
+          borderTop: ".5px solid rgba(71, 67, 67, 0.403)",
+        }}>
+          <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            width: "30%",
+            height: "2rem",
+
+          }}>
             <AddAPhotoIcon sx={{ fontSize: 30 }} />
             <AddPhotoAlternateIcon sx={{ fontSize: 30 }} />
             <GifBoxIcon sx={{ fontSize: 30 }} />
             <AddLocationAltIcon sx={{ fontSize: 30 }} />
-          </div>
-          <Button type="submit" id="new-post-submit" variant="outlined">
+          </Box>
+          <Button type="submit" variant="outlined"
+          sx={{
+            borderRadius: "60px",
+            width: "100px",
+            height: "40px",
+            fontSize: ".5rem",
+            color: "white",
+            borderColor: "gray",
+            "&:hover": {
+              borderColor: "white",
+            },
+          }}>
             Paylaş
           </Button>
-        </div>
+        </Box>
       </form>
-    </div>
+    </Box>
   );
 };
 
