@@ -2,7 +2,6 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import GifBoxIcon from "@mui/icons-material/GifBox";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
-import "./scss/new-post.scss";
 import Avatar from "@mui/material/Avatar";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -41,34 +40,37 @@ const NewPost = () => {
   }, []);
 
   return (
-    <Box  sx={{
-      width: "100%",
-      height: "auto",
-      minHeight: "20vh",
-      maxHeight: "50vh",
-      display: "flex",
-      padding: "1rem",
-      gap: "1rem",
-      position: "relative",
-    }}>
+    <Box
+      sx={{
+        width: "100%",
+        height: "auto",
+        minHeight: "20vh",
+        maxHeight: "50vh",
+        display: "flex",
+        padding: "1rem",
+        gap: "1rem",
+        position: "relative",
+      }}
+    >
       <Avatar
         alt="Remy Sharp"
         src={user?.avatar}
         sx={{ width: 80, height: 80 }}
       />
-      <form onSubmit={handleSubmit} id="new-post-form">
-        <Typography
-          sx={{
-            color: "rgba(105, 102, 102, 0.697)",
-            position: "absolute",
-            top: 0,
-            right: 0,
-          }}
-        >
-          {175 - title.length}
-        </Typography>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          width: "90%",
+          height: "auto",
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: "none",
+        }}
+      >
+     
 
         <TextareaAutosize
+          className="title-textarea"
           value={title}
           onChange={(e) => {
             setTitle(e.target.value);
@@ -95,6 +97,7 @@ const NewPost = () => {
           required
         />
         <TextareaAutosize
+          className="content-textarea"
           value={content}
           onChange={(e) => {
             setContent(e.target.value);
@@ -120,16 +123,7 @@ const NewPost = () => {
           }}
           required
         />
-        <Typography
-          sx={{
-            color: "rgba(105, 102, 102, 0.697)",
-            position: "absolute",
-            top: "33%",
-            right: 0,
-          }}
-        >
-          {1500 - content.length}
-        </Typography>
+       
         <Autocomplete
           onChange={(e, value) => {
             setSelectedHashtags(value);
@@ -159,46 +153,28 @@ const NewPost = () => {
             <Paper sx={{ backgroundColor: "black" }}>{children}</Paper>
           )}
         />
-        {/* <hr className="new-post-hr" /> */}
-        <Box
-        sx={{
-          width: "100%",
-          height: "auto",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          paddingTop: "2%",
-          borderTop: ".5px solid rgba(71, 67, 67, 0.403)",
-        }}>
-          <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            width: "30%",
-            height: "2rem",
 
-          }}>
-            <AddAPhotoIcon sx={{ fontSize: 30 }} />
-            <AddPhotoAlternateIcon sx={{ fontSize: 30 }} />
-            <GifBoxIcon sx={{ fontSize: 30 }} />
-            <AddLocationAltIcon sx={{ fontSize: 30 }} />
-          </Box>
-          <Button type="submit" variant="outlined"
+
+        <Button
+          type="submit"
+          id="new-post-submit"
+          variant="outlined"
           sx={{
             borderRadius: "60px",
-            width: "100px",
+            marginTop: "2%",
+            width: "100%",
             height: "40px",
-            fontSize: ".5rem",
-            color: "white",
+            fontSize: ".6rem",
+            fontFamily: "monospace",
+            color: "primary",
             borderColor: "gray",
             "&:hover": {
               borderColor: "white",
             },
-          }}>
-            Paylaş
-          </Button>
-        </Box>
+          }}
+        >
+          Paylaş
+        </Button>
       </form>
     </Box>
   );
