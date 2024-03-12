@@ -7,7 +7,6 @@ import Project from "../components/profile/project";
 import ListPost from "../components/post/ListPost";
 import Follow from "../components/profile/Follow";
 import { useEffect } from "react";
-import NewProjectPage from "../Modals/NewProject";
 
 import { Box } from "@mui/material";
 import { getProfile } from "../redux/actions/ProfileAction";
@@ -17,7 +16,6 @@ const ProfileLayout = () => {
   const { username } = useParams();
   const profileData = useSelector((state) => state.profile);
   const profilePage = useSelector((state) => state.ui.profilePage);
-  const newProjectPage = useSelector((state) => state.ui.newProjectPage);
   const profilePostsData = useSelector((state) => state.posts.profilePosts);
   useEffect(() => {
     dispatch(getProfile(username));
@@ -56,7 +54,6 @@ const ProfileLayout = () => {
         position: "relative",
       }}
     >
-      {newProjectPage && <NewProjectPage />}
       {profileData.user && <ProfileHeader profileData={profileData} />}
       <ProfileMenu />
       <Box

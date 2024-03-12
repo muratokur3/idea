@@ -51,9 +51,8 @@ const Home = () => {
         </Tabs>
       )}
 
+      {isLogin && filterName === "all" &&<NewPost />}
 
-
-     <NewPost/>
       {filterName === "all" && (
         <ListPost
           data={homeData}

@@ -10,15 +10,14 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { setNewPostPage } from "../../redux/slices/UiSlice";
+import {useSelector } from "react-redux";
 import "./scss/main-menu.scss";
 import { useEffect, useState } from "react";
 import { useTheme } from '@mui/material/styles';
+import NewPostPage from "../../Modals/NewPostPage";
+import { pink, red } from '@mui/material/colors';
 const Menu = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.authentication.isLogin);
   const username = useSelector((state) => state.authentication.user.username);
   const location = useLocation();
@@ -52,7 +51,7 @@ const Menu = () => {
         <ListItem disablePadding className={locPath === "/" ? "active" : ""} sx={{width: widthThreshold ? "60px" : "95%"}} >
           <ListItemButton onClick={() => navigate("/")}>
             <ListItemIcon>
-              <HomeIcon color="secondary"/>
+            <HomeIcon />
             </ListItemIcon>
             <ListItemText
               primary="Anasayfa"
@@ -69,7 +68,7 @@ const Menu = () => {
         >
           <ListItemButton onClick={() => navigate("/explore")}>
             <ListItemIcon>
-              <SearchIcon />
+              <SearchIcon/>
             </ListItemIcon>
             <ListItemText primary="Keşfet" 
               primaryTypographyProps={{ color: theme.palette.primary.main }}
@@ -142,20 +141,7 @@ const Menu = () => {
         )}
       </List>
       {isLogin && (
-        <Button
-          variant="outlined"
-          color="primary"
-          
-          sx={{ width: widthThreshold ? "15px" : "80%",
-          borderRadius: "60px",
-          borderColor: "gray",
-          "&:hover": {
-              borderColor: "white"
-          } }}
-          onClick={() => dispatch(setNewPostPage(true))}
-        >
-         {widthThreshold? "+":"yeni"}
-        </Button>
+        <NewPostPage widthThreshold={widthThreshold}/>
       )}
     </div>
   );

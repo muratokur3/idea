@@ -1,10 +1,9 @@
 import axios from "axios";
 import { setLoginedHashtags, setLogin, setUser } from "../slices/AuthSlice";
-import { setAuthItem, setAuthPage } from "../slices/UiSlice";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 //kullanıcı kayıt olurken kullanılır
-const registerUser = (data) => async (dispatch) => {
+const registerUser = (data) => async () => {
 
   try {
     await axios.post(`${apiUrl}/api/auth/register`, data, {
@@ -12,7 +11,6 @@ const registerUser = (data) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     });
-    dispatch(setAuthItem("login"));
   } catch (error) {
     if (error.response.status === 400) {
       alert(error.response.data);
@@ -37,7 +35,6 @@ const loginClient = (data) => async (dispatch) => {
       dispatch(setLogin(true));
       dispatch(setUser(response.data));
       dispatch(setLoginedHashtags(response.data.hashtags));
-      dispatch(setAuthPage(false));
       alert("Giriş başarılı");
     } else alert("Kullanıcı adı veya şifre hatalı");
   } catch (error) {

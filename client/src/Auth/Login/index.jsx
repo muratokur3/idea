@@ -1,6 +1,5 @@
-import { Button, Fade } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { setAuthPage, setAuthItem } from "../../../redux/slices/UiSlice";
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
@@ -10,10 +9,10 @@ import {
   InputAdornment,
   InputLabel,
 } from "@mui/material";
-import { loginClient } from "../../../redux/actions/AuthAction";
-import "./login.scss";
+import { loginClient } from "../../redux/actions/AuthAction";
 
 const Login = () => {
+
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
@@ -36,16 +35,20 @@ const Login = () => {
     e.preventDefault();
   };
   return (
-    <div id="login-container" >
-      <form onSubmit={login}>
-        <h1
-         style={{
-          cursor: "pointer",
-          marginTop: "10px",
-          fontFamily: "monospace",
-          color: "gray",
-        }}>Giriş Yap</h1>
-
+    <Box
+    sx={{
+     width: "100%",
+    }} >
+      <form onSubmit={login}
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "20px",
+      }}>
         <FormControl variant="filled" sx={{ width: "50%" }}>
           <InputLabel>Email</InputLabel>
           <FilledInput
@@ -83,7 +86,7 @@ const Login = () => {
         </FormControl>
 
         <Button type="submit" sx={{
-          color: "white",
+          color: "primary",
           border: "1px solid gray",
           borderRadius: "20px",
           padding: "5px 30px",
@@ -91,23 +94,7 @@ const Login = () => {
           Giriş Yap
         </Button>
       </form>
-      <Button
-        className="close-login-page"
-        onClick={() => dispatch(setAuthPage(false))}
-        transitioncomponent={Fade}
-      >
-        X
-      </Button>
-      <a
-      style={{
-        cursor: "pointer",
-        marginTop: "10px",
-        fontSize:".6rem",
-        fontFamily: "monospace",
-        color: "white",
-      }}
-      onClick={() => dispatch(setAuthItem("register"))}>Kayıt ol</a>
-    </div>
+    </Box>
   );
 };
 

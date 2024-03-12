@@ -9,9 +9,7 @@ import {
   InputAdornment,
   InputLabel,
 } from "@mui/material";
-import { registerUser } from "../../../redux/actions/AuthAction";
-import { setAuthItem } from "../../../redux/slices/UiSlice";
-import "./register.scss";
+import { registerUser } from "../../redux/actions/AuthAction";
 const Register = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -34,15 +32,20 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   return (
-    <div id="register-container">
-      <form onSubmit={register}>
-      <h1
-         style={{
-          cursor: "pointer",
-          marginTop: "10px",
-          fontFamily: "monospace",
-          color: "gray",
-        }}>Kayıt ol</h1>
+    <Box sx={{
+      width: "100%",
+    }}>
+      <form onSubmit={register}
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "20px",
+      }}>
+     
         <Box sx={{ display: "flex", gap: "30px" }}>
           <FormControl variant="standard" sx={{ width: "50%" }}>
             <InputLabel>Ad</InputLabel>
@@ -117,20 +120,15 @@ const Register = () => {
         </FormControl>
 
         <Button type="submit" sx={{
-          color: "white",
+          color: "primary",
           border: "1px solid gray",
           borderRadius: "20px",
           padding: "5px 30px",
         }}>
           Kayıt Ol
         </Button>
-        <a style={{cursor:"pointer",
-        marginTop: "10px",
-        fontSize:".6rem",
-        fontFamily: "monospace",
-        }} onClick={() => dispatch(setAuthItem("login"))}>Zaten hesabım var</a>
       </form>
-    </div>
+    </Box>
   );
 };
 

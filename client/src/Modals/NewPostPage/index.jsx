@@ -1,23 +1,54 @@
-import { Button } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  Box,
+} from "@mui/material";
 import NewPost from "../../components/post/NewPost";
-import { useDispatch, useSelector } from "react-redux";
-import { setNewPostPage } from "../../redux/slices/UiSlice"
-import './new-post-page.scss'
-
-const NewPostPage = () => {
-    const dispatch = useDispatch();
-    const newPostPage = useSelector((state) => state.ui.newPostPage);
-
+import "./new-post-page.scss";
+import { useState } from "react";
+const NewPostPage = (widthThreshold) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
-    <div id='new-post-page' style={{ display: newPostPage ? "flex" : "none" }}>
-      <div id="modal-overlay" onClick={()=>dispatch(setNewPostPage(false))}></div>
-    <div id='box-new-post'>
-        <NewPost/>
-    <Button  className='close-new-post-page' onClick={()=>dispatch(setNewPostPage(false))}>X</Button>
-   
-    </div>
-    </div>
-  )
-}
+    <Box>
+      <Button
+        variant="outlined"
+        color="primary"
+        sx={{
+          width: widthThreshold ? "15px" : "80%",
+          borderRadius: "60px",
+          borderColor: "gray",
+          "&:hover": {
+            borderColor: "white",
+          },
+        }}
+        onClick={handleOpen}
+      >
+        {widthThreshold ? "+" : "yeni"}
+      </Button>
+      <Dialog open={open} onClose={handleClose}
+      maxWidth="xl"
+      fullWidth={true}
+      sx={{
+        "& .MuiDialog-paper": {
+          width: "50vw",
+          boxShadow: "none",
+        },
+      
+      }}
+        >
+        <DialogActions>
+          <Button onClick={handleClose}>İptal</Button>
+        </DialogActions>
+        <DialogContent>
+          <NewPost />
+        </DialogContent>
+      </Dialog>
+    </Box>
+  );
+};
 
-export default NewPostPage
+export default NewPostPage;

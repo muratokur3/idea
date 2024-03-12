@@ -1,13 +1,12 @@
-import { Button } from "@mui/material";
 import ProjectCard from "./ProjectCard";
 import { useDispatch, useSelector } from "react-redux";
-import { setNewProjectPage } from '../../../redux/slices/UiSlice'
 import { useEffect } from "react";
 import { getProjects } from '../../../redux/actions/ProjectAction'
 import InfinieScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
 import ProjectSkeleton from '../../skeleton/ProjectSkeleton'
-import "./project.scss";
+import NewProjectModal from "../../../Modals/NewProjectModal";
+import { Box } from "@mui/material";
 
 const Project = () => {
   const projectData = useSelector((state) => state.project);
@@ -20,16 +19,16 @@ const Project = () => {
   }, [username, dispatch],);
 
   return (
-    <div id="project-container">
+    <Box sx={{
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "20px",
+
+    }}>
      {username === activeUser?.username && (
-        <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        onClick={() => dispatch(setNewProjectPage(true))}
-      >
-        Yeni Proje Ekle
-      </Button>
+     <NewProjectModal />
       )}
       {projectData.projects.map((project, index) => (
         <ProjectCard key={index} project={project} />
@@ -45,7 +44,7 @@ const Project = () => {
           </p>
         }
       ></InfinieScroll>
-    </div>
+    </Box>
   );
 };
 

@@ -1,24 +1,20 @@
-import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import GifBoxIcon from "@mui/icons-material/GifBox";
-import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+
 import Avatar from "@mui/material/Avatar";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { setNewPostPage } from "../../redux/slices/UiSlice";
 import { createPost } from "../../redux/actions/PostActions";
 import { getHashtags } from "../../redux/actions/HashtagsAction";
+import { useTheme } from "@mui/material/styles";
 const NewPost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
   const hashtags = useSelector((state) => state.hashtags.hashtags);
   const user = useSelector((state) => state.authentication.user);
-  const newPostPage = useSelector((state) => state.ui.newPostPage);
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,12 +28,18 @@ const NewPost = () => {
     setContent("");
     setTitle("");
     setSelectedHashtags([]);
-    dispatch(setNewPostPage(false));
   };
 
   useEffect(() => {
     hashtags.length > 0 && dispatch(getHashtags());
   }, []);
+
+const theme=useTheme();
+
+
+
+
+
 
   return (
     <Box
@@ -49,6 +51,7 @@ const NewPost = () => {
         display: "flex",
         padding: "1rem",
         gap: "1rem",
+        background: "none",
         position: "relative",
       }}
     >
@@ -64,11 +67,10 @@ const NewPost = () => {
           height: "auto",
           display: "flex",
           flexDirection: "column",
-          backgroundColor: "none",
+          background: "none",
         }}
       >
      
-
         <TextareaAutosize
           className="title-textarea"
           value={title}
@@ -79,25 +81,25 @@ const NewPost = () => {
           maxRows={3}
           maxLength={175}
           placeholder="Başlık"
-          sx={{
-            width: "100%",
+          style={{
+          width: "100%",
             border: "none",
             outline: "none",
             fontSize: "1.1rem",
             maxHeight: "500px",
             resize: "none",
-            background: "none",
             overflow: "hidden",
             borderBottom: "1px solid rgba(171, 164, 164, 0.937)",
             "&::placeholder": {
               fontSize: "1.1rem",
             },
             fontFamily: "monospace",
+            background: "none",
+            color: `${theme.palette.primary.main}`,
           }}
           required
         />
         <TextareaAutosize
-          className="content-textarea"
           value={content}
           onChange={(e) => {
             setContent(e.target.value);
@@ -105,14 +107,13 @@ const NewPost = () => {
           minRows={3}
           maxLength={1500}
           placeholder="Açıklama"
-          sx={{
+          style={{
             width: "100%",
             border: "none",
             outline: "none",
             fontSize: "1rem",
             maxHeight: "500px",
             resize: "none",
-            background: "none",
             overflow: "hidden",
             paddingTop: "5px",
             "&::placeholder": {
@@ -120,16 +121,18 @@ const NewPost = () => {
             },
             marginBottom: "20px",
             fontFamily: "monospace",
+            background: "none", // Arka plan rengini kaldır
+            color: `${theme.palette.primary.main}`,
           }}
           required
         />
-       
+
+
         <Autocomplete
           onChange={(e, value) => {
             setSelectedHashtags(value);
           }}
           className="new-post-hashtag"
-          sx={{ color: "white" }}
           value={selectedHashtags}
           multiple
           limitTags={3}
@@ -145,12 +148,13 @@ const NewPost = () => {
                 "& .MuiInputBase-input::placeholder": { color: "white" },
               }}
               InputLabelProps={{
-                style: { color: "white" },
+                style: {color: `${theme.palette.primary.main}`,
+              },
               }}
             />
           )}
           PaperComponent={({ children }) => (
-            <Paper sx={{ backgroundColor: "black" }}>{children}</Paper>
+            <Paper sx={{ backgroundColor: `${theme.palette.mode === "dark" ? "black" : "primary"}` }}>{children}</Paper>
           )}
         />
 

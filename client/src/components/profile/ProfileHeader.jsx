@@ -18,9 +18,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import EditProfile from "../../Modals/EditProfile";
-import { setEditProfilePage } from "../../redux/slices/UiSlice";
 import { useTheme } from "@mui/material/styles";
+import EditProfileModal from "../../Modals/EditProfileModal";
+import { useEffect } from "react";
 /* eslint-disable react/prop-types */
 const UserDetail = ({ profileData }) => {
   const dispatch = useDispatch();
@@ -29,7 +29,6 @@ const UserDetail = ({ profileData }) => {
   const profileUSerData = useSelector((state) => state.profile.user);
   const profileUserPosts = useSelector((state) => state.posts.profilePosts);
   const navigate = useNavigate();
-  const editProfilePage = useSelector((state) => state.ui.editProfilePage);
   const handleFollow = () => {
     activeUserId !== profileData?.user?._id &&
       (profileData?.followers?.length > 0 &&
@@ -38,10 +37,12 @@ const UserDetail = ({ profileData }) => {
         : dispatch(follow(activeUserId, profileData.user._id, activeUser)));
   };
   const theme = useTheme();
+  useEffect(() => {
+    console.log(profileData.user);
+  },
+  []);
   return (
     <>
-      {editProfilePage && <EditProfile user={profileData.user} />}
-
       <Card
         sx={{
           width: "100%",
@@ -98,13 +99,7 @@ const UserDetail = ({ profileData }) => {
                 action={
                   <Box>
                     {activeUser && profileUSerData._id === activeUserId ? (
-                      <Button
-                        variant="contained"
-                        sx={{ fontSize: "0.7rem" }}
-                        onClick={() => dispatch(setEditProfilePage(true))}
-                      >
-                        Profili Düzenle
-                      </Button>
+                     <EditProfileModal />
                     ) : (
                       <Button aria-label="contained" onClick={handleFollow}>
                         {profileData?.followers?.length > 0 &&

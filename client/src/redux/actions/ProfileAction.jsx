@@ -5,7 +5,6 @@ import {
   setProfile,
   ubdateUserFollow,
 } from "../slices/ProfileSlice";
-import { setEditProfilePage } from "../slices/UiSlice";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 const getProfile = (Username) => async (dispatch) => {
   try {
@@ -100,7 +99,6 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
   );
   if (response.status === 200) {
     alert("Profiliniz başarıyla güncellendi");
-    dispatch(setEditProfilePage(false));
 
     dispatch(
       setProfile({

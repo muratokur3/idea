@@ -1,22 +1,15 @@
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Avatar from "@mui/material/Avatar";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { useState } from "react";
-import { setNewPostPage, setNewProjectPage } from "../../redux/slices/UiSlice";
-import { Button, Paper } from "@mui/material";
+import { Box, Button, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import "./new-project-page.scss";
-import { createProject } from "../../redux/actions/ProjectAction";
+import { createProject } from "../../../redux/actions/ProjectAction";
+import { useTheme } from "@mui/material/styles";
 
-const NewProjectPage = () => {
-
-
- 
-
-
-
+const NewProject = () => {
+const theme = useTheme();
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
@@ -31,7 +24,7 @@ const NewProjectPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newProject = {
+    const newProjectData = {
       userId: user.id,
       name: projectName,
       title: title,
@@ -42,7 +35,7 @@ const NewProjectPage = () => {
       logo:"https://picsum.photos/200/300?random=1",
       hashtags: selectedHashtags.map((hashtag) => hashtag._id),
     };
-    dispatch(createProject(newProject));
+    dispatch(createProject(newProjectData));
     setContent("");
     setTitle("");
     setProjectAdress("");
@@ -50,37 +43,39 @@ const NewProjectPage = () => {
     setProjectName("");
     setCreateDate("");
     setSelectedHashtags([]);
-    dispatch(setNewPostPage(false));
   };
 
   return (
-    <div id="new-project-page">
-      <div
-        id="modal-overlay"
-        onClick={() => dispatch(setNewProjectPage(false))}
-      ></div>
-      <div id="box-new-project">
+   
+     
+      <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        gap: "20px",
+
+      }}>
         <Avatar
           alt="Remy Sharp"
           src={user.avatar}
           sx={{ width: 80, height: 80 }}
         />
-        <form onSubmit={handleSubmit} id="new-project-form">
+        <form onSubmit={handleSubmit}
+        style={{
+          padding: "1rem",
+          width: "90%",
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+        
+        }}>
           <TextField
             onChange={(e) => {
               setProjectName(e.target.value);
             }}
             value={projectName}
             className="adress"
-            sx={{
-              "& .MuiInputBase-input::placeholder": { color: "white" },
-            }}
-            InputLabelProps={{
-              style: { color: "white" },
-            }}
-            inputProps={{
-              style: { color: "white" }, // input öğesinin yazı rengini beyaz yapar
-            }}
             id="outlined-basic"
             label="Projenin Adı"
             variant="outlined"
@@ -92,15 +87,7 @@ const NewProjectPage = () => {
             }}
             value={projectAdress}
             className="adress"
-            sx={{
-              "& .MuiInputBase-input::placeholder": { color: "white" },
-            }}
-            InputLabelProps={{
-              style: { color: "white" },
-            }}
-            inputProps={{
-              style: { color: "white" }, // input öğesinin yazı rengini beyaz yapar
-            }}
+           
             id="outlined-basic"
             label="Projenin adresi"
             variant="outlined"
@@ -111,16 +98,7 @@ const NewProjectPage = () => {
               setGithubAdress(e.target.value);
             }}
             value={githubAdress}
-            className="adress"
-            sx={{
-              "& .MuiInputBase-input::placeholder": { color: "white" },
-            }}
-            InputLabelProps={{
-              style: { color: "white" },
-            }}
-            inputProps={{
-              style: { color: "white" }, // input öğesinin yazı rengini beyaz yapar
-            }}
+           
             id="outlined-basic"
             label="Github Adresi"
             variant="outlined"
@@ -131,16 +109,6 @@ const NewProjectPage = () => {
               setCreateDate(e.target.value);
             }}
             value={createDate}
-            className="adress"
-            sx={{
-              "& .MuiInputBase-input::placeholder": { color: "white" },
-            }}
-            InputLabelProps={{
-              style: { color: "white" },
-            }}
-            inputProps={{
-              style: { color: "white" }, // input öğesinin yazı rengini beyaz yapar
-            }}
             id="outlined-basic"
             label="Projenin oluşturma tarihi"
             variant="outlined"
@@ -148,7 +116,6 @@ const NewProjectPage = () => {
           />
 
           <TextareaAutosize
-            className="title-textarea"
             value={title}
             onChange={(e) => {
               setTitle(e.target.value);
@@ -157,27 +124,26 @@ const NewProjectPage = () => {
             maxRows={3}
             maxLength={175}
             placeholder="Proje kısa açıklaması"
-            sx={{
-              marginBottom: "20px",
-              fontFamily: "monospace",
-              fontSize: ".9rem",
-            }}
+            
+           style={{
+            background: "none",
+            color: `${theme.palette.primary.main}`,
+           }}
             required
           />
           <TextareaAutosize
-            className="content-textarea"
             value={content}
             onChange={(e) => {
               setContent(e.target.value);
             }}
-            minRows={3}
+            minRows={5}
             maxLength={1500}
             placeholder="Proje detayları"
-            sx={{
-              marginBottom: "20px",
-              fontFamily: "monospace",
-              fontSize: ".9rem",
-            }}
+            style={{
+              background: "none",
+              color: `${theme.palette.primary.main}`,
+              
+             }}
             required
           />
           <Autocomplete
@@ -198,37 +164,45 @@ const NewProjectPage = () => {
                 label="#hashtag"
                 placeholder="#"
                 sx={{
-                  "& .MuiInputBase-input::placeholder": { color: "white" },
+                  "& .MuiInputBase-input::placeholder": { color: "primary" },
                 }}
                 InputLabelProps={{
-                  style: { color: "white" },
+                  style: {color: `${theme.palette.primary.main}`,
+                },
                 }}
               />
             )}
             PaperComponent={({ children }) => (
-              <Paper sx={{ backgroundColor: "black" }}>{children}</Paper>
+              <Paper sx={{ backgroundColor: `${theme.palette.mode === "dark" ? "black" : "primary"}` }}>{children}</Paper>
             )}
+            
+                
+               
+             
+           
           />
 
           <div className="new-project-media">
-            <div className="new-project-media-icons">
-              <AddPhotoAlternateIcon sx={{ fontSize: 30 }} />
-            </div>
-            <Button type="submit" id="new-project-submit" variant="outlined">
+           
+            <Button type="submit" variant="outlined"
+            color="primary"
+            sx={{
+              width: "90%",
+              height: "40px",
+              borderRadius: "60px",
+              fontSize: ".5rem",
+              borderColor: "gray",
+              "&:hover": {
+                borderColor: "white",
+              },
+
+            }}>
               Ekle
             </Button>
           </div>
         </form>
-
-        <Button
-          className="close-new-project-page"
-          onClick={() => dispatch(setNewProjectPage(false))}
-        >
-          X
-        </Button>
-      </div>
-    </div>
+    </Box>
   );
 };
 
-export default NewProjectPage;
+export default NewProject;

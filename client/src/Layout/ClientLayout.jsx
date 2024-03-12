@@ -1,8 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import Auth from "../Modals/Auth";
-import NewPostPage from "../Modals/NewPostPage";
-import { Box, CssBaseline } from "@mui/material";
+import { Box,  } from "@mui/material";
 import styled from "@emotion/styled";
 import { useTheme } from '@mui/material/styles';
 
@@ -31,10 +29,7 @@ const ClientLayout = () => {
     <StyledLayoutContainer>
       <StyledLayoutContent>
       <Sidebar sx={{width: "25%", padding: 1 }}/>
-      <Box sx={{ flexGrow: 1 }}>
-        {<Auth />}
-        {<NewPostPage />}
-      </Box>
+  
       <Box sx={{width: "75%", padding: 3}}>
         <Outlet />
       </Box>
