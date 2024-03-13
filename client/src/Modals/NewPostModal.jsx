@@ -4,21 +4,23 @@ import {
   DialogContent,
   DialogActions,
   Box,
+  useMediaQuery,
 } from "@mui/material";
-import NewPost from "../../components/post/NewPost";
-import "./new-post-page.scss";
+import NewPost from "../components/post/NewPost";
 import { useState } from "react";
-const NewPostPage = (widthThreshold) => {
+const NewPostModal = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const widthThreshold = useMediaQuery("(max-width: 1234px)");
+  
   return (
     <Box>
       <Button
         variant="outlined"
         color="primary"
         sx={{
-          width: widthThreshold ? "15px" : "80%",
+          width: widthThreshold ? "60px" : "200px",
           borderRadius: "60px",
           borderColor: "gray",
           "&:hover": {
@@ -34,21 +36,21 @@ const NewPostPage = (widthThreshold) => {
       fullWidth={true}
       sx={{
         "& .MuiDialog-paper": {
-          width: "50vw",
+          width: "90vw",
           boxShadow: "none",
         },
       
       }}
         >
-        <DialogActions>
-          <Button onClick={handleClose}>İptal</Button>
-        </DialogActions>
         <DialogContent>
           <NewPost />
         </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>İptal</Button>
+        </DialogActions>
       </Dialog>
     </Box>
   );
 };
 
-export default NewPostPage;
+export default NewPostModal;

@@ -104,7 +104,6 @@ const Sidebar = () => {
       </AppBar>
 
       <MainMenu />
-
       {authentication.isLogin ? (
         <StyledProfileDetails button>
           <ListItemAvatar>

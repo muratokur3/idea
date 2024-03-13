@@ -14,13 +14,13 @@ import {
   CardHeader,
   IconButton,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import EditProfileModal from "../../Modals/EditProfileModal";
-import { useEffect } from "react";
 /* eslint-disable react/prop-types */
 const UserDetail = ({ profileData }) => {
   const dispatch = useDispatch();
@@ -36,11 +36,10 @@ const UserDetail = ({ profileData }) => {
         ? dispatch(unfollow(activeUserId, profileData?.user._id, activeUser))
         : dispatch(follow(activeUserId, profileData.user._id, activeUser)));
   };
+
   const theme = useTheme();
-  useEffect(() => {
-    console.log(profileData.user);
-  },
-  []);
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <Card
@@ -53,64 +52,72 @@ const UserDetail = ({ profileData }) => {
         <img
           style={{
             width: "100%",
-            height: "300px",
+            height: "20%",
             objectFit: "cover",
-            borderBottomRightRadius: "100px",
-            borderBottomLeftRadius: "100px",
+            borderBottomRightRadius: isMobile ? "50px" : "100px",
+            borderBottomLeftRadius: isMobile ? "50px" : "100px",
           }}
           src={profileData.user.background}
         />
-        <Box
-          sx={{
-            width: "100%",
-            height: "300px",
-            top: "0",
-            left: "0",
-            background: "rgba(0, 0, 0, 0.5)",
-            position: "absolute",
-            borderBottomRightRadius: "100px",
-            borderBottomLeftRadius: "100px",
-          }}
-        ></Box>
         <CardHeader
           avatar={
-            <Avatar
-              src={profileData.user.avatar}
-              sx={{
-                width: 150,
-                height: 150,
-                border: `5px solid ${theme.palette.primary.main}`,
-              }}
-              aria-label="recipe"
-            >
-              R
-            </Avatar>
+            <Box textAlign={"center"}>
+              <Avatar
+                src={profileData.user.avatar}
+                sx={{
+                  width: 150,
+                  height: 150,
+                  border: `5px solid ${theme.palette.primary.main}`,
+                }}
+                aria-label="recipe"
+              >
+                R
+              </Avatar>
+
+              {isMobile && (
+                <Box marginTop="15px">
+                  {activeUser && profileUSerData._id === activeUserId ? (
+                    <EditProfileModal />
+                  ) : (
+                    <Button aria-label="contained" onClick={handleFollow}>
+                      {profileData?.followers?.length > 0 &&
+                      profileUSerData?.followers?.some(
+                        (id) => id === activeUserId
+                      )
+                        ? "Takibi Bırak"
+                        : "Takip Et"}
+                    </Button>
+                  )}
+                </Box>
+              )}
+            </Box>
           }
           title={
             <Card
               sx={{
                 background: "none",
-                boxShadow:"none"
+                boxShadow: "none",
               }}
             >
               <CardHeader
-              sx={{
-              }}
+                sx={{}}
                 action={
-                  <Box>
-                    {activeUser && profileUSerData._id === activeUserId ? (
-                     <EditProfileModal />
-                    ) : (
-                      <Button aria-label="contained" onClick={handleFollow}>
-                        {profileData?.followers?.length > 0 &&
-                        profileUSerData?.followers?.some(
-                          (id) => id === activeUserId
-                        )
-                          ? "Takibi Bırak"
-                          : "Takip Et"}
-                      </Button>
-                    )}
-                  </Box>
+                  !isMobile && (
+                    <Box>
+                      {activeUser && profileUSerData._id === activeUserId ? (
+                        <EditProfileModal />
+                      ) : (
+                        <Button aria-label="contained" onClick={handleFollow}>
+                          {profileData?.followers?.length > 0 &&
+                          profileUSerData?.followers?.some(
+                            (id) => id === activeUserId
+                          )
+                            ? "Takibi Bırak"
+                            : "Takip Et"}
+                        </Button>
+                      )}
+                    </Box>
+                  )
                 }
                 title={`${profileData.user.name} ${profileData.user.surname}`}
                 titleTypographyProps={{ color: "primary", fontSize: "1.2rem" }}
@@ -138,11 +145,10 @@ const UserDetail = ({ profileData }) => {
               />
 
               <CardContent
-                
                 sx={{
                   fontSize: "0.7rem",
-                  padding: "15px",
-                  color:`${theme.palette.primary.main}`
+                  padding: ".8rem",
+                  color: `${theme.palette.primary.main}`,
                 }}
               >
                 {profileData.user.bio}
@@ -163,7 +169,9 @@ const UserDetail = ({ profileData }) => {
           <Typography color="primary" fontSize="small">
             {profileData?.user?.followers?.length} Takipçi
           </Typography>
-          <Typography color="primary" fontSize="small">{profileUserPosts?.posts.length} Gönderi</Typography>
+          <Typography color="primary" fontSize="small">
+            {profileUserPosts?.posts.length} Gönderi
+          </Typography>
           <a href={profileData?.user?.socialAdress?.website}>
             <LanguageIcon fontSize="10px" />
           </a>

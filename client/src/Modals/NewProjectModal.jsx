@@ -40,9 +40,8 @@ import NewProject from "../components/profile/project/NewProject";
           fullWidth={true}
           sx={{
             "& .MuiDialog-paper": {
-              width: "75vw",
+              width: "95vw",
               height: "auto",
-              padding: "0 5% ",
             },
           }}
         >

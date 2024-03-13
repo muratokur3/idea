@@ -3,13 +3,15 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { useState } from "react";
-import { Box, Button, Paper } from "@mui/material";
+import { Box, Button, Paper, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { createProject } from "../../../redux/actions/ProjectAction";
 import { useTheme } from "@mui/material/styles";
 
 const NewProject = () => {
 const theme = useTheme();
+const isMobile = useMediaQuery("(max-width: 600px)");
+
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
@@ -53,18 +55,20 @@ const theme = useTheme();
         width: "100%",
         height: "100%",
         display: "flex",
+        flexDirection:isMobile ? "column" : "row",
+        overflow: "hidden",
         gap: "20px",
 
       }}>
-        <Avatar
+       <Avatar
           alt="Remy Sharp"
           src={user.avatar}
-          sx={{ width: 80, height: 80 }}
+          sx={{ width: "15vh", height: "15vh", maxHeight: "200px", maxWidth: "200px", margin: "0 auto"}}
         />
         <form onSubmit={handleSubmit}
         style={{
           padding: "1rem",
-          width: "90%",
+          width: isMobile?"100%": "80%",
           display: "flex",
           flexDirection: "column",
           gap: "15px",
@@ -182,7 +186,7 @@ const theme = useTheme();
            
           />
 
-          <div className="new-project-media">
+          <Box>
            
             <Button type="submit" variant="outlined"
             color="primary"
@@ -199,7 +203,7 @@ const theme = useTheme();
             }}>
               Ekle
             </Button>
-          </div>
+          </Box>
         </form>
     </Box>
   );

@@ -2,8 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: white;
-  font-size: 20px;
   font-family: monospace;
 
 }
@@ -14,8 +12,4 @@
   display: flex;
   justify-content: center;
   margin: 0 auto;
-}
-
-body {
-  background-color: black;
 }

@@ -4,6 +4,7 @@ import {
   FormControl,
   InputLabel,
   TextareaAutosize,
+  useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -25,9 +26,9 @@ import { useEffect, useRef, useState } from "react";
 import { updateProfile } from "../../redux/actions/ProfileAction";
 
 const EditProfile = (user) => {
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+ 
 
   const dispatch = useDispatch();
   const avatarFileInputRef = useRef(null);
@@ -84,7 +85,6 @@ const EditProfile = (user) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (
       validateUsername(formData.github) &&
       validateUsername(formData.linkedin) &&
@@ -135,8 +135,8 @@ const EditProfile = (user) => {
   return (
     <form
       onSubmit={handleSubmit}
-      id="edit-profile-form"
       encType="multipart/form-data"
+     
     >
       <Card
         id="user-detail-card"
@@ -147,19 +147,20 @@ const EditProfile = (user) => {
           alignItems: "center",
           justifyContent: "center",
           gap: "10px",
-          padding: "10px",
         }}
       >
         <Box
           sx={{
             position: "relative",
+            width: "100%",
           }}
         >
           <img
             src={background.adress}
             style={{
               width: "100%",
-              height: "300px",
+              height: "20vh",
+              minHeight: "400px",
               objectFit: "cover",
               borderBottomRightRadius: "100px",
               borderBottomLeftRadius: "100px",
@@ -194,25 +195,20 @@ const EditProfile = (user) => {
             style={{ display: "none" }}
           />
         </Box>
-
-        <CardHeader
-          sx={{
-            background: "none",
-            color: "white",
-            display: "flex",
-            alignItems: "start",
-          }}
-          avatar={
-            <Box
+        {
+           isMobile&& <Box
               sx={{
                 position: "relative",
               }}
             >
+              
               <Avatar
                 src={avatar.adress}
                 sx={{
-                  width: 150,
-                  height: 150,
+                  width: "15vw",
+                  height: "15vw",
+                  maxHeight: "150px",
+                  maxWidth: "150px",
                   border: "5px solid black",
                 }}
                 aria-label="recipe"
@@ -221,8 +217,67 @@ const EditProfile = (user) => {
               </Avatar>
               <Button
                 sx={{
-                  width: "40px",
-                  height: "40px",
+                  width: "3vw",
+                  height: "3vw",
+                  position: "absolute",
+                  bottom: "-2%",
+                  right: "-2%",
+                }}
+                onClick={() => {
+                  avatarFileInputRef.current.click();
+                }}
+              >
+                <AddAPhotoIcon />
+              </Button>
+              <input
+                fontSize="small"
+                type="file"
+                id="avatar"
+                name="avatar"
+                ref={avatarFileInputRef}
+                onChange={(e) => {
+                  setAvatar({
+                    adress: URL.createObjectURL(e.target.files[0]),
+                    file: e.target.files[0],
+                  });
+                }}
+                style={{ display: "none" }}
+              />
+             
+            </Box>
+            
+          }
+        <CardHeader
+          sx={{
+            background: "none",
+            color: "white",
+            display: "flex",
+            alignItems: "start",
+          }}
+          avatar={
+           !isMobile&& <Box
+              sx={{
+                position: "relative",
+              }}
+            >
+              
+              <Avatar
+                src={avatar.adress}
+                sx={{
+                  width: "15vw",
+                  height: "15vw",
+                  maxHeight: "150px",
+                  maxWidth: "150px",
+                  border: "5px solid black",
+                }}
+                aria-label="recipe"
+              >
+                R
+              </Avatar>
+              <Button
+                sx={{
+                  width: "3vw",
+                  height: "3vw",
                   position: "absolute",
                   bottom: "-5%",
                   right: "-5%",
@@ -247,6 +302,7 @@ const EditProfile = (user) => {
                 }}
                 style={{ display: "none" }}
               />
+             
             </Box>
           }
           title={
@@ -257,18 +313,18 @@ const EditProfile = (user) => {
             >
               <CardHeader
                 action={
-                  <Button type="submit" id="edit-profile-submit">
+                <Button type="submit" >
                     Kaydet
                   </Button>
                 }
                 title={
-                  <Box sx={{ display: "flex", gap: "10px" }}>
-                    <FormControl variant="filled" sx={{ width: "40%" }}>
-                      <InputLabel sx={{ background: "none" }}>Ad</InputLabel>
+                  <Box sx={{ display: "flex",flexDirection:isMobile?"column":"row", gap: "10px" }}>
+                    
+                    <FormControl variant="filled" >
+                      <InputLabel sx={{ background: "none"}}>Ad</InputLabel>
                       <FilledInput
                         sx={{
                           background: "none",
-                          width: "100%",
                         }}
                         value={formData.name}
                         onChange={handleInputChance}
@@ -279,7 +335,7 @@ const EditProfile = (user) => {
 
                     <FormControl
                       variant="filled"
-                      sx={{ width: "40%", color: "white" }}
+                      sx={{ color: "white" }}
                     >
                       <InputLabel sx={{ background: "none", color: "gray" }}>
                         Soyad
@@ -287,7 +343,6 @@ const EditProfile = (user) => {
                       <FilledInput
                         sx={{
                           background: "none",
-                          width: "100%",
                         }}
                         value={formData.surname}
                         onChange={handleInputChance}
@@ -299,13 +354,12 @@ const EditProfile = (user) => {
                 }
                 titleTypographyProps={{ fontSize: "1rem" }}
                 subheader={
-                  <Box>
-                    <FormControl variant="filled" sx={{ width: "100%" }}>
+                  <Box display={"flex"} flexDirection={"column"}>
+                    <FormControl variant="filled" >
                       <InputLabel>Kullanıcı adı</InputLabel>
                       <FilledInput
                         sx={{
                           background: "none",
-                          width: "90%",
                         }}
                         value={formData.username}
                         onChange={handleInputChance}
@@ -313,12 +367,11 @@ const EditProfile = (user) => {
                         required
                       />
                     </FormControl>
-                    <FormControl variant="filled" sx={{ width: "100%" }}>
+                    <FormControl variant="filled" >
                       <InputLabel>Şehir</InputLabel>
                       <FilledInput
                         sx={{
                           background: "none",
-                          width: "100%",
                         }}
                         value={formData.location}
                         onChange={handleInputChance}
@@ -373,68 +426,68 @@ const EditProfile = (user) => {
             justifyContent: "center",
           }}
         >
-          <FormControl variant="filled" sx={{ width: "45%", color: "white" }}>
+          <FormControl variant="filled">
             <InputLabel sx={{ background: "none", color: "gray" }}>
               <GitHubIcon fontSize="small" />
               github
             </InputLabel>
             <FilledInput
-              sx={{ background: "none", width: "100%" }}
+              sx={{ background: "none" }}
               value={formData?.github}
               onChange={handleInputChance}
               name="github"
             />
           </FormControl>
 
-          <FormControl variant="filled" sx={{ width: "45%" }}>
+          <FormControl variant="filled" >
             <InputLabel sx={{ background: "none" }}>
               {" "}
               <LinkedInIcon fontSize="small" />
               LinkedIn
             </InputLabel>
             <FilledInput
-              sx={{ background: "none", width: "100%" }}
+              sx={{ background: "none"}}
               value={formData?.linkedin}
               onChange={handleInputChance}
               name="linkedin"
             />
           </FormControl>
 
-          <FormControl variant="filled" sx={{ width: "45%", color: "white" }}>
+          <FormControl variant="filled" >
             <InputLabel sx={{ background: "none" }}>
               {" "}
               <YouTubeIcon fontSize="small" />
               Youtube
             </InputLabel>
             <FilledInput
-              sx={{ background: "none", width: "100%" }}
+              sx={{ background: "none" }}
               value={formData?.youtube}
               onChange={handleInputChance}
               name="youtube"
             />
           </FormControl>
 
-          <FormControl variant="filled" sx={{ width: "45%" }}>
+          <FormControl variant="filled" >
             <InputLabel sx={{ background: "none" }}>
               <XIcon fontSize="small" />
               Twitter
             </InputLabel>
             <FilledInput
-              sx={{ background: "none", width: "100%" }}
+              sx={{ background: "none"}}
               value={formData?.twitter}
               onChange={handleInputChance}
               name="twitter"
             />
           </FormControl>
 
-          <FormControl variant="filled" sx={{ width: "50%", color: "white" }}>
+          <FormControl variant="filled">
             <InputLabel sx={{ background: "none" }}>
               {" "}
               <LanguageIcon fontSize="small" />
               Website
             </InputLabel>
             <FilledInput
-              sx={{ background: "none", width: "100%" }}
+              sx={{ background: "none"}}
               value={formData?.website}
               onChange={handleInputChance}
               name="website"

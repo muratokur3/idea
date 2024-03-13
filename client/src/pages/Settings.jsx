@@ -28,7 +28,7 @@ const Settings = () => {
      
       <ChangePassword />
 
-      <Accordion sx={{ backgroundColor: "grey" }}>
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="Hesap Ayarları"

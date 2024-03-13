@@ -12,31 +12,19 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useLocation, useNavigate } from "react-router-dom";
 import {useSelector } from "react-redux";
 import "./scss/main-menu.scss";
-import { useEffect, useState } from "react";
 import { useTheme } from '@mui/material/styles';
-import NewPostPage from "../../Modals/NewPostPage";
-import { pink, red } from '@mui/material/colors';
+import NewPostModal from "../../Modals/NewPostModal";
+import { useMediaQuery } from "@mui/material";
 const Menu = () => {
   const navigate = useNavigate();
   const isLogin = useSelector((state) => state.authentication.isLogin);
   const username = useSelector((state) => state.authentication.user.username);
   const location = useLocation();
   const locPath = location.pathname;
-  const [widthThreshold, setWidthThreshold] = useState(window.innerWidth < 1235);
+
   const theme = useTheme();
-  useEffect(() => {
-    const handleResize = () => {
-      setWidthThreshold(window.innerWidth < 1235);
-    };
-
-    // Event listener ekleyin
-    window.addEventListener("resize", handleResize);
-
-    // Temizlik işlemi: componentWillUnmount gibi
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []); 
+  const widthThreshold = useMediaQuery("(max-width: 1234px)");
+ 
   return (
     <div id="main-menu-container">
       <List
@@ -51,7 +39,7 @@ const Menu = () => {
         <ListItem disablePadding className={locPath === "/" ? "active" : ""} sx={{width: widthThreshold ? "60px" : "95%"}} >
           <ListItemButton onClick={() => navigate("/")}>
             <ListItemIcon>
-            <HomeIcon />
+            <HomeIcon/>
             </ListItemIcon>
             <ListItemText
               primary="Anasayfa"
@@ -141,7 +129,7 @@ const Menu = () => {
         )}
       </List>
       {isLogin && (
-        <NewPostPage widthThreshold={widthThreshold}/>
+        <NewPostModal/>
       )}
     </div>
   );

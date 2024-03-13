@@ -40,8 +40,8 @@ const LoginModal = () => {
         fullWidth={true}
         sx={{
           "& .MuiDialog-paper": {
-            width: "75vw",
-            height: "40vh",
+            width: "90vw",
+            minHeight: "70vh",
           },
         }}
       >

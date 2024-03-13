@@ -74,7 +74,7 @@ const ChangePassword = () => {
 
   return (
     
-    <Accordion sx={{ backgroundColor: "gray" }}>
+    <Accordion >
     <AccordionSummary
       expandIcon={<ExpandMoreIcon />}
       aria-controls="Şifre Değiştirme"

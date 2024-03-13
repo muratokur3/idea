@@ -1,87 +1,43 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import { Box,  } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import styled from "@emotion/styled";
-import { useTheme } from '@mui/material/styles';
-
-
+import { useTheme } from "@mui/material/styles";
+import MobileBottomNavigation from "../components/menu/MobileBottomNavigation";
 
 const ClientLayout = () => {
-   const theme = useTheme();
-  const StyledLayoutContainer = styled(Box)({
+  const theme = useTheme();
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const Container = styled(Box)({
     display: "flex",
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
     minHeight: "100vh",
-    backgroundColor:theme.palette.background.default,
+    backgroundColor: theme.palette.background.default,
   });
 
-  const StyledLayoutContent = styled(Box)({
+  const Content = styled(Box)({
     display: "flex",
-    width: "60%",
+    width: isMobile ? "100%" : "60%",
     minHeight: "100vh",
-    backgroundColor:theme.palette.background.default,
+    backgroundColor: theme.palette.background.default,
   });
   return (
-   <>
-    {/* <CssBaseline /> */}
-    <StyledLayoutContainer>
-      <StyledLayoutContent>
-      <Sidebar sx={{width: "25%", padding: 1 }}/>
-  
-      <Box sx={{width: "75%", padding: 3}}>
-        <Outlet />
-      </Box>
-      </StyledLayoutContent>
-    </StyledLayoutContainer>
-   </>
+    <>
+      {/* <CssBaseline /> */}
+      <Container>
+        <Content>
+          {!isMobile && <Sidebar sx={{ width: "25%",}} />}
+
+          <Box sx={{ width: isMobile ? "100%" : "75%",}}>
+            <Outlet />
+          </Box>
+        </Content>
+         {isMobile&& <MobileBottomNavigation />}
+      </Container>
+    </>
   );
 };
 
-
 export default ClientLayout;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { Outlet } from "react-router-dom";
-// import Sidebar from "../components/Sidebar";
-// import Auth from "../Modals/Auth";
-// import NewPostPage from "../Modals/NewPostPage";
-// import "./scss/client-layout.scss";
-
-// const ClientLayout = () => {
-
-//   return (
-//     <div id="layout-container">
-//       {<Auth />}
-//       {<NewPostPage />}
-//       <Sidebar />
-//       <div id="layout-content">
-//         <Outlet />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ClientLayout;
