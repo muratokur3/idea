@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from '../../../axiosConfig';
 import { setNewProject, setProjects } from "../slices/ProjectSlice";
 
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -8,11 +8,8 @@ const getProjects = (pagination, username) => async (dispatch) => {
     const response = await axios.get(`${apiUrl}/api/quest/projects/${username}`, {
       params: {
         page: pagination.page,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
+      }
+      
     });
     if (response.status === 200 ) {
       dispatch(setProjects(response.data));
@@ -24,12 +21,7 @@ const getProjects = (pagination, username) => async (dispatch) => {
 
 const createProject = (data) => async (dispatch) => {
   try {
-    const response = await axios.post(`${apiUrl}/api/projects`, data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    });
+    const response = await axios.post(`${apiUrl}/api/projects`, data);
 
     if (response.status === 200) {
       dispatch(setNewProject(response.data));

@@ -37,26 +37,26 @@ function ClientRoutes() {
     );
   }
   
-  function AdminRoutes() {
-    return (
-        <Routes>
-            <Route path="/*" element={<AdminLayout/>}>
-              <Route index element={<DashboardPage/>} />
-              <Route path="users" element={<UsersPage/>} />
-              <Route path="posts" element={<PostsPage/>} />
-              <Route path="projects" element={<ProjectsPage/>} />
-              <Route path="hashtags" element={<HashtagsPage/>} />
-            </Route>
-        </Routes>
+  // function AdminRoutes() {
+  //   return (
+  //       <Routes>
+  //           <Route path="/*" element={<AdminLayout/>}>
+  //             <Route index element={<DashboardPage/>} />
+  //             <Route path="users" element={<UsersPage/>} />
+  //             <Route path="posts" element={<PostsPage/>} />
+  //             <Route path="projects" element={<ProjectsPage/>} />
+  //             <Route path="hashtags" element={<HashtagsPage/>} />
+  //           </Route>
+  //       </Routes>
           
-    );
-  }
+  //   );
+  // }
   
   function LayoutRoute() {
     return (
         <Routes>
           <Route path="/*" element={<ClientRoutes />} />
-          <Route path="/admin/*" element={<AdminRoutes />} />
+          {/* <Route path="/admin/*" element={<AdminRoutes />} /> */}
         </Routes>
     );
   }

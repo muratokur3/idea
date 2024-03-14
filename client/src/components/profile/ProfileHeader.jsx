@@ -38,7 +38,7 @@ const UserDetail = ({ profileData }) => {
   };
 
   const theme = useTheme();
-  const isMobile = useMediaQuery("(max-width: 600px)");
+  const isMobile = useMediaQuery("(max-width: 1234px)");
 
   return (
     <>
@@ -52,7 +52,7 @@ const UserDetail = ({ profileData }) => {
         <img
           style={{
             width: "100%",
-            height: "20%",
+            height: "35vh",
             objectFit: "cover",
             borderBottomRightRadius: isMobile ? "50px" : "100px",
             borderBottomLeftRadius: isMobile ? "50px" : "100px",

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from '../../../../axiosConfig';
 import { DataGrid } from "@mui/x-data-grid";
 const PostList = () => {
   const [data, setData] = useState([]);

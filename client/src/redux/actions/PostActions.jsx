@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from '../../../axiosConfig';
 import {
   setHome,
   setPrivateMe,
@@ -18,9 +18,7 @@ const getHomeData = (pagination, loginedUserId) => async (dispatch) => {
         params: {
           page: pagination.page,
         },
-        headers: {
-          "Content-Type": "application/json",
-        },
+       
       });
       dispatch(
         setHome({
@@ -38,11 +36,8 @@ const getHomeData = (pagination, loginedUserId) => async (dispatch) => {
         {
           params: {
             page: pagination.page,
-          },
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
+          }
+          
         }
       );
       dispatch(
@@ -65,10 +60,8 @@ const getPrivateMeData = (pagination, loginedUserId) => async (dispatch) => {
         params: {
           page: pagination.page,
         },
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+       
+        
       }
     );
     dispatch(
@@ -87,10 +80,7 @@ const getExploreData = (pagination) => async (dispatch) => {
     const response = await axios.get(`${urlApi}/api/quest/posts/explore`, {
       params: {
         page: pagination.page,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
+      }
     });
     dispatch(
       setExplore({
@@ -112,9 +102,7 @@ const getHashtagExploreData = (pagination, hashtag) => async (dispatch) => {
           hashtagname: hashtag,
           page: pagination.page,
         },
-        headers: {
-          "Content-Type": "application/json",
-        },
+       
       }
     );
     dispatch(
@@ -136,10 +124,8 @@ const getFavoritesPosts = (pagination, username) => async (dispatch) => {
         params: {
           page: pagination.page,
         },
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+       
+        
       }
     );
     dispatch(
@@ -161,10 +147,8 @@ const getProfilePosts = (pagination, username) => async (dispatch) => {
         params: {
           page: pagination.page,
         },
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+       
+        
       }
     );
     dispatch(
@@ -184,7 +168,7 @@ const getProfileLikesPosts = (pagination, username) => async (dispatch) => {
       params: {
         page: pagination.page,
       },
-      withCredentials: true,
+      
     });
     dispatch(
       setProfileLikes({
@@ -199,12 +183,7 @@ const getProfileLikesPosts = (pagination, username) => async (dispatch) => {
 
 const createPost = (post) => async () => {
   try {
-    await axios.post(`${urlApi}/api/posts`, post, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    });
+    await axios.post(`${urlApi}/api/posts`, post);
   } catch (error) {
     console.error("veri kaydederken hata oluştu:", error);
   }
@@ -216,10 +195,8 @@ const like = (post, LoginUserId) => async (dispatch) => {
     const response = await axios.post(
       `${urlApi}/api/posts/like/${post._id}/${LoginUserId}`,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+       
+        
       }
     );
     const newPost =await {
@@ -249,7 +226,7 @@ const unLike = (post, LoginUserId) => async (dispatch) => {
     const response = await axios.post(
       `${urlApi}/api/posts/unlike/${post._id}/${LoginUserId}`,
       {
-        withCredentials: true,
+        
       }
     );
     const newPost =await {
@@ -276,7 +253,7 @@ const favorite = (post, loginedUserId) => async (dispatch) => {
     const response = await axios.post(
       `${urlApi}/api/posts/favorites/${post._id}/${loginedUserId}`,
       {
-        withCredentials: true,
+        
       }
     );
     
@@ -303,7 +280,7 @@ const unFavorite = (post, loginedUserId) => async (dispatch) => {
     const response = await axios.post(
       `${urlApi}/api/posts/unfavorites/${post._id}/${loginedUserId}`,
       {
-        withCredentials: true,
+        
       }
     );
     

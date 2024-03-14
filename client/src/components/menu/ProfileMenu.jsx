@@ -21,16 +21,19 @@ const ProfileMenu = () => {
           value={"posts"}
           label="Fikirler"
           onClick={() => dispatch(setProfilePage("posts"))}
+          sx={{ color: theme.palette.primary.main }}
         />
         <Tab
           value={"project"}
           label="Projeler"
           onClick={() => dispatch(setProfilePage("project"))}
+          sx={{ color: theme.palette.primary.main }}
         />
         <Tab
           value={"follow"}
           label="Takip"
           onClick={() => dispatch(setProfilePage("follow"))}
+          sx={{ color: theme.palette.primary.main }}
         />
       </Tabs>
 

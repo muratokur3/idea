@@ -26,7 +26,7 @@ import { useEffect, useRef, useState } from "react";
 import { updateProfile } from "../../redux/actions/ProfileAction";
 
 const EditProfile = (user) => {
-  const isMobile = useMediaQuery("(max-width: 600px)");
+  const isMobile = useMediaQuery("(max-width: 1234px)");
 
  
 

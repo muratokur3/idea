@@ -33,7 +33,6 @@ const Menu = () => {
           display: "flex",
           flexDirection: "column",
           gap: "20px",
-          alignItems: "center",
         }}
       >
         <ListItem disablePadding className={locPath === "/" ? "active" : ""} sx={{width: widthThreshold ? "60px" : "95%"}} >
@@ -44,7 +43,6 @@ const Menu = () => {
             <ListItemText
               primary="Anasayfa"
               primaryTypographyProps={{ color: theme.palette.primary.main }}
-              sx={{ display: widthThreshold ? "none" : "block"}}
             />
           </ListItemButton>
         </ListItem>
@@ -60,7 +58,7 @@ const Menu = () => {
             </ListItemIcon>
             <ListItemText primary="Keşfet" 
               primaryTypographyProps={{ color: theme.palette.primary.main }}
-              sx={{ display: widthThreshold ? "none" : "block" }}/>
+              />
           </ListItemButton>
         </ListItem>
 
@@ -77,7 +75,7 @@ const Menu = () => {
                 </ListItemIcon>
                 <ListItemText primary="Favorile"
               primaryTypographyProps={{ color: theme.palette.primary.main }}
-              sx={{ display: widthThreshold ? "none" : "block" }}/>
+              />
               </ListItemButton>
             </ListItem>
 
@@ -92,7 +90,7 @@ const Menu = () => {
                 </ListItemIcon>
                 <ListItemText primary="Beğeni" 
               primaryTypographyProps={{ color: theme.palette.primary.main }}
-              sx={{ display: widthThreshold ? "none" : "block" }}/>
+              />
               </ListItemButton>
             </ListItem>
 
@@ -107,7 +105,7 @@ const Menu = () => {
                 </ListItemIcon>
                 <ListItemText primary="Profilim" 
               primaryTypographyProps={{ color: theme.palette.primary.main }}
-              sx={{ display: widthThreshold ? "none" : "block" }}/>
+              />
               </ListItemButton>
             </ListItem>
 
@@ -122,7 +120,7 @@ const Menu = () => {
                 </ListItemIcon>
                 <ListItemText primary="Ayarlar" 
               primaryTypographyProps={{ color: theme.palette.primary.main }}
-              sx={{ display: widthThreshold ? "none" : "block" }}/>
+              />
               </ListItemButton>
             </ListItem>
           </>

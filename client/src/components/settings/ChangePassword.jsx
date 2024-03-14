@@ -14,7 +14,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
-import axios from "axios";
+import axios from '../../../axiosConfig';
 import { useSelector } from "react-redux";
 const urlApi = import.meta.env.VITE_API_BASE_URL;
 const ChangePassword = () => {

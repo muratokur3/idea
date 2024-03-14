@@ -4,7 +4,6 @@ import {
   DialogContent,
   DialogActions,
   Box,
-  useMediaQuery,
 } from "@mui/material";
 import NewPost from "../components/post/NewPost";
 import { useState } from "react";
@@ -12,7 +11,6 @@ const NewPostModal = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const widthThreshold = useMediaQuery("(max-width: 1234px)");
   
   return (
     <Box>
@@ -20,7 +18,7 @@ const NewPostModal = () => {
         variant="outlined"
         color="primary"
         sx={{
-          width: widthThreshold ? "60px" : "200px",
+          width: "150px",
           borderRadius: "60px",
           borderColor: "gray",
           "&:hover": {
@@ -29,7 +27,7 @@ const NewPostModal = () => {
         }}
         onClick={handleOpen}
       >
-        {widthThreshold ? "+" : "yeni"}
+         yeni
       </Button>
       <Dialog open={open} onClose={handleClose}
       maxWidth="xl"

@@ -10,7 +10,7 @@ import { useTheme } from "@mui/material/styles";
 
 const NewProject = () => {
 const theme = useTheme();
-const isMobile = useMediaQuery("(max-width: 600px)");
+const isMobile = useMediaQuery("(max-width: 1234px)");
 
   const dispatch = useDispatch();
 

@@ -17,7 +17,6 @@ const PostSkeleton = () => {
         sx={{
           maxWidth: "100%",
           marginTop: "10px",
-          background: "rgb(30, 29, 29)",
         }}
       >
         <CardHeader

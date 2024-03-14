@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from '../../axiosConfig';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProjectCard from "../components/profile/project/ProjectCard";

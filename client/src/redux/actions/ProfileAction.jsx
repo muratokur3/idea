@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from '../../../axiosConfig';
 import {
   setFollowers,
   setFollowing,
@@ -8,12 +8,7 @@ import {
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 const getProfile = (Username) => async (dispatch) => {
   try {
-    const response = await axios.get(`${apiUrl}/api/quest/${Username}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    });
+    const response = await axios.get(`${apiUrl}/api/quest/${Username}`);
     if (response.data) {
       dispatch(setProfile(response.data));
     }
@@ -30,13 +25,7 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
       avatarfile.append("file", await avatar);
       const response = await axios.post(
         `${apiUrl}/api/users/upload/avatars?username=${user?.username}`,
-        avatarfile,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
+        avatarfile
       );
       if (response.status === 200) {
         console.log("Profil resmi güncellendi", response.data.filename);
@@ -55,13 +44,7 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
       data.append("file", await background);
       const responseBackground = await axios.post(
         `${apiUrl}/api/users/upload/backgrounds?username=${user?.username}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
+        data
       );
       if (responseBackground.status === 200) {
         console.log(
@@ -88,13 +71,6 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
       ...user,
       avatar: newAvatarUrl,
       background: newBackgroundUrl,
-    },
-    {
-
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
     }
   );
   if (response.status === 200) {
@@ -116,9 +92,7 @@ const getFollowers = (username) => async (dispatch) => {
   try {
     const response = await axios.get(
       `${apiUrl}/api/quest/followers/${username}`,
-      {
-        withCredentials: true,
-      }
+      {}
     );
 
     if (response.data) {
@@ -133,9 +107,7 @@ const getFollowing = (username) => async (dispatch) => {
   try {
     const response = await axios.get(
       `${apiUrl}/api/quest/following/${username}`,
-      {
-        withCredentials: true,
-      }
+      {}
     );
     if (response.data) {
       dispatch(setFollowing(response.data));
@@ -147,22 +119,13 @@ const getFollowing = (username) => async (dispatch) => {
 
 const follow = (followerId, followingId, user) => async (dispatch) => {
   if (!user) {
-    user = await axios.get(`${apiUrl}/api/users/id/${followingId}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    });
+    user = await axios.get(`${apiUrl}/api/users/id/${followingId}`);
   }
   try {
     const response = await axios.put(
       `${apiUrl}/api/users/follow/${followerId}/${followingId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
+      {}
+    );
 
     if (response.status === 200) {
       console.log("Takip işlemi başarılı");
@@ -184,12 +147,7 @@ const unfollow = (followerId, followingId, user) => async (dispatch) => {
   try {
     const response = await axios.put(
       `${apiUrl}/api/users/unfollow/${followerId}/${followingId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
+      {}
     );
 
     if (response.status === 200) {

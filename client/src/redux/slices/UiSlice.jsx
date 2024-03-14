@@ -13,8 +13,8 @@ const initialState = {
       },
     },
     typography: {
-      fontFamily: "Roboto",
-      fontSize: 16,
+      fontFamily: "monospace",
+      fontSize: 20,
     },
   },
   darkTheme: {
@@ -26,22 +26,21 @@ const initialState = {
       postBackground: { default: "linear-gradient(to top, #000000, #1a1919)" },
     },
     typography: {
-      fontFamily: "Roboto",
-      fontSize: 16,
+      fontFamily: "monospace",
+      fontSize: 20,
     },
   },
   useTheme: {
     palette: {
-      primary: { main: "rgb(0,0,0)" },
+      mode: "dark",
+      primary: { main: "rgb(250, 250, 250)" },
       secondary: { main: "rgba(112, 106, 106, 0.937)" },
-      background: { default: "rgb(255, 255, 255)" },
-      postBackground: {
-        default: "linear-gradient(to top, #ffffff, #b9b6b670)",
-      },
+      background: { default: "rgb(0, 0, 0)" },
+      postBackground: { default: "linear-gradient(to top, #000000, #1a1919)" },
     },
     typography: {
-      fontFamily: "Roboto",
-      fontSize: 16,
+      fontFamily: "monospace",
+      fontSize: 20,
     },
   },
   profilePage: "posts",
