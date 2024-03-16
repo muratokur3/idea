@@ -27,12 +27,14 @@ const Follow = () => {
         <Tab
           value={"following"}
           label={`Takip Edilenler ${profile.following.length}`}
-          onClick={() => setFollow("following")}
+            sx={{ color: theme.palette.primary.main }}
+            onClick={() => setFollow("following")}
         />
         <Tab
           value={"followers"}
           label={`Takipçiler ${profile.followers.length}`}
-          onClick={() => setFollow("followers")}
+            sx={{ color: theme.palette.primary.main }}
+            onClick={() => setFollow("followers")}
         />
       </Tabs>
       {follow === "following" &&

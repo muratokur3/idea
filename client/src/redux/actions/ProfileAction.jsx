@@ -123,9 +123,7 @@ const follow = (followerId, followingId, user) => async (dispatch) => {
   }
   try {
     const response = await axios.put(
-      `${apiUrl}/api/users/follow/${followerId}/${followingId}`,
-      {}
-    );
+      `${apiUrl}/api/users/follow/${followerId}/${followingId}`);
 
     if (response.status === 200) {
       console.log("Takip işlemi başarılı");

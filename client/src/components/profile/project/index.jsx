@@ -10,7 +10,7 @@ import { Box } from "@mui/material";
 
 const Project = () => {
   const projectData = useSelector((state) => state.project);
-  const activeUser = useSelector((state) => state.authentication.user);
+  const activeUser = useSelector((state) => state.session && state.session.user);
   const dispatch = useDispatch();
   const { username } = useParams();
 

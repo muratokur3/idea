@@ -14,7 +14,7 @@ const NewPost = () => {
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
   const hashtags = useSelector((state) => state.hashtags.hashtags);
-  const user = useSelector((state) => state.authentication.user);
+  const user = useSelector((state) => state.session && state.session.user);
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -11,18 +11,13 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { styled } from "@mui/system";
 import logoImg from "../../assets/logo.png";
 import { useTheme } from "@mui/material/styles";
-
-// Assuming MainMenu is a separate component
 import MainMenu from "../menu/MainMenu";
-
-// Redux imports
-import { useDispatch, useSelector } from "react-redux";
-import { setLogin, setUser } from "../../redux/slices/AuthSlice";
-
-// Navigate import
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import ChangeThemeMode from "../settings/Theme/ChangeThemeMode";
+import { sessionService } from "redux-react-session";
+import axios from "../../../axiosConfig";
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Container = styled(Box)({
   display: "flex",
@@ -61,25 +56,20 @@ const Details = styled(Box)({
   },
 });
 
-
-
-const apiUrl = import.meta.env.VITE_API_BASE_URL;
-import axios from '../../../axiosConfig';
 import LoginModal from "../../Modals/LoginModal";
 import RegisterModal from "../../Modals/RegisterModal";
 const Sidebar = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const theme = useTheme();
 
-  const { authentication } = useSelector((state) => state);
+  const isLoggedIn = useSelector(state => state.session && state.session.authenticated);
+  const loginedUser = useSelector((state) => state.session && state.session.user);
 
-  const logout = async () => {
+  const handleLogout = async () => {
     try {
-      await axios.get(`${apiUrl}/api/auth/logout`,);
-      localStorage.clear();
-      dispatch(setLogin(false));
-      dispatch(setUser({}));
+    axios.get(`${apiUrl}/api/auth/logout`);
+    await sessionService.deleteSession();
+      await sessionService.deleteUser();
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -103,15 +93,15 @@ const Sidebar = () => {
       </AppBar>
 
       <MainMenu />
-      {authentication.isLogin ? (
-        <Details button>
+      {isLoggedIn ? (
+        <Details>
           <ListItemAvatar sx={{paddingLeft:"10%"}}>
-            <Avatar src={authentication?.user?.avatar} />
+            <Avatar src={loginedUser.avatar} />
           </ListItemAvatar>
           <ListItemText
-            primary={`${authentication.user.name} ${authentication.user.surname}`}
+            primary={`${loginedUser.name} ${loginedUser.surname}`}
             primaryTypographyProps={{ color: "primary" }}
-            secondary={`@${authentication.user.username}`}
+            secondary={`@${loginedUser.username}`}
             secondaryTypographyProps={{ fontSize: "16px", color: "primary" }}
           />
         </Details>
@@ -123,8 +113,8 @@ const Sidebar = () => {
       )}
       <Box>
         <ChangeThemeMode />
-        {authentication.isLogin && (
-          <Button onClick={logout}>
+        {isLoggedIn && (
+          <Button onClick={handleLogout}>
             <PowerSettingsNewIcon />
           </Button>
         )}

@@ -1,6 +1,6 @@
 import axios from '../../../axiosConfig';
 import { setHashtags, setHashtagsExplore } from "../slices/HashtagSlice";
-import { updateUserHashtag } from "../slices/AuthSlice";
+import { updateUserHashtag } from "../slices/HashtagSlice";
 const urlApi = import.meta.env.VITE_API_BASE_URL;
 
 const getHashtags = () => async (dispatch) => {
@@ -24,10 +24,6 @@ const getHashtagsExplore = () => async (dispatch) => {
 //hashtag takip et
 const followHashtag = (userId, hashtagname) => async (dispatch) => {
   try {
-    const userResposne = await axios.get(`${urlApi}/api/users/id/${userId}`);
-    const user = await userResposne.data;
-
-    console.log(user, hashtagname);
     const response = await axios.put(
       `${urlApi}/api/users/followHashtag/${userId}/${hashtagname}`
     );
@@ -42,10 +38,6 @@ const followHashtag = (userId, hashtagname) => async (dispatch) => {
 //hashtag takip etmeyi bırak
 const unfollowHashtag = (userId, hashtagname) => async (dispatch) => {
   try {
-    const userResponse = await axios.get(`${urlApi}/api/users/id/${userId}`);
-    const user = await userResponse.data;
-
-    console.log(user, hashtagname);
     const response = await axios.put(
       `${urlApi}/api/users/unfollowHashtag/${userId}/${hashtagname}`
     );

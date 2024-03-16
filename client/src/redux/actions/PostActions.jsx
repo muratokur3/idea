@@ -1,3 +1,4 @@
+
 import axios from '../../../axiosConfig';
 import {
   setHome,
@@ -11,8 +12,29 @@ import {
 } from "../slices/PostSlice";
 const urlApi = import.meta.env.VITE_API_BASE_URL;
 
+
 const getHomeData = (pagination, loginedUserId) => async (dispatch) => {
-  if (localStorage.getItem("isLogin") !== "ture") {
+    try {
+      const response = await axios.get(
+        `${urlApi}/api/posts/timeline/${loginedUserId}`,
+        {
+          params: {
+            page: pagination.page,
+          }
+        }
+      );
+      dispatch(
+        setHome({
+          posts: await response.data.posts,
+          pagination: await response.data.pagination,
+        })
+      );
+    } catch (error) {
+      console.error("Veri gelirken hata oluştu:", error);
+    }
+};
+
+const getHomeQuestData = (pagination) => async (dispatch) => {
     try {
       const response = await axios.get(`${urlApi}/api/quest/posts/timeline`, {
         params: {
@@ -29,27 +51,6 @@ const getHomeData = (pagination, loginedUserId) => async (dispatch) => {
     } catch (error) {
       console.error("Veri gelirken hata oluştu:", error);
     }
-  } else {
-    try {
-      const response = await axios.get(
-        `${urlApi}/api/posts/timeline/${loginedUserId}`,
-        {
-          params: {
-            page: pagination.page,
-          }
-          
-        }
-      );
-      dispatch(
-        setHome({
-          posts: await response.data.posts,
-          pagination: await response.data.pagination,
-        })
-      );
-    } catch (error) {
-      console.error("Veri gelirken hata oluştu:", error);
-    }
-  }
 };
 
 const getPrivateMeData = (pagination, loginedUserId) => async (dispatch) => {
@@ -60,8 +61,6 @@ const getPrivateMeData = (pagination, loginedUserId) => async (dispatch) => {
         params: {
           page: pagination.page,
         },
-       
-        
       }
     );
     dispatch(
@@ -193,11 +192,7 @@ const like = (post, LoginUserId) => async (dispatch) => {
   try {
     // Sunucuya beğeni isteği gönder
     const response = await axios.post(
-      `${urlApi}/api/posts/like/${post._id}/${LoginUserId}`,
-      {
-       
-        
-      }
+      `${urlApi}/api/posts/like/${post._id}/${LoginUserId}`
     );
     const newPost =await {
       ...post,
@@ -224,11 +219,7 @@ const unLike = (post, LoginUserId) => async (dispatch) => {
   try {
 // Sunucuya beğeni geri alma isteği gönder
     const response = await axios.post(
-      `${urlApi}/api/posts/unlike/${post._id}/${LoginUserId}`,
-      {
-        
-      }
-    );
+      `${urlApi}/api/posts/unlike/${post._id}/${LoginUserId}`);
     const newPost =await {
       ...post,
       likes:
@@ -251,11 +242,7 @@ const unLike = (post, LoginUserId) => async (dispatch) => {
 const favorite = (post, loginedUserId) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${urlApi}/api/posts/favorites/${post._id}/${loginedUserId}`,
-      {
-        
-      }
-    );
+      `${urlApi}/api/posts/favorites/${post._id}/${loginedUserId}`);
     
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
@@ -278,11 +265,7 @@ const favorite = (post, loginedUserId) => async (dispatch) => {
 const unFavorite = (post, loginedUserId) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${urlApi}/api/posts/unfavorites/${post._id}/${loginedUserId}`,
-      {
-        
-      }
-    );
+      `${urlApi}/api/posts/unfavorites/${post._id}/${loginedUserId}`);
     
 
     // Potansiyel hatalar için API yanıtını kontrol et
@@ -304,6 +287,7 @@ const unFavorite = (post, loginedUserId) => async (dispatch) => {
 
 export {
   getHomeData,
+  getHomeQuestData,
   getPrivateMeData,
   getExploreData,
   getHashtagExploreData,

@@ -8,8 +8,8 @@ import {
 
 const FollowHashtags = ({ hashtagName }) => {
     const dispatch = useDispatch();
-    const activeUser = useSelector((state) => state.authentication.user);
-    const activeUserHashtags = useSelector((state) => state.authentication.hashtags);
+    const activeUser = useSelector((state) => state.session && state.session.user);
+    const activeUserHashtags = useSelector((state) => state.session && state.session.hashtags);
 
     const handleFollowHashtag = () => {
         dispatch(

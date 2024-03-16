@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-const  MobileBottomNavigation =()=> {
+const  HomeTopNavigate =()=> {
   const navigate=useNavigate();
   const [value, setValue] = React.useState('home');
   const username = useSelector((state) => state.session && state.session.user.username);
@@ -37,4 +37,4 @@ const  MobileBottomNavigation =()=> {
     </BottomNavigation>
   );
 }
-export default MobileBottomNavigation;
+export default HomeTopNavigate;

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getFavoritesPosts } from "../redux/actions/PostActions";
 const Favorite = () => {
   const favoriteData = useSelector((state) => state.posts.favorites);
-  const username = useSelector((state) => state.authentication.user.username);
+  const username = useSelector((state) => state.session && state.session.user.username);
   const dispatch = useDispatch();
   
   useEffect(() => {

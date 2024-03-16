@@ -17,8 +17,8 @@ import NewPostModal from "../../Modals/NewPostModal";
 import { useMediaQuery } from "@mui/material";
 const Menu = () => {
   const navigate = useNavigate();
-  const isLogin = useSelector((state) => state.authentication.isLogin);
-  const username = useSelector((state) => state.authentication.user.username);
+  const isLoggedIn = useSelector(state => state.session && state.session.authenticated);
+  const username = useSelector((state) => state.session && state.session.user.username);
   const location = useLocation();
   const locPath = location.pathname;
 
@@ -62,7 +62,7 @@ const Menu = () => {
           </ListItemButton>
         </ListItem>
 
-        {isLogin && (
+        {isLoggedIn && (
           <>
             <ListItem
               disablePadding
@@ -126,7 +126,7 @@ const Menu = () => {
           </>
         )}
       </List>
-      {isLogin && (
+      {isLoggedIn && (
         <NewPostModal/>
       )}
     </div>

@@ -8,7 +8,7 @@ import FollowHashtags from "../actions/FollowHashtags";
 const HashtagCardList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loginedUser = useSelector((state) => state.authentication.user);
+  const loginedUser = useSelector((state) => state.session && state.session.user);
   const hashtagsExplore = useSelector(
     (state) => state.hashtags.hashtagsExplore
   );

@@ -24,7 +24,7 @@ import EditProfileModal from "../../Modals/EditProfileModal";
 /* eslint-disable react/prop-types */
 const UserDetail = ({ profileData }) => {
   const dispatch = useDispatch();
-  const activeUser = useSelector((state) => state.authentication.user);
+  const activeUser = useSelector((state) => state.session && state.session.user);
   const activeUserId = activeUser._id;
   const profileUSerData = useSelector((state) => state.profile.user);
   const profileUserPosts = useSelector((state) => state.posts.profilePosts);
@@ -39,7 +39,7 @@ const UserDetail = ({ profileData }) => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery("(max-width: 1234px)");
-
+  const isLoggedIn = useSelector(state => state.session && state.session.authenticated);
   return (
     <>
       <Card
@@ -102,7 +102,8 @@ const UserDetail = ({ profileData }) => {
               <CardHeader
                 sx={{}}
                 action={
-                  !isMobile && (
+                  !isMobile &&
+                  isLoggedIn &&(
                     <Box>
                       {activeUser && profileUSerData._id === activeUserId ? (
                         <EditProfileModal />

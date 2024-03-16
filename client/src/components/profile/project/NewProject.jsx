@@ -22,7 +22,7 @@ const isMobile = useMediaQuery("(max-width: 1234px)");
   const [projectName, setProjectName] = useState("");
   const [createDate, setCreateDate] = useState("");
   const hashtags = useSelector((state) => state.hashtags.hashtags);
-  const user = useSelector((state) => state.authentication.user);
+  const user = useSelector((state) => state.session && state.session.user);
 
   const handleSubmit = (e) => {
     e.preventDefault();

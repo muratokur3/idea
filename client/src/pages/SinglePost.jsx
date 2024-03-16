@@ -5,7 +5,7 @@ import Post from "../components/post/Post";
 import { useSelector } from "react-redux";
 
 const SinglePost = () => {
-  const activeUser = useSelector((state) => state.authentication.user);
+  const activeUser = useSelector((state) => state.session && state.session.user);
   const urlApi = import.meta.env.VITE_API_BASE_URL;
   const [post, setPost] = useState(); // Düzeltme burada
   const { username, id } = useParams();

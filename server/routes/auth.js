@@ -60,11 +60,11 @@ router.post("/login", async (req, res) => {
       ["name"]
     );
 
-    const hashtagNames =await userHastags.hashtags.map((hashtag) => {
+    const hashtagNames = await userHastags.hashtags.map((hashtag) => {
       return hashtag.name;
-      
     });
-    const payload1 = {
+
+    const userdata = {
       _id: user._id,
       name: user.name,
       surname: user.surname,
@@ -72,22 +72,16 @@ router.post("/login", async (req, res) => {
       email: user.email,
       avatar: user.avatar,
       bio: user.bio,
-      projects: user.project,
-      followers: user.followers,
-      following: user.following,
-      posts: user.posts,
-      favorites: user.favorites,
-      hashtags: hashtagNames,
-      notifications: user.notifications,
     };
 
     const payload = {
       sub: user._id,
       username: user.username,
       rol: user.rol,
-      exp: Math.floor(Date.now() / 1000) + 60 * 5,
+      exp: Math.floor(Date.now() / 1000) + 60 * 2,
       issuer: "idea.com",
     };
+
     const token = jwt.sign(payload, process.env.SECRET_KEY);
 
     res.cookie("teknoToken", token, {
@@ -95,11 +89,11 @@ router.post("/login", async (req, res) => {
       domain: "localhost",
       path: "/",
       session: true,
-      expires: new Date(Date.now() + 60 * 5 * 1000),
-      maxAge: 1000 * 60 * 5,
+      expires: new Date(Date.now() + 60 * 2 * 1000),
+      maxAge: 1000 * 60 * 2,
     });
 
-    return res.status(200).json(payload1);
+    return res.status(200).json(userdata);
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -133,7 +127,6 @@ router.post("/changePassword/:id", async (req, res) => {
     console.log(error.message);
     res.status(500).json("Server Error");
   }
-}
-);
+});
 
 module.exports = router;

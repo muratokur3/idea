@@ -11,7 +11,7 @@ const ExploreLayout = () => {
   const dispatch = useDispatch();
   const { hashtag } = useParams();
   const hashtagExploreData = useSelector((state) => state.posts.hashtagExplore);
-  const activeUser = useSelector((state) => state.authentication.user);
+  const activeUser = useSelector((state) => state.session && state.session.user);
   useEffect(() => {
     dispatch(getHashtagExploreData({page:1,hasMore:true}, hashtag));
   }, [hashtag,dispatch]);

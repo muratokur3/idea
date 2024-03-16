@@ -1,10 +1,8 @@
-import axios from '../../../axiosConfig';
-import { setLoginedHashtags, setLogin, setUser } from "../slices/AuthSlice";
+import { sessionService } from "redux-react-session";
+import axios from "../../../axiosConfig";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
-
 //kullanıcı kayıt olurken kullanılır
 const registerUser = (data) => async () => {
-
   try {
     await axios.post(`${apiUrl}/api/auth/register`, data);
   } catch (error) {
@@ -17,15 +15,14 @@ const registerUser = (data) => async () => {
 };
 
 //kullanıcı giriş yaparken kullanılır
-const loginClient = (data) => async (dispatch) => {
+const loginClient = (data) => async () => {
   try {
     const response = await axios.post(`${apiUrl}/api/auth/login`, data);
     if (response.status === 200) {
-      localStorage.setItem("isLogin", true);
-      localStorage.setItem("avatar", response.data.avatar);
-      dispatch(setLogin(true));
-      dispatch(setUser(response.data));
-      dispatch(setLoginedHashtags(response.data.hashtags));
+
+      await sessionService.saveSession({username: response.data.username});
+      await sessionService.saveUser(response.data);
+      
       alert("Giriş başarılı");
     } else alert("Kullanıcı adı veya şifre hatalı");
   } catch (error) {
@@ -35,4 +32,4 @@ const loginClient = (data) => async (dispatch) => {
   }
 };
 
-export {  registerUser, loginClient };
+export { registerUser, loginClient };

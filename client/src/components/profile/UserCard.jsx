@@ -10,7 +10,7 @@ import { useTheme } from "@mui/material/styles";
 
 const UserCard = ({ user }) => {
   const navigate = useNavigate();
-  const activeUser = useSelector((state) => state.authentication.user);
+  const activeUser = useSelector((state) => state.session && state.session.user);
   const theme=useTheme();
 
   return (

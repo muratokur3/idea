@@ -18,7 +18,7 @@ import axios from '../../../axiosConfig';
 import { useSelector } from "react-redux";
 const urlApi = import.meta.env.VITE_API_BASE_URL;
 const ChangePassword = () => {
-    const userId = useSelector((state) => state.authentication?.user?._id);
+    const userId = useSelector((state) => state.session && state.session?.user?._id);
 
   const [showOldPassword, setshowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);

@@ -15,7 +15,7 @@ router.use("/auth", authRoute);
 router.use("/users", UserRoute);
 router.use("/search", searchRoute);
 router.use("/quest", qusetRoute);
-router.use("/posts", postRoute);
+router.use("/posts",checkJwt, postRoute);
 router.use("/hashtags", hashtagRoute);
 router.use("/projects", projectRoute);
 

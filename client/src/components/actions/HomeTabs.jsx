@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 const HomeTabs = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery("(max-width: 1234px)");
-  const isLogin = useSelector((state) => state.authentication.isLogin);
+  const isLoggedIn = useSelector(state => state.session && state.session.authenticated);
   const dispatch = useDispatch();
   const filterName = useSelector((state) => state.filterPosts.filterName);
   const [scrollDir, setScrollDir] = useState("up");
@@ -73,12 +73,11 @@ const HomeTabs = () => {
               }}
             />
           )}
-      {isLogin && (
+      {isLoggedIn && (
         <Tabs
           value={filterName}
           centered
         >
-         
           <Tab
             value={"all"}
             label="kişilerim"

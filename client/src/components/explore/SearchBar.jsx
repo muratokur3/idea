@@ -40,7 +40,7 @@ const SearchBar = () => {
   const searchData = useSelector((state) => state.search);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loginedUser = useSelector((state) => state.authentication.user);
+  const loginedUser = useSelector((state) => state.session && state.session.user);
   const handleSearch = () => {
     dispatch(getSearchResults({ text: searchText, searchFilter }));
     setResultBox(true);
