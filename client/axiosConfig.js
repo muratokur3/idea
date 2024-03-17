@@ -1,6 +1,5 @@
 import axios from "axios";
 import { sessionService } from "redux-react-session";
-const apiUrl = import.meta.env.VITE_API_BASE_URL;
 const instance = axios.create({
   headers: {
     "Content-Type": "application/json",
@@ -10,9 +9,7 @@ const instance = axios.create({
 
 const handleLogout = async () => {
   try {
-    axios.get(`${apiUrl}/api/auth/logout`);
-    await sessionService.deleteSession();
-    await sessionService.deleteUser();
+    sessionService.invalidateSession();
     window.location.href = "/";
   } catch (error) {
     console.log(error);
@@ -22,11 +19,12 @@ const handleLogout = async () => {
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401) {
+    if (error.response?.status === 401) {
+      console.log(error);
       // 401 hatası alındığında oturumu sonlandırma eylemini çağır
-      handleLogout();
       alert("Oturumunuz sonlandırıldı. Lütfen tekrar giriş yapınız.");
-    } else alert("sorun yok");
+      handleLogout();
+    }
     return Promise.reject(error);
   }
 );

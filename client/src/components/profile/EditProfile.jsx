@@ -26,9 +26,8 @@ import { useEffect, useRef, useState } from "react";
 import { updateProfile } from "../../redux/actions/ProfileAction";
 
 const EditProfile = (user) => {
+  const theme = useTheme();
   const isMobile = useMediaQuery("(max-width: 1234px)");
-
- 
 
   const dispatch = useDispatch();
   const avatarFileInputRef = useRef(null);
@@ -60,37 +59,19 @@ const EditProfile = (user) => {
   const handleInputChance = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  // const data = {
-  //   _id: user.user._id,
-  //   name: formData.name,
-  //   surname: formData.surname,
-  //   username: formData.username,
-  //   bio: formData.bio,
-  //   location: formData.location,
-  //   avatar: user.user.avatar,
-  //   background: user.user.background,
-  //   socialAdress: {
-  //     github: formData.github,
-  //     linkedin: formData.linkedin,
-  //     youtube: formData.youtube,
-  //     website: formData.website,
-  //     twitter: formData.twitter,
-  //   },
-  // };
-  // dispatch(updateProfile(data, avatar.file, background.file));
 
-  function validateUsername(inputValue) {
+  function validateInput(inputValue) {
     const regex = /^(?!.*\b(www|http|https|\/)\b).*$/;
     return regex.test(inputValue);
   }
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-      validateUsername(formData.github) &&
-      validateUsername(formData.linkedin) &&
-      validateUsername(formData.youtube) &&
-      validateUsername(formData.website) &&
-      validateUsername(formData.twitter)
+      validateInput(formData.github) &&
+      validateInput(formData.linkedin) &&
+      validateInput(formData.youtube) &&
+      validateInput(formData.website) &&
+      validateInput(formData.twitter)
     ) {
       const data = {
         _id: user?.user?._id,
@@ -131,7 +112,7 @@ const EditProfile = (user) => {
       twitter: user?.user?.socialAdress.twitter,
     });
   }, [user]);
-  const theme = useTheme();
+
   return (
     <form
       onSubmit={handleSubmit}

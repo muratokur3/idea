@@ -6,10 +6,8 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import Login from "../Auth/Login";
 import { useState } from "react";
-import LoginIcon from "@mui/icons-material/Login";
-const LoginModal = () => {
+const LoginModal = ({buttonText,component,icon}) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -17,21 +15,18 @@ const LoginModal = () => {
 
   return (
     <Box>
-        <Button
-            color="primary"
-            onClick={handleOpen}
-            sx={{
-                width: "100%",
-                borderRadius: "30px",
-                backgroundColor: "none",
-                "&:hover": {
-                borderColor: "white",
-                },
-            }} endIcon={<LoginIcon />}
-        >
-            Giriş Yap
-            
-        </Button>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={handleOpen}
+        sx={{
+          width: "100%",
+          borderRadius: "30px",
+        }}
+        endIcon={icon}
+      >
+        {buttonText}
+      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -45,19 +40,23 @@ const LoginModal = () => {
           },
         }}
       >
-       
-        <DialogTitle id="login-dialog-title" color="primary" sx={{ textAlign: "center" }}>
-          Giriş Yap
+        <DialogTitle
+          id="login-dialog-title"
+          color="primary"
+          sx={{ textAlign: "center" }}
+        >
+          {buttonText}
         </DialogTitle>
         <DialogContent
-         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}>
-          <Login />
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {component}
         </DialogContent>
-         <DialogActions>
+        <DialogActions>
           <Button onClick={handleClose}>İptal</Button>
         </DialogActions>
       </Dialog>

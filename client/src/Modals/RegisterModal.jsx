@@ -18,20 +18,18 @@ const RegisterModal = () => {
   return (
     <Box>
       <Button
+        variant="outlined"
         color="primary"
         onClick={handleOpen}
         sx={{
           width: "100%",
           borderRadius: "30px",
-          backgroundColor: "none",
-          "&:hover": {
-            borderColor: "white",
-          },
         }}
         endIcon={<AppRegistrationIcon />}
       >
         Kayıt Ol
       </Button>
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -46,8 +44,11 @@ const RegisterModal = () => {
           },
         }}
       >
-       
-        <DialogTitle id="login-dialog-title" color="primary" sx={{ textAlign: "center" }}>
+        <DialogTitle
+          id="login-dialog-title"
+          color="primary"
+          sx={{ textAlign: "center" }}
+        >
           Kayıt Ol
         </DialogTitle>
         <DialogContent
@@ -59,7 +60,7 @@ const RegisterModal = () => {
         >
           <Register />
         </DialogContent>
-         <DialogActions>
+        <DialogActions>
           <Button onClick={handleClose}>İptal</Button>
         </DialogActions>
       </Dialog>

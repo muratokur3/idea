@@ -165,28 +165,28 @@ const UserDetail = ({ profileData }) => {
           }}
         >
           <Typography color="primary" fontSize="small">
-            {profileData?.user?.following?.length} Takip Edilen
+            {profileUserPosts?.posts.length} Gönderi
           </Typography>
           <Typography color="primary" fontSize="small">
             {profileData?.user?.followers?.length} Takipçi
           </Typography>
           <Typography color="primary" fontSize="small">
-            {profileUserPosts?.posts.length} Gönderi
+            {profileData?.user?.following?.length} Takip Edilen
           </Typography>
           <a href={profileData?.user?.socialAdress?.website}>
-            <LanguageIcon fontSize="10px" />
+            <LanguageIcon fontSize="medium" />
           </a>
           <a href={profileData?.user?.socialAdress?.github}>
-            <GitHubIcon fontSize="10px" />
+            <GitHubIcon fontSize="medium" />
           </a>
           <a href={profileData?.user?.socialAdress?.linkedin}>
-            <LinkedInIcon fontSize="10px" />
+            <LinkedInIcon fontSize="medium" />
           </a>
           <a href={profileData?.user?.socialAdress?.youtube}>
-            <YouTubeIcon fontSize="10px" />
+            <YouTubeIcon fontSize="medium" />
           </a>
           <a href={profileData?.user?.socialAdress?.twitter}>
-            <XIcon fontSize="10px" />
+            <XIcon fontSize="medium" />
           </a>
         </CardActions>
       </Card>

@@ -18,16 +18,14 @@ const EditProfileModal = () => {
   return (
     <Box>
       <Button
+        variant="outlined"
         color="primary"
         onClick={handleOpen}
         sx={{
           width: "100%",
           fontSize: ".8rem",
           borderRadius: "30px",
-          backgroundColor: "none",
-          "&:hover": {
-            borderColor: "white",
-          },
+         
         }}
         endIcon={<AppRegistrationIcon />}
       >

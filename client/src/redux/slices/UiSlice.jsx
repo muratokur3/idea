@@ -14,7 +14,7 @@ const initialState = {
     },
     typography: {
       fontFamily: "monospace",
-      fontSize: 20,
+      fontSize: 16,
     },
   },
   darkTheme: {
@@ -27,7 +27,7 @@ const initialState = {
     },
     typography: {
       fontFamily: "monospace",
-      fontSize: 20,
+      fontSize: 16,
     },
   },
   useTheme: {
@@ -40,7 +40,7 @@ const initialState = {
     },
     typography: {
       fontFamily: "monospace",
-      fontSize: 20,
+      fontSize: 16,
     },
   },
   profilePage: "posts",

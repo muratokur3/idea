@@ -42,6 +42,7 @@ const Post = ({ post, activeUser }) => {
       }}
     >
       <CardHeader
+      sx={{paddingBottom:".5rem"}}
         avatar={
           <Avatar
             src={post?.avatar}
@@ -93,12 +94,12 @@ const Post = ({ post, activeUser }) => {
           </Box>
         }
         title={post?.name + " " + post?.surname}
-        titleTypographyProps={{ color: "primary" }}
+        titleTypographyProps={{fontSize:"1.3rem", color: "primary" }}
         subheader={
           <Typography
             color="secondary"
             onClick={() => navigate(`/${post?.username}`)}
-            sx={{ fontSize: "0.8rem", cursor: "pointer" }}
+            sx={{ cursor: "pointer" }}
           >
             @{post?.username}
           </Typography>
@@ -107,9 +108,10 @@ const Post = ({ post, activeUser }) => {
 
       <CardContent>
         <Typography
-          variant="body2"
+          variant="body1"
           color="primary"
-          padding="10px"
+          marginBottom="1rem"
+          sx={{ cursor: "pointer" }}
           onClick={() =>
             navigate(`/explore/post/${post?.username}/${post?._id}`)
           }
@@ -117,25 +119,23 @@ const Post = ({ post, activeUser }) => {
           {post?.title}
         </Typography>
         {post?.hashtagsName?.map((hashtag) => (
-          <Link
+          <Button
+          variant="outlined"
+          size="small"
             key={hashtag}
-            variant="body3"
-            style={{
+            sx={{
               textDecoration: "none",
-              fontSize: ".8rem",
               display: "inline-block",
               marginRight: "10px",
               color: `${theme.palette.primary.main}`,
-              // backgroundColor: "rgba(140, 136, 136, 0.937)",
-              border: `1px dotted ${theme.palette.primary.main}`,
-              padding: "1% 2%",
+              border: `.5px solid grey`,
               borderRadius: "10px",
               cursor: "pointer",
             }}
-            to={`/explore/${hashtag}`}
+            onClick={()=>navigate(`/explore/${hashtag}`)}
           >
             {hashtag}
-          </Link>
+          </Button>
         ))}
       </CardContent>
       <CardActions

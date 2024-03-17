@@ -26,7 +26,7 @@ const Home = () => {
 
   return (
     <Box>
-     <HomeTabs />
+     {isLoggedIn && <HomeTabs />}
 
       {isLoggedIn && filterName === "all" && <NewPost />}
 

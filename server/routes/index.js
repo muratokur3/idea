@@ -12,12 +12,12 @@ const searchRoute= require("./searchs.js");
 const qusetRoute = require("./quest.js");
 
 router.use("/auth", authRoute);
-router.use("/users", UserRoute);
-router.use("/search", searchRoute);
 router.use("/quest", qusetRoute);
+router.use("/users",checkJwt, UserRoute);
+router.use("/search",checkJwt, searchRoute);
 router.use("/posts",checkJwt, postRoute);
-router.use("/hashtags", hashtagRoute);
-router.use("/projects", projectRoute);
+router.use("/hashtags",checkJwt, hashtagRoute);
+router.use("/projects",checkJwt, projectRoute);
 
 
 module.exports = router;

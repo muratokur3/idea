@@ -16,8 +16,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ChangeThemeMode from "../settings/Theme/ChangeThemeMode";
 import { sessionService } from "redux-react-session";
-import axios from "../../../axiosConfig";
-const apiUrl = import.meta.env.VITE_API_BASE_URL;
+import LoginIcon from "@mui/icons-material/Login";
 
 const Container = styled(Box)({
   display: "flex",
@@ -58,6 +57,7 @@ const Details = styled(Box)({
 
 import LoginModal from "../../Modals/LoginModal";
 import RegisterModal from "../../Modals/RegisterModal";
+import Login from "../../Auth/Login";
 const Sidebar = () => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -67,9 +67,7 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-    axios.get(`${apiUrl}/api/auth/logout`);
-    await sessionService.deleteSession();
-      await sessionService.deleteUser();
+      sessionService.invalidateSession();
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -107,7 +105,7 @@ const Sidebar = () => {
         </Details>
       ) : (
        <Box>
-         <LoginModal />
+         <LoginModal buttonText="giriş yap" component={<Login/>} icon={<LoginIcon/>}/>
         <RegisterModal />
        </Box>
       )}

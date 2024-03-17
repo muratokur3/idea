@@ -27,15 +27,23 @@ const HashtagCardList = () => {
             sx={{
               backgroundColor: "transparent",
               width: "100%",
-              maxHeight: "100%",
             }}
           >
             <CardHeader
+            sx={{
+              "&:hover": {
+                backgroundColor: "rgba(186, 181, 181, 0.324)",
+              },
+
+            }}
               title={
                 <Typography
                   gutterBottom
                   component="div"
                   color="primary"
+                  sx={{ fontSize: "1.2rem", 
+                  letterSpacing: "1px",
+                  }}
                   onClick={() => navigate(`${hashtag.name}`)}
                 >
                   #{hashtag.name}

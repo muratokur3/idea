@@ -25,9 +25,9 @@ const ExploreLayout = () => {
      }}>
       <Typography
       sx={{
-        fontSize: "1.5rem",
         padding: "1rem",
-        fontFamily: "roboto",
+        color:"primary.main",
+        fontSize: "2rem",
       }}>#{hashtag}</Typography>
       {
         activeUser._id && <FollowHashtags hashtagName={hashtag} />

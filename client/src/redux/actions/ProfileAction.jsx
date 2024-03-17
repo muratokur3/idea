@@ -17,53 +17,69 @@ const getProfile = (Username) => async (dispatch) => {
   }
 };
 
-const updateProfile = (user, avatar, background) => async (dispatch) => {
+const updateProfile =  (user, avatar,background) =>async (dispatch) => {
   const ubdateAvatar = async () => {
-    console.log("Profil resmi güncelleniyor", avatar, user.username);
     try {
-      const avatarfile = new FormData();
-      avatarfile.append("file", await avatar);
+      console.log("Profil avatars güncelleniyor", avatar, user.username);
+  
+      const formData = new FormData();
+      const avatarData = await avatar; // Promise'in çözülmesini bekleyin
+      formData.append("file", avatarData);
+  
       const response = await axios.post(
-        `${apiUrl}/api/users/upload/avatars?username=${user?.username}`,
-        avatarfile
+        `${apiUrl}/api/users/upload/images?username=${user?.username}&folder=avatars`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
+  
       if (response.status === 200) {
-        console.log("Profil resmi güncellendi", response.data.filename);
-        return `${apiUrl}/uploads/images/avatars/${response.data.filename}`;
+        console.log("Profil avatars güncellendi", response.data.filename);
+        const newAvatarUrl = `${apiUrl}/uploads/images/avatars/${response.data.filename}`;
+       return newAvatarUrl;
+      } else {
+        throw new Error("Profil avatars güncellenemedi");
       }
     } catch (error) {
-      console.log("avatar olmadı", error, error.message);
+      console.log("Profil avatars güncelleme hatası:", error.message);
     }
   };
-
+  
   const ubdateBackground = async () => {
-    console.log("background güncelleniyor", background, user.username);
-
     try {
-      const data = new FormData();
-      data.append("file", await background);
-      const responseBackground = await axios.post(
-        `${apiUrl}/api/users/upload/backgrounds?username=${user?.username}`,
-        data
+      console.log("Profil arkaplan güncelleniyor", background, user.username);
+  
+      const formData = new FormData();
+      const backgroundData = await background; // Promise'in çözülmesini bekleyin
+      formData.append("file", backgroundData);
+  
+      const response = await axios.post(
+        `${apiUrl}/api/users/upload/images?username=${user?.username}&folder=backgrounds`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
-      if (responseBackground.status === 200) {
-        console.log(
-          "Arkaplan resmi güncellendi",
-          responseBackground.data.filename
-        );
-        return `${apiUrl}/uploads/images/backgrounds/${responseBackground.data.filename}`;
+  
+      if (response.status === 200) {
+        console.log("Profil arkaplan güncellendi", response.data.filename);
+        const newBackgroundUrl = `${apiUrl}/uploads/images/backgrounds/${response.data.filename}`;
+       return newBackgroundUrl;
+      } else {
+        throw new Error("Profil arkaplan güncellenemedi");
       }
-
-      console.log("Arkaplan resmi güncellenemedi", responseBackground);
     } catch (error) {
-      console.log("Arkaplan resmi güncellenemedi", error.message);
+      console.log("Profil arkaplan güncelleme hatası:", error.message);
     }
-  };
+  }
 
   const newAvatarUrl = avatar ? await ubdateAvatar() : user?.avatar;
-  const newBackgroundUrl = background
-    ? await ubdateBackground()
-    : user?.background;
+  const newBackgroundUrl = background ? await ubdateBackground() : user?.background;
 
   const response = await axios.put(
     `${apiUrl}/api/users/ubdateUser/${user._id}`,
@@ -80,7 +96,6 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
       setProfile({
         ...user,
         avatar: newAvatarUrl ? newAvatarUrl : user.avatar,
-        background: newBackgroundUrl ? newBackgroundUrl : user.background,
       })
     );
   } else {

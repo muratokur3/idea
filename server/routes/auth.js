@@ -78,19 +78,19 @@ router.post("/login", async (req, res) => {
       sub: user._id,
       username: user.username,
       rol: user.rol,
-      exp: Math.floor(Date.now() / 1000) + 60 * 2,
+      exp: Math.floor(Date.now() / 1000) + 60 * 24 * 7,
       issuer: "idea.com",
     };
 
     const token = jwt.sign(payload, process.env.SECRET_KEY);
 
-    res.cookie("teknoToken", token, {
+    res.cookie("auth_token", token, {
       httpOnly: true,
       domain: "localhost",
       path: "/",
       session: true,
-      expires: new Date(Date.now() + 60 * 2 * 1000),
-      maxAge: 1000 * 60 * 2,
+      expires: new Date(Date.now() + 60 * 24 * 7 * 1000),
+      maxAge: 1000 * 60 * 24 * 7,
     });
 
     return res.status(200).json(userdata);
@@ -103,7 +103,7 @@ router.post("/login", async (req, res) => {
 // Kullanıcı çıkışı Logout
 router.get("/logout", async (req, res) => {
   try {
-    res.clearCookie("teknoToken");
+    res.clearCookie("auth_token");
     res.status(200).json("Çıkış başarılı");
   } catch (error) {
     console.log(error.message);

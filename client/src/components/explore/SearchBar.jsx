@@ -98,11 +98,12 @@ const SearchBar = () => {
       <Card
         key={i}
         sx={{
-          maxWidth: "100%",
           background: `${theme.palette.postBackground.default}`,
           marginTop: "5px",
           borderRadius: "10px",
+          cursor: "pointer",
         }}
+        onClick={() => navigate(`/${user.username}`)}
       >
         <CardHeader
           avatar={
@@ -124,8 +125,7 @@ const SearchBar = () => {
           titleTypographyProps={{ fontSize: "1rem", color: "primary" }}
           subheader={
             <Typography
-              onClick={() => navigate(`/${user.username}`)}
-              sx={{ fontSize: "0.8rem", color: "gray", cursor: "pointer" }}
+              sx={{ fontSize: "0.8rem", color: "gray" }}
             >
               @{user.username}
             </Typography>
@@ -164,7 +164,7 @@ const SearchBar = () => {
           },
         }}
       >
-        <RadioGroup value={searchFilter} color="primary">
+        <RadioGroup value={searchFilter} color="primary" >
           <MenuItem>
             <Radio value="all" onChange={() => setSearchFilter("all")} />
             <Typography color="primary">Tümü</Typography>

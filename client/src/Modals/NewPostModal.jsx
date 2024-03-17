@@ -11,7 +11,7 @@ const NewPostModal = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  
+
   return (
     <Box>
       <Button
@@ -19,27 +19,24 @@ const NewPostModal = () => {
         color="primary"
         sx={{
           width: "150px",
-          borderRadius: "60px",
-          borderColor: "gray",
-          "&:hover": {
-            borderColor: "white",
-          },
+          borderRadius: "30px",
         }}
         onClick={handleOpen}
       >
-         yeni
+        yeni
       </Button>
-      <Dialog open={open} onClose={handleClose}
-      maxWidth="xl"
-      fullWidth={true}
-      sx={{
-        "& .MuiDialog-paper": {
-          width: "90vw",
-          boxShadow: "none",
-        },
-      
-      }}
-        >
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="xl"
+        fullWidth={true}
+        sx={{
+          "& .MuiDialog-paper": {
+            width: "90vw",
+            boxShadow: "none",
+          },
+        }}
+      >
         <DialogContent>
           <NewPost />
         </DialogContent>

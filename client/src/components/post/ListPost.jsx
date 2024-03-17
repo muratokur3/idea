@@ -13,7 +13,7 @@ const ListPost = ({ data,getPosts }) => {
       next={()=>getPosts()}
       hasMore={data.pagination.hasMore}
       loader={<PostSkeleton />}
-      endMessage={<Typography sx={{textAlign:"center", fontSize:".8rem",marginTop:"20px"}}>{data.posts.length} öğe</Typography>}
+      endMessage={<Typography color="primary" sx={{textAlign:"center", fontSize:".8rem",marginTop:"20px",}}>{data.posts.length} öğe</Typography>}
     >
      {data.posts.map((post, index) => (
         <Post key={index} post={post} activeUser={activeUser?activeUser:null}/>
