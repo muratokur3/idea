@@ -3,7 +3,7 @@ import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfileMenu from "../components/menu/ProfileMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useParams } from "react-router-dom";
-import Project from "../components/profile/project";
+import Project from "../components/project";
 import ListPost from "../components/post/ListPost";
 import Follow from "../components/profile/Follow";
 import { useEffect } from "react";

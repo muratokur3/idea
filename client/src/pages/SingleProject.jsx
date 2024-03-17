@@ -1,7 +1,7 @@
 import axios from '../../axiosConfig';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ProjectCard from "../components/profile/project/ProjectCard";
+import ProjectCard from "../components/project/ProjectCard";
 
 const SingleProject = () => {
   const urlApi = import.meta.env.VITE_API_BASE_URL;

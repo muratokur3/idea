@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import ChangeThemeMode from "../settings/Theme/ChangeThemeMode";
 import { sessionService } from "redux-react-session";
 import LoginIcon from "@mui/icons-material/Login";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 const Container = styled(Box)({
   display: "flex",
@@ -55,9 +56,10 @@ const Details = styled(Box)({
   },
 });
 
-import LoginModal from "../../Modals/LoginModal";
+import Modal from "../../Modals";
 import RegisterModal from "../../Modals/RegisterModal";
 import Login from "../../Auth/Login";
+import Register from "../../Auth/Register";
 const Sidebar = () => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -105,8 +107,8 @@ const Sidebar = () => {
         </Details>
       ) : (
        <Box>
-         <LoginModal buttonText="giriş yap" component={<Login/>} icon={<LoginIcon/>}/>
-        <RegisterModal />
+         <Modal buttonText="giriş yap" component={<Login/>} icon={<LoginIcon/>}/>
+         <Modal buttonText="kayıt ol" component={<Register/>} icon={<AppRegistrationIcon/>}/>
        </Box>
       )}
       <Box>

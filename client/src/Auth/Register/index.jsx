@@ -1,7 +1,9 @@
-import { useDispatch } from "react-redux";
-import { Box, Button } from "@mui/material";
-import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { registerUser } from "../../redux/actions/AuthAction";
+import { Box, Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+import styled from "@emotion/styled";
+import { useState } from "react";
 import {
   FilledInput,
   FormControl,
@@ -9,9 +11,10 @@ import {
   InputAdornment,
   InputLabel,
 } from "@mui/material";
-import { registerUser } from "../../redux/actions/AuthAction";
+
 const Register = () => {
   const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -19,58 +22,71 @@ const Register = () => {
     email: "",
     password: "",
   });
+
   const register = async (e) => {
     e.preventDefault();
     dispatch(registerUser(formData));
   };
+
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (e) => {
     e.preventDefault();
   };
+
   const handleInputChance = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const FormControlStyled=styled(FormControl)({
+    variant: "filled",
+    width: "100%",
+
+  });
+  
   return (
-    <Box sx={{
-      width: "100%",
-    }}>
-      <form onSubmit={register}
-      style={{
+    <Box
+      sx={{
         width: "100%",
-        height: "100%",
+        minHeight: "50vh",
         display: "flex",
-        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        gap: "20px",
-      }}>
-     
-        <Box sx={{ display: "flex", gap: "30px" }}>
-          <FormControl variant="standard" sx={{ width: "50%" }}>
-            <InputLabel>Ad</InputLabel>
-            <FilledInput
-              sx={{ background: "none", width: "100%" }}
-              value={formData.name}
-              onChange={handleInputChance}
-              name="name"
-              required
-            />
-          </FormControl>
+      }}
+    >
+      <form
+        onSubmit={register}
+        style={{
+          minWidth:"30vw",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "2rem",
+        }}
+      >
+        <FormControlStyled>
+          <InputLabel>Ad</InputLabel>
+          <FilledInput
+            sx={{ background: "none", width: "100%" }}
+            value={formData.name}
+            onChange={handleInputChance}
+            name="name"
+            required
+          />
+        </FormControlStyled>
 
-          <FormControl variant="filled" sx={{ width: "50%" }}>
-            <InputLabel>Soyad</InputLabel>
-            <FilledInput
-              sx={{ background: "none", width: "100%" }}
-              value={formData.surname}
-              onChange={handleInputChance}
-              name="surname"
-              required
-            />
-          </FormControl>
-        </Box>
+        <FormControlStyled>
+          <InputLabel>Soyad</InputLabel>
+          <FilledInput
+            sx={{ background: "none", width: "100%" }}
+            value={formData.surname}
+            onChange={handleInputChance}
+            name="surname"
+            required
+          />
+        </FormControlStyled>
 
-        <FormControl variant="filled" sx={{ width: "100%" }}>
+        <FormControlStyled>
           <InputLabel>Kullanıcı adı</InputLabel>
           <FilledInput
             sx={{ background: "none", width: "100%" }}
@@ -79,9 +95,9 @@ const Register = () => {
             name="username"
             required
           />
-        </FormControl>
+        </FormControlStyled>
 
-        <FormControl variant="filled" sx={{ width: "100%" }}>
+        <FormControlStyled>
           <InputLabel>Email</InputLabel>
           <FilledInput
             sx={{ background: "none", width: "100%" }}
@@ -91,12 +107,12 @@ const Register = () => {
             type="email"
             required
           />
-        </FormControl>
+        </FormControlStyled>
 
-        <FormControl variant="filled" sx={{ width: "100%" }}>
+        <FormControlStyled sx={{width: "90%"}}>
           <InputLabel htmlFor="filled-adornment-password">Şifre</InputLabel>
           <FilledInput
-            sx={{ background: "none" }}
+            sx={{ background: "none", width: "100%" }}
             value={formData.password}
             onChange={handleInputChance}
             name="password"
@@ -117,14 +133,17 @@ const Register = () => {
               </InputAdornment>
             }
           />
-        </FormControl>
+        </FormControlStyled>
 
-        <Button type="submit" sx={{
-          color: "primary",
-          border: "1px solid gray",
-          borderRadius: "20px",
-          padding: "5px 30px",
-        }}>
+        <Button
+          type="submit"
+          sx={{
+            color: "primary",
+            border: "1px solid gray",
+            borderRadius: "20px",
+            padding: "5px 30px",
+          }}
+        >
           Kayıt Ol
         </Button>
       </form>

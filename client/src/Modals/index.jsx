@@ -7,7 +7,8 @@ import {
   Box,
 } from "@mui/material";
 import { useState } from "react";
-const LoginModal = ({buttonText,component,icon}) => {
+import PropTypes from "prop-types";
+const Modal = ({buttonText,component,icon}) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -31,14 +32,9 @@ const LoginModal = ({buttonText,component,icon}) => {
         open={open}
         onClose={handleClose}
         aria-labelledby="login-dialog-title"
-        maxWidth="xl"
+        maxWidth="md"
         fullWidth={true}
-        sx={{
-          "& .MuiDialog-paper": {
-            width: "90vw",
-            minHeight: "70vh",
-          },
-        }}
+       
       >
         <DialogTitle
           id="login-dialog-title"
@@ -63,4 +59,9 @@ const LoginModal = ({buttonText,component,icon}) => {
     </Box>
   );
 };
-export default LoginModal;
+export default Modal;
+Modal.propTypes = {
+  buttonText: PropTypes.string,
+  component: PropTypes.element,
+  icon: PropTypes.element,
+};

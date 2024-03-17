@@ -5,7 +5,7 @@ import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { useState } from "react";
 import { Box, Button, Paper, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { createProject } from "../../../redux/actions/ProjectAction";
+import { createProject } from "../../redux/actions/ProjectAction";
 import { useTheme } from "@mui/material/styles";
 
 const NewProject = () => {
@@ -49,31 +49,20 @@ const isMobile = useMediaQuery("(max-width: 1234px)");
 
   return (
    
-     
-      <Box
-      sx={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection:isMobile ? "column" : "row",
-        overflow: "hidden",
-        gap: "20px",
-
-      }}>
-       <Avatar
-          alt="Remy Sharp"
-          src={user.avatar}
-          sx={{ width: "15vh", height: "15vh", maxHeight: "200px", maxWidth: "200px", margin: "0 auto"}}
-        />
         <form onSubmit={handleSubmit}
         style={{
-          padding: "1rem",
           width: isMobile?"100%": "80%",
+          paddingTop:isMobile ?"200px":"0",
           display: "flex",
           flexDirection: "column",
           gap: "15px",
         
         }}>
+           <Avatar
+          alt="Proje icon"
+          src={user.avatar}
+          sx={{ width: "10vh", height: "10vh", maxHeight: "200px", maxWidth: "200px"}}
+        />
           <TextField
             onChange={(e) => {
               setProjectName(e.target.value);
@@ -179,11 +168,6 @@ const isMobile = useMediaQuery("(max-width: 1234px)");
             PaperComponent={({ children }) => (
               <Paper sx={{ backgroundColor: `${theme.palette.mode === "dark" ? "black" : "primary"}` }}>{children}</Paper>
             )}
-            
-                
-               
-             
-           
           />
 
           <Box>
@@ -194,7 +178,6 @@ const isMobile = useMediaQuery("(max-width: 1234px)");
               width: "90%",
               height: "40px",
               borderRadius: "60px",
-              fontSize: ".5rem",
               borderColor: "gray",
               "&:hover": {
                 borderColor: "white",
@@ -205,7 +188,6 @@ const isMobile = useMediaQuery("(max-width: 1234px)");
             </Button>
           </Box>
         </form>
-    </Box>
   );
 };
 

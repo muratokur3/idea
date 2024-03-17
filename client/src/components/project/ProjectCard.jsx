@@ -15,7 +15,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import IosShareIcon from "@mui/icons-material/IosShare";
 import { Box } from "@mui/material";
-import ActionsButton from "../../../Modals/ActionsButton";
+import ActionsButton from "../../Modals/ActionsButton";
 import { useNavigate } from "react-router-dom";
 import {useTheme} from "@mui/material/styles";
 const webSiteUrl=import.meta.env.VITE_WEBSITE_BASE_URL;

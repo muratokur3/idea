@@ -10,21 +10,26 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useLocation, useNavigate } from "react-router-dom";
-import {useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./scss/main-menu.scss";
-import { useTheme } from '@mui/material/styles';
-import NewPostModal from "../../Modals/NewPostModal";
+import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
+import Modal from "../../Modals";
+import NewPost from "../post/NewPost";
 const Menu = () => {
   const navigate = useNavigate();
-  const isLoggedIn = useSelector(state => state.session && state.session.authenticated);
-  const username = useSelector((state) => state.session && state.session.user.username);
+  const isLoggedIn = useSelector(
+    (state) => state.session && state.session.authenticated
+  );
+  const username = useSelector(
+    (state) => state.session && state.session.user.username
+  );
   const location = useLocation();
   const locPath = location.pathname;
 
   const theme = useTheme();
   const widthThreshold = useMediaQuery("(max-width: 1234px)");
- 
+
   return (
     <div id="main-menu-container">
       <List
@@ -35,10 +40,14 @@ const Menu = () => {
           gap: "20px",
         }}
       >
-        <ListItem disablePadding className={locPath === "/" ? "active" : ""} sx={{width: widthThreshold ? "60px" : "95%"}} >
+        <ListItem
+          disablePadding
+          className={locPath === "/" ? "active" : ""}
+          sx={{ width: widthThreshold ? "60px" : "95%" }}
+        >
           <ListItemButton onClick={() => navigate("/")}>
             <ListItemIcon>
-            <HomeIcon/>
+              <HomeIcon />
             </ListItemIcon>
             <ListItemText
               primary="Anasayfa"
@@ -50,15 +59,16 @@ const Menu = () => {
         <ListItem
           disablePadding
           className={locPath === "/explore" ? "active" : ""}
-          sx={{width: widthThreshold ? "60px" : "95%"}}
+          sx={{ width: widthThreshold ? "60px" : "95%" }}
         >
           <ListItemButton onClick={() => navigate("/explore")}>
             <ListItemIcon>
-              <SearchIcon/>
+              <SearchIcon />
             </ListItemIcon>
-            <ListItemText primary="Keşfet" 
+            <ListItemText
+              primary="Keşfet"
               primaryTypographyProps={{ color: theme.palette.primary.main }}
-              />
+            />
           </ListItemButton>
         </ListItem>
 
@@ -67,67 +77,74 @@ const Menu = () => {
             <ListItem
               disablePadding
               className={locPath === "/favorite" ? "active" : ""}
-              sx={{width: widthThreshold ? "60px" : "95%"}}
+              sx={{ width: widthThreshold ? "60px" : "95%" }}
             >
               <ListItemButton onClick={() => navigate("/favorite")}>
                 <ListItemIcon>
-                  <StarBorderIcon/>
+                  <StarBorderIcon />
                 </ListItemIcon>
-                <ListItemText primary="Favorile"
-              primaryTypographyProps={{ color: theme.palette.primary.main }}
-              />
+                <ListItemText
+                  primary="Favorile"
+                  primaryTypographyProps={{ color: theme.palette.primary.main }}
+                />
               </ListItemButton>
             </ListItem>
 
             <ListItem
               disablePadding
               className={locPath === "/MyLikes" ? "active" : ""}
-              sx={{width: widthThreshold ? "60px" : "95%"}}
+              sx={{ width: widthThreshold ? "60px" : "95%" }}
             >
               <ListItemButton onClick={() => navigate("/MyLikes")}>
                 <ListItemIcon>
                   <FavoriteBorderIcon />
                 </ListItemIcon>
-                <ListItemText primary="Beğeni" 
-              primaryTypographyProps={{ color: theme.palette.primary.main }}
-              />
+                <ListItemText
+                  primary="Beğeni"
+                  primaryTypographyProps={{ color: theme.palette.primary.main }}
+                />
               </ListItemButton>
             </ListItem>
 
             <ListItem
               disablePadding
               className={locPath === `/${username}` ? "active" : ""}
-              sx={{width: widthThreshold ? "60px" : "95%"}}
+              sx={{ width: widthThreshold ? "60px" : "95%" }}
             >
               <ListItemButton onClick={() => navigate(`/${username}`)}>
                 <ListItemIcon>
                   <PermIdentityIcon />
                 </ListItemIcon>
-                <ListItemText primary="Profilim" 
-              primaryTypographyProps={{ color: theme.palette.primary.main }}
-              />
+                <ListItemText
+                  primary="Profilim"
+                  primaryTypographyProps={{ color: theme.palette.primary.main }}
+                />
               </ListItemButton>
             </ListItem>
 
             <ListItem
               disablePadding
               className={locPath === "/settings" ? "active" : ""}
-              sx={{width: widthThreshold ? "60px" : "95%"}}
+              sx={{ width: widthThreshold ? "60px" : "95%" }}
             >
               <ListItemButton onClick={() => navigate("/settings")}>
                 <ListItemIcon>
                   <SettingsIcon />
                 </ListItemIcon>
-                <ListItemText primary="Ayarlar" 
-              primaryTypographyProps={{ color: theme.palette.primary.main }}
-              />
+                <ListItemText
+                  primary="Ayarlar"
+                  primaryTypographyProps={{ color: theme.palette.primary.main }}
+                />
               </ListItemButton>
             </ListItem>
           </>
         )}
       </List>
       {isLoggedIn && (
-        <NewPostModal/>
+        <Modal
+          buttonText="Tazze bir Fikir"
+          component={<NewPost/>}
+        />
       )}
     </div>
   );

@@ -21,18 +21,22 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import EditProfileModal from "../../Modals/EditProfileModal";
+import Modal from "../../Modals";
+import EditProfile from "./EditProfile";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+
 /* eslint-disable react/prop-types */
 const UserDetail = ({ profileData }) => {
   const dispatch = useDispatch();
   const activeUser = useSelector((state) => state.session && state.session.user);
   const activeUserId = activeUser._id;
-  const profileUSerData = useSelector((state) => state.profile.user);
-  const profileUserPosts = useSelector((state) => state.posts.profilePosts);
+  const loginedUser = useSelector((state) => state?.profile?.user);
+  const profileUserPosts = useSelector((state) => state?.posts?.profilePosts);
   const navigate = useNavigate();
   const handleFollow = () => {
     activeUserId !== profileData?.user?._id &&
       (profileData?.followers?.length > 0 &&
-      profileUSerData?.followers?.some((id) => id === activeUserId)
+      loginedUser?.followers?.some((id) => id === activeUserId)
         ? dispatch(unfollow(activeUserId, profileData?.user._id, activeUser))
         : dispatch(follow(activeUserId, profileData.user._id, activeUser)));
   };
@@ -76,12 +80,12 @@ const UserDetail = ({ profileData }) => {
 
               {isMobile && (
                 <Box marginTop="15px">
-                  {activeUser && profileUSerData._id === activeUserId ? (
+                  {activeUser && loginedUser._id === activeUserId ? (
                     <EditProfileModal />
                   ) : (
                     <Button aria-label="contained" onClick={handleFollow}>
                       {profileData?.followers?.length > 0 &&
-                      profileUSerData?.followers?.some(
+                      loginedUser?.followers?.some(
                         (id) => id === activeUserId
                       )
                         ? "Takibi Bırak"
@@ -105,12 +109,14 @@ const UserDetail = ({ profileData }) => {
                   !isMobile &&
                   isLoggedIn &&(
                     <Box>
-                      {activeUser && profileUSerData._id === activeUserId ? (
-                        <EditProfileModal />
+                      
+
+                      {activeUser && loginedUser._id === activeUserId ? (
+                       <Modal buttonText="Profili Düzenle" component={<EditProfile user={loginedUser} />} icon={<AppRegistrationIcon/>}/>
                       ) : (
                         <Button aria-label="contained" onClick={handleFollow}>
                           {profileData?.followers?.length > 0 &&
-                          profileUSerData?.followers?.some(
+                          loginedUser?.followers?.some(
                             (id) => id === activeUserId
                           )
                             ? "Takibi Bırak"

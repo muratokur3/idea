@@ -1,12 +1,13 @@
 import ProjectCard from "./ProjectCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getProjects } from '../../../redux/actions/ProjectAction'
+import { getProjects } from '../../redux/actions/ProjectAction'
 import InfinieScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
-import ProjectSkeleton from '../../skeleton/ProjectSkeleton'
-import NewProjectModal from "../../../Modals/NewProjectModal";
+import ProjectSkeleton from '../skeleton/ProjectSkeleton'
 import { Box } from "@mui/material";
+import Modal from "../../Modals";
+import NewProject from "./NewProject";
 
 const Project = () => {
   const projectData = useSelector((state) => state.project);
@@ -28,7 +29,10 @@ const Project = () => {
 
     }}>
      {username === activeUser?.username && (
-     <NewProjectModal />
+     <Modal
+     buttonText="Yeni proje Ekle"
+     component={<NewProject/>}
+   />
       )}
       {projectData.projects.map((project, index) => (
         <ProjectCard key={index} project={project} />

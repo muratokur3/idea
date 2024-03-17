@@ -10,9 +10,8 @@ import {
   InputLabel,
 } from "@mui/material";
 import { loginClient } from "../../redux/actions/AuthAction";
-
+import styled from "@emotion/styled";
 const Login = () => {
-
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
@@ -34,22 +33,33 @@ const Login = () => {
   const handleMouseDownPassword = (e) => {
     e.preventDefault();
   };
+
+  const FormControlStyled=styled(FormControl)({
+    variant: "filled",
+    width: "100%",
+
+  });
   return (
     <Box
-    sx={{
-     width: "100%",
-    }} >
-      <form onSubmit={login}
-      style={{
+      sx={{
         width: "100%",
-        height: "100%",
+        minHeight: "40vh",
         display: "flex",
-        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        gap: "20px",
-      }}>
-        <FormControl variant="filled" sx={{ width: "50%" }}>
+      }}
+    >
+      <form
+        onSubmit={login}
+        style={{
+          minWidth:"35vw",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "2rem",
+        }}
+      >
+        <FormControlStyled>
           <InputLabel>Email</InputLabel>
           <FilledInput
             sx={{ background: "none", width: "100%" }}
@@ -58,9 +68,9 @@ const Login = () => {
             name="email"
             required
           />
-        </FormControl>
+        </FormControlStyled>
 
-        <FormControl variant="filled" sx={{ width: "50%" }}>
+        <FormControlStyled>
           <InputLabel htmlFor="filled-adornment-password">Şifre</InputLabel>
           <FilledInput
             sx={{ background: "none" }}
@@ -83,14 +93,17 @@ const Login = () => {
               </InputAdornment>
             }
           />
-        </FormControl>
+        </FormControlStyled>
 
-        <Button type="submit" sx={{
-          color: "primary",
-          border: "1px solid gray",
-          borderRadius: "20px",
-          padding: "5px 30px",
-        }}>
+        <Button
+          type="submit"
+          sx={{
+            color: "primary",
+            border: "1px solid gray",
+            borderRadius: "20px",
+            padding: "5px 30px",
+          }}
+        >
           Giriş Yap
         </Button>
       </form>

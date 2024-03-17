@@ -1,9 +1,8 @@
-
 import Avatar from "@mui/material/Avatar";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import { Box, Button, Paper } from "@mui/material";
+import { Box, Button, Paper, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { createPost } from "../../redux/actions/PostActions";
@@ -34,43 +33,28 @@ const NewPost = () => {
     hashtags.length > 0 && dispatch(getHashtags());
   }, []);
 
-const theme=useTheme();
-
-
-
-
-
-
+  const theme = useTheme();
+  const isMobile = useMediaQuery("(max-width: 1234px)");
   return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "auto",
-        minHeight: "20vh",
-        maxHeight: "50vh",
+    <form
+      onSubmit={handleSubmit}
+      style={{
         display: "flex",
+        flexDirection: isMobile ? "column" : "row",
         padding: "1rem",
         gap: "1rem",
         background: "none",
-        position: "relative",
       }}
     >
-      <Avatar
-        alt="Remy Sharp"
-        src={user?.avatar}
-        sx={{ width: 80, height: 80 }}
-      />
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          width: "90%",
-          height: "auto",
-          display: "flex",
-          flexDirection: "column",
-          background: "none",
-        }}
-      >
-     
+      <Box>
+        <Avatar
+          alt="Remy Sharp"
+          src={user?.avatar}
+          sx={{ width: "5vh", height: "5vh", marginBottom: "1rem" }}
+        />
+      </Box>
+
+      <Box>
         <TextareaAutosize
           className="title-textarea"
           value={title}
@@ -82,7 +66,7 @@ const theme=useTheme();
           maxLength={175}
           placeholder="Başlık"
           style={{
-          width: "100%",
+            width: "100%",
             border: "none",
             outline: "none",
             fontSize: "1.1rem",
@@ -126,8 +110,6 @@ const theme=useTheme();
           }}
           required
         />
-
-
         <Autocomplete
           onChange={(e, value) => {
             setSelectedHashtags(value);
@@ -148,17 +130,22 @@ const theme=useTheme();
                 "& .MuiInputBase-input::placeholder": { color: "white" },
               }}
               InputLabelProps={{
-                style: {color: `${theme.palette.primary.main}`,
-              },
+                style: { color: `${theme.palette.primary.main}` },
               }}
             />
           )}
           PaperComponent={({ children }) => (
-            <Paper sx={{ backgroundColor: `${theme.palette.mode === "dark" ? "black" : "primary"}` }}>{children}</Paper>
+            <Paper
+              sx={{
+                backgroundColor: `${
+                  theme.palette.mode === "dark" ? "black" : "primary"
+                }`,
+              }}
+            >
+              {children}
+            </Paper>
           )}
         />
-
-
         <Button
           type="submit"
           id="new-post-submit"
@@ -179,8 +166,8 @@ const theme=useTheme();
         >
           Paylaş
         </Button>
-      </form>
-    </Box>
+      </Box>
+    </form>
   );
 };
 

@@ -13,8 +13,8 @@ const qusetRoute = require("./quest.js");
 
 router.use("/auth", authRoute);
 router.use("/quest", qusetRoute);
+router.use("/search", searchRoute);
 router.use("/users",checkJwt, UserRoute);
-router.use("/search",checkJwt, searchRoute);
 router.use("/posts",checkJwt, postRoute);
 router.use("/hashtags",checkJwt, hashtagRoute);
 router.use("/projects",checkJwt, projectRoute);

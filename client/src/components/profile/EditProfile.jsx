@@ -117,7 +117,6 @@ const EditProfile = (user) => {
     <form
       onSubmit={handleSubmit}
       encType="multipart/form-data"
-     
     >
       <Card
         id="user-detail-card"
@@ -128,13 +127,15 @@ const EditProfile = (user) => {
           alignItems: "center",
           justifyContent: "center",
           gap: "10px",
+          paddingBottom: "20px",
+          paddingTop:isMobile&& "10vh",
         }}
       >
         <Box
           sx={{
             position: "relative",
             width: "100%",
-          }}
+        }}
         >
           <img
             src={background.adress}
@@ -143,17 +144,17 @@ const EditProfile = (user) => {
               height: "20vh",
               minHeight: "400px",
               objectFit: "cover",
-              borderBottomRightRadius: "100px",
-              borderBottomLeftRadius: "100px",
+              borderBottomRightRadius: isMobile ? "50px" : "100px",
+              borderBottomLeftRadius: isMobile ? "50px" : "100px",
             }}
           />
           <Button
             sx={{
-              width: "140px",
-              height: "140px",
+              width: "5vh",
+              height: "5vh",
               position: "absolute",
-              bottom: "0",
-              right: "0",
+              bottom: "3%",
+              right: "3%",
             }}
             onClick={() => {
               backgroundFileInputRef.current.click();
@@ -180,17 +181,19 @@ const EditProfile = (user) => {
            isMobile&& <Box
               sx={{
                 position: "relative",
+                
               }}
             >
               
               <Avatar
                 src={avatar.adress}
                 sx={{
-                  width: "15vw",
-                  height: "15vw",
+                  width: "15vh",
+                  height: "15vh",
                   maxHeight: "150px",
                   maxWidth: "150px",
                   border: "5px solid black",
+
                 }}
                 aria-label="recipe"
               >
@@ -231,6 +234,7 @@ const EditProfile = (user) => {
         <CardHeader
           sx={{
             background: "none",
+            width:isMobile?"70%": "90%",
             color: "white",
             display: "flex",
             alignItems: "start",
@@ -245,8 +249,8 @@ const EditProfile = (user) => {
               <Avatar
                 src={avatar.adress}
                 sx={{
-                  width: "15vw",
-                  height: "15vw",
+                  width: "15vh",
+                  height: "15vh",
                   maxHeight: "150px",
                   maxWidth: "150px",
                   border: "5px solid black",
@@ -289,15 +293,10 @@ const EditProfile = (user) => {
           title={
             <Card
               sx={{
-                background: "transparent",
+                background: "transparent"
               }}
             >
               <CardHeader
-                action={
-                <Button type="submit" >
-                    Kaydet
-                  </Button>
-                }
                 title={
                   <Box sx={{ display: "flex",flexDirection:isMobile?"column":"row", gap: "10px" }}>
                     
@@ -318,7 +317,7 @@ const EditProfile = (user) => {
                       variant="filled"
                       sx={{ color: "white" }}
                     >
-                      <InputLabel sx={{ background: "none", color: "gray" }}>
+                      <InputLabel sx={{ background: "none", }}>
                         Soyad
                       </InputLabel>
                       <FilledInput
@@ -475,6 +474,11 @@ const EditProfile = (user) => {
             />
           </FormControl>
         </CardActions>
+        
+                <Button variant="outlined" type="submit">
+                    Kaydet
+                  </Button>
+                
       </Card>
     </form>
   );
