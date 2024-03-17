@@ -106,7 +106,10 @@ const Sidebar = () => {
           />
         </Details>
       ) : (
-       <Box>
+       <Box sx={{display:"flex",
+       flexDirection:"column",
+       gap:"1rem",
+       }}> 
          <Modal buttonText="giriş yap" component={<Login/>} icon={<LoginIcon/>}/>
          <Modal buttonText="kayıt ol" component={<Register/>} icon={<AppRegistrationIcon/>}/>
        </Box>

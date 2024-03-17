@@ -234,7 +234,8 @@ const EditProfile = (user) => {
         <CardHeader
           sx={{
             background: "none",
-            width:isMobile?"70%": "90%",
+            width:isMobile?"100%": "90%",
+            maxWidth: isMobile ?"500px":"800",
             color: "white",
             display: "flex",
             alignItems: "start",
@@ -400,6 +401,8 @@ const EditProfile = (user) => {
 
         <CardActions
           sx={{
+            width:isMobile?"100%": "90%",
+            maxWidth: isMobile ?"500px":"800",
             display: "flex",
             flexWrap: "wrap",
             gap: "2%",
