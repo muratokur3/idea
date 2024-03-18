@@ -1,6 +1,8 @@
 import axios from "axios";
 import { sessionService } from "redux-react-session";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 const instance = axios.create({
+  baseURL,
   headers: {
     "Content-Type": "application/json",
   },

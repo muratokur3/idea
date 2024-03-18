@@ -7,25 +7,30 @@ import {
 } from "../../redux/actions/HashtagsAction";
 
 const FollowHashtags = ({ hashtagName }) => {
-    const dispatch = useDispatch();
-    const activeUser = useSelector((state) => state.session && state.session.user);
-    const activeUserHashtags = useSelector((state) => state.session && state.session.hashtags);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.session && state.session.authenticated);
+  const logginedUser = useSelector(
+    (state) => state.session && state.session.user
+  );
+  const logginedUserHashtags = logginedUser?.hashtags || [];
 
-    const handleFollowHashtag = () => {
-        dispatch(
-            new Set(activeUserHashtags).has(hashtagName)
-                ? unfollowHashtag(activeUser?._id, hashtagName)
-                : followHashtag(activeUser?._id, hashtagName)
-        );
-    };
-
-    return (
-        <Button aria-label="follow hashtag" onClick={handleFollowHashtag}>
-            {new Set(activeUserHashtags).has(hashtagName)
-                ? "takibi bırak"
-                : "takip et"}
-        </Button>
+  const handleFollowHashtag = () => {
+    dispatch(
+      new Set(logginedUserHashtags).has(hashtagName)
+        ? unfollowHashtag(hashtagName)
+        : followHashtag(hashtagName)
     );
+  };
+
+  return (
+    isLoggedIn && (
+      <Button aria-label="follow hashtag" onClick={handleFollowHashtag}>
+        {new Set(logginedUserHashtags).has(hashtagName)
+          ? "takibi bırak"
+          : "takip et"}
+      </Button>
+    )
+  );
 };
 
 export default FollowHashtags;

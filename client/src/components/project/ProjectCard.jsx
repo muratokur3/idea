@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 import LinkIcon from '@mui/icons-material/Link';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import IosShareIcon from "@mui/icons-material/IosShare";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import ActionsButton from "../../Modals/ActionsButton";
 import { useNavigate } from "react-router-dom";
 import {useTheme} from "@mui/material/styles";
@@ -64,33 +64,18 @@ const ProjectCard = ({ project }) => {
         action={
           <ActionsButton actions={[
              { label: "Bildir", onClick: () => {alert("Bildir")} },
-
+              {label:"profili ziyaret et", onClick:()=>navigate(`/${project?.username}`)},
            ]} />
          }
         title={project?.name}
-        titleTypographyProps={{ color: "primary", fontSize: "1.2rem" }}
+        titleTypographyProps={{ color: "primary",}}
         subheader={
-          <Box
-          sx={{
-            display: "flex",
-            gap: "10px",
-            alignItems: "center",
-          
-          }}>
             <Typography
             color="secondary"
-            sx={{ fontSize: "0.8rem", cursor: "pointer" }}
           >
             {project?.createDate}
           </Typography>
-          <Typography
-          color="secondary"
-            sx={{ fontSize: "0.8rem", cursor: "pointer" }}
-            onClick={() => navigate(`/${project?.username}`)}
-          >
-            @{project?.username}
-          </Typography>
-          </Box>
+         
         }
       />
 
@@ -100,26 +85,25 @@ const ProjectCard = ({ project }) => {
         >
           {project?.title}
         </Typography>
-        {/* {project?.hashtagsName.map((hashtag) => (
-          <Link
-            key={hashtag}
-            variant="body3"
-            style={{
-              textDecoration: "none",
-              fontSize: ".8rem",
-              display: "inline-block",
-              marginRight: "10px",
-              color: "black",
-              backgroundColor: "gray",
-              borderRadius: "10px",
-              padding: "5px",
-              cursor: "pointer",
-            }}
-            to={`/explore/${hashtag}`}
-          >
-            {hashtag}
-          </Link>
-        ))} */}
+        {project?.hashtagsName?.map((hashtag) => (
+             <Button
+             variant="outlined"
+             size="small"
+               key={hashtag}
+               sx={{
+                 textDecoration: "none",
+                 display: "inline-block",
+                 marginRight: "10px",
+                 color: `${theme.palette.primary.main}`,
+                 border: `.5px solid grey`,
+                 borderRadius: "10px",
+                 cursor: "pointer",
+               }}
+              //  onClick={()=>navigate(`/explore/${hashtag}`)}
+             >
+               {hashtag}
+             </Button>
+        ))}
       </CardContent>
       <CardActions
         disableSpacing

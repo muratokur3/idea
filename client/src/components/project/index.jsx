@@ -5,7 +5,7 @@ import { getProjects } from '../../redux/actions/ProjectAction'
 import InfinieScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
 import ProjectSkeleton from '../skeleton/ProjectSkeleton'
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Modal from "../../Modals";
 import NewProject from "./NewProject";
 
@@ -43,9 +43,9 @@ const Project = () => {
         hasMore={projectData.pagination.hasMore}
         loader={<ProjectSkeleton />}
         endMessage={
-          <p style={{ textAlign: "center", fontSize: ".8rem" }}>
+          <Typography sx={{ textAlign: "center", fontSize: ".8rem", color:"primary.main"}}>
             {projectData.projects.length} öğe
-          </p>
+          </Typography>
         }
       ></InfinieScroll>
     </Box>

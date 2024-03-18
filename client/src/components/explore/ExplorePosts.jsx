@@ -11,7 +11,6 @@ const ExploreLayout = () => {
   const dispatch = useDispatch();
   const { hashtag } = useParams();
   const hashtagExploreData = useSelector((state) => state.posts.hashtagExplore);
-  const activeUser = useSelector((state) => state.session && state.session.user);
   useEffect(() => {
     dispatch(getHashtagExploreData({page:1,hasMore:true}, hashtag));
   }, [hashtag,dispatch]);
@@ -30,7 +29,7 @@ const ExploreLayout = () => {
         fontSize: "2rem",
       }}>#{hashtag}</Typography>
       {
-        activeUser._id && <FollowHashtags hashtagName={hashtag} />
+        <FollowHashtags hashtagName={hashtag} />
       }
       </Box> 
 

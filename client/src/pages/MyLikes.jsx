@@ -9,7 +9,6 @@ const MyLikes = () => {
   const dispatch=useDispatch();
   useEffect(() => {
     dispatch(getProfileLikesPosts({ page: 1, hasMore: true }, username));
-  
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

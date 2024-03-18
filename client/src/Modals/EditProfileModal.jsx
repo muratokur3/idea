@@ -14,7 +14,7 @@ const EditProfileModal = () => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const loginedUser = useSelector((state) => state.profile.user);
+  const loginedUser = useSelector((state) => state.session && state.session.user);
   return (
     <Box>
       <Button

@@ -4,6 +4,7 @@ const initialState = {
   user: {},
   followers: [],
   following: [],
+  
 };
 const profileSlice = createSlice({
   name: "profile",
@@ -20,6 +21,7 @@ const profileSlice = createSlice({
     },
     ubdateUserFollow: (state, action) => {
       const newUser = action.payload;
+      
       state.following = state.following.map((user) =>
         user._id === newUser._id ? newUser : user
       );
@@ -27,12 +29,12 @@ const profileSlice = createSlice({
       state.followers = state.followers.map((user) =>
         user._id === newUser._id ? newUser : user
       );
-      state.user = {
-        ...state.user,
-        followers: new Set(state.user.followers).has(newUser._id)
-          ? state.user.followers.filter((id) => id !== newUser._id)
-          : [...state.user.followers, newUser._id],
-      };
+      // state.user = {
+      //   ...state.user,
+      //   followers: new Set(state.user.followers).has(newUser._id)
+      //     ? state.user.followers.filter((id) => id !== newUser._id)
+      //     : [...state.user.followers, newUser._id],
+      // };
     },
    
   },

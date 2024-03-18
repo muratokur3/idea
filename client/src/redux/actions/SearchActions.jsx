@@ -4,7 +4,7 @@ import { setSearch } from "../slices/SearchSlice";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const getSearchResults = (searchReq) => async (dispatch) => {
-  const response = await axios.get(`${apiUrl}/api/search/${searchReq.text}`, {
+  const response = await axios.get(`search/${searchReq.text}`, {
     params: {
       searchFilter: searchReq.searchFilter,
     }

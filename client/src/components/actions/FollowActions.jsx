@@ -1,25 +1,39 @@
 import { Button } from "@mui/material";
 import PropTypes from "prop-types";
 import { follow, unfollow } from "../../redux/actions/ProfileAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const FollowActions = ({user,activeUser}) => {
+const FollowActions = ({ toFollowUserId }) => {
+  const isLoggedIn = useSelector(state => state.session && state.session.authenticated);
+  const logginedUser = useSelector(
+    (state) => state.session && state.session.user
+  );
+
   const dispatch = useDispatch();
-  const handleFollow = () => {
-      new Set(user?.followers).has(activeUser?._id)
-        ? dispatch(unfollow(activeUser?._id, user?._id, user))
-        : dispatch(follow(activeUser?._id, user?._id, user));
-  }
-  return (
-    <Button aria-label="follow" variant="contained" color="primary" size="small"
-    onClick={handleFollow}>
-      { new Set(user?.followers).has(activeUser?._id)? "Takibi Bırak" : "Takip Et"}
-    </Button>
-)
-}
 
-export default FollowActions
+  const handleFollow = () => {
+    new Set(logginedUser.following).has(toFollowUserId)
+      ? dispatch(unfollow(toFollowUserId))
+      : dispatch(follow(toFollowUserId));
+  };
+  return (
+    isLoggedIn&& logginedUser._id !== toFollowUserId && (
+      <Button
+        aria-label="follow"
+        variant="contained"
+        color="primary"
+        size="small"
+        onClick={handleFollow}
+      >
+        {new Set(logginedUser.following).has(toFollowUserId)
+          ? "Takibi Bırak"
+          : "Takip Et"}
+      </Button>
+    )
+  );
+};
+
+export default FollowActions;
 FollowActions.propTypes = {
-  user: PropTypes.object.isRequired,
-  activeUser: PropTypes.object.isRequired,
+  toFollowUserId: PropTypes.string.isRequired,
 };

@@ -16,7 +16,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import axios from '../../../axiosConfig';
 import { useSelector } from "react-redux";
-const urlApi = import.meta.env.VITE_API_BASE_URL;
+
 const ChangePassword = () => {
     const userId = useSelector((state) => state.session && state.session?.user?._id);
 
@@ -53,7 +53,7 @@ const ChangePassword = () => {
       return;
     }
     const response = await axios.post(
-      `${urlApi}/api/auth/changePassword/${userId}`,
+      `auth/changePassword/${userId}`,
       { oldPassword: formData.oldPassword, newPassword: formData.newPassword }
     );
     if (response.status !== 200) {

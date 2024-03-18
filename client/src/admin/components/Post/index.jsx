@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 const PostList = () => {
   const [data, setData] = useState([]);
   const getPosts = async () => {
-    const response = await axios.get("http://localhost:7000/api/posts");
+    const response = await axios.get("posts");
     setData(response.data);
   };
   const columns = [

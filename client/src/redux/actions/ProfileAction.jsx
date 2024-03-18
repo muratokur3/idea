@@ -1,14 +1,14 @@
-import axios from '../../../axiosConfig';
+import axios from "../../../axiosConfig";
 import {
   setFollowers,
   setFollowing,
   setProfile,
   ubdateUserFollow,
 } from "../slices/ProfileSlice";
-const apiUrl = import.meta.env.VITE_API_BASE_URL;
+import { sessionService } from 'redux-react-session';
 const getProfile = (Username) => async (dispatch) => {
   try {
-    const response = await axios.get(`${apiUrl}/api/quest/${Username}`);
+    const response = await axios.get(`quest/${Username}`);
     if (response.data) {
       dispatch(setProfile(response.data));
     }
@@ -17,17 +17,17 @@ const getProfile = (Username) => async (dispatch) => {
   }
 };
 
-const updateProfile =  (user, avatar,background) =>async (dispatch) => {
+const updateProfile = (user, avatar, background) => async (dispatch) => {
   const ubdateAvatar = async () => {
     try {
       console.log("Profil avatars güncelleniyor", avatar, user.username);
-  
+
       const formData = new FormData();
       const avatarData = await avatar; // Promise'in çözülmesini bekleyin
       formData.append("file", avatarData);
-  
+
       const response = await axios.post(
-        `${apiUrl}/api/users/upload/images?username=${user?.username}&folder=avatars`,
+        `users/upload/images?username=${user?.username}&folder=avatars`,
         formData,
         {
           headers: {
@@ -35,11 +35,11 @@ const updateProfile =  (user, avatar,background) =>async (dispatch) => {
           },
         }
       );
-  
+
       if (response.status === 200) {
         console.log("Profil avatars güncellendi", response.data.filename);
-        const newAvatarUrl = `${apiUrl}/uploads/images/avatars/${response.data.filename}`;
-       return newAvatarUrl;
+        const newAvatarUrl = `uploads/images/avatars/${response.data.filename}`;
+        return newAvatarUrl;
       } else {
         throw new Error("Profil avatars güncellenemedi");
       }
@@ -47,17 +47,17 @@ const updateProfile =  (user, avatar,background) =>async (dispatch) => {
       console.log("Profil avatars güncelleme hatası:", error.message);
     }
   };
-  
+
   const ubdateBackground = async () => {
     try {
       console.log("Profil arkaplan güncelleniyor", background, user.username);
-  
+
       const formData = new FormData();
       const backgroundData = await background; // Promise'in çözülmesini bekleyin
       formData.append("file", backgroundData);
-  
+
       const response = await axios.post(
-        `${apiUrl}/api/users/upload/images?username=${user?.username}&folder=backgrounds`,
+        `users/upload/images?username=${user?.username}&folder=backgrounds`,
         formData,
         {
           headers: {
@@ -65,30 +65,29 @@ const updateProfile =  (user, avatar,background) =>async (dispatch) => {
           },
         }
       );
-  
+
       if (response.status === 200) {
         console.log("Profil arkaplan güncellendi", response.data.filename);
-        const newBackgroundUrl = `${apiUrl}/uploads/images/backgrounds/${response.data.filename}`;
-       return newBackgroundUrl;
+        const newBackgroundUrl = `uploads/images/backgrounds/${response.data.filename}`;
+        return newBackgroundUrl;
       } else {
         throw new Error("Profil arkaplan güncellenemedi");
       }
     } catch (error) {
       console.log("Profil arkaplan güncelleme hatası:", error.message);
     }
-  }
+  };
 
   const newAvatarUrl = avatar ? await ubdateAvatar() : user?.avatar;
-  const newBackgroundUrl = background ? await ubdateBackground() : user?.background;
+  const newBackgroundUrl = background
+    ? await ubdateBackground()
+    : user?.background;
 
-  const response = await axios.put(
-    `${apiUrl}/api/users/ubdateUser/${user._id}`,
-    {
-      ...user,
-      avatar: newAvatarUrl,
-      background: newBackgroundUrl,
-    }
-  );
+  const response = await axios.put(`users/ubdateUser/${user._id}`, {
+    ...user,
+    avatar: newAvatarUrl,
+    background: newBackgroundUrl,
+  });
   if (response.status === 200) {
     alert("Profiliniz başarıyla güncellendi");
 
@@ -105,10 +104,7 @@ const updateProfile =  (user, avatar,background) =>async (dispatch) => {
 
 const getFollowers = (username) => async (dispatch) => {
   try {
-    const response = await axios.get(
-      `${apiUrl}/api/quest/followers/${username}`,
-      {}
-    );
+    const response = await axios.get(`quest/followers/${username}`, {});
 
     if (response.data) {
       dispatch(setFollowers(response.data));
@@ -120,10 +116,7 @@ const getFollowers = (username) => async (dispatch) => {
 
 const getFollowing = (username) => async (dispatch) => {
   try {
-    const response = await axios.get(
-      `${apiUrl}/api/quest/following/${username}`,
-      {}
-    );
+    const response = await axios.get(`quest/following/${username}`, {});
     if (response.data) {
       dispatch(setFollowing(response.data));
     }
@@ -132,46 +125,48 @@ const getFollowing = (username) => async (dispatch) => {
   }
 };
 
-const follow = (followerId, followingId, user) => async (dispatch) => {
-  if (!user) {
-    user = await axios.get(`${apiUrl}/api/users/id/${followingId}`);
-  }
+const follow = ( followingId) => async (dispatch) => {
   try {
+    const logginedUser = await sessionService.loadUser();
+    const logginedUserId = logginedUser._id;
+
     const response = await axios.put(
-      `${apiUrl}/api/users/follow/${followerId}/${followingId}`);
+      `users/follow/${logginedUserId}/${followingId}`
+    );
 
     if (response.status === 200) {
       console.log("Takip işlemi başarılı");
-
-      const newUser = {
-        ...user,
-        followers: new Set(user.followers).has(followerId)
-          ? user.followers
-          : [...user.followers, followerId],
+      const updatedUser = {
+        ...logginedUser,
+        following: [...logginedUser.following, followingId],
       };
-      dispatch(ubdateUserFollow(newUser));
+      await sessionService.saveUser(updatedUser);
+
+      dispatch(ubdateUserFollow(logginedUserId));
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-const unfollow = (followerId, followingId, user) => async (dispatch) => {
+const unfollow = (followingId) => async (dispatch) => {
   try {
+    const logginedUser = await sessionService.loadUser();
+    const logginedUserId = logginedUser._id;
+
     const response = await axios.put(
-      `${apiUrl}/api/users/unfollow/${followerId}/${followingId}`,
-      {}
-    );
+      `users/unfollow/${logginedUserId}/${followingId}`);
 
     if (response.status === 200) {
       console.log("Takip bırakma işlemi başarılı");
-      const newUser = {
-        ...user,
-        followers: new Set(user.followers).has(followerId)
-          ? user.followers.filter((id) => id !== followerId)
-          : user.followers,
+
+      const updatedUser = {
+        ...logginedUser,
+        following: logginedUser.following.filter((id)=>id!==followingId),
       };
-      dispatch(ubdateUserFollow(newUser));
+      await sessionService.saveUser(updatedUser);
+
+      dispatch(ubdateUserFollow(logginedUserId));
     }
   } catch (error) {
     console.log(error);

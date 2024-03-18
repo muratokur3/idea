@@ -22,7 +22,7 @@ const concatPostDetails = async (posts) => {
     return acc;
   }, []);
 
-  // Tek bir sorgu ile tüm hashtag detaylarını al
+  // Tüm hashtag detaylarını al
   const hashtagDetails = await HashtagChema.find({
     _id: { $in: hashtagIds },
   });
@@ -47,18 +47,35 @@ const concatPostDetails = async (posts) => {
   return postUser;
 };
 
-const concatProjectDetails = async (projects) => {
+const concatProjectDetails = async (projects,username) => {
   const userIds = projects.map((project) => project.userId);
   const userDetails = await UserChema.find({
     _id: { $in: userIds },
   });
+
+    // Benzersiz hashtag ID'lerini topla
+    const hashtagIds = projects.reduce((acc, project) => {
+      if (project.hashtags.length > 0) {
+        acc.push(...project.hashtags.map((hashtag) => hashtag.toString()));
+      }
+      return acc;
+    }, []);
+
+    // Tüm hashtag detaylarını al
+  const hashtagDetails = await HashtagChema.find({
+    _id: { $in: hashtagIds },
+  });
+
+  // Projeleri detayları ile birleştir
   const projectUser = projects.map((project) => {
-    const user = userDetails.find(
-      (user) => project.userId.toString() === user._id.toString()
-    );
+    const hashtags = hashtagDetails
+    .filter((hashtag) => project.hashtags.includes(hashtag._id.toString()))
+    .map((hashtag) => hashtag.name);
+    
     return {
       ...project._doc,
-      username: user.username,
+      username: username,
+      hashtagsName: hashtags,
     };
   });
   return projectUser;
@@ -269,7 +286,7 @@ router.get("/projects/:username", async (req, res) => {
     const username = req.params.username;
     const currentUser = await UserChema.findOne({ username: username });
     const page = parseInt(req.query.page);
-    const limit = 2;
+    const limit = 5;
     const startIndex = (page - 1) * limit;
 
     const projects = await ProjectChema.find({ userId: currentUser._id })
@@ -281,7 +298,7 @@ router.get("/projects/:username", async (req, res) => {
       page: page + 1,
       hasMore: projects.length < limit ? false : true,
     };
-    res.status(200).json({ projects:await concatProjectDetails(projects), pagination });
+    res.status(200).json({ projects:await concatProjectDetails(projects,username), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");

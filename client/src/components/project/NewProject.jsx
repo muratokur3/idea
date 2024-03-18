@@ -7,6 +7,7 @@ import { Box, Button, Paper, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { createProject } from "../../redux/actions/ProjectAction";
 import { useTheme } from "@mui/material/styles";
+import { getHashtags } from "../../redux/actions/HashtagsAction";
 
 const NewProject = () => {
 const theme = useTheme();
@@ -27,7 +28,7 @@ const isMobile = useMediaQuery("(max-width: 1234px)");
   const handleSubmit = (e) => {
     e.preventDefault();
     const newProjectData = {
-      userId: user.id,
+      userId: user._id,
       name: projectName,
       title: title,
       content,
@@ -153,6 +154,7 @@ const isMobile = useMediaQuery("(max-width: 1234px)");
             getOptionLabel={(option) => "#" + option.name}
             renderInput={(params) => (
               <TextField
+              onClick={()=>hashtags.length === 0 && dispatch(getHashtags())}
                 {...params}
                 label="#hashtag"
                 placeholder="#"

@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { Box, Button, Paper, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createPost } from "../../redux/actions/PostActions";
 import { getHashtags } from "../../redux/actions/HashtagsAction";
 import { useTheme } from "@mui/material/styles";
@@ -29,10 +29,6 @@ const NewPost = () => {
     setSelectedHashtags([]);
   };
 
-  useEffect(() => {
-    hashtags.length > 0 && dispatch(getHashtags());
-  }, []);
-
   const theme = useTheme();
   const isMobile = useMediaQuery("(max-width: 1234px)");
   return (
@@ -54,7 +50,9 @@ const NewPost = () => {
         />
       </Box>
 
-      <Box>
+      <Box
+        width="100%"
+      >
         <TextareaAutosize
           className="title-textarea"
           value={title}
@@ -62,18 +60,19 @@ const NewPost = () => {
             setTitle(e.target.value);
           }}
           minRows={3}
-          maxRows={3}
           maxLength={175}
           placeholder="Başlık"
           style={{
             width: "100%",
             border: "none",
             outline: "none",
-            fontSize: "1.1rem",
-            maxHeight: "500px",
+            fontSize:isMobile?"1rem": "1.1rem",
+            borderBottom: ".2rem solid rgba(107, 103, 103, 0.171)",
+            maxHeight: "80px",
+            padding: "5px",
             resize: "none",
+            lineHeight: "1.5",
             overflow: "hidden",
-            borderBottom: "1px solid rgba(171, 164, 164, 0.937)",
             "&::placeholder": {
               fontSize: "1.1rem",
             },
@@ -95,9 +94,10 @@ const NewPost = () => {
             width: "100%",
             border: "none",
             outline: "none",
-            fontSize: "1rem",
+            fontSize:isMobile?".8rem": "1.1rem",
             maxHeight: "500px",
             resize: "none",
+            lineHeight: "1.5",
             overflow: "hidden",
             paddingTop: "5px",
             "&::placeholder": {
@@ -123,6 +123,7 @@ const NewPost = () => {
           getOptionLabel={(option) => "#" + option.name}
           renderInput={(params) => (
             <TextField
+            onClick={()=>hashtags.length === 0 && dispatch(getHashtags())}
               {...params}
               label="#hashtag"
               placeholder="#"

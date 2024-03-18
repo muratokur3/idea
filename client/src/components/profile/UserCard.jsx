@@ -1,6 +1,5 @@
 import { Avatar,  CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import {  useSelector } from "react-redux";
 import CardHeader from "@mui/material/CardHeader";
 import { red } from "@mui/material/colors";
 import Card from "@mui/material/Card";
@@ -10,14 +9,14 @@ import { useTheme } from "@mui/material/styles";
 
 const UserCard = ({ user }) => {
   const navigate = useNavigate();
-  const activeUser = useSelector((state) => state.session && state.session.user);
+  
   const theme=useTheme();
 
   return (
     <Card
       sx={{
         maxWidth: "100%",
-        background: `${theme.palette.background.default}`,
+        background: `${theme.palette.postBackground.default}`,
         marginTop: "10px",
         borderRadius: "10px",
       }}
@@ -33,7 +32,7 @@ const UserCard = ({ user }) => {
           </Avatar>
         }
         action={
-      activeUser._id&&<Followactions user={user} activeUser={activeUser}/>
+    <Followactions toFollowUserId={user?._id}/>
         }
         title={`${user.name} ${user.surname}`}
         titleTypographyProps={{ fontSize: "1rem", color: "primary"}}

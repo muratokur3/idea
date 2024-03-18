@@ -1,4 +1,3 @@
-import { follow, unfollow } from "../../redux/actions/ProfileAction";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LanguageIcon from "@mui/icons-material/Language";
@@ -16,34 +15,25 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
+import {useSelector } from "react-redux";
+import {useNavigate } from "react-router-dom";
+import {useTheme } from "@mui/material/styles";
 import EditProfileModal from "../../Modals/EditProfileModal";
 import Modal from "../../Modals";
 import EditProfile from "./EditProfile";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import PropTypes from "prop-types";
+import FollowActions from "../actions/FollowActions";
 
-/* eslint-disable react/prop-types */
 const UserDetail = ({ profileData }) => {
-  const dispatch = useDispatch();
-  const activeUser = useSelector((state) => state.session && state.session.user);
-  const activeUserId = activeUser._id;
-  const loginedUser = useSelector((state) => state?.profile?.user);
+  const logginedUser = useSelector((state) => state.session && state.session.user);
+  const logginedUserId = logginedUser._id;
+
   const profileUserPosts = useSelector((state) => state?.posts?.profilePosts);
   const navigate = useNavigate();
-  const handleFollow = () => {
-    activeUserId !== profileData?.user?._id &&
-      (profileData?.followers?.length > 0 &&
-      loginedUser?.followers?.some((id) => id === activeUserId)
-        ? dispatch(unfollow(activeUserId, profileData?.user._id, activeUser))
-        : dispatch(follow(activeUserId, profileData.user._id, activeUser)));
-  };
 
   const theme = useTheme();
   const isMobile = useMediaQuery("(max-width: 1234px)");
-  const isLoggedIn = useSelector(state => state.session && state.session.authenticated);
   return (
     <>
       <Card
@@ -80,17 +70,10 @@ const UserDetail = ({ profileData }) => {
 
               {isMobile && (
                 <Box marginTop="15px">
-                  {activeUser && loginedUser._id === activeUserId ? (
+                  {logginedUser && profileData._id === logginedUserId ? (
                     <EditProfileModal />
                   ) : (
-                    <Button aria-label="contained" onClick={handleFollow}>
-                      {profileData?.followers?.length > 0 &&
-                      loginedUser?.followers?.some(
-                        (id) => id === activeUserId
-                      )
-                        ? "Takibi Bırak"
-                        : "Takip Et"}
-                    </Button>
+                 <FollowActions toFollowUserId={profileData?._id}/>
                   )}
                 </Box>
               )}
@@ -107,21 +90,14 @@ const UserDetail = ({ profileData }) => {
                 sx={{}}
                 action={
                   !isMobile &&
-                  isLoggedIn &&(
+                  logginedUser &&(
                     <Box>
                       
 
-                      {activeUser && loginedUser._id === activeUserId ? (
-                       <Modal buttonText="Profili Düzenle" component={<EditProfile user={loginedUser} />} icon={<AppRegistrationIcon/>}/>
+                      {logginedUser && profileData.user._id === logginedUserId ? (
+                       <Modal buttonText="Profili Düzenle" component={<EditProfile user={profileData.user} />} icon={<AppRegistrationIcon/>}/>
                       ) : (
-                        <Button aria-label="contained" onClick={handleFollow}>
-                          {profileData?.followers?.length > 0 &&
-                          loginedUser?.followers?.some(
-                            (id) => id === activeUserId
-                          )
-                            ? "Takibi Bırak"
-                            : "Takip Et"}
-                        </Button>
+                        <FollowActions toFollowUserId={profileData?.user?._id}/>
                       )}
                     </Box>
                   )
@@ -201,3 +177,6 @@ const UserDetail = ({ profileData }) => {
 };
 
 export default UserDetail;
+UserDetail.propTypes = {
+  profileData: PropTypes.object,
+};

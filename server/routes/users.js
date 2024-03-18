@@ -43,8 +43,6 @@ const storage = multer.diskStorage({
   },
 });
 
-
-
 // Multer ile dosya yükleme işlemi için middleware oluşturun
 const upload = multer({ storage: storage });
 

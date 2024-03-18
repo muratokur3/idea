@@ -27,7 +27,6 @@ router.get("/", async (req, res) => {
 });
 
 
-
 //tüm hashtag idlerini ve name leridöner
 // router.get("/", async (req, res) => {
 //   try {

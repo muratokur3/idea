@@ -1,17 +1,16 @@
 import axios from '../../../axiosConfig';
 import { setNewProject, setProjects } from "../slices/ProjectSlice";
 
-const apiUrl = import.meta.env.VITE_API_BASE_URL;
-
 const getProjects = (pagination, username) => async (dispatch) => {
   try {
-    const response = await axios.get(`${apiUrl}/api/quest/projects/${username}`, {
+    const response = await axios.get(`quest/projects/${username}`, {
       params: {
         page: pagination.page,
       }
       
     });
     if (response.status === 200 ) {
+      console.log(response.data);
       dispatch(setProjects(response.data));
     }
   } catch (error) {
@@ -21,7 +20,7 @@ const getProjects = (pagination, username) => async (dispatch) => {
 
 const createProject = (data) => async (dispatch) => {
   try {
-    const response = await axios.post(`${apiUrl}/api/projects`, data);
+    const response = await axios.post(`projects`, data);
 
     if (response.status === 200) {
       dispatch(setNewProject(response.data));

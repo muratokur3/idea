@@ -5,31 +5,31 @@ import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Collapse from "@mui/material/Collapse";
 import { Avatar, Box, Button } from "@mui/material";
 import { red } from "@mui/material/colors";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Card from "@mui/material/Card";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import ActionsButton from "../../Modals/ActionsButton";
-import { follow } from "../../redux/actions/ProfileAction";
 import LikeActions from "../actions/LikeActions";
 import FavoriteActions from "../actions/FavoriteActions";
 import { useTheme } from "@mui/material/styles";
+import FollowActions from "../actions/FollowActions";
 
-const Post = ({ post, activeUser }) => {
-  const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
+const Post = ({ post }) => {
+  const logginedUser = useSelector((state) => state.session && state.session.user);
+  const logginedUserId = logginedUser._id;
+
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  // eslint-disable-next-line no-unused-vars
-  const loginUserId = activeUser?._id;
   const theme = useTheme();
+  const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
   return (
     <Card
       sx={{
@@ -54,24 +54,15 @@ const Post = ({ post, activeUser }) => {
         }
         action={
           <Box display={"flex"}>
-            {loginUserId && (
+            {logginedUserId && (
               <Box>
-                {" "}
-                {post?.userId !== loginUserId &&
-                  (new Set(activeUser?.following).has(post?.userId) ? (
+                {post?.userId !== logginedUserId &&
+                  (new Set(logginedUser?.following).has(post?.userId) ? (
                     <Typography color="primary" sx={{ fontSize: "10px" }}>
                       Takibi Edilen
                     </Typography>
                   ) : (
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={() =>
-                        dispatch(follow(post?.userId, loginUserId, activeUser))
-                      }
-                    >
-                      Takip Et
-                    </Button>
+                   <FollowActions toFollowUserId={post?.userId}/>
                   ))}
               </Box>
             )}
@@ -83,7 +74,7 @@ const Post = ({ post, activeUser }) => {
                     alert("bildir");
                   },
                 },
-                post?.userId === loginUserId && {
+                post?.userId === logginedUserId && {
                   label: "Sil",
                   onClick: () => {
                     alert("sil");
@@ -143,12 +134,9 @@ const Post = ({ post, activeUser }) => {
         sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
       >
         <Box>
-          {activeUser._id && (
-            <>
-              <LikeActions post={post} loginUserId={loginUserId} />
-              <FavoriteActions post={post} loginUserId={loginUserId} />
-            </>
-          )}
+          
+              <LikeActions post={post} logginedUserId={logginedUserId}/>
+              <FavoriteActions post={post} logginedUserId={logginedUserId} />
 
           <IconButton
             aria-label="share"
@@ -195,5 +183,5 @@ const Post = ({ post, activeUser }) => {
 export default Post;
 Post.propTypes = {
   post: PropTypes.object,
-  activeUser: PropTypes.object,
+  logginedUser: PropTypes.object,
 };

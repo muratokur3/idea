@@ -10,13 +10,13 @@ import {
   setHashtagExplore,
   setUbdateData,
 } from "../slices/PostSlice";
-const urlApi = import.meta.env.VITE_API_BASE_URL;
+
 
 
 const getHomeData = (pagination, loginedUserId) => async (dispatch) => {
     try {
       const response = await axios.get(
-        `${urlApi}/api/posts/timeline/${loginedUserId}`,
+        `posts/timeline/${loginedUserId}`,
         {
           params: {
             page: pagination.page,
@@ -36,7 +36,7 @@ const getHomeData = (pagination, loginedUserId) => async (dispatch) => {
 
 const getHomeQuestData = (pagination) => async (dispatch) => {
     try {
-      const response = await axios.get(`${urlApi}/api/quest/posts/timeline`, {
+      const response = await axios.get(`quest/posts/timeline`, {
         params: {
           page: pagination.page,
         },
@@ -56,7 +56,7 @@ const getHomeQuestData = (pagination) => async (dispatch) => {
 const getPrivateMeData = (pagination, loginedUserId) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${urlApi}/api/posts/privateMe/${loginedUserId}`,
+      `posts/privateMe/${loginedUserId}`,
       {
         params: {
           page: pagination.page,
@@ -76,7 +76,7 @@ const getPrivateMeData = (pagination, loginedUserId) => async (dispatch) => {
 
 const getExploreData = (pagination) => async (dispatch) => {
   try {
-    const response = await axios.get(`${urlApi}/api/quest/posts/explore`, {
+    const response = await axios.get(`quest/posts/explore`, {
       params: {
         page: pagination.page,
       }
@@ -95,7 +95,7 @@ const getExploreData = (pagination) => async (dispatch) => {
 const getHashtagExploreData = (pagination, hashtag) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${urlApi}/api/quest/posts/explore/hashtag`,
+      `quest/posts/explore/hashtag`,
       {
         params: {
           hashtagname: hashtag,
@@ -118,7 +118,7 @@ const getHashtagExploreData = (pagination, hashtag) => async (dispatch) => {
 const getFavoritesPosts = (pagination, username) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${urlApi}/api/posts/favorite/${username}`,
+      `posts/favorite/${username}`,
       {
         params: {
           page: pagination.page,
@@ -141,7 +141,7 @@ const getFavoritesPosts = (pagination, username) => async (dispatch) => {
 const getProfilePosts = (pagination, username) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${urlApi}/api/quest/posts/profile/${username}`,
+      `quest/posts/profile/${username}`,
       {
         params: {
           page: pagination.page,
@@ -163,7 +163,7 @@ const getProfilePosts = (pagination, username) => async (dispatch) => {
 
 const getProfileLikesPosts = (pagination, username) => async (dispatch) => {
   try {
-    const response = await axios.get(`${urlApi}/api/posts/likes/${username}`, {
+    const response = await axios.get(`posts/likes/${username}`, {
       params: {
         page: pagination.page,
       },
@@ -182,7 +182,7 @@ const getProfileLikesPosts = (pagination, username) => async (dispatch) => {
 
 const createPost = (post) => async () => {
   try {
-    await axios.post(`${urlApi}/api/posts`, post);
+    await axios.post(`posts`, post);
   } catch (error) {
     console.error("veri kaydederken hata oluştu:", error);
   }
@@ -192,7 +192,7 @@ const like = (post, LoginUserId) => async (dispatch) => {
   try {
     // Sunucuya beğeni isteği gönder
     const response = await axios.post(
-      `${urlApi}/api/posts/like/${post._id}/${LoginUserId}`
+      `posts/like/${post._id}/${LoginUserId}`
     );
     const newPost =await {
       ...post,
@@ -219,7 +219,7 @@ const unLike = (post, LoginUserId) => async (dispatch) => {
   try {
 // Sunucuya beğeni geri alma isteği gönder
     const response = await axios.post(
-      `${urlApi}/api/posts/unlike/${post._id}/${LoginUserId}`);
+      `posts/unlike/${post._id}/${LoginUserId}`);
     const newPost =await {
       ...post,
       likes:
@@ -242,7 +242,7 @@ const unLike = (post, LoginUserId) => async (dispatch) => {
 const favorite = (post, loginedUserId) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${urlApi}/api/posts/favorites/${post._id}/${loginedUserId}`);
+      `posts/favorites/${post._id}/${loginedUserId}`);
     
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
@@ -265,7 +265,7 @@ const favorite = (post, loginedUserId) => async (dispatch) => {
 const unFavorite = (post, loginedUserId) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `${urlApi}/api/posts/unfavorites/${post._id}/${loginedUserId}`);
+      `posts/unfavorites/${post._id}/${loginedUserId}`);
     
 
     // Potansiyel hatalar için API yanıtını kontrol et

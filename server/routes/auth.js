@@ -64,7 +64,7 @@ router.post("/login", async (req, res) => {
       return hashtag.name;
     });
 
-    const userdata = {
+    const userData = {
       _id: user._id,
       name: user.name,
       surname: user.surname,
@@ -72,6 +72,9 @@ router.post("/login", async (req, res) => {
       email: user.email,
       avatar: user.avatar,
       bio: user.bio,
+      followers: user.followers,
+      following: user.following,
+      hashtags: hashtagNames,
     };
 
     const payload = {
@@ -92,8 +95,8 @@ router.post("/login", async (req, res) => {
       expires: new Date(Date.now() + 60 * 24 * 7 * 1000),
       maxAge: 1000 * 60 * 24 * 7,
     });
-
-    return res.status(200).json(userdata);
+    console.log("hashtags:", hashtagNames);
+    return res.status(200).json(userData);
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");

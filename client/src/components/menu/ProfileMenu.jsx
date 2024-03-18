@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 import { Tab, Tabs } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfilePage } from "../../redux/slices/UiSlice";
