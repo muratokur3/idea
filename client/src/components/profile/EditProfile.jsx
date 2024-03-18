@@ -4,6 +4,7 @@ import {
   FormControl,
   InputLabel,
   TextareaAutosize,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -24,8 +25,10 @@ import {
 import { useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { updateProfile } from "../../redux/actions/ProfileAction";
+import PropTypes from "prop-types";
 
-const EditProfile = (user) => {
+
+const EditProfile = ({user,modalAction}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery("(max-width: 1234px)");
 
@@ -34,14 +37,15 @@ const EditProfile = (user) => {
   const backgroundFileInputRef = useRef(null);
 
   const [avatar, setAvatar] = useState({
-    adress: user?.user?.avatar,
+    adress: user?.avatar,
     file: null,
   });
 
   const [background, setBackground] = useState({
-    adress: user?.user?.background,
+    adress: user?.background,
     file: null,
   });
+
 
   const [formData, setFormData] = useState({
     name: "",
@@ -56,32 +60,65 @@ const EditProfile = (user) => {
     twitter: "",
   });
 
+  // name surname inputları için regex.
+  const nameSurnameControl = (name, surname) => {
+    const regex = /^[a-zA-Z]{2,20}$/;
+    return (regex.test(name) && regex.test(surname))
+  };
+
+  // usernaem input kontrolü için regex
+  const usernameControl = (username) => {
+    const regex = /^[a-z0-9._]{3,20}$/;
+    return regex.test(username)
+  };
+
+  //location input kontrolü için türkçe karakter de kabul eden regex
+  const locationControl = (location) => {
+    const regex = /^[a-zA-ZığüşöçİĞÜŞÖÇ\s]{2,20}$/;
+    return regex.test(location)
+  };
+
   const handleInputChance = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  function validateInput(inputValue) {
-    const regex = /^(?!.*\b(www|http|https|\/)\b).*$/;
-    return regex.test(inputValue);
-  }
+  const validateInput = () => {
+    // verilen inputlarda wwww, https, .com, hhtp gibi kelimelerin olup olmadığını kontrol eden regex
+    const regex =
+      /^((?!www\.|github|youtube|twitter|\.com|http|https|:\/\/|https?:\/\/)[a-zA-Z0-9._-]+)$/;
+
+    return (
+      (formData.github.length === 0 || regex.test(formData.github)) &&
+      (formData.linkedin.length === 0 || regex.test(formData.linkedin)) &&
+      (formData.youtube.length === 0 || regex.test(formData.youtube)) &&
+      (formData.twitter.length === 0 || regex.test(formData.twitter))
+    );
+  };
+
+  const validateInputWbsite = () => {
+    // verilen inputlarda sadece domain girişi almaya zorlayan regex
+    const regex =
+      /^((?!www\.|www|http|https|:\/\/|https?:\/\/)[a-zA-Z0-9._-]+)$/;
+    return regex.test(formData.website);
+  };
+
+  const regexControl=()=>{
+    if (validateInput() && validateInputWbsite() && nameSurnameControl(formData.name, formData.surname) && usernameControl(formData.username) && locationControl(formData.location)){
+    {return true}
+  }}
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      validateInput(formData.github) &&
-      validateInput(formData.linkedin) &&
-      validateInput(formData.youtube) &&
-      validateInput(formData.website) &&
-      validateInput(formData.twitter)
-    ) {
+    if( regexControl()){
       const data = {
-        _id: user?.user?._id,
+        _id: user?._id,
         name: formData.name,
         surname: formData.surname,
         username: formData.username,
         bio: formData.bio,
         location: formData.location,
-        avatar: user?.user?.avatar,
-        background: user?.user?.background,
+        avatar: user?.avatar,
+        background: user?.background,
         socialAdress: {
           github: formData.github,
           linkedin: formData.linkedin,
@@ -91,33 +128,29 @@ const EditProfile = (user) => {
         },
       };
       dispatch(updateProfile(data, avatar.file, background.file));
+      modalAction.handleClose();
     } else {
-      alert(
-        "lütfen sosyal medya hesaplarınızda sadece kullanıcı adınızı giriniz"
-      );
+      alert("Lütfen bilgileri tekrar kontrol edin");
     }
   };
 
   useEffect(() => {
     setFormData({
-      name: user?.user?.name,
-      surname: user?.user?.surname,
-      username: user?.user?.username,
-      bio: user?.user?.bio,
-      location: user?.user?.location,
-      github: user?.user?.socialAdress.github,
-      linkedin: user?.user?.socialAdress.linkedin,
-      youtube: user?.user?.socialAdress.youtube,
-      website: user?.user?.socialAdress.website,
-      twitter: user?.user?.socialAdress.twitter,
+      name: user?.name,
+      surname: user?.surname,
+      username: user?.username,
+      bio: user?.bio,
+      location: user?.location,
+      github: user?.socialAdress.github,
+      linkedin: user?.socialAdress.linkedin,
+      youtube: user?.socialAdress.youtube,
+      website: user?.socialAdress.website,
+      twitter: user?.socialAdress.twitter,
     });
   }, [user]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      encType="multipart/form-data"
-    >
+    <form onSubmit={handleSubmit} encType="multipart/form-data">
       <Card
         id="user-detail-card"
         sx={{
@@ -128,14 +161,14 @@ const EditProfile = (user) => {
           justifyContent: "center",
           gap: "10px",
           paddingBottom: "20px",
-          paddingTop:isMobile&& "10vh",
+          paddingTop: isMobile && "10vh",
         }}
       >
         <Box
           sx={{
             position: "relative",
             width: "100%",
-        }}
+          }}
         >
           <img
             src={background.adress}
@@ -177,132 +210,132 @@ const EditProfile = (user) => {
             style={{ display: "none" }}
           />
         </Box>
-        {
-           isMobile&& <Box
+        {isMobile && (
+          <Box
+            sx={{
+              position: "relative",
+            }}
+          >
+            <Avatar
+              src={avatar.adress}
               sx={{
-                position: "relative",
-                
+                width: "15vh",
+                height: "15vh",
+                maxHeight: "150px",
+                maxWidth: "150px",
+                border: "5px solid black",
+              }}
+              aria-label="recipe"
+            >
+              R
+            </Avatar>
+            <Button
+              sx={{
+                width: "3vw",
+                height: "3vw",
+                position: "absolute",
+                bottom: "-2%",
+                right: "-2%",
+              }}
+              onClick={() => {
+                avatarFileInputRef.current.click();
               }}
             >
-              
-              <Avatar
-                src={avatar.adress}
-                sx={{
-                  width: "15vh",
-                  height: "15vh",
-                  maxHeight: "150px",
-                  maxWidth: "150px",
-                  border: "5px solid black",
-
-                }}
-                aria-label="recipe"
-              >
-                R
-              </Avatar>
-              <Button
-                sx={{
-                  width: "3vw",
-                  height: "3vw",
-                  position: "absolute",
-                  bottom: "-2%",
-                  right: "-2%",
-                }}
-                onClick={() => {
-                  avatarFileInputRef.current.click();
-                }}
-              >
-                <AddAPhotoIcon />
-              </Button>
-              <input
-                fontSize="small"
-                type="file"
-                id="avatar"
-                name="avatar"
-                ref={avatarFileInputRef}
-                onChange={(e) => {
-                  setAvatar({
-                    adress: URL.createObjectURL(e.target.files[0]),
-                    file: e.target.files[0],
-                  });
-                }}
-                style={{ display: "none" }}
-              />
-             
-            </Box>
-            
-          }
+              <AddAPhotoIcon />
+            </Button>
+            <input
+              fontSize="small"
+              type="file"
+              id="avatar"
+              name="avatar"
+              ref={avatarFileInputRef}
+              onChange={(e) => {
+                setAvatar({
+                  adress: URL.createObjectURL(e.target.files[0]),
+                  file: e.target.files[0],
+                });
+              }}
+              style={{ display: "none" }}
+            />
+          </Box>
+        )}
         <CardHeader
           sx={{
             background: "none",
-            width:isMobile?"100%": "90%",
-            maxWidth: isMobile ?"500px":"800",
+            width: isMobile ? "100%" : "90%",
+            maxWidth: isMobile ? "500px" : "800",
             color: "white",
             display: "flex",
             alignItems: "start",
           }}
           avatar={
-           !isMobile&& <Box
-              sx={{
-                position: "relative",
-              }}
-            >
-              
-              <Avatar
-                src={avatar.adress}
+            !isMobile && (
+              <Box
                 sx={{
-                  width: "15vh",
-                  height: "15vh",
-                  maxHeight: "150px",
-                  maxWidth: "150px",
-                  border: "5px solid black",
-                }}
-                aria-label="recipe"
-              >
-                R
-              </Avatar>
-              <Button
-                sx={{
-                  width: "3vw",
-                  height: "3vw",
-                  position: "absolute",
-                  bottom: "-5%",
-                  right: "-5%",
-                }}
-                onClick={() => {
-                  avatarFileInputRef.current.click();
+                  position: "relative",
                 }}
               >
-                <AddAPhotoIcon />
-              </Button>
-              <input
-                fontSize="small"
-                type="file"
-                id="avatar"
-                name="avatar"
-                ref={avatarFileInputRef}
-                onChange={(e) => {
-                  setAvatar({
-                    adress: URL.createObjectURL(e.target.files[0]),
-                    file: e.target.files[0],
-                  });
-                }}
-                style={{ display: "none" }}
-              />
-             
-            </Box>
+                <Avatar
+                  src={avatar.adress}
+                  sx={{
+                    width: "15vh",
+                    height: "15vh",
+                    maxHeight: "150px",
+                    maxWidth: "150px",
+                    border: "5px solid black",
+                  }}
+                  aria-label="recipe"
+                >
+                  R
+                </Avatar>
+                <Button
+                  sx={{
+                    width: "3vw",
+                    height: "3vw",
+                    position: "absolute",
+                    bottom: "-5%",
+                    right: "-5%",
+                  }}
+                  onClick={() => {
+                    avatarFileInputRef.current.click();
+                  }}
+                >
+                  <AddAPhotoIcon />
+                </Button>
+                <input
+                  fontSize="small"
+                  type="file"
+                  id="avatar"
+                  name="avatar"
+                  ref={avatarFileInputRef}
+                  onChange={(e) => {
+                    setAvatar({
+                      adress: URL.createObjectURL(e.target.files[0]),
+                      file: e.target.files[0],
+                    });
+                  }}
+                  style={{ display: "none" }}
+                />
+              </Box>
+            )
           }
           title={
             <Card
               sx={{
-                background: "transparent"
+                background: "transparent",
               }}
             >
               <CardHeader
                 title={
-                  <Box sx={{ display: "flex",flexDirection:isMobile?"column":"row", gap: "10px" }}>
-                    
-                    <FormControl variant="filled" >
-                      <InputLabel sx={{ background: "none"}}>Ad</InputLabel>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: isMobile ? "column" : "row",
+                      gap: "10px",
+                    }}
+                  >
+                    <FormControl variant="filled">
+                      <InputLabel sx={{ background: "none" }}>Ad</InputLabel>
                       <FilledInput
                         sx={{
                           background: "none",
@@ -314,13 +347,8 @@ const EditProfile = (user) => {
                       />
                     </FormControl>
 
-                    <FormControl
-                      variant="filled"
-                      sx={{ color: "white" }}
-                    >
-                      <InputLabel sx={{ background: "none", }}>
-                        Soyad
-                      </InputLabel>
+                    <FormControl variant="filled" sx={{ color: "white" }}>
+                      <InputLabel sx={{ background: "none" }}>Soyad</InputLabel>
                       <FilledInput
                         sx={{
                           background: "none",
@@ -336,7 +364,7 @@ const EditProfile = (user) => {
                 titleTypographyProps={{ fontSize: "1rem" }}
                 subheader={
                   <Box display={"flex"} flexDirection={"column"}>
-                    <FormControl variant="filled" >
+                    <FormControl variant="filled">
                       <InputLabel>Kullanıcı adı</InputLabel>
                       <FilledInput
                         sx={{
@@ -348,7 +376,7 @@ const EditProfile = (user) => {
                         required
                       />
                     </FormControl>
-                    <FormControl variant="filled" >
+                    <FormControl variant="filled">
                       <InputLabel>Şehir</InputLabel>
                       <FilledInput
                         sx={{
@@ -373,8 +401,7 @@ const EditProfile = (user) => {
                   value={formData.bio}
                   onChange={handleInputChance}
                   minRows={3}
-                  maxRows={6}
-                  maxLength={300}
+                  maxLength={200}
                   placeholder="Bio"
                   name="bio"
                   style={{
@@ -390,10 +417,11 @@ const EditProfile = (user) => {
                     "&::placeholder": {
                       fontSize: "1rem",
                     },
-                    maxHeight: "500px",
+                    maxHeight: "10vh",
                     color: `${theme.palette.primary.main}`,
                   }}
                 />
+                <Typography sx={{textAlign:"end",color:200 - formData.bio.length === 0 ? "red" : "gray"}}>{200 - formData.bio.length}</Typography>
               </CardContent>
             </Card>
           }
@@ -401,11 +429,11 @@ const EditProfile = (user) => {
 
         <CardActions
           sx={{
-            width:isMobile?"100%": "90%",
-            maxWidth: isMobile ?"500px":"800",
+            width: isMobile ? "100%" : "90%",
+            maxWidth: isMobile ? "500px" : "800",
             display: "flex",
             flexWrap: "wrap",
-            gap: "2%",
+            gap: "1rem 5rem",
             justifyContent: "center",
           }}
         >
@@ -418,25 +446,29 @@ const EditProfile = (user) => {
               sx={{ background: "none" }}
               value={formData?.github}
               onChange={handleInputChance}
+              placeholder="github.com/username"
+              placeholderTextColor="gray"
               name="github"
             />
           </FormControl>
 
-          <FormControl variant="filled" >
+          <FormControl variant="filled">
             <InputLabel sx={{ background: "none" }}>
               {" "}
               <LinkedInIcon fontSize="small" />
               LinkedIn
             </InputLabel>
             <FilledInput
-              sx={{ background: "none"}}
+              sx={{ background: "none" }}
               value={formData?.linkedin}
               onChange={handleInputChance}
+              placeholder="linkedin.com/in/username"
+              placeholderTextColor="gray"
               name="linkedin"
             />
           </FormControl>
 
-          <FormControl variant="filled" >
+          <FormControl variant="filled">
             <InputLabel sx={{ background: "none" }}>
               {" "}
               <YouTubeIcon fontSize="small" />
@@ -446,45 +478,52 @@ const EditProfile = (user) => {
               sx={{ background: "none" }}
               value={formData?.youtube}
               onChange={handleInputChance}
+              placeholder="youtube.com/c/username"
+              placeholderTextColor="gray"
               name="youtube"
             />
           </FormControl>
 
-          <FormControl variant="filled" >
+          <FormControl variant="filled">
             <InputLabel sx={{ background: "none" }}>
               <XIcon fontSize="small" />
               Twitter
             </InputLabel>
             <FilledInput
-              sx={{ background: "none"}}
+              sx={{ background: "none" }}
               value={formData?.twitter}
               onChange={handleInputChance}
+              placeholder="x.com/username"
+              placeholderTextColor="gray"
               name="twitter"
             />
           </FormControl>
 
           <FormControl variant="filled">
             <InputLabel sx={{ background: "none" }}>
-              {" "}
               <LanguageIcon fontSize="small" />
               Website
             </InputLabel>
             <FilledInput
-              sx={{ background: "none"}}
+              sx={{ background: "none" }}
               value={formData?.website}
               onChange={handleInputChance}
+              placeholder="idea.tr idea.com.."
               name="website"
             />
           </FormControl>
         </CardActions>
-        
-                <Button variant="outlined" type="submit">
-                    Kaydet
-                  </Button>
-                
+
+        <Button variant="outlined" type="submit">
+          Kaydet
+        </Button>
       </Card>
     </form>
   );
 };
 
 export default EditProfile;
+EditProfile.propTypes = {
+  user: PropTypes.object,
+  modalAction: PropTypes.object,
+};

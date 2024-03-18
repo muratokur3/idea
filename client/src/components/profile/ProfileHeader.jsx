@@ -70,10 +70,10 @@ const UserDetail = ({ profileData }) => {
 
               {isMobile && (
                 <Box marginTop="15px">
-                  {logginedUser && profileData._id === logginedUserId ? (
+                  {logginedUser && profileData.user._id === logginedUserId ? (
                     <EditProfileModal />
                   ) : (
-                 <FollowActions toFollowUserId={profileData?._id}/>
+                    <FollowActions toFollowUserId={profileData?.user?._id}/>
                   )}
                 </Box>
               )}
@@ -155,19 +155,20 @@ const UserDetail = ({ profileData }) => {
           <Typography color="primary" fontSize="small">
             {profileData?.user?.following?.length} Takip Edilen
           </Typography>
-          <a href={profileData?.user?.socialAdress?.website}>
+            {/* yeni sekmede açar */}
+          <a href={"https://"+profileData?.user?.socialAdress?.website} target={`_blank`}>
             <LanguageIcon fontSize="medium" />
           </a>
-          <a href={profileData?.user?.socialAdress?.github}>
+          <a href={"https://github.com/"+profileData?.user?.socialAdress?.github} target={`_blank`}>
             <GitHubIcon fontSize="medium" />
           </a>
-          <a href={profileData?.user?.socialAdress?.linkedin}>
+          <a href={"https://www.linkedin.com/in/"+profileData?.user?.socialAdress?.linkedin} target={`_blank`}>
             <LinkedInIcon fontSize="medium" />
           </a>
-          <a href={profileData?.user?.socialAdress?.youtube}>
+          <a href={"https://www.youtube.com/@"+profileData?.user?.socialAdress?.youtube} target={`_blank`}>
             <YouTubeIcon fontSize="medium" />
           </a>
-          <a href={profileData?.user?.socialAdress?.twitter}>
+          <a href={"https://twitter.com/"+profileData?.user?.socialAdress?.twitter} target={`_blank`}>
             <XIcon fontSize="medium" />
           </a>
         </CardActions>

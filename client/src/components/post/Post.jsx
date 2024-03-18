@@ -117,7 +117,8 @@ const Post = ({ post }) => {
             sx={{
               textDecoration: "none",
               display: "inline-block",
-              marginRight: "10px",
+              margin: ".4rem",
+
               color: `${theme.palette.primary.main}`,
               border: `.5px solid grey`,
               borderRadius: "10px",

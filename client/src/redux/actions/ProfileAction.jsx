@@ -5,7 +5,7 @@ import {
   setProfile,
   ubdateUserFollow,
 } from "../slices/ProfileSlice";
-import { sessionService } from 'redux-react-session';
+import { sessionService } from "redux-react-session";
 const getProfile = (Username) => async (dispatch) => {
   try {
     const response = await axios.get(`quest/${Username}`);
@@ -90,13 +90,15 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
   });
   if (response.status === 200) {
     alert("Profiliniz başarıyla güncellendi");
-
-    dispatch(
-      setProfile({
-        ...user,
-        avatar: newAvatarUrl ? newAvatarUrl : user.avatar,
-      })
-    );
+    const logginedUser = await sessionService.loadUser();
+    const updatedUser = {
+      ...logginedUser,
+      ...user,
+      avatar: newAvatarUrl,
+      background: newBackgroundUrl,
+    };
+    await sessionService.saveUser(updatedUser);
+    dispatch(setProfile(updatedUser));
   } else {
     alert("Profiliniz güncellenemedi");
   }
@@ -125,7 +127,7 @@ const getFollowing = (username) => async (dispatch) => {
   }
 };
 
-const follow = ( followingId) => async (dispatch) => {
+const follow = (followingId) => async (dispatch) => {
   try {
     const logginedUser = await sessionService.loadUser();
     const logginedUserId = logginedUser._id;
@@ -155,14 +157,15 @@ const unfollow = (followingId) => async (dispatch) => {
     const logginedUserId = logginedUser._id;
 
     const response = await axios.put(
-      `users/unfollow/${logginedUserId}/${followingId}`);
+      `users/unfollow/${logginedUserId}/${followingId}`
+    );
 
     if (response.status === 200) {
       console.log("Takip bırakma işlemi başarılı");
 
       const updatedUser = {
         ...logginedUser,
-        following: logginedUser.following.filter((id)=>id!==followingId),
+        following: logginedUser.following.filter((id) => id !== followingId),
       };
       await sessionService.saveUser(updatedUser);
 

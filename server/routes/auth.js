@@ -81,7 +81,7 @@ router.post("/login", async (req, res) => {
       sub: user._id,
       username: user.username,
       rol: user.rol,
-      exp: Math.floor(Date.now() / 1000) + 60 * 24 * 7,
+      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
       issuer: "idea.com",
     };
 
@@ -92,10 +92,10 @@ router.post("/login", async (req, res) => {
       domain: "localhost",
       path: "/",
       session: true,
-      expires: new Date(Date.now() + 60 * 24 * 7 * 1000),
-      maxAge: 1000 * 60 * 24 * 7,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     });
-    console.log("hashtags:", hashtagNames);
+
     return res.status(200).json(userData);
   } catch (error) {
     console.log(error.message);

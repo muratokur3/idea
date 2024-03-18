@@ -11,14 +11,14 @@ import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PropTypes from "prop-types";
-import LinkIcon from '@mui/icons-material/Link';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkIcon from "@mui/icons-material/Link";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import { Box, Button } from "@mui/material";
 import ActionsButton from "../../Modals/ActionsButton";
 import { useNavigate } from "react-router-dom";
-import {useTheme} from "@mui/material/styles";
-const webSiteUrl=import.meta.env.VITE_WEBSITE_BASE_URL;
+import { useTheme } from "@mui/material/styles";
+const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -32,14 +32,14 @@ const ExpandMore = styled((props) => {
 }));
 
 const ProjectCard = ({ project }) => {
-  const theme=useTheme();
+  const theme = useTheme();
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  
+
   return (
     <Card
       sx={{
@@ -55,54 +55,64 @@ const ProjectCard = ({ project }) => {
         avatar={
           <Avatar
             src={project?.logo}
-            sx={{ bgcolor: red[500], width:"60px", height:"60px" }}
+            sx={{ bgcolor: red[500], width: "60px", height: "60px" }}
             aria-label="recipe"
           >
             R
           </Avatar>
         }
         action={
-          <ActionsButton actions={[
-             { label: "Bildir", onClick: () => {alert("Bildir")} },
-              {label:"profili ziyaret et", onClick:()=>navigate(`/${project?.username}`)},
-           ]} />
-         }
+          <ActionsButton
+            actions={[
+              {
+                label: "Bildir",
+                onClick: () => {
+                  alert("Bildir");
+                },
+              },
+              {
+                label: "profili ziyaret et",
+                onClick: () => navigate(`/${project?.username}`),
+              },
+            ]}
+          />
+        }
         title={project?.name}
-        titleTypographyProps={{ color: "primary",}}
+        titleTypographyProps={{ color: "primary" }}
         subheader={
-            <Typography
-            color="secondary"
-          >
-            {project?.createDate}
-          </Typography>
-         
+          <Typography color="secondary">{project?.createDate}</Typography>
         }
       />
 
       <CardContent>
-        <Typography variant="body2" color="primary" padding="10px"
-         onClick={() => navigate(`/explore/project/${project?.username}/${project?._id}`)}
+        <Typography
+          variant="body2"
+          color="primary"
+          padding="10px"
+          onClick={() =>
+            navigate(`/explore/project/${project?.username}/${project?._id}`)
+          }
         >
           {project?.title}
         </Typography>
         {project?.hashtagsName?.map((hashtag) => (
-             <Button
-             variant="outlined"
-             size="small"
-               key={hashtag}
-               sx={{
-                 textDecoration: "none",
-                 display: "inline-block",
-                 marginRight: "10px",
-                 color: `${theme.palette.primary.main}`,
-                 border: `.5px solid grey`,
-                 borderRadius: "10px",
-                 cursor: "pointer",
-               }}
-              //  onClick={()=>navigate(`/explore/${hashtag}`)}
-             >
-               {hashtag}
-             </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            key={hashtag}
+            sx={{
+              textDecoration: "none",
+              display: "inline-block",
+              margin: ".4rem",
+              color: `${theme.palette.primary.main}`,
+              border: `.5px solid grey`,
+              borderRadius: "10px",
+              cursor: "pointer",
+            }}
+            //  onClick={()=>navigate(`/explore/${hashtag}`)}
+          >
+            {hashtag}
+          </Button>
         ))}
       </CardContent>
       <CardActions
@@ -117,7 +127,7 @@ const ProjectCard = ({ project }) => {
             <GitHubIcon />
           </IconButton>
           <IconButton aria-label="share">
-          <IosShareIcon
+            <IosShareIcon
               onClick={async () => {
                 if (navigator.share) {
                   navigator

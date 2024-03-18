@@ -11,7 +11,12 @@ import {
 } from "@mui/material";
 import { loginClient } from "../../redux/actions/AuthAction";
 import styled from "@emotion/styled";
-const Login = () => {
+import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+const Login = ({modalAction}) => {
+  const isLoggedIn = useSelector(
+    (state) => state.session && state.session.authenticated
+  );
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
@@ -24,6 +29,7 @@ const Login = () => {
   const login = async (e) => {
     e.preventDefault();
     dispatch(loginClient(formData));
+    isLoggedIn&& modalAction.handleClose();
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -49,6 +55,7 @@ const Login = () => {
         alignItems: "center",
       }}
     >
+
       <form
         onSubmit={login}
         style={{
@@ -60,7 +67,7 @@ const Login = () => {
         }}
       >
         <FormControlStyled>
-          <InputLabel>Email</InputLabel>
+          <InputLabel>Mail</InputLabel>
           <FilledInput
             sx={{ background: "none", width: "100%" }}
             value={formData.email}
@@ -96,12 +103,10 @@ const Login = () => {
         </FormControlStyled>
 
         <Button
+        variant="outlined"
           type="submit"
           sx={{
-            color: "primary",
-            border: "1px solid gray",
-            borderRadius: "20px",
-            padding: "5px 30px",
+            borderRadius: "1rem",
           }}
         >
           Giriş Yap
@@ -112,3 +117,6 @@ const Login = () => {
 };
 
 export default Login;
+Login.propTypes = {
+  modalAction: PropTypes.object,
+};

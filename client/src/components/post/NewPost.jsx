@@ -2,13 +2,16 @@ import Avatar from "@mui/material/Avatar";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import { Box, Button, Paper, useMediaQuery } from "@mui/material";
+import { Box, Button, Paper, Typography, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { createPost } from "../../redux/actions/PostActions";
 import { getHashtags } from "../../redux/actions/HashtagsAction";
 import { useTheme } from "@mui/material/styles";
-const NewPost = () => {
+import PropTypes from "prop-types";
+
+import styled from "@emotion/styled";
+const NewPost = ({modalAction}) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
@@ -17,17 +20,27 @@ const NewPost = () => {
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newPost = {
-      userId: user._id,
-      title: title,
-      content,
-      hashtags: selectedHashtags.map((hashtag) => hashtag._id),
-    };
-    dispatch(createPost(newPost));
-    setContent("");
-    setTitle("");
-    setSelectedHashtags([]);
+  if(selectedHashtags.length > 0&&selectedHashtags.length < 6)
+    {
+      const newPost = {
+        userId: user._id,
+        title: title,
+        content,
+        hashtags: selectedHashtags.map((hashtag) => hashtag._id),
+      };
+      dispatch(createPost(newPost));
+      modalAction.handleClose();
+      setContent("");
+      setTitle("");
+      setSelectedHashtags([]);
+    }
+    else alert("En az 1 hashtag seçmelisiniz");
   };
+
+  const TypographyLength = styled(Typography)({
+    fontSize: "1rem",
+    textAlign: "end",
+  });
 
   const theme = useTheme();
   const isMobile = useMediaQuery("(max-width: 1234px)");
@@ -35,6 +48,7 @@ const NewPost = () => {
     <form
       onSubmit={handleSubmit}
       style={{
+        width: "100%",
         display: "flex",
         flexDirection: isMobile ? "column" : "row",
         padding: "1rem",
@@ -50,9 +64,7 @@ const NewPost = () => {
         />
       </Box>
 
-      <Box
-        width="100%"
-      >
+      <Box width="100%">
         <TextareaAutosize
           className="title-textarea"
           value={title}
@@ -66,7 +78,7 @@ const NewPost = () => {
             width: "100%",
             border: "none",
             outline: "none",
-            fontSize:isMobile?"1rem": "1.1rem",
+            fontSize: isMobile ? "1rem" : "1.1rem",
             borderBottom: ".2rem solid rgba(107, 103, 103, 0.171)",
             maxHeight: "80px",
             padding: "5px",
@@ -82,6 +94,7 @@ const NewPost = () => {
           }}
           required
         />
+        <TypographyLength color={175 - title.length === 0 ? "red" : "gray"}>{175 - title.length}</TypographyLength>
         <TextareaAutosize
           value={content}
           onChange={(e) => {
@@ -94,7 +107,7 @@ const NewPost = () => {
             width: "100%",
             border: "none",
             outline: "none",
-            fontSize:isMobile?".8rem": "1.1rem",
+            fontSize: isMobile ? ".8rem" : "1.1rem",
             maxHeight: "500px",
             resize: "none",
             lineHeight: "1.5",
@@ -110,20 +123,23 @@ const NewPost = () => {
           }}
           required
         />
+        <TypographyLength  color={1500 - content.length === 0 ? "red" : "gray"}>{1500 - content.length}</TypographyLength>
         <Autocomplete
           onChange={(e, value) => {
-            setSelectedHashtags(value);
+            ( value.length < 6) &&
+              setSelectedHashtags(value);
           }}
           className="new-post-hashtag"
           value={selectedHashtags}
           multiple
+          size={isMobile ? "small" : "medium"}
           limitTags={3}
           id="multiple-limit-tags"
           options={hashtags}
           getOptionLabel={(option) => "#" + option.name}
           renderInput={(params) => (
             <TextField
-            onClick={()=>hashtags.length === 0 && dispatch(getHashtags())}
+              onClick={() => hashtags.length === 0 && dispatch(getHashtags())}
               {...params}
               label="#hashtag"
               placeholder="#"
@@ -147,6 +163,11 @@ const NewPost = () => {
             </Paper>
           )}
         />
+        <TypographyLength
+          color={5 - selectedHashtags.length === 0 ? "red" : "gray"}
+        >
+          {5 - selectedHashtags.length}
+        </TypographyLength>
         <Button
           type="submit"
           id="new-post-submit"
@@ -173,3 +194,6 @@ const NewPost = () => {
 };
 
 export default NewPost;
+NewPost.propTypes = {
+  modalAction: PropTypes.object,
+};

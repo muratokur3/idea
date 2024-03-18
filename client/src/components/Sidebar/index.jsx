@@ -57,7 +57,6 @@ const Details = styled(Box)({
 });
 
 import Modal from "../../Modals";
-import RegisterModal from "../../Modals/RegisterModal";
 import Login from "../../Auth/Login";
 import Register from "../../Auth/Register";
 const Sidebar = () => {
@@ -70,7 +69,8 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       sessionService.invalidateSession();
-      navigate("/");
+    window.localStorage.clear();
+    navigate("/");
     } catch (error) {
       console.log(error);
     }

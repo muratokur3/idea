@@ -6,7 +6,7 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 const Modal = ({buttonText,component,icon}) => {
   const [open, setOpen] = useState(false);
@@ -50,7 +50,7 @@ const Modal = ({buttonText,component,icon}) => {
             alignItems: "center",
           }}
         >
-          {component}
+         {React.cloneElement(component, {modalAction:{handleClose}})}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>İptal</Button>
