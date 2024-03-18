@@ -1,6 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { registerUser } from "../../redux/actions/AuthAction";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
@@ -12,8 +12,11 @@ import {
   InputAdornment,
   InputLabel,
 } from "@mui/material";
+import PolicyModals from "../../Modals/PolicyModal";
+import PrivacyPolicy from "../../components/policys/PrivacyPolicy";
+import TermsOfService from "../../components/policys/TermsOfService";
 
-const Register = ({modalAction}) => {
+const Register = ({ modalAction }) => {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -28,23 +31,22 @@ const Register = ({modalAction}) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-   // name surname inputları için regex.
-   const nameSurnameControl = (name, surname) => {
+  // name surname inputları için regex.
+  const nameSurnameControl = (name, surname) => {
     const regex = /^[a-zA-Z]{2,20}$/;
-    return (regex.test(name) && regex.test(surname))
+    return regex.test(name) && regex.test(surname);
   };
 
   //mail input kontrolü için regex
   const emailControl = (email) => {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,30}$/;
-    return (regex.test(email)) 
-   
+    return regex.test(email);
   };
 
   // usernaem input kontrolü için regex
   const usernameControl = (username) => {
     const regex = /^[a-z0-9._]{3,20}$/;
-    return (regex.test(username))
+    return regex.test(username);
   };
 
   // şifre input kontrolü için regex
@@ -184,7 +186,22 @@ const Register = ({modalAction}) => {
             }
           />
         </FormControlStyled>
-
+        <Box display={"flex"} flexDirection={"row"} gap={"3px"}>
+          <Typography fontSize={".8rem"}>
+             kayıt olarak{" "}
+          </Typography>
+         
+          <PolicyModals
+            policyElement={<PrivacyPolicy />}
+            policyTitle="gizlilik politikasını"
+          />{" "}
+            <Typography fontSize={".8rem"}> ve</Typography>
+          <PolicyModals
+            policyElement={<TermsOfService/>}
+            policyTitle=" hizmet şartlarını"
+          />
+           <Typography fontSize={".8rem"}>  kabul etmiş olursunuz.</Typography>
+        </Box>
         <Button
           variant="outlined"
           type="submit"

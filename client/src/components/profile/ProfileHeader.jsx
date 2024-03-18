@@ -71,7 +71,8 @@ const UserDetail = ({ profileData }) => {
               {isMobile && (
                 <Box marginTop="15px">
                   {logginedUser && profileData.user._id === logginedUserId ? (
-                    <EditProfileModal />
+                   <Modal buttonText="Profili Düzenle" component={<EditProfile user={profileData.user} />} icon={<AppRegistrationIcon/>}/>
+
                   ) : (
                     <FollowActions toFollowUserId={profileData?.user?._id}/>
                   )}
@@ -157,19 +158,19 @@ const UserDetail = ({ profileData }) => {
           </Typography>
             {/* yeni sekmede açar */}
           <a href={"https://"+profileData?.user?.socialAdress?.website} target={`_blank`}>
-            <LanguageIcon fontSize="medium" />
+            <LanguageIcon fontSize="medium" color="primary"/>
           </a>
           <a href={"https://github.com/"+profileData?.user?.socialAdress?.github} target={`_blank`}>
-            <GitHubIcon fontSize="medium" />
+            <GitHubIcon fontSize="medium" color="primary"/>
           </a>
           <a href={"https://www.linkedin.com/in/"+profileData?.user?.socialAdress?.linkedin} target={`_blank`}>
-            <LinkedInIcon fontSize="medium" />
+            <LinkedInIcon fontSize="medium" color="primary"/>
           </a>
           <a href={"https://www.youtube.com/@"+profileData?.user?.socialAdress?.youtube} target={`_blank`}>
-            <YouTubeIcon fontSize="medium" />
+            <YouTubeIcon fontSize="medium" color="primary"/>
           </a>
           <a href={"https://twitter.com/"+profileData?.user?.socialAdress?.twitter} target={`_blank`}>
-            <XIcon fontSize="medium" />
+            <XIcon fontSize="medium" color="primary"/>
           </a>
         </CardActions>
       </Card>

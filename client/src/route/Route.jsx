@@ -16,6 +16,8 @@ import Explore from "../pages/Explore";
 import Profile from "../pages/Profile";
 import MyLikes from "../pages/MyLikes";
 import Home from "../pages/Home";
+import PrivacyPolicy from "../components/policys/PrivacyPolicy";
+import TermsOfService from "../components/policys/TermsOfService";
 
 function ClientRoutes() {
   return (
@@ -32,6 +34,8 @@ function ClientRoutes() {
             <Route path="favorite" element={<Favorite/>}/>
             <Route path="MyLikes" element={<MyLikes/>}/>
             <Route path="settings" element={<Settings/>}/>
+            <Route path="privacy-policy" element={<PrivacyPolicy/>}/>
+            <Route path="terms-service" element={<TermsOfService/>}/>
           </Route>
         </Routes>
     );
