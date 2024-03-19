@@ -23,10 +23,9 @@ instance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      console.log(error);
       // 401 hatası alındığında oturumu sonlandırma eylemini çağır
-      alert("Oturumunuz sonlandırıldı. Lütfen tekrar giriş yapınız.");
       handleLogout();
+      alert(error.response.data);
     }
     return Promise.reject(error);
   }

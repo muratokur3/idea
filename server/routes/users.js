@@ -277,4 +277,59 @@ router.post("/createMany", async (req, res) => {
   }
 });
 
+//kullanıcıyının is deleted alanını true yapar
+router.put("/account/delete/:id", async (req, res) => {
+  try {
+    await UserChema.findByIdAndUpdate(req.params.id, {
+      $set: { isDeleted: true },
+    }).exec();
+    res.status(200).json("Kullanıcı silindi");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+//kullanıcıyı dondurur
+router.put("/account/freeze/:id", async (req, res) => {
+  try {
+    await UserChema.findByIdAndUpdate
+      (req.params.id, {
+        $set: { isFrozen: true },
+      })
+      .exec();
+    res.status(200).json("Kullanıcı donduruldu");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+}
+);
+
+//kullanıcıyı aktif eder
+router.put("/account/activate/:id", async (req, res) => {
+  try {
+    await UserChema.findByIdAndUpdate
+      (req.params.id, {
+        $set: { isFrozen: false },
+      })
+      .exec();
+      
+    res.status(200).json("Kullanıcı aktif edildi");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+// //tüm kullanıcıların isFrozen alanını false yapar
+// router.put("/account/unfreezeAll", async (req, res) => {
+//   try {
+//     await UserChema.updateMany({}, { isFrozen: false });
+//     res.status(200).json("Tüm kullanıcılar donduruldu");
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).json("Server Error");
+//   }
+// });
 module.exports = router;

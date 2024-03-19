@@ -48,13 +48,20 @@ router.post("/login", async (req, res) => {
       return res.status(401).json("Böyle bir kullanıcı bulunamadı");
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (user.isDeleted) {
-      return res.status(401).json("Bu kullanıcının hesabı dondurulmuş");
-    }
-
+   
     if (!isPasswordValid) {
       return res.status(401).json("Hatalı şifre");
     }
+    else if (user.isDeleted) {
+      return res.status(401).json("Bu kullanıcının hesabı silinmiş");
+    }
+    else if(user.isFrozen){
+      return res.status(202).json({
+        message: "Hesabınız dondurulmuş. Yeniden aktif etmek istiyor musunuz?",
+        userId: user.id
+      });
+    }
+
     const userHastags = await UserChema.findById(user._id).populate(
       "hashtags",
       ["name"]

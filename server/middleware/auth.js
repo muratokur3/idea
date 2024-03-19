@@ -11,11 +11,11 @@ module.exports = async (req, res, next) => {
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
-      return res.status(401).send("Token süresi doldu");
+      return res.status(401).send("Oturumunuzun süresi doldu.  Lütfen tekrar giriş yapın.");
     } else if (error.name === "JsonWebTokenError") {
-      return res.status(401).send("Geçersiz token");
+      return res.status(401).send("Geçersiz bağlantı. Lütfen tekrar giriş yapın.");
     } else {
-      return res.status(401).send("Yetkisiz erişim");
+      return res.status(401).send("Yetkisiz erişim farkettik. Lütfen tekrar giriş yapın.");
     }
   }
 };

@@ -6,7 +6,7 @@ const PrivacyPolicy = () => {
       sx={{
         minWidth: "100%",
         minHeight: "50vh",
-        backgroundColor: "rgb(151, 151, 151)",
+        backgroundColor: "gray",
         padding: "20px",
       }}
     >

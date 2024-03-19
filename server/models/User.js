@@ -87,6 +87,11 @@ const UserChema = mongoose.Schema(
       default: false,
       enum: [true, false],
     },
+    isFrozen: {
+      type: Boolean,
+      default: false,
+      enum: [true, false],
+    },
     role: {
       type: String,
       default: "user",
