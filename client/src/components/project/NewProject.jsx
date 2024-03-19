@@ -2,20 +2,25 @@ import Avatar from "@mui/material/Avatar";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Box, Button, Paper, Typography, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { createProject } from "../../redux/actions/ProjectAction";
 import { useTheme } from "@mui/material/styles";
 import { getHashtags } from "../../redux/actions/HashtagsAction";
 import styled from "@emotion/styled";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 
 const NewProject = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery("(max-width: 1234px)");
 
   const dispatch = useDispatch();
-
+  const logoFileInputRef = useRef(null);
+  const [logo, setLogo] = useState({
+    adress: "https://picsum.photos/200/300?random=1",
+    file: null,
+  });
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedHashtags, setSelectedHashtags] = useState([]);
@@ -32,38 +37,37 @@ const NewProject = () => {
       regex.test(projectName) &&
       regex.test(createDate) &&
       (projectAdress.length === 0 || regex.test(projectAdress)) &&
-      (githubAdress.length === 0 || regex.test(githubAdress))&&
-      (selectedHashtags.length > 0&&selectedHashtags.length < 6)
+      (githubAdress.length === 0 || regex.test(githubAdress)) &&
+      selectedHashtags.length > 0 &&
+      selectedHashtags.length < 6
     );
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(inputControl())
-    {
-    const newProjectData = {
-      userId: user._id,
-      name: projectName,
-      title: title,
-      content,
-      githubAdress,
-      projectAdress,
-      createDate,
-      logo: "https://picsum.photos/200/300?random=1",
-      hashtags: selectedHashtags.map((hashtag) => hashtag._id),
-    };
-    dispatch(createProject(newProjectData));
-    setContent("");
-    setTitle("");
-    setProjectAdress("");
-    setGithubAdress("");
-    setProjectName("");
-    setCreateDate("");
-    setSelectedHashtags([]);
-  }
-  else{
-    alert("Lütfen tüm alanları doldurduğunuzdan emin olun.");
-  }
+    if (inputControl()) {
+      const newProjectData = {
+        userId: user._id,
+        name: projectName,
+        title: title,
+        content,
+        githubAdress,
+        projectAdress,
+        createDate,
+        logo: logo.adress,
+        hashtags: selectedHashtags.map((hashtag) => hashtag._id),
+      };
+      dispatch(createProject(newProjectData,logo.file));
+      setContent("");
+      setTitle("");
+      setProjectAdress("");
+      setGithubAdress("");
+      setProjectName("");
+      setCreateDate("");
+      setSelectedHashtags([]);
+    } else {
+      alert("Lütfen tüm alanları doldurduğunuzdan emin olun.");
+    }
   };
 
   const TypographyLength = styled(Typography)({
@@ -82,16 +86,52 @@ const NewProject = () => {
         gap: "15px",
       }}
     >
-      <Avatar
-        alt="Proje icon"
-        src={user.avatar}
+      <Box
         sx={{
-          width: "10vh",
-          height: "10vh",
-          maxHeight: "200px",
-          maxWidth: "200px",
+          position: "relative",
+          width: "100px",
         }}
-      />
+      >
+        {" "}
+        <Avatar
+          alt="Proje icon"
+          src={logo.adress}
+          sx={{
+            width: "10vh",
+            height: "10vh",
+            maxHeight: "200px",
+            maxWidth: "200px",
+          }}
+        />
+         <input
+              fontSize="small"
+              type="file"
+              id="logo"
+              name="logo"
+              ref={logoFileInputRef}
+              onChange={(e) => {
+                setLogo({
+                  adress: URL.createObjectURL(e.target.files[0]),
+                  file: e.target.files[0],
+                });
+              }}
+              style={{ display: "none" }}
+            />
+        <Button
+          sx={{
+            width: "3vw",
+            height: "3vw",
+            position: "absolute",
+            bottom: "-2%",
+            right: "-2%",
+          }}
+          onClick={() => {
+            logoFileInputRef.current.click();
+          }}
+        >
+          <AddAPhotoIcon />
+        </Button>
+      </Box>
       <TextField
         onChange={(e) => {
           setProjectName(e.target.value);
