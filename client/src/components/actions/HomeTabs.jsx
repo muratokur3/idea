@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 const HomeTabs = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery("(max-width: 1234px)");
+  const isPhone = useMediaQuery("(max-width: 600px)");
   const isLoggedIn = useSelector(state => state.session && state.session.authenticated);
   const dispatch = useDispatch();
   const filterName = useSelector((state) => state.filterPosts.filterName);
@@ -56,7 +56,7 @@ const HomeTabs = () => {
         alignItems: "center",
       }}
     >
-       {isMobile && (
+       {isPhone && (
             <img
               src={logo}
               alt="Logo"
@@ -93,7 +93,7 @@ const HomeTabs = () => {
 
         </Tabs>
       )}
-      {isMobile && <MobileDrawerMenu />}
+      {isPhone && <MobileDrawerMenu />}
     </Box>
   );
 };

@@ -18,12 +18,6 @@ const ProjectChema = mongoose.Schema(
     projectAdress: {
       type: String,
     },
-    hashtags: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Hashtag",
-      },
-    ],
     createDate: {
       type:String,
     },

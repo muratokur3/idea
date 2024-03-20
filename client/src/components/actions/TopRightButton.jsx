@@ -2,7 +2,9 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Fade, IconButton, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import PropTypes from "prop-types";
-const ActionsButton = ({ actions }) => {
+
+const TopRightButton = ({ actions }) => {
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -41,8 +43,8 @@ const ActionsButton = ({ actions }) => {
         }}
       >
         {actions.map((action, index) => (
-          <MenuItem key={index} onClick={action?.onClick}>
-            {action?.label}
+          <MenuItem key={index}>
+            {action}
           </MenuItem>
         ))}
       </Menu>
@@ -50,7 +52,7 @@ const ActionsButton = ({ actions }) => {
   );
 };
 
-export default ActionsButton;
-ActionsButton.propTypes = {
+export default TopRightButton;
+TopRightButton.propTypes = {
   actions: PropTypes.array,
 };

@@ -30,7 +30,7 @@ import PropTypes from "prop-types";
 
 const EditProfile = ({user,modalAction}) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery("(max-width: 1234px)");
+  const isPhone = useMediaQuery("(max-width: 600px)");
 
   const dispatch = useDispatch();
   const avatarFileInputRef = useRef(null);
@@ -161,7 +161,7 @@ const EditProfile = ({user,modalAction}) => {
           justifyContent: "center",
           gap: "10px",
           paddingBottom: "20px",
-          paddingTop: isMobile && "10vh",
+          paddingTop: isPhone && "10vh",
         }}
       >
         <Box
@@ -177,8 +177,8 @@ const EditProfile = ({user,modalAction}) => {
               height: "20vh",
               minHeight: "400px",
               objectFit: "cover",
-              borderBottomRightRadius: isMobile ? "50px" : "100px",
-              borderBottomLeftRadius: isMobile ? "50px" : "100px",
+              borderBottomRightRadius: isPhone ? "50px" : "100px",
+              borderBottomLeftRadius: isPhone ? "50px" : "100px",
             }}
           />
           <Button
@@ -210,7 +210,7 @@ const EditProfile = ({user,modalAction}) => {
             style={{ display: "none" }}
           />
         </Box>
-        {isMobile && (
+        {isPhone && (
           <Box
             sx={{
               position: "relative",
@@ -262,14 +262,14 @@ const EditProfile = ({user,modalAction}) => {
         <CardHeader
           sx={{
             background: "none",
-            width: isMobile ? "100%" : "90%",
-            maxWidth: isMobile ? "500px" : "800",
+            width: isPhone ? "100%" : "90%",
+            maxWidth: isPhone ? "500px" : "800",
             color: "white",
             display: "flex",
             alignItems: "start",
           }}
           avatar={
-            !isMobile && (
+            !isPhone && (
               <Box
                 sx={{
                   position: "relative",
@@ -330,7 +330,7 @@ const EditProfile = ({user,modalAction}) => {
                   <Box
                     sx={{
                       display: "flex",
-                      flexDirection: isMobile ? "column" : "row",
+                      flexDirection: isPhone ? "column" : "row",
                       gap: "10px",
                     }}
                   >
@@ -429,8 +429,8 @@ const EditProfile = ({user,modalAction}) => {
 
         <CardActions
           sx={{
-            width: isMobile ? "100%" : "90%",
-            maxWidth: isMobile ? "500px" : "800",
+            width: isPhone ? "100%" : "90%",
+            maxWidth: isPhone ? "500px" : "800",
             display: "flex",
             flexWrap: "wrap",
             gap: "1rem 5rem",

@@ -53,29 +53,11 @@ const concatProjectDetails = async (projects,username) => {
     _id: { $in: userIds },
   });
 
-    // Benzersiz hashtag ID'lerini topla
-    const hashtagIds = projects.reduce((acc, project) => {
-      if (project.hashtags.length > 0) {
-        acc.push(...project.hashtags.map((hashtag) => hashtag.toString()));
-      }
-      return acc;
-    }, []);
-
-    // Tüm hashtag detaylarını al
-  const hashtagDetails = await HashtagChema.find({
-    _id: { $in: hashtagIds },
-  });
-
   // Projeleri detayları ile birleştir
   const projectUser = projects.map((project) => {
-    const hashtags = hashtagDetails
-    .filter((hashtag) => project.hashtags.includes(hashtag._id.toString()))
-    .map((hashtag) => hashtag.name);
-    
     return {
       ...project._doc,
       username: username,
-      hashtagsName: hashtags,
     };
   });
   return projectUser;

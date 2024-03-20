@@ -18,7 +18,6 @@ import {
 import {useSelector } from "react-redux";
 import {useNavigate } from "react-router-dom";
 import {useTheme } from "@mui/material/styles";
-import EditProfileModal from "../../Modals/EditProfileModal";
 import Modal from "../../Modals";
 import EditProfile from "./EditProfile";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
@@ -33,7 +32,7 @@ const UserDetail = ({ profileData }) => {
   const navigate = useNavigate();
 
   const theme = useTheme();
-  const isMobile = useMediaQuery("(max-width: 1234px)");
+  const isPhone = useMediaQuery("(max-width: 600px)");
   return (
     <>
       <Card
@@ -48,8 +47,8 @@ const UserDetail = ({ profileData }) => {
             width: "100%",
             height: "35vh",
             objectFit: "cover",
-            borderBottomRightRadius: isMobile ? "50px" : "100px",
-            borderBottomLeftRadius: isMobile ? "50px" : "100px",
+            borderBottomRightRadius: isPhone ? "50px" : "100px",
+            borderBottomLeftRadius: isPhone ? "50px" : "100px",
           }}
           src={profileData.user.background}
         />
@@ -68,7 +67,7 @@ const UserDetail = ({ profileData }) => {
                 R
               </Avatar>
 
-              {isMobile && (
+              {isPhone && (
                 <Box marginTop="15px">
                   {logginedUser && profileData.user._id === logginedUserId ? (
                    <Modal buttonText="Profili Düzenle" component={<EditProfile user={profileData.user} />} icon={<AppRegistrationIcon/>}/>
@@ -90,7 +89,7 @@ const UserDetail = ({ profileData }) => {
               <CardHeader
                 sx={{}}
                 action={
-                  !isMobile &&
+                  !isPhone &&
                   logginedUser &&(
                     <Box>
                       

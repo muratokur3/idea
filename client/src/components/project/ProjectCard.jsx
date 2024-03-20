@@ -8,16 +8,18 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PropTypes from "prop-types";
 import LinkIcon from "@mui/icons-material/Link";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import { Box, Button } from "@mui/material";
-import ActionsButton from "../../Modals/ActionsButton";
+import TopRightButton from "../actions/TopRightButton";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import { useSelector } from "react-redux";
+import NewProject from "./NewProject";
+import Modal from "../../Modals";
 const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
 
 const ExpandMore = styled((props) => {
@@ -39,6 +41,7 @@ const ProjectCard = ({ project }) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const logginedUser = useSelector((state) => state.session && state.session.user);
 
   return (
     <Card
@@ -54,26 +57,31 @@ const ProjectCard = ({ project }) => {
       <CardHeader
         avatar={
           <Avatar
-            src={project?.logo}
-            sx={{ bgcolor: red[500], width: "60px", height: "60px" }}
+            src={`http://localhost:7000/${project?.logo}`}
+            sx={{ border:".1rem solid gray",width: "60px", height: "60px" }}
             aria-label="recipe"
           >
-            R
+            Logo
           </Avatar>
         }
         action={
-          <ActionsButton
+          <TopRightButton
             actions={[
-              {
-                label: "Bildir",
-                onClick: () => {
-                  alert("Bildir");
-                },
-              },
-              {
-                label: "profili ziyaret et",
-                onClick: () => navigate(`/${project?.username}`),
-              },
+              // {
+              //   label: "Bildir",
+              //   onClick: () => {
+              //     alert("Bildiriminizi aldık. Teşekkür ederiz");
+              //   },
+              // },
+              // {
+              //   label: "profili ziyaret et",
+              //   onClick: () => navigate(`/${project?.username}`),
+              // },
+              // logginedUser&&project?.username === logginedUser.username &&{
+              //   label: "projeyi düzenle",
+              //   onClick: () => alert(`/project/edit/${project?._id}`),
+              // },
+              logginedUser&&project?.username === logginedUser.username &&<Modal buttonText={"Düzenle"} component={<NewProject project={project} />}/>,
             ]}
           />
         }
@@ -95,35 +103,17 @@ const ProjectCard = ({ project }) => {
         >
           {project?.title}
         </Typography>
-        {project?.hashtagsName?.map((hashtag) => (
-          <Button
-            variant="outlined"
-            size="small"
-            key={hashtag}
-            sx={{
-              textDecoration: "none",
-              display: "inline-block",
-              margin: ".4rem",
-              color: `${theme.palette.primary.main}`,
-              border: `.5px solid grey`,
-              borderRadius: "10px",
-              cursor: "pointer",
-            }}
-            //  onClick={()=>navigate(`/explore/${hashtag}`)}
-          >
-            {hashtag}
-          </Button>
-        ))}
+      
       </CardContent>
       <CardActions
         disableSpacing
         sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
       >
         <Box>
-          <IconButton aria-label="projeAdress">
+          <IconButton aria-label="projeAdress" href={project.projectAdress}>
             <LinkIcon />
           </IconButton>
-          <IconButton aria-label="githubAdress">
+          <IconButton aria-label="githubAdress" href={project.githubAdress}>
             <GitHubIcon />
           </IconButton>
           <IconButton aria-label="share">
@@ -158,7 +148,7 @@ const ProjectCard = ({ project }) => {
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent style={{ backgroundColor: "gray" }}>
+        <CardContent>
           <Typography paragraph>{project?.content}</Typography>
         </CardContent>
       </Collapse>

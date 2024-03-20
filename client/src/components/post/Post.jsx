@@ -8,16 +8,16 @@ import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import Collapse from "@mui/material/Collapse";
 import { Avatar, Box, Button } from "@mui/material";
-import { red } from "@mui/material/colors";
-import { useSelector } from "react-redux";
-import Card from "@mui/material/Card";
-import PropTypes from "prop-types";
-import { useState } from "react";
-import ActionsButton from "../../Modals/ActionsButton";
+import FollowActions from "../actions/FollowActions";
+import TopRightButton from "../actions/TopRightButton";
 import LikeActions from "../actions/LikeActions";
 import FavoriteActions from "../actions/FavoriteActions";
 import { useTheme } from "@mui/material/styles";
-import FollowActions from "../actions/FollowActions";
+import { red } from "@mui/material/colors";
+import { useSelector } from "react-redux";
+import Card from "@mui/material/Card";
+import { useState } from "react";
+import PropTypes from "prop-types";
 
 const Post = ({ post }) => {
   const logginedUser = useSelector((state) => state.session && state.session.user);
@@ -66,7 +66,7 @@ const Post = ({ post }) => {
                   ))}
               </Box>
             )}
-            <ActionsButton
+            <TopRightButton
               actions={[
                 {
                   label: "Bildir",
@@ -171,7 +171,7 @@ const Post = ({ post }) => {
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent background={`${theme.palette.postBackground.default}`}>
+        <CardContent>
           <Typography color="primary" paragraph>
             {post?.content}
           </Typography>

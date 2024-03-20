@@ -11,11 +11,11 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "./scss/main-menu.scss";
 import { useTheme } from "@mui/material/styles";
-import { useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import Modal from "../../Modals";
 import NewPost from "../post/NewPost";
+import styled from "@emotion/styled";
 const Menu = () => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector(
@@ -28,44 +28,54 @@ const Menu = () => {
   const locPath = location.pathname;
 
   const theme = useTheme();
-  const widthThreshold = useMediaQuery("(max-width: 1234px)");
-
+  const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1234px)");
+  const StyledListItemText = styled(ListItemText)({
+    color: theme.palette.primary.main,
+    display: isTablet ? "none" : "block",
+  });
+const StyledListItemIcon = styled(ListItemIcon)({
+  display:  "flex",
+  justifyContent: "center",
+});
   return (
-    <div id="main-menu-container">
+    <Box sx={{
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    }}>
       <List
         sx={{
-          width: "100%",
           display: "flex",
           flexDirection: "column",
+          justifyContent: "center",
           gap: "20px",
         }}
       >
         <ListItem
           disablePadding
           className={locPath === "/" ? "active" : ""}
-          sx={{ width: widthThreshold ? "60px" : "95%" }}
+         
         >
           <ListItemButton onClick={() => navigate("/")}>
-            <ListItemIcon>
+            <StyledListItemIcon >
               <HomeIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary="Anasayfa"
-              primaryTypographyProps={{ color: theme.palette.primary.main }}
-            />
+            </StyledListItemIcon>
+            <StyledListItemText primary="Anasayfa" />
           </ListItemButton>
         </ListItem>
 
         <ListItem
           disablePadding
           className={locPath === "/explore" ? "active" : ""}
-          sx={{ width: widthThreshold ? "60px" : "95%" }}
+         
         >
-          <ListItemButton onClick={() => navigate("/explore")}>
-            <ListItemIcon>
+          <ListItemButton onClick={() => navigate("/explore")} >
+          <StyledListItemIcon >
+
               <SearchIcon />
-            </ListItemIcon>
-            <ListItemText
+            </StyledListItemIcon>
+            <StyledListItemText
               primary="Keşfet"
               primaryTypographyProps={{ color: theme.palette.primary.main }}
             />
@@ -77,14 +87,14 @@ const Menu = () => {
             <ListItem
               disablePadding
               className={locPath === "/favorite" ? "active" : ""}
-              sx={{ width: widthThreshold ? "60px" : "95%" }}
+             
             >
               <ListItemButton onClick={() => navigate("/favorite")}>
-                <ListItemIcon>
+                <StyledListItemIcon>
                   <StarBorderIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Favorile"
+                </StyledListItemIcon>
+                <StyledListItemText
+                  primary="Favoriler"
                   primaryTypographyProps={{ color: theme.palette.primary.main }}
                 />
               </ListItemButton>
@@ -93,13 +103,13 @@ const Menu = () => {
             <ListItem
               disablePadding
               className={locPath === "/MyLikes" ? "active" : ""}
-              sx={{ width: widthThreshold ? "60px" : "95%" }}
+             
             >
               <ListItemButton onClick={() => navigate("/MyLikes")}>
-                <ListItemIcon>
+                <StyledListItemIcon>
                   <FavoriteBorderIcon />
-                </ListItemIcon>
-                <ListItemText
+                </StyledListItemIcon>
+                <StyledListItemText
                   primary="Beğeni"
                   primaryTypographyProps={{ color: theme.palette.primary.main }}
                 />
@@ -109,13 +119,13 @@ const Menu = () => {
             <ListItem
               disablePadding
               className={locPath === `/${username}` ? "active" : ""}
-              sx={{ width: widthThreshold ? "60px" : "95%" }}
+             
             >
               <ListItemButton onClick={() => navigate(`/${username}`)}>
-                <ListItemIcon>
+                <StyledListItemIcon>
                   <PermIdentityIcon />
-                </ListItemIcon>
-                <ListItemText
+                </StyledListItemIcon>
+                <StyledListItemText
                   primary="Profilim"
                   primaryTypographyProps={{ color: theme.palette.primary.main }}
                 />
@@ -125,13 +135,13 @@ const Menu = () => {
             <ListItem
               disablePadding
               className={locPath === "/settings" ? "active" : ""}
-              sx={{ width: widthThreshold ? "60px" : "95%" }}
+             
             >
               <ListItemButton onClick={() => navigate("/settings")}>
-                <ListItemIcon>
+                <StyledListItemIcon>
                   <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText
+                </StyledListItemIcon>
+                <StyledListItemText
                   primary="Ayarlar"
                   primaryTypographyProps={{ color: theme.palette.primary.main }}
                 />
@@ -141,12 +151,9 @@ const Menu = () => {
         )}
       </List>
       {isLoggedIn && (
-        <Modal
-          buttonText="Tazze bir Fikir"
-          component={<NewPost/>}
-        />
+        <Modal buttonText={isTablet?"+":"Yeni Fikir"} component={<NewPost />} />
       )}
-    </div>
+    </Box>
   );
 };
 

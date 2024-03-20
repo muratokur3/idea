@@ -13,7 +13,7 @@ import HomeTabs from "../components/actions/HomeTabs";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const isMobile = useMediaQuery("(max-width: 1234px)");
+  const isPhone = useMediaQuery("(max-width: 600px)");
   const isLoggedIn = useSelector(
     (state) => state.session && state.session.authenticated
   );
@@ -37,7 +37,7 @@ const Home = () => {
 
   return (
     <Box>
-      {(isLoggedIn || isMobile) && <HomeTabs />}
+      {(isLoggedIn || isPhone) && <HomeTabs />}
 
       {isLoggedIn && filterName === "all" && <NewPost />}
 

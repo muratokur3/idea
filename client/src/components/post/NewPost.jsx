@@ -43,14 +43,14 @@ const NewPost = ({modalAction}) => {
   });
 
   const theme = useTheme();
-  const isMobile = useMediaQuery("(max-width: 1234px)");
+  const isPhone = useMediaQuery("(max-width: 600px)");
   return (
     <form
       onSubmit={handleSubmit}
       style={{
         width: "100%",
         display: "flex",
-        flexDirection: isMobile ? "column" : "row",
+        flexDirection: isPhone ? "column" : "row",
         padding: "1rem",
         gap: "1rem",
         background: "none",
@@ -78,7 +78,7 @@ const NewPost = ({modalAction}) => {
             width: "100%",
             border: "none",
             outline: "none",
-            fontSize: isMobile ? "1rem" : "1.1rem",
+            fontSize: isPhone ? "1rem" : "1.1rem",
             borderBottom: ".2rem solid rgba(107, 103, 103, 0.171)",
             maxHeight: "80px",
             padding: "5px",
@@ -107,7 +107,7 @@ const NewPost = ({modalAction}) => {
             width: "100%",
             border: "none",
             outline: "none",
-            fontSize: isMobile ? ".8rem" : "1.1rem",
+            fontSize: isPhone ? ".8rem" : "1.1rem",
             maxHeight: "500px",
             resize: "none",
             lineHeight: "1.5",
@@ -132,7 +132,7 @@ const NewPost = ({modalAction}) => {
           className="new-post-hashtag"
           value={selectedHashtags}
           multiple
-          size={isMobile ? "small" : "medium"}
+          size={isPhone ? "small" : "medium"}
           limitTags={3}
           id="multiple-limit-tags"
           options={hashtags}

@@ -21,7 +21,6 @@ const Modal = ({buttonText,component,icon}) => {
         color="primary"
         onClick={handleOpen}
         sx={{
-          width: "100%",
           borderRadius: "30px",
         }}
         endIcon={icon}

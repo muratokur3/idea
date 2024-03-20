@@ -5,15 +5,15 @@ import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { useRef, useState } from "react";
 import { Box, Button, Paper, Typography, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { createProject } from "../../redux/actions/ProjectAction";
 import { useTheme } from "@mui/material/styles";
 import { getHashtags } from "../../redux/actions/HashtagsAction";
 import styled from "@emotion/styled";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import PropTypes from "prop-types";
 
-const NewProject = () => {
+const NewProject = ({ project }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery("(max-width: 1234px)");
+  const isPhone = useMediaQuery("(max-width: 600px)");
 
   const dispatch = useDispatch();
   const logoFileInputRef = useRef(null);
@@ -21,50 +21,52 @@ const NewProject = () => {
     adress: "https://picsum.photos/200/300?random=1",
     file: null,
   });
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [selectedHashtags, setSelectedHashtags] = useState([]);
-  const [githubAdress, setGithubAdress] = useState("");
-  const [projectAdress, setProjectAdress] = useState("");
-  const [projectName, setProjectName] = useState("");
-  const [createDate, setCreateDate] = useState("");
-  const hashtags = useSelector((state) => state.hashtags.hashtags);
-  const user = useSelector((state) => state.session && state.session.user);
+
+  const logginedUser = useSelector(
+    (state) => state.session && state.session.user
+  );
+  const [formData, setFormData] = useState(
+    project
+      ? { ...project }
+      : {
+          name: "",
+          title: "",
+          content: "",
+          githubAdress: "",
+          projectAdress: "",
+          createDate: "",
+          userId: logginedUser._id,
+        }
+  );
+
+  const handleInputChance = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const inputControl = () => {
-    const regex = /^[a-z0-9._]{3,20}$/;
+    const regex = /^.{3,20}$/;
     return (
-      regex.test(projectName) &&
-      regex.test(createDate) &&
-      (projectAdress.length === 0 || regex.test(projectAdress)) &&
-      (githubAdress.length === 0 || regex.test(githubAdress)) &&
-      selectedHashtags.length > 0 &&
-      selectedHashtags.length < 6
+      regex.test(formData.name) &&
+      regex.test(formData.createDate) &&
+      (formData.projectAdress.length === 0 ||
+        regex.test(formData.projectAdress)) &&
+      (formData.githubAdress.length === 0 ||
+        regex.test(formData.githubAdress))
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (inputControl()) {
-      const newProjectData = {
-        userId: user._id,
-        name: projectName,
-        title: title,
-        content,
-        githubAdress,
-        projectAdress,
-        createDate,
-        logo: logo.adress,
-        hashtags: selectedHashtags.map((hashtag) => hashtag._id),
-      };
-      dispatch(createProject(newProjectData,logo.file));
-      setContent("");
-      setTitle("");
-      setProjectAdress("");
-      setGithubAdress("");
-      setProjectName("");
-      setCreateDate("");
-      setSelectedHashtags([]);
+      console.log(
+        formData
+      );
+      // dispatch(
+      //   createProject(
+      //    formData,
+      //     logo.file
+      //   )
+      // );
     } else {
       alert("Lütfen tüm alanları doldurduğunuzdan emin olun.");
     }
@@ -79,8 +81,8 @@ const NewProject = () => {
     <form
       onSubmit={handleSubmit}
       style={{
-        width: isMobile ? "100%" : "80%",
-        paddingTop: isMobile ? "200px" : "0",
+        width: isPhone ? "100%" : "80%",
+        padding:  "2rem",
         display: "flex",
         flexDirection: "column",
         gap: "15px",
@@ -103,20 +105,20 @@ const NewProject = () => {
             maxWidth: "200px",
           }}
         />
-         <input
-              fontSize="small"
-              type="file"
-              id="logo"
-              name="logo"
-              ref={logoFileInputRef}
-              onChange={(e) => {
-                setLogo({
-                  adress: URL.createObjectURL(e.target.files[0]),
-                  file: e.target.files[0],
-                });
-              }}
-              style={{ display: "none" }}
-            />
+        <input
+          fontSize="small"
+          type="file"
+          id="logo"
+          name="logo"
+          ref={logoFileInputRef}
+          onChange={(e) => {
+            setLogo({
+              adress: URL.createObjectURL(e.target.files[0]),
+              file: e.target.files[0],
+            });
+          }}
+          style={{ display: "none" }}
+        />
         <Button
           sx={{
             width: "3vw",
@@ -133,10 +135,9 @@ const NewProject = () => {
         </Button>
       </Box>
       <TextField
-        onChange={(e) => {
-          setProjectName(e.target.value);
-        }}
-        value={projectName}
+        onChange={handleInputChance}
+        value={formData.name}
+        name="name"
         className="adress"
         id="outlined-basic"
         label="Projenin Adı"
@@ -145,10 +146,9 @@ const NewProject = () => {
         required
       />
       <TextField
-        onChange={(e) => {
-          setProjectAdress(e.target.value);
-        }}
-        value={projectAdress}
+        onChange={handleInputChance}
+        value={formData.projectAdress}
+        name="projectAdress"
         className="adress"
         id="outlined-basic"
         label="Projenin adresi"
@@ -156,20 +156,18 @@ const NewProject = () => {
         placeholder="hhtps://"
       />
       <TextField
-        onChange={(e) => {
-          setGithubAdress(e.target.value);
-        }}
-        value={githubAdress}
+        onChange={handleInputChance}
+        value={formData.githubAdress}
+        name="githubAdress"
         id="outlined-basic"
         label="Github Adresi"
         variant="outlined"
         placeholder="hhtps://"
       />
       <TextField
-        onChange={(e) => {
-          setCreateDate(e.target.value);
-        }}
-        value={createDate}
+        onChange={handleInputChance}
+        value={formData.createDate}
+        name="createDate"
         maxLength={3}
         id="outlined-basic"
         label="Projenin oluşturma tarihi"
@@ -180,10 +178,9 @@ const NewProject = () => {
       <Box>
         <TextareaAutosize
           className="title-textarea"
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
+          onChange={handleInputChance}
+          value={formData.title}
+          name="title"
           minRows={3}
           maxLength={100}
           placeholder="Projeyi anlatan kısa başlık"
@@ -191,7 +188,7 @@ const NewProject = () => {
             width: "100%",
             border: "none",
             outline: "none",
-            fontSize: isMobile ? "1rem" : "1.1rem",
+            fontSize: isPhone ? "1rem" : "1.1rem",
             maxHeight: "10vh",
             padding: "5px",
             resize: "none",
@@ -207,15 +204,16 @@ const NewProject = () => {
           }}
           required
         />
-        <TypographyLength color={100 - title.length === 0 ? "red" : "gray"}>
-          {100 - title.length}
+        <TypographyLength
+          color={100 - formData.title.length === 0 ? "red" : "gray"}
+        >
+          {100 - formData.title.length}
         </TypographyLength>
 
         <TextareaAutosize
-          value={content}
-          onChange={(e) => {
-            setContent(e.target.value);
-          }}
+          onChange={handleInputChance}
+          value={formData.content}
+          name="content"
           minRows={3}
           maxLength={1000}
           placeholder="projeyi detaylandırın..."
@@ -223,7 +221,7 @@ const NewProject = () => {
             width: "100%",
             border: "none",
             outline: "none",
-            fontSize: isMobile ? ".8rem" : "1.1rem",
+            fontSize: isPhone ? ".8rem" : "1.1rem",
             maxHeight: "15vh",
             resize: "none",
             lineHeight: "1.5",
@@ -238,53 +236,12 @@ const NewProject = () => {
           }}
           required
         />
-        <TypographyLength color={1000 - content.length === 0 ? "red" : "gray"}>
-          {1000 - content.length}
+        <TypographyLength
+          color={1000 - formData.content.length === 0 ? "red" : "gray"}
+        >
+          {1000 - formData.content.length}
         </TypographyLength>
       </Box>
-      <Autocomplete
-        onChange={(e, value) => {
-          value.length < 6 && setSelectedHashtags(value);
-        }}
-        className="new-post-hashtag"
-        value={selectedHashtags}
-        multiple
-        size={isMobile ? "small" : "medium"}
-        limitTags={3}
-        id="multiple-limit-tags"
-        options={hashtags}
-        getOptionLabel={(option) => "#" + option.name}
-        renderInput={(params) => (
-          <TextField
-            onClick={() => hashtags.length === 0 && dispatch(getHashtags())}
-            {...params}
-            label="#hashtag"
-            placeholder="#"
-            sx={{
-              "& .MuiInputBase-input::placeholder": { color: "white" },
-            }}
-            InputLabelProps={{
-              style: { color: `${theme.palette.primary.main}` },
-            }}
-          />
-        )}
-        PaperComponent={({ children }) => (
-          <Paper
-            sx={{
-              backgroundColor: `${
-                theme.palette.mode === "dark" ? "black" : "primary"
-              }`,
-            }}
-          >
-            {children}
-          </Paper>
-        )}
-      />
-      <TypographyLength
-        color={5 - selectedHashtags.length === 0 ? "red" : "gray"}
-      >
-        {5 - selectedHashtags.length}
-      </TypographyLength>
 
       <Button
         type="submit"
@@ -303,3 +260,6 @@ const NewProject = () => {
 };
 
 export default NewProject;
+NewProject.propTypes = {
+  project: PropTypes.object,
+};

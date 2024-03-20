@@ -25,6 +25,7 @@ const ChangeThemeMode = () => {
 
   return (
     <FormControlLabel
+    sx={{width:"100%"}}
       control={<Switch checked={checked} onChange={ChangeTheme} />}
       label={<Typography color="primary">{mode}</Typography>}
     />

@@ -7,7 +7,9 @@ import MobileBottomNavigation from "../components/menu/MobileBottomNavigation";
 
 const ClientLayout = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery("(max-width: 1234px)");
+  const isPhone = useMediaQuery("(max-width: 600px)");
+  const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1234px)");
+
 
   const Container = styled(Box)({
     display: "flex",
@@ -17,9 +19,10 @@ const ClientLayout = () => {
     minHeight: "100vh",
     backgroundColor: theme.palette.background.default,
   });
+  
   const Content = styled(Box)({
     display: "flex",
-    width: isMobile ? "100%" : "60%",
+    width: isPhone ? "100%" : isTablet ? "90%" : "60%",
     minHeight: "100vh",
     backgroundColor: theme.palette.background.default,
   });
@@ -29,12 +32,10 @@ const ClientLayout = () => {
       {/* <CssBaseline /> */}
       <Container>
         <Content>
-          {!isMobile && <Sidebar sx={{ width: "25%" }} />}
-          <Box sx={{ width: isMobile ? "100%" : "75%" }}>
+          {!isPhone && <Sidebar/>}
             <Outlet />
-          </Box>
         </Content>
-        {isMobile && <MobileBottomNavigation />}
+        {isPhone && <MobileBottomNavigation />}
       </Container>
     </>
   );
