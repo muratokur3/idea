@@ -3,14 +3,11 @@ const router = express.Router();
 const ProjectChema = require("../models/Project");
 const UserChema = require("../models/User");
 
-
-
-
 //yeni proje oluşturur
-router.post("/", async (req, res) => {
+router.post("/createProject", async (req, res) => {
   try {
-    const data = { ...req.body};
-    const newProject = new ProjectChema(data);
+    const data = await { ...req.body };
+    const newProject = await new ProjectChema(data);
     await newProject.save();
     res.status(201).json(newProject);
   } catch (error) {
@@ -19,6 +16,24 @@ router.post("/", async (req, res) => {
   }
 });
 
+//projeyi günceller
+router.put("/ubdateProject", async (req, res) => {
+  try {
+    const projectId = req.body.projectId;
+    const updates = req.body;
+    const ubdadetProject = await ProjectChema.findByIdAndUpdate(
+      projectId,
+      updates,
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(ubdadetProject);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 //id ye göre projeyı getirir
 router.get("/:id", async (req, res) => {

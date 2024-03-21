@@ -28,6 +28,7 @@ const Menu = () => {
   const locPath = location.pathname;
 
   const theme = useTheme();
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1234px)");
   const StyledListItemText = styled(ListItemText)({
     color: theme.palette.primary.main,
@@ -49,7 +50,7 @@ const StyledListItemIcon = styled(ListItemIcon)({
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          gap: "20px",
+          gap:isMobile?"0.5rem":"1.5rem",
         }}
       >
         <ListItem

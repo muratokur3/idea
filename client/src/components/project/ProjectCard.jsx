@@ -20,6 +20,7 @@ import { useTheme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import NewProject from "./NewProject";
 import Modal from "../../Modals";
+import { deleteProject } from "../../redux/actions/ProjectAction";
 const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
 
 const ExpandMore = styled((props) => {
@@ -41,7 +42,9 @@ const ProjectCard = ({ project }) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const logginedUser = useSelector((state) => state.session && state.session.user);
+  const logginedUser = useSelector(
+    (state) => state.session && state.session.user
+  );
 
   return (
     <Card
@@ -58,7 +61,7 @@ const ProjectCard = ({ project }) => {
         avatar={
           <Avatar
             src={`http://localhost:7000/${project?.logo}`}
-            sx={{ border:".1rem solid gray",width: "60px", height: "60px" }}
+            sx={{ border: ".1rem solid gray", width: "60px", height: "60px" }}
             aria-label="recipe"
           >
             Logo
@@ -67,21 +70,36 @@ const ProjectCard = ({ project }) => {
         action={
           <TopRightButton
             actions={[
-              // {
-              //   label: "Bildir",
-              //   onClick: () => {
-              //     alert("Bildiriminizi aldık. Teşekkür ederiz");
-              //   },
-              // },
-              // {
-              //   label: "profili ziyaret et",
-              //   onClick: () => navigate(`/${project?.username}`),
-              // },
-              // logginedUser&&project?.username === logginedUser.username &&{
-              //   label: "projeyi düzenle",
-              //   onClick: () => alert(`/project/edit/${project?._id}`),
-              // },
-              logginedUser&&project?.username === logginedUser.username &&<Modal buttonText={"Düzenle"} component={<NewProject project={project} />}/>,
+              project?.username !== logginedUser.username && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  sx={{
+                    borderRadius: "30px",
+                  }}
+                  onClick={() => navigate(`/${project?.username}`)}
+                >
+                  profili ziyaret et
+                </Button>
+              ),
+              logginedUser && project?.username === logginedUser.username && (
+                <Modal
+                  buttonText={"Güncelle"}
+                  component={<NewProject project={project} />}
+                />
+              ),
+              logginedUser && project?.username === logginedUser.username && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  sx={{
+                    borderRadius: "30px",
+                  }}
+                  onClick={() => deleteProject(project?._id)}
+                >
+                  Sil
+                </Button>
+              ),
             ]}
           />
         }
@@ -103,7 +121,6 @@ const ProjectCard = ({ project }) => {
         >
           {project?.title}
         </Typography>
-      
       </CardContent>
       <CardActions
         disableSpacing

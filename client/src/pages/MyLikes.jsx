@@ -13,6 +13,9 @@ const MyLikes = () => {
   }, []);
   return (
     <ListPost
+    sx={{
+      width: "100%",
+    }}
             data={ProfileLikesData}
             getPosts={() =>
               dispatch(

@@ -20,7 +20,7 @@ const HashtagCardList = () => {
   }, []);
 
   return (
-    <>
+    <Box>
       {hashtagsExplore.map((hashtag, index) => (
         <Box key={index}>
           <Card
@@ -66,7 +66,7 @@ const HashtagCardList = () => {
           </Card>
         </Box>
       ))}
-    </>
+    </Box>
   );
 };
 

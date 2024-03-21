@@ -10,20 +10,30 @@ const ClientLayout = () => {
   const isPhone = useMediaQuery("(max-width: 600px)");
   const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1234px)");
 
-
   const Container = styled(Box)({
-    display: "flex",
     width: "100%",
-    alignItems: "center",
+    display: "flex",
     justifyContent: "center",
     minHeight: "100vh",
     backgroundColor: theme.palette.background.default,
   });
-  
+
   const Content = styled(Box)({
     display: "flex",
-    width: isPhone ? "100%" : isTablet ? "90%" : "60%",
+    width: (isPhone || isTablet) ? "90%" : "55%",
     minHeight: "100vh",
+    backgroundColor: theme.palette.background.default,
+  });
+  const StyledSidebar = styled(Box)({
+    width:isTablet ? "10%" : "20%",
+    minHeight: "100vh",
+    backgroundColor: theme.palette.background.default,
+  });
+
+  const StyledOutlet = styled(Box)({
+    width: isPhone ?"100%": isTablet ? "90%" : "80%",
+    minHeight: "100vh",
+    padding:"0 1rem",
     backgroundColor: theme.palette.background.default,
   });
 
@@ -32,8 +42,15 @@ const ClientLayout = () => {
       {/* <CssBaseline /> */}
       <Container>
         <Content>
-          {!isPhone && <Sidebar/>}
-            <Outlet />
+        {!isPhone && (
+          <StyledSidebar>
+            <Sidebar />
+          </StyledSidebar>
+        )}
+        <StyledOutlet>
+
+          <Outlet />
+        </StyledOutlet>
         </Content>
         {isPhone && <MobileBottomNavigation />}
       </Container>

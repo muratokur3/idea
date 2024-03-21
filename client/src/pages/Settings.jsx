@@ -7,10 +7,11 @@ const Settings = () => {
   return (
     <Box
       sx={{
-        margin: "0 20px",
+        width: "100%",
+        padding: "2rem",
         display: "flex",
         flexDirection: "column",
-        gap: "50px",
+        gap: "2rem",
         paddingTop: "10vh",
         minHeight: "100vh",
       }}

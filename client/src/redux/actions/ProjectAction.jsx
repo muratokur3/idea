@@ -16,42 +16,34 @@ const getProjects = (pagination, username) => async (dispatch) => {
     console.log(error);
   }
 };
-
-const createProject = (data, logo) => async (dispatch) => {
+const ubdateLogo = async (data, logo) => {
   try {
-    const ubdateLogo = async () => {
-      try {
-        console.log("logo avatars güncelleniyor", logo, data?.name);
+    const formData = new FormData();
+    const logoData = await logo; // Promise'in çözülmesini bekleyin
+    formData.append("file", logoData);
 
-        const formData = new FormData();
-        const logoData = await logo; // Promise'in çözülmesini bekleyin
-        formData.append("file", logoData);
-
-        const response = await axios.post(
-          `users/upload/images?username=${data?.name}&folder=project-logo`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        if (response.status === 200) {
-          console.log("Logo eklendi", response.data.filename);
-          const newLogoUrl = `uploads/images/project-logo/${response.data.filename}`;
-          return newLogoUrl;
-        } else {
-          throw new Error("Proje logo yüklenemedi");
-        }
-      } catch (error) {
-        console.log("Proje logo yükleme hatası:", error.message);
+    const response = await axios.post(
+      `users/upload/images?username=${data?.name}&folder=project-logo`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       }
-    };
+    );
 
-    const newLogoUrl = logo ? await ubdateLogo() : data?.logo;
+    if (response.status === 200) {
+      return `uploads/images/project-logo/${response.data.filename}`;
+    }
+  } catch (error) {
+    console.log("Proje logo yükleme hatası:", error.message);
+  }
+};
 
-    const response = await axios.post(`projects`, {
+const ubdateProject = (data, logo) => async (dispatch) => {
+  try {
+    const newLogoUrl = logo ? await ubdateLogo(data, logo) : data?.logo;
+    const response = await axios.put(`projects/ubdateProject`, {
       ...data,
       logo: newLogoUrl,
     });
@@ -64,18 +56,33 @@ const createProject = (data, logo) => async (dispatch) => {
   }
 };
 
-// const deleteProject = (id) => {
-//   return (dispatch) => {
-//     dispatch({ type: "DELETE_PROJECT_REQUEST" });
-//     axios
-//       .delete(`http://localhost:3000/projects/${id}`)
-//       .then((response) => {
-//         dispatch({ type: "DELETE_PROJECT_SUCCESS", payload: id });
-//       })
-//       .catch((error) => {
-//         dispatch({ type: "DELETE_PROJECT_FAILURE", payload: error });
-//       });
-//   };
-// };
+const createProject = (data, logo) => async (dispatch) => {
+  try {
+    const newLogoUrl = logo ? await ubdateLogo(data, logo) : data?.logo;
 
-export { getProjects, createProject };
+    const response = await axios.post(`projects/createProject`, {
+      ...data,
+      logo: newLogoUrl,
+    });
+
+    if (response.status === 200) {
+      dispatch(setNewProject(response.data));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//id değerine göre proje silme
+const deleteProject = async (projectId) => {
+  try {
+    const response = await axios.delete(`projects/${projectId}`);
+    if (response.status === 200) {
+      console.log(response.data);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getProjects, createProject, ubdateProject, deleteProject };

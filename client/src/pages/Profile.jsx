@@ -48,6 +48,7 @@ const ProfileLayout = () => {
     <Box
       sx={{
         width: "100%",
+        maxWidth: "100%",
         height: "auto",
         display: "flex",
         flexDirection: "column",

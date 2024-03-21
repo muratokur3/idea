@@ -1,16 +1,18 @@
 import Avatar from "@mui/material/Avatar";
-import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { useRef, useState } from "react";
-import { Box, Button, Paper, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "@mui/material/styles";
-import { getHashtags } from "../../redux/actions/HashtagsAction";
 import styled from "@emotion/styled";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import PropTypes from "prop-types";
 
+import {
+  createProject,
+  ubdateProject,
+} from "../../redux/actions/ProjectAction";
 const NewProject = ({ project }) => {
   const theme = useTheme();
   const isPhone = useMediaQuery("(max-width: 600px)");
@@ -18,7 +20,7 @@ const NewProject = ({ project }) => {
   const dispatch = useDispatch();
   const logoFileInputRef = useRef(null);
   const [logo, setLogo] = useState({
-    adress: "https://picsum.photos/200/300?random=1",
+    adress: project?`http://localhost:7000/${project.logo}`:null,
     file: null,
   });
 
@@ -36,6 +38,7 @@ const NewProject = ({ project }) => {
           projectAdress: "",
           createDate: "",
           userId: logginedUser._id,
+          logo: logo.adress,
         }
   );
 
@@ -50,23 +53,32 @@ const NewProject = ({ project }) => {
       regex.test(formData.createDate) &&
       (formData.projectAdress.length === 0 ||
         regex.test(formData.projectAdress)) &&
-      (formData.githubAdress.length === 0 ||
-        regex.test(formData.githubAdress))
+      (formData.githubAdress.length === 0 || regex.test(formData.githubAdress))
     );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (inputControl()) {
-      console.log(
-        formData
-      );
-      // dispatch(
-      //   createProject(
-      //    formData,
-      //     logo.file
-      //   )
-      // );
+
+      project
+        ? dispatch(
+            ubdateProject(
+              {
+                projectId: project._id,
+                name: formData.name,
+                title: formData.title,
+                content: formData.content,
+                githubAdress: formData.githubAdress,
+                projectAdress: formData.projectAdress,
+                createDate: formData.createDate,
+                userId: formData.userId,
+                logo: project.logo,
+              },
+              logo.file
+            )
+          )
+        : dispatch(createProject(formData, logo.file));
     } else {
       alert("Lütfen tüm alanları doldurduğunuzdan emin olun.");
     }
@@ -82,7 +94,7 @@ const NewProject = ({ project }) => {
       onSubmit={handleSubmit}
       style={{
         width: isPhone ? "100%" : "80%",
-        padding:  "2rem",
+        padding: "2rem",
         display: "flex",
         flexDirection: "column",
         gap: "15px",
@@ -97,14 +109,14 @@ const NewProject = ({ project }) => {
         {" "}
         <Avatar
           alt="Proje icon"
-          src={logo.adress}
+          src={logo?.adress}
           sx={{
             width: "10vh",
             height: "10vh",
             maxHeight: "200px",
             maxWidth: "200px",
           }}
-        />
+        >Logo</Avatar>
         <input
           fontSize="small"
           type="file"
@@ -253,7 +265,7 @@ const NewProject = ({ project }) => {
           margin: "0 auto",
         }}
       >
-        Ekle
+        {project ? "Güncelle" : "Oluştur"}
       </Button>
     </form>
   );

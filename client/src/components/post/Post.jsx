@@ -67,21 +67,39 @@ const Post = ({ post }) => {
               </Box>
             )}
             <TopRightButton
-              actions={[
-                {
-                  label: "Bildir",
-                  onClick: () => {
-                    alert("bildir");
-                  },
-                },
-                post?.userId === logginedUserId && {
-                  label: "Sil",
-                  onClick: () => {
-                    alert("sil");
-                  },
-                },
-              ]}
-            />
+            actions={[
+              post?.username !== logginedUser.username && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  sx={{
+                    borderRadius: "30px",
+                  }}
+                  onClick={() => navigate(`/${post?.username}`)}
+                >
+                  profili ziyaret et
+                </Button>
+              ),
+              // logginedUser && project?.username === logginedUser.username && (
+              //   <Modal
+              //     buttonText={"Güncelle"}
+              //     component={<NewProject project={project} />}
+              //   />
+              // ),
+              logginedUser && post?.username === logginedUser.username && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  sx={{
+                    borderRadius: "30px",
+                  }}
+                  // onClick={() => deleteProject(project?._id)}
+                >
+                  Sil
+                </Button>
+              ),
+            ]}
+          />
           </Box>
         }
         title={post?.name + " " + post?.surname}

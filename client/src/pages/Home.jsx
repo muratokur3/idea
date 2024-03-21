@@ -36,7 +36,9 @@ const Home = () => {
   }, []);
 
   return (
-    <Box>
+    <Box   sx={{
+      width: "100%",
+      maxWidth: "100%",}}>
       {(isLoggedIn || isPhone) && <HomeTabs />}
 
       {isLoggedIn && filterName === "all" && <NewPost />}

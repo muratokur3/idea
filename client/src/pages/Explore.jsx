@@ -5,10 +5,8 @@ import SearchBar from "../components/explore/SearchBar";
 
 const StyledExploreContainer = styled(Box)({
   width: "100%",
-  height: "auto",
   display: "flex",
   flexDirection: "column",
-  background: "none",
 });
 
 

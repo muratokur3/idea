@@ -88,6 +88,7 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
     avatar: newAvatarUrl,
     background: newBackgroundUrl,
   });
+  
   if (response.status === 200) {
     alert("Profiliniz başarıyla güncellendi");
     const logginedUser = await sessionService.loadUser();
