@@ -13,7 +13,7 @@ import {
   createProject,
   ubdateProject,
 } from "../../redux/actions/ProjectAction";
-const NewProject = ({ project }) => {
+const NewProject = ({modalAction, project }) => {
   const theme = useTheme();
   const isPhone = useMediaQuery("(max-width: 600px)");
 
@@ -79,6 +79,7 @@ const NewProject = ({ project }) => {
             )
           )
         : dispatch(createProject(formData, logo.file));
+        modalAction.handleClose();
     } else {
       alert("Lütfen tüm alanları doldurduğunuzdan emin olun.");
     }
@@ -273,5 +274,6 @@ const NewProject = ({ project }) => {
 
 export default NewProject;
 NewProject.propTypes = {
+  modalAction: PropTypes.object,
   project: PropTypes.object,
 };

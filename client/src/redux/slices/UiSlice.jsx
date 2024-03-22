@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  themeMode: "Dark",
+  themeMode: "dark",
   lightTheme: {
     palette: {
       mode: "light",
@@ -50,11 +50,11 @@ export const uiSlice = createSlice({
   initialState,
   reducers: {
     setThemeMode(state, action) {
-      if (action.payload === "Light") {
-        state.themeMode = "Light";
+      if (action.payload === "light") {
+        state.themeMode = "light";
         state.useTheme = state.lightTheme;
       } else {
-        state.themeMode = "Dark";
+        state.themeMode = "dark";
         state.useTheme = state.darkTheme;
       }
     },

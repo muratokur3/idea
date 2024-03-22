@@ -1,34 +1,49 @@
-import { FormControlLabel, Switch, Typography } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { Box, FormControlLabel, Switch } from "@mui/material";
+import { useDispatch } from "react-redux";
 import { setThemeMode } from "../../../redux/slices/UiSlice";
 import { useEffect, useState } from "react";
-
+import NightsStayIcon from "@mui/icons-material/NightsStay";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import { useTheme } from "@mui/material/styles";
 const ChangeThemeMode = () => {
   const dispatch = useDispatch();
-  const mode = useSelector((state) => state.ui.themeMode);
+  const theme = useTheme();
   const [checked, setChecked] = useState(true);
   useEffect(() => {
-    if (mode === "Light") {
+    if (theme.palette.mode === "light") {
       setChecked(false);
     } else {
       setChecked(true);
     }
-  }, [mode]);
+  }, [theme]);
 
   const ChangeTheme = () => {
-    if (mode === "Light") {
-      dispatch(setThemeMode("Dark"));
+    if (theme.palette.mode === "light") {
+      dispatch(setThemeMode("dark"));
     } else {
-      dispatch(setThemeMode("Light"));
+      dispatch(setThemeMode("light"));
     }
   };
 
   return (
-    <FormControlLabel
-    sx={{width:"100%"}}
-      control={<Switch checked={checked} onChange={ChangeTheme} />}
-      label={<Typography color="primary">{mode}</Typography>}
-    />
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap:".5rem",
+      }}
+
+    >
+      {theme.palette.mode === "dark" && (
+        <LightModeOutlinedIcon color="primary" marginRight="0px"/>
+      )}
+      <FormControlLabel
+      
+        control={<Switch checked={checked} onChange={ChangeTheme} />}
+      />
+      {theme.palette.mode === "light" && <NightsStayIcon color="primary" />}
+    </Box>
   );
 };
 

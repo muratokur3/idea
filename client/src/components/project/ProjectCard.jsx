@@ -45,7 +45,29 @@ const ProjectCard = ({ project }) => {
   const logginedUser = useSelector(
     (state) => state.session && state.session.user
   );
+  const formatRelativeTime= (timestamp)=> {
+    const now = new Date();
+    const targetDate = new Date(timestamp);
 
+    const timeDifference = now - targetDate;
+    const minutes = Math.floor(timeDifference / (1000 * 60));
+    const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+    if (days === 0) {
+      if (hours === 0) {
+        return `${minutes} dakika önce`;
+      } else {
+        return `${hours} saat önce`;
+      }
+    } else if (days === 1) {
+      return "Dün";
+    } else {
+      // Eğer bir önceki günden daha önce ise sadece tarihi döndür
+      const options = { year: "numeric", month: "numeric", day: "numeric" };
+      return targetDate.toLocaleDateString("tr-TR", options);
+    }
+  }
   return (
     <Card
       sx={{
@@ -64,7 +86,7 @@ const ProjectCard = ({ project }) => {
             sx={{ border: ".1rem solid gray", width: "60px", height: "60px" }}
             aria-label="recipe"
           >
-            Logo
+            LOGO
           </Avatar>
         }
         action={
@@ -72,11 +94,8 @@ const ProjectCard = ({ project }) => {
             actions={[
               project?.username !== logginedUser.username && (
                 <Button
-                  variant="outlined"
+                  variant="text"
                   color="primary"
-                  sx={{
-                    borderRadius: "30px",
-                  }}
                   onClick={() => navigate(`/${project?.username}`)}
                 >
                   profili ziyaret et
@@ -90,11 +109,8 @@ const ProjectCard = ({ project }) => {
               ),
               logginedUser && project?.username === logginedUser.username && (
                 <Button
-                  variant="outlined"
+                  variant="text"
                   color="primary"
-                  sx={{
-                    borderRadius: "30px",
-                  }}
                   onClick={() => deleteProject(project?._id)}
                 >
                   Sil
@@ -103,7 +119,20 @@ const ProjectCard = ({ project }) => {
             ]}
           />
         }
-        title={project?.name}
+        title={<Box 
+          sx={{
+            width: "100%",
+            display:"flex", 
+            alignItems: 'center',
+            gap: "1rem",
+          }}>
+            <Typography>
+            {project?.name}
+            </Typography>
+            <Typography variant='caption' color="gray">{formatRelativeTime(project?.createdAt)}
+            </Typography>
+          
+          </Box>}
         titleTypographyProps={{ color: "primary" }}
         subheader={
           <Typography color="secondary">{project?.createDate}</Typography>

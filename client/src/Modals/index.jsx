@@ -17,12 +17,9 @@ const Modal = ({buttonText,component,icon}) => {
   return (
     <Box>
       <Button
-        variant="outlined"
+        variant="text"
         color="primary"
         onClick={handleOpen}
-        sx={{
-          borderRadius: "30px",
-        }}
         endIcon={icon}
       >
         {buttonText}

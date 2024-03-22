@@ -31,7 +31,7 @@ const concatPostDetails = async (posts) => {
   const postUser = posts.map((post) => {
     const hashtags = hashtagDetails
       .filter((hashtag) => post.hashtags.includes(hashtag._id.toString()))
-      .map((hashtag) => hashtag.name);
+      .map((hashtag) => {return {_id:hashtag._id,name:hashtag.name}});
     const user = userDetails.find(
       (user) => post.userId.toString() === user._id.toString()
     );
@@ -41,14 +41,14 @@ const concatPostDetails = async (posts) => {
       surname: user.surname,
       avatar: user.avatar,
       username: user.username,
-      hashtagsName: hashtags,
+      hashtags: hashtags,
     };
   });
   return postUser;
 };
 
 //yeni post oluşturur
-router.post("/", async (req, res) => {
+router.post("/new", async (req, res) => {
   try {
     const data = req.body;
     const newPost = new PostChema(data);
@@ -65,6 +65,38 @@ router.post("/", async (req, res) => {
   }
 });
 
+//id ye göre post günceller
+router.put("/ubdate/:id", async (req, res) => {
+  if (!(await PostChema.findById(req.params.id))) {
+    return res.status(404).send("Post not found");
+  }
+  const postId = req.params.id;
+  const updates = req.body;
+  try {
+    const ubdadetPost = await PostChema.findByIdAndUpdate(postId, updates, {
+      new: true,
+    });
+    res.status(200).json(ubdadetPost);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// id ye göre post siler
+router.delete("/delete/:id", async (req, res) => {
+  if (!(await PostChema.findById(req.params.id))) {
+    return res.status(404).json("Post not found");
+  }
+  try {
+    const postId = req.params.id;
+    const post = await PostChema.findByIdAndDelete(postId);
+    res.status(200).json(post);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 //çoklu post oluşturur
 // router.post("/createMany", async (req, res) => {
@@ -288,7 +320,7 @@ router.post("/favorites/:postId/:userId", async (req, res) => {
   }
 });
 
-//posstId ve userId değerine göre favori siler
+//posstId ve userId değerine göre favoriden çıkarır
 router.post("/unfavorites/:postId/:userId", async (req, res) => {
   try {
     const postId = req.params.postId;
@@ -310,38 +342,7 @@ router.post("/unfavorites/:postId/:userId", async (req, res) => {
   }
 });
 
-//id ye göre post günceller
-router.put("/:id", async (req, res) => {
-  if (!(await PostChema.findById(req.params.id))) {
-    return res.status(404).send("Post not found");
-  }
-  const postId = req.params.id;
-  const updates = req.body;
-  try {
-    const ubdadetPost = await PostChema.findByIdAndUpdate(postId, updates, {
-      new: true,
-    });
-    res.status(200).json(ubdadetPost);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Server Error");
-  }
-});
 
-//id ye göre post siler
-router.delete("/:id", async (req, res) => {
-  if (!(await PostChema.findById(req.params.id))) {
-    return res.status(404).json("Post not found");
-  }
-  try {
-    const postId = req.params.id;
-    const post = await PostChema.findByIdAndDelete(postId);
-    res.status(200).json(post);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Server Error");
-  }
-});
 
 //tüm postlara ... alanı ekler
 router.post("/yenialan", async (req, res) => {

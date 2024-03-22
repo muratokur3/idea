@@ -1,5 +1,5 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Fade, IconButton, Menu, MenuItem } from "@mui/material";
+import { Box, Fade, IconButton, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
@@ -43,9 +43,9 @@ const TopRightButton = ({ actions }) => {
         }}
       >
         {actions.map((action, index) => (
-          <MenuItem key={index}>
+          <Box padding="0" key={index}>
             {action}
-          </MenuItem>
+          </Box>
         ))}
       </Menu>
     </>

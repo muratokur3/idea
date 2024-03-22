@@ -18,11 +18,13 @@ import { useSelector } from "react-redux";
 import Card from "@mui/material/Card";
 import { useState } from "react";
 import PropTypes from "prop-types";
+import Modal from "../../Modals";
+import NewPost from "./NewPost";
+import { deletePost } from "../../redux/actions/PostActions";
 
 const Post = ({ post }) => {
   const logginedUser = useSelector((state) => state.session && state.session.user);
   const logginedUserId = logginedUser._id;
-
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -30,6 +32,32 @@ const Post = ({ post }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
+
+
+  const formatRelativeTime= (timestamp)=> {
+    const now = new Date();
+    const targetDate = new Date(timestamp);
+
+    const timeDifference = now - targetDate;
+    const minutes = Math.floor(timeDifference / (1000 * 60));
+    const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+    if (days === 0) {
+      if (hours === 0) {
+        return `${minutes} dakika önce`;
+      } else {
+        return `${hours} saat önce`;
+      }
+    } else if (days === 1) {
+      return "Dün";
+    } else {
+      // Eğer bir önceki günden daha önce ise sadece tarihi döndür
+      const options = { year: "numeric", month: "numeric", day: "numeric" };
+      return targetDate.toLocaleDateString("tr-TR", options);
+    }
+  }
+
   return (
     <Card
       sx={{
@@ -70,30 +98,24 @@ const Post = ({ post }) => {
             actions={[
               post?.username !== logginedUser.username && (
                 <Button
-                  variant="outlined"
+                  variant="text"
                   color="primary"
-                  sx={{
-                    borderRadius: "30px",
-                  }}
                   onClick={() => navigate(`/${post?.username}`)}
                 >
                   profili ziyaret et
                 </Button>
               ),
-              // logginedUser && project?.username === logginedUser.username && (
-              //   <Modal
-              //     buttonText={"Güncelle"}
-              //     component={<NewProject project={project} />}
-              //   />
-              // ),
+              logginedUser && post?.username === logginedUser.username && (
+                <Modal
+                  buttonText={"Güncelle"}
+                  component={<NewPost post={post} />}
+                />
+              ),
               logginedUser && post?.username === logginedUser.username && (
                 <Button
-                  variant="outlined"
+                  variant="text"
                   color="primary"
-                  sx={{
-                    borderRadius: "30px",
-                  }}
-                  // onClick={() => deleteProject(project?._id)}
+                  onClick={() => deletePost(post?._id)}
                 >
                   Sil
                 </Button>
@@ -102,7 +124,20 @@ const Post = ({ post }) => {
           />
           </Box>
         }
-        title={post?.name + " " + post?.surname}
+        title={<Box 
+        sx={{
+          width: "100%",
+          display:"flex", 
+          alignItems: 'center',
+          gap: "1rem",
+        }}>
+          <Typography>
+          {post?.name + " " + post?.surname}
+          </Typography>
+          <Typography variant='caption' color="gray">{formatRelativeTime(post?.createdAt)}
+          </Typography>
+        
+        </Box>}
         titleTypographyProps={{fontSize:"1.3rem", color: "primary" }}
         subheader={
           <Typography
@@ -127,7 +162,7 @@ const Post = ({ post }) => {
         >
           {post?.title}
         </Typography>
-        {post?.hashtagsName?.map((hashtag) => (
+        {post?.hashtags?.map((hashtag) => (
           <Button
           variant="outlined"
           size="small"
@@ -142,9 +177,9 @@ const Post = ({ post }) => {
               borderRadius: "10px",
               cursor: "pointer",
             }}
-            onClick={()=>navigate(`/explore/${hashtag}`)}
+            onClick={()=>navigate(`/explore/${hashtag.name}`)}
           >
-            {hashtag}
+            {hashtag.name}
           </Button>
         ))}
       </CardContent>
@@ -176,6 +211,7 @@ const Post = ({ post }) => {
           >
             <IosShareIcon />
           </IconButton>
+         
         </Box>
         <IconButton
           onClick={handleExpandClick}

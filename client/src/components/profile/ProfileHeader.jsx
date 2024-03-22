@@ -64,7 +64,8 @@ const UserDetail = ({ profileData }) => {
                 }}
                 aria-label="recipe"
               >
-                R
+                {profileData?.user?.name[0].toUpperCase()}
+                {profileData?.user?.surname[0].toUpperCase()}
               </Avatar>
 
               {isPhone && (
@@ -92,9 +93,7 @@ const UserDetail = ({ profileData }) => {
                   !isPhone &&
                   logginedUser &&(
                     <Box>
-                      
-
-                      {logginedUser && profileData.user._id === logginedUserId ? (
+                       {logginedUser && profileData.user._id === logginedUserId ? (
                        <Modal buttonText="Profili Düzenle" component={<EditProfile user={profileData.user} />} icon={<AppRegistrationIcon/>}/>
                       ) : (
                         <FollowActions toFollowUserId={profileData?.user?._id}/>

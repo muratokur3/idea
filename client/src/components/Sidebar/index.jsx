@@ -28,11 +28,9 @@ const Container = styled(Box)({
   height: "100vh",
   backgroundColor: "none", // Adjust background color as needed
   color: "primary", // Adjust text color as needed
-  padding: "0 1rem",
   position: "sticky",
   top: 0,
   left: 0,
-  overflowY: "auto", // Add overflow scroll for long content
 });
 
 const Logo = styled(Box)({
@@ -41,7 +39,6 @@ const Logo = styled(Box)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  // padding: "10%",
 });
 
 const Details = styled(Box)({
@@ -120,8 +117,8 @@ const Sidebar = () => {
               src={logoImg}
               alt="Logo"
               style={{
-                width: "40px",
-                height: "40px",
+                width: "5vh",
+                height: "5vh",
                 background: `${
                   theme.palette.mode === "light" ? "grey" : "none"
                 }`,

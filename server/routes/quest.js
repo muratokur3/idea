@@ -31,7 +31,7 @@ const concatPostDetails = async (posts) => {
   const postUser = posts.map((post) => {
     const hashtags = hashtagDetails
       .filter((hashtag) => post.hashtags.includes(hashtag._id.toString()))
-      .map((hashtag) => hashtag.name);
+      .map((hashtag) => {return {_id:hashtag._id,name:hashtag.name}});
     const user = userDetails.find(
       (user) => post.userId.toString() === user._id.toString()
     );
@@ -41,7 +41,7 @@ const concatPostDetails = async (posts) => {
       surname: user.surname,
       avatar: user.avatar,
       username: user.username,
-      hashtagsName: hashtags,
+      hashtags: hashtags,
     };
   });
   return postUser;

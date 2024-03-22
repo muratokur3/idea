@@ -180,11 +180,22 @@ const getProfileLikesPosts = (pagination, username) => async (dispatch) => {
   }
 };
 
-const createPost = (post) => async () => {
+const createOrUpdatePost = (type,postData) => async () => {
   try {
-    await axios.post(`posts`, post);
+    console.log(postData)
+    type==="new"?await axios.post(`posts/new`, postData)
+    :await axios.put(`posts/ubdate/${postData._id}`, postData);
   } catch (error) {
     console.error("veri kaydederken hata oluştu:", error);
+  }
+};
+
+//silme işlemi
+const deletePost = async (postId) => {
+  try {
+    await axios.delete(`posts/delete/${postId}`);
+  } catch (error) {
+    console.error("veri silerken hata oluştu:", error);
   }
 };
 
@@ -298,5 +309,6 @@ export {
   getProfileLikesPosts,
   like,
   unLike,
-  createPost,
+  createOrUpdatePost,
+  deletePost
 };

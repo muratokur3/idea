@@ -5,36 +5,44 @@ import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { Box, Button, Paper, Typography, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { createPost } from "../../redux/actions/PostActions";
+import { createOrUpdatePost } from "../../redux/actions/PostActions";
 import { getHashtags } from "../../redux/actions/HashtagsAction";
 import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
-
 import styled from "@emotion/styled";
-const NewPost = ({modalAction}) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [selectedHashtags, setSelectedHashtags] = useState([]);
+
+const NewPost = ({ modalAction, post }) => {
+  const [title, setTitle] = useState(post?.title || "");
+  const [content, setContent] = useState(post?.content || "");
+  const [selectedHashtags, setSelectedHashtags] = useState(
+    post?.hashtags || []
+  );
   const hashtags = useSelector((state) => state.hashtags.hashtags);
   const user = useSelector((state) => state.session && state.session.user);
   const dispatch = useDispatch();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-  if(selectedHashtags.length > 0&&selectedHashtags.length < 6)
-    {
-      const newPost = {
-        userId: user._id,
-        title: title,
-        content,
-        hashtags: selectedHashtags.map((hashtag) => hashtag._id),
-      };
-      dispatch(createPost(newPost));
+    if (selectedHashtags.length > 0 && selectedHashtags.length < 6) {
+      const data = post
+        ? {
+            ...post,
+            title,
+            content,
+            hashtags: selectedHashtags.map((hashtag) => hashtag._id),
+          }
+        : {
+            userId: user._id,
+            title: title,
+            content,
+            hashtags: selectedHashtags.map((hashtag) => hashtag._id),
+          };
+      dispatch(createOrUpdatePost( post ? "update" : "new", data ));
       modalAction.handleClose();
       setContent("");
       setTitle("");
       setSelectedHashtags([]);
-    }
-    else alert("En az 1 hashtag seçmelisiniz");
+    } else alert("En az 1 hashtag seçmelisiniz");
   };
 
   const TypographyLength = styled(Typography)({
@@ -94,7 +102,9 @@ const NewPost = ({modalAction}) => {
           }}
           required
         />
-        <TypographyLength color={175 - title.length === 0 ? "red" : "gray"}>{175 - title.length}</TypographyLength>
+        <TypographyLength color={175 - title.length === 0 ? "red" : "gray"}>
+          {175 - title.length}
+        </TypographyLength>
         <TextareaAutosize
           value={content}
           onChange={(e) => {
@@ -123,11 +133,12 @@ const NewPost = ({modalAction}) => {
           }}
           required
         />
-        <TypographyLength  color={1500 - content.length === 0 ? "red" : "gray"}>{1500 - content.length}</TypographyLength>
+        <TypographyLength color={1500 - content.length === 0 ? "red" : "gray"}>
+          {1500 - content.length}
+        </TypographyLength>
         <Autocomplete
           onChange={(e, value) => {
-            ( value.length < 6) &&
-              setSelectedHashtags(value);
+            value.length < 6 && setSelectedHashtags(value);
           }}
           className="new-post-hashtag"
           value={selectedHashtags}
@@ -177,7 +188,6 @@ const NewPost = ({modalAction}) => {
             marginTop: "2%",
             width: "100%",
             height: "40px",
-            fontSize: ".6rem",
             fontFamily: "monospace",
             color: "primary",
             borderColor: "gray",
@@ -186,7 +196,7 @@ const NewPost = ({modalAction}) => {
             },
           }}
         >
-          Paylaş
+          {post ? "Güncelle" : "Paylaş"}
         </Button>
       </Box>
     </form>
@@ -196,4 +206,5 @@ const NewPost = ({modalAction}) => {
 export default NewPost;
 NewPost.propTypes = {
   modalAction: PropTypes.object,
+  post: PropTypes.object,
 };
