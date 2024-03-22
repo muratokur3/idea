@@ -11,7 +11,7 @@ import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 
-const NewPost = ({ modalAction, post }) => {
+const CreateOrUpdatePost = ({ modalAction, post }) => {
   const [title, setTitle] = useState(post?.title || "");
   const [content, setContent] = useState(post?.content || "");
   const [selectedHashtags, setSelectedHashtags] = useState(
@@ -203,8 +203,8 @@ const NewPost = ({ modalAction, post }) => {
   );
 };
 
-export default NewPost;
-NewPost.propTypes = {
+export default CreateOrUpdatePost;
+CreateOrUpdatePost.propTypes = {
   modalAction: PropTypes.object,
   post: PropTypes.object,
 };

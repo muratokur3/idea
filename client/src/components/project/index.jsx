@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import ProjectSkeleton from '../skeleton/ProjectSkeleton'
 import { Box, Typography } from "@mui/material";
 import Modal from "../../Modals";
-import NewProject from "./NewProject";
+import CreateOrUpdateProject from "./CreateOrUpdateProject";
 
 const Project = () => {
   const projectData = useSelector((state) => state.project);
@@ -31,7 +31,7 @@ const Project = () => {
      {username === activeUser?.username && (
      <Modal
      buttonText="Yeni proje Ekle"
-     component={<NewProject/>}
+     component={<CreateOrUpdateProject/>}
    />
       )}
       {projectData.projects.map((project, index) => (

@@ -64,8 +64,7 @@ const UserDetail = ({ profileData }) => {
                 }}
                 aria-label="recipe"
               >
-                {profileData?.user?.name[0].toUpperCase()}
-                {profileData?.user?.surname[0].toUpperCase()}
+                P
               </Avatar>
 
               {isPhone && (

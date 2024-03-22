@@ -19,7 +19,7 @@ import Card from "@mui/material/Card";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "../../Modals";
-import NewPost from "./NewPost";
+import CreateOrUpdatePost from "./CreateOrUpdatePost"
 import { deletePost } from "../../redux/actions/PostActions";
 
 const Post = ({ post }) => {
@@ -108,7 +108,7 @@ const Post = ({ post }) => {
               logginedUser && post?.username === logginedUser.username && (
                 <Modal
                   buttonText={"Güncelle"}
-                  component={<NewPost post={post} />}
+                  component={<CreateOrUpdatePost post={post} />}
                 />
               ),
               logginedUser && post?.username === logginedUser.username && (

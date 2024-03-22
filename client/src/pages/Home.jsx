@@ -1,5 +1,5 @@
 import ListPost from "../components/post/ListPost";
-import NewPost from "../components/post/NewPost";
+import CreateOrUpdatePost from "../components/post/CreateOrUpdatePost";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -41,7 +41,7 @@ const Home = () => {
       maxWidth: "100%",}}>
       {(isLoggedIn || isPhone) && <HomeTabs />}
 
-      {isLoggedIn && filterName === "all" && <NewPost />}
+      {isLoggedIn && filterName === "all" && <CreateOrUpdatePost />}
 
       {filterName === "all" && (
         <ListPost

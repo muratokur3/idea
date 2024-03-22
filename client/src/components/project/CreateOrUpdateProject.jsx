@@ -13,7 +13,7 @@ import {
   createProject,
   ubdateProject,
 } from "../../redux/actions/ProjectAction";
-const NewProject = ({modalAction, project }) => {
+const CreateOrUpdateProject = ({modalAction, project }) => {
   const theme = useTheme();
   const isPhone = useMediaQuery("(max-width: 600px)");
 
@@ -272,8 +272,8 @@ const NewProject = ({modalAction, project }) => {
   );
 };
 
-export default NewProject;
-NewProject.propTypes = {
+export default CreateOrUpdateProject;
+CreateOrUpdateProject.propTypes = {
   modalAction: PropTypes.object,
   project: PropTypes.object,
 };

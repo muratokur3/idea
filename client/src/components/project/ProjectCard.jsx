@@ -18,7 +18,7 @@ import TopRightButton from "../actions/TopRightButton";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
-import NewProject from "./NewProject";
+import CreateOrUpdateProject from "./CreateOrUpdateProject";
 import Modal from "../../Modals";
 import { deleteProject } from "../../redux/actions/ProjectAction";
 const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
@@ -104,7 +104,7 @@ const ProjectCard = ({ project }) => {
               logginedUser && project?.username === logginedUser.username && (
                 <Modal
                   buttonText={"Güncelle"}
-                  component={<NewProject project={project} />}
+                  component={<CreateOrUpdateProject project={project} />}
                 />
               ),
               logginedUser && project?.username === logginedUser.username && (

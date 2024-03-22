@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { useTheme } from "@mui/material/styles";
 import { Box, useMediaQuery } from "@mui/material";
 import Modal from "../../Modals";
-import NewPost from "../post/NewPost";
+import CreateOrUpdatePost from "../post/CreateOrUpdatePost";
 import styled from "@emotion/styled";
 const Menu = () => {
   const navigate = useNavigate();
@@ -152,7 +152,7 @@ const StyledListItemIcon = styled(ListItemIcon)({
         )}
       </List>
       {isLoggedIn && (
-        <Modal buttonText={isTablet?"+":"Yeni Fikir"} component={<NewPost />} />
+        <Modal buttonText={isTablet?"+":"Yeni Fikir"} component={<CreateOrUpdatePost />} />
       )}
     </Box>
   );
