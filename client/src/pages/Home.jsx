@@ -10,6 +10,7 @@ import {
 import { useEffect } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import HomeTabs from "../components/actions/HomeTabs";
+import ResponsiveAppBar from "../components/menu/MobileTopNavi";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const Home = () => {
       width: "100%",
       maxWidth: "100%",}}>
       {(isLoggedIn || isPhone) && <HomeTabs />}
-
+      {/* <ResponsiveAppBar/> */}
       {isLoggedIn && filterName === "all" && <CreateOrUpdatePost />}
 
       {filterName === "all" && (

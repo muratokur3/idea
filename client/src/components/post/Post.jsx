@@ -19,11 +19,13 @@ import Card from "@mui/material/Card";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "../../Modals";
-import CreateOrUpdatePost from "./CreateOrUpdatePost"
+import CreateOrUpdatePost from "./CreateOrUpdatePost";
 import { deletePost } from "../../redux/actions/PostActions";
 
 const Post = ({ post }) => {
-  const logginedUser = useSelector((state) => state.session && state.session.user);
+  const logginedUser = useSelector(
+    (state) => state.session && state.session.user
+  );
   const logginedUserId = logginedUser._id;
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
@@ -33,8 +35,7 @@ const Post = ({ post }) => {
   const theme = useTheme();
   const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
 
-
-  const formatRelativeTime= (timestamp)=> {
+  const formatRelativeTime = (timestamp) => {
     const now = new Date();
     const targetDate = new Date(timestamp);
 
@@ -56,13 +57,12 @@ const Post = ({ post }) => {
       const options = { year: "numeric", month: "numeric", day: "numeric" };
       return targetDate.toLocaleDateString("tr-TR", options);
     }
-  }
+  };
 
   return (
     <Card
       sx={{
         width: "100%",
-        padding: "1%",
         marginTop: "10px",
         borderRadius: "30px",
         boxShadow: "none",
@@ -70,7 +70,7 @@ const Post = ({ post }) => {
       }}
     >
       <CardHeader
-      sx={{paddingBottom:".5rem"}}
+        sx={{ paddingBottom: ".5rem" }}
         avatar={
           <Avatar
             src={post?.avatar}
@@ -90,63 +90,62 @@ const Post = ({ post }) => {
                       Takibi Edilen
                     </Typography>
                   ) : (
-                   <FollowActions toFollowUserId={post?.userId}/>
+                    <FollowActions toFollowUserId={post?.userId} />
                   ))}
               </Box>
             )}
             <TopRightButton
-            actions={[
-              post?.username !== logginedUser.username && (
-                <Button
-                  variant="text"
-                  color="primary"
-                  onClick={() => navigate(`/${post?.username}`)}
-                >
-                  profili ziyaret et
-                </Button>
-              ),
-              logginedUser && post?.username === logginedUser.username && (
-                <Modal
-                  buttonText={"Güncelle"}
-                  component={<CreateOrUpdatePost post={post} />}
-                />
-              ),
-              logginedUser && post?.username === logginedUser.username && (
-                <Button
-                  variant="text"
-                  color="primary"
-                  onClick={() => deletePost(post?._id)}
-                >
-                  Sil
-                </Button>
-              ),
-            ]}
-          />
+              actions={[
+                post?.username !== logginedUser.username && (
+                  <Button
+                    variant="text"
+                    color="primary"
+                    onClick={() => navigate(`/${post?.username}`)}
+                  >
+                    profili ziyaret et
+                  </Button>
+                ),
+                logginedUser && post?.username === logginedUser.username && (
+                  <Modal
+                    buttonText={"Güncelle"}
+                    component={<CreateOrUpdatePost post={post} />}
+                  />
+                ),
+                logginedUser && post?.username === logginedUser.username && (
+                  <Button
+                    variant="text"
+                    color="primary"
+                    onClick={() => deletePost(post?._id)}
+                  >
+                    Sil
+                  </Button>
+                ),
+              ]}
+            />
           </Box>
         }
-        title={<Box 
-        sx={{
-          width: "100%",
-          display:"flex", 
-          alignItems: 'center',
-          gap: "1rem",
-        }}>
-          <Typography>
-          {post?.name + " " + post?.surname}
-          </Typography>
-          <Typography variant='caption' color="gray">{formatRelativeTime(post?.createdAt)}
-          </Typography>
-        
-        </Box>}
-        titleTypographyProps={{fontSize:"1.3rem", color: "primary" }}
+        title={<Typography>{post?.name + " " + post?.surname}</Typography>}
+        titleTypographyProps={{ fontSize: "1.3rem", color: "primary" }}
         subheader={
-          <Typography
-            color="secondary"
-            onClick={() => navigate(`/${post?.username}`)}
-            sx={{ cursor: "pointer" }}
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+            }}
           >
-            @{post?.username}
-          </Typography>
+            <Typography
+              color="secondary"
+              onClick={() => navigate(`/${post?.username}`)}
+              sx={{ cursor: "pointer" }}
+            >
+              @{post?.username}
+            </Typography>
+            <Typography variant="caption" color="gray">
+              {formatRelativeTime(post?.createdAt)}
+            </Typography>
+          </Box>
         }
       />
 
@@ -164,8 +163,8 @@ const Post = ({ post }) => {
         </Typography>
         {post?.hashtags?.map((hashtag) => (
           <Button
-          variant="outlined"
-          size="small"
+            variant="outlined"
+            size="small"
             key={hashtag}
             sx={{
               textDecoration: "none",
@@ -177,7 +176,7 @@ const Post = ({ post }) => {
               borderRadius: "10px",
               cursor: "pointer",
             }}
-            onClick={()=>navigate(`/explore/${hashtag.name}`)}
+            onClick={() => navigate(`/explore/${hashtag.name}`)}
           >
             {hashtag.name}
           </Button>
@@ -188,9 +187,8 @@ const Post = ({ post }) => {
         sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
       >
         <Box>
-          
-              <LikeActions post={post} logginedUserId={logginedUserId}/>
-              <FavoriteActions post={post} logginedUserId={logginedUserId} />
+          <LikeActions post={post} logginedUserId={logginedUserId} />
+          <FavoriteActions post={post} logginedUserId={logginedUserId} />
 
           <IconButton
             aria-label="share"
@@ -211,7 +209,6 @@ const Post = ({ post }) => {
           >
             <IosShareIcon />
           </IconButton>
-         
         </Box>
         <IconButton
           onClick={handleExpandClick}

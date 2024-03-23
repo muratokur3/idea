@@ -35,14 +35,12 @@ const ChangeThemeMode = () => {
       }}
 
     >
-      {theme.palette.mode === "dark" && (
-        <LightModeOutlinedIcon color="primary" marginRight="0px"/>
-      )}
+      {theme.palette.mode === "dark" ? 
+        <LightModeOutlinedIcon color="primary" marginRight="0px"/>: <NightsStayIcon color="primary" />
+      }
       <FormControlLabel
-      
         control={<Switch checked={checked} onChange={ChangeTheme} />}
       />
-      {theme.palette.mode === "light" && <NightsStayIcon color="primary" />}
     </Box>
   );
 };

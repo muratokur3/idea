@@ -13,14 +13,15 @@ const ClientLayout = () => {
   const Container = styled(Box)({
     width: "100%",
     display: "flex",
-    justifyContent: "center",
+    flexDirection:"column",
+    alignItems: "center",
     minHeight: "100vh",
     backgroundColor: theme.palette.background.default,
   });
 
   const Content = styled(Box)({
     display: "flex",
-    width: (isPhone || isTablet) ? "90%" : "55%",
+    width: isPhone ? "100%": isTablet ? "95%" : "55%",
     minHeight: "100vh",
     backgroundColor: theme.palette.background.default,
   });
@@ -41,6 +42,7 @@ const ClientLayout = () => {
     <>
       {/* <CssBaseline /> */}
       <Container>
+        
         <Content>
         {!isPhone && (
           <StyledSidebar>

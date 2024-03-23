@@ -1,19 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  // posts: [],
-  users: [
-],
-  hashtags: [],
-};
+const initialState ={
+  data:[]
+}
 
 export const searchSlice = createSlice({
   name: "search",
   initialState,
   reducers: {
     setSearch: (state, action) => {
-      state.users = action.payload.users;
-      state.hashtags = action.payload.hashtags;
+      state.data=action.payload;
     }
   },
 });

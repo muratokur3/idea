@@ -7,56 +7,34 @@ const HashtagChema = require("../models/Hashtag");
 router.get("/:text", async (req, res) => {
   const searchTerm = req.params.text;
   const searchFilter = req.query.searchFilter;
-  console.log(searchTerm, searchFilter);
-  if (searchFilter === "all") {
-    console.log("geldi");
+
+  if (searchFilter === "users") {
     try {
-      //bu aramaya ait birden çok kullaıcı getir
+      //bu aramaya ait kullanıcıları getir
       const users = await UserChema.find({
         name: { $regex: searchTerm, $options: "i" },
       }).limit(5);
-      //bu aramaya ait tüm hashtagleri getir
-      const hashtags = await HashtagChema.find({
-        name: { $regex: searchTerm, $options: "i" },
-      }).limit(5);
 
-      res.status(200).json({
-        users,
-        hashtags,
-      });
+      res.status(200).json({ users });
     } catch (error) {
       console.log(error.message);
       res.status(500).json("Server Error");
     }
-  } else {
+  } 
+  
+  if (searchFilter === "hashtags") {
     try {
-      if (searchFilter === "users") {
-        console.log("userslara geldi");
-        const users = await UserChema.find({
-          name: { $regex: searchTerm, $options: "i" },
-        }).limit(5);
-
-        res.status(200).json({
-          users: users,
-          hashtags: [],
-        });
-      } else if (searchFilter === "hashtags") {
-        console.log("hashtagslere geldi");
-        const hashtags = await HashtagChema.find({
-          name: { $regex: searchTerm, $options: "i" },
-        }).limit(5);
-        res.status(200).json({
-          users: [],
-          hashtags: hashtags,
-        });
-      } else {
-        res.status(404).json("sonuç bulunamadı");
-      }
+      const hashtags = await HashtagChema.find({
+        name: { $regex: searchTerm, $options: "i" },
+      }).limit(5);
+      
+      res.status(200).json({ hashtags });
     } catch (error) {
       console.log(error.message);
       res.status(500).json("Server Error");
     }
   }
+
 });
 
 module.exports = router;

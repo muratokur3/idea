@@ -20,14 +20,20 @@ import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import Badge from "@mui/material/Badge";
 import { useMediaQuery } from "@mui/material";
+import Modal from "../../Modals";
+import Login from "../../Auth/Login";
+import Register from "../../Auth/Register";
+
+
+
 const Container = styled(Box)({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  justifyContent:"space-between",
+  justifyContent: "space-between",
   height: "100vh",
-  backgroundColor: "none", // Adjust background color as needed
-  color: "primary", // Adjust text color as needed
+  backgroundColor: "none",
+  color: "primary",
   position: "sticky",
   top: 0,
   left: 0,
@@ -81,14 +87,11 @@ const StyledBadge = styled(Badge)(() => ({
   },
 }));
 
-import Modal from "../../Modals";
-import Login from "../../Auth/Login";
-import Register from "../../Auth/Register";
 const Sidebar = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1234px)");
-  const isMobile= useMediaQuery("(max-width: 600px)");
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const isLoggedIn = useSelector(
     (state) => state.session && state.session.authenticated
@@ -109,27 +112,27 @@ const Sidebar = () => {
 
   return (
     <Container>
-    <Box sx={{display:"flex",flexDirection:"column",gap:"5vw"}}>
-    <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar sx={{ justifyContent: "center" }}>
-          <Logo>
-            <img
-              src={logoImg}
-              alt="Logo"
-              style={{
-                width: "5vh",
-                height: "5vh",
-                background: `${
-                  theme.palette.mode === "light" ? "grey" : "none"
-                }`,
-              }}
-            />
-          </Logo>
-        </Toolbar>
-      </AppBar>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "5vw" }}>
+        <AppBar position="static" color="transparent" elevation={0}>
+          <Toolbar sx={{ justifyContent: "center" }}>
+            <Logo>
+              <img
+                src={logoImg}
+                alt="Logo"
+                style={{
+                  width: "5vh",
+                  height: "5vh",
+                  background: `${
+                    theme.palette.mode === "light" ? "grey" : "none"
+                  }`,
+                }}
+              />
+            </Logo>
+          </Toolbar>
+        </AppBar>
 
-      <MainMenu />
-    </Box>
+        <MainMenu />
+      </Box>
 
       <Box
         sx={{
@@ -137,12 +140,12 @@ const Sidebar = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          gap:!isMobile&& ".8rem",
+          gap: !isMobile && ".8rem",
         }}
       >
         {isLoggedIn ? (
           <Details>
-            <ListItemAvatar sx={{display:"flex",justifyContent:"center"}}>
+            <ListItemAvatar sx={{ display: "flex", justifyContent: "center" }}>
               <StyledBadge
                 overlap="circular"
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -157,11 +160,19 @@ const Sidebar = () => {
 
             {!isTablet && (
               <ListItemText
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
                 primary={`${loginedUser.name} ${loginedUser.surname}`}
                 primaryTypographyProps={{ color: "primary" }}
                 secondary={`@${loginedUser.username}`}
               />
             )}
+            <Button onClick={handleLogout}>
+              {!isTablet && "Çıkış yap"} <PowerSettingsNewIcon />
+            </Button>
           </Details>
         ) : (
           <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -178,11 +189,6 @@ const Sidebar = () => {
           </Box>
         )}
         <ChangeThemeMode />
-        {isLoggedIn && (
-          <Button onClick={handleLogout}>
-            <PowerSettingsNewIcon />
-          </Button>
-        )}
       </Box>
     </Container>
   );

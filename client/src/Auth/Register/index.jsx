@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   FilledInput,
   FormControl,
@@ -19,69 +20,14 @@ import TermsOfService from "../../components/policys/TermsOfService";
 const Register = ({ modalAction }) => {
   const dispatch = useDispatch();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    surname: "",
-    username: "",
-    email: "",
-    password: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleInputChance = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // name surname inputları için regex.
-  const nameSurnameControl = (name, surname) => {
-    const regex = /^[a-zA-Z]{2,20}$/;
-    return regex.test(name) && regex.test(surname);
-  };
-
-  //mail input kontrolü için regex
-  const emailControl = (email) => {
-    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,30}$/;
-    return regex.test(email);
-  };
-
-  // usernaem input kontrolü için regex
-  const usernameControl = (username) => {
-    const regex = /^[a-z0-9._]{3,20}$/;
-    return regex.test(username);
-  };
-
-  // şifre input kontrolü için regex
-  const passwordControl = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/;
-    if (regex.test(password)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const register = async (e) => {
-    e.preventDefault();
-    if (!nameSurnameControl(formData.name, formData.surname)) {
-      alert("Ad ve Soyad en az 2 en fazla 20 karakter olmalıdır.");
-      return;
-    }
-    if (!usernameControl(formData.username)) {
-      alert(
-        "Kullanıcı adı en az 3 en fazla 20 karakter olmalıdır.Küçük harf, nokta ve alt çizgi içerebilir."
-      );
-      return;
-    }
-    if (!passwordControl(formData.password)) {
-      alert(
-        "Şifre en az 8 karakter olmalıdır. En az bir büyük harf, bir küçük harf ve bir rakam içermelidir."
-      );
-      return;
-    }
-    if (!emailControl(formData.email)) {
-      alert("Geçerli bir email adresi giriniz.");
-      return;
-    }
-    dispatch(registerUser(formData));
+  const onSubmit = (data) => {
+    dispatch(registerUser(data))
     modalAction.handleClose();
   };
 
@@ -95,7 +41,8 @@ const Register = ({ modalAction }) => {
     variant: "filled",
     width: "100%",
   });
-
+  console.log(errors.firstname);
+  console.log(errors.firstname?.message);
   return (
     <Box
       sx={{
@@ -107,68 +54,110 @@ const Register = ({ modalAction }) => {
       }}
     >
       <form
-        onSubmit={register}
+        onSubmit={handleSubmit(onSubmit)}
         style={{
           minWidth: "30vw",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           gap: "2rem",
+          padding: "1rem 0",
         }}
       >
         <FormControlStyled>
           <InputLabel>Ad</InputLabel>
           <FilledInput
+            {...register("name", {
+              required: "Bu alan gereklidir.",
+              minLength: { value: 2, message: "En az 2 karakter olmalıdır." },
+              maxLength: {
+                value: 20,
+                message: "En fazla 20 karakter olabilir.",
+              },
+              pattern: {
+                value: /^[a-zA-Z]+$/,
+                message: "Sadece harf içermelidir.",
+              },
+            })}
             sx={{ background: "none", width: "100%" }}
-            value={formData.name}
-            onChange={handleInputChance}
-            name="name"
-            required
           />
+          {errors.name && errors.name.message}
         </FormControlStyled>
 
         <FormControlStyled>
           <InputLabel>Soyad</InputLabel>
           <FilledInput
             sx={{ background: "none", width: "100%" }}
-            value={formData.surname}
-            onChange={handleInputChance}
-            name="surname"
-            required
+            {...register("surname", {
+              required: "Bu alan gereklidir.",
+              minLength: { value: 2, message: "En az 2 karakter olmalıdır." },
+              maxLength: {
+                value: 20,
+                message: "En fazla 20 karakter olabilir.",
+              },
+              pattern: {
+                value: /^[a-zA-Z]+$/,
+                message: "Sadece harf içermelidir.",
+              },
+            })}
           />
+          {errors.lastname && errors.lastname.message}
         </FormControlStyled>
 
         <FormControlStyled>
           <InputLabel>Kullanıcı adı</InputLabel>
           <FilledInput
             sx={{ background: "none", width: "100%" }}
-            value={formData.username}
-            onChange={handleInputChance}
-            name="username"
-            required
+            {...register("username", {
+              required: "Bu alan gereklidir.",
+              minLength: { value: 3, message: "En az 3 karakter olmalıdır." },
+              maxLength: {
+                value: 15,
+                message: "En fazla 15 karakter olabilir.",
+              },
+              pattern: {
+                value: /^[a-z][a-z0-9._-]*[^.]$/,
+                message:
+                  "Sadece ( . _ -) karakterlerini içerebilir. Harflerle başlamalı ve nokta ile bitmemeli.",
+              },
+            })}
           />
+          {errors.username && errors.username.message}
         </FormControlStyled>
 
         <FormControlStyled>
-          <InputLabel>Email</InputLabel>
+          <InputLabel>E-posta</InputLabel>
           <FilledInput
+          type="email"
             sx={{ background: "none", width: "100%" }}
-            value={formData.email}
-            onChange={handleInputChance}
-            name="email"
-            type="email"
-            required
+            {...register("email", {
+              required: "Bu alan gereklidir.",
+              maxLength: {
+                value: 40,
+                message: "En fazla 40 karakter olabilir.",
+              },
+            })}
           />
+          {errors.email && errors.email.message}
         </FormControlStyled>
 
         <FormControlStyled sx={{ width: "90%" }}>
           <InputLabel htmlFor="filled-adornment-password">Şifre</InputLabel>
           <FilledInput
             sx={{ background: "none", width: "100%" }}
-            value={formData.password}
-            onChange={handleInputChance}
-            name="password"
-            required
+            {...register("password", {
+              required: "Bu alan gereklidir.",
+              minLength: { value: 8, message: "En az 8 karakter olmalıdır." },
+              maxLength: {
+                value: 25,
+                message: "En fazla 25 karakter olabilir.",
+              },
+              pattern: {
+                value: /^(?=.*[A-Z]).*$/,
+                message:
+                  "En az bir büyük harf, bir küçük harf ve bir sayı içermelidir.",
+              },
+            })}
             id="filled-adornment-password"
             type={showPassword ? "text" : "password"}
             endAdornment={
@@ -185,22 +174,20 @@ const Register = ({ modalAction }) => {
               </InputAdornment>
             }
           />
+          {errors.password && errors.password.message}
         </FormControlStyled>
         <Box display={"flex"} flexDirection={"row"} gap={"3px"}>
-          <Typography fontSize={".8rem"}>
-             kayıt olarak{" "}
-          </Typography>
-         
+          <Typography fontSize={".8rem"}>kayıt olarak </Typography>
           <PolicyModals
             policyElement={<PrivacyPolicy />}
             policyTitle="gizlilik politikasını"
           />{" "}
-            <Typography fontSize={".8rem"}> ve</Typography>
+          <Typography fontSize={".8rem"}> ve</Typography>
           <PolicyModals
-            policyElement={<TermsOfService/>}
+            policyElement={<TermsOfService />}
             policyTitle=" hizmet şartlarını"
           />
-           <Typography fontSize={".8rem"}>  kabul etmiş olursunuz.</Typography>
+          <Typography fontSize={".8rem"}> kabul etmiş olursunuz.</Typography>
         </Box>
         <Button
           variant="outlined"
