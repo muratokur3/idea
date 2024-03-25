@@ -9,7 +9,7 @@ const generateRandomAvatar = () => {
   return `https://i.pravatar.cc/300?img=${randomAvatar}`;
 };
 
-//yeni kullanıcı oluşturur
+//create a new user
 router.post("/register", async (req, res) => {
   try {
     const { name, surname, username, email, password } = req.body;
@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Kullanıcı girişi Login
+// user login
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -65,6 +65,11 @@ router.post("/login", async (req, res) => {
       });
     }
 
+    if(!user.isActive)
+    {
+      return res.status(401).json("Hesabınızı aktif değil.");
+    }
+
     const userHastags = await UserChema.findById(user._id).populate(
       "hashtags",
       ["name"]
@@ -75,15 +80,15 @@ router.post("/login", async (req, res) => {
     });
 
     const userData = {
-      _id: user._id,
-      name: user.name,
-      surname: user.surname,
-      username: user.username,
-      email: user.email,
-      avatar: user.avatar,
-      bio: user.bio,
-      followers: user.followers,
-      following: user.following,
+      _id: user?._id,
+      name: user?.name,
+      surname: user?.surname,
+      username: user?.username,
+      email: user?.email,
+      avatar: user?.avatar,
+      bio: user?.bio,
+      followers: user?.followers,
+      following: user?.following,
       hashtags: hashtagNames,
     };
 
@@ -107,17 +112,6 @@ router.post("/login", async (req, res) => {
     });
 
     return res.status(200).json(userData);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-// Kullanıcı çıkışı Logout
-router.get("/logout", async (req, res) => {
-  try {
-    res.clearCookie("auth_token");
-    res.status(200).json("Çıkış başarılı");
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");

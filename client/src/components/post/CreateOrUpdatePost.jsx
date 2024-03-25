@@ -67,7 +67,7 @@ const CreateOrUpdatePost = ({ modalAction, post }) => {
       <Box>
         <Avatar
           alt="Remy Sharp"
-          src={user?.avatar}
+          src={"http://localhost:7000/"+user?.avatar}
           sx={{ width: "5vh", height: "5vh", marginBottom: "1rem" }}
         />
       </Box>

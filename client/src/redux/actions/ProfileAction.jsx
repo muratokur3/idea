@@ -1,5 +1,6 @@
 import axios from "../../../axiosConfig";
 import {
+  setFavorites,
   setFollowers,
   setFollowing,
   setProfile,
@@ -8,11 +9,16 @@ import {
 import { sessionService } from "redux-react-session";
 const getProfile = (Username) => async (dispatch) => {
   try {
-    const response = await axios.get(`quest/${Username}`);
+    const response = await axios.get(`quest/profile/${Username}`);
     if (response.data) {
+      console.log("Profil getirildi", response.data);
       dispatch(setProfile(response.data));
     }
   } catch (error) {
+    if (error.response && error.response.status === 404) {
+      alert('Kullanıcı bulunamadı');
+      window.location.href = "/";
+    }
     console.log(error);
   }
 };
@@ -27,7 +33,7 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
       formData.append("file", avatarData);
 
       const response = await axios.post(
-        `users/upload/images?username=${user?.username}&folder=avatars`,
+        `users/upload/images?filename=${user?.username}&folder=avatars`,
         formData,
         {
           headers: {
@@ -57,7 +63,7 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
       formData.append("file", backgroundData);
 
       const response = await axios.post(
-        `users/upload/images?username=${user?.username}&folder=backgrounds`,
+        `users/upload/images?filename=${user?.username}&folder=backgrounds`,
         formData,
         {
           headers: {
@@ -128,6 +134,29 @@ const getFollowing = (username) => async (dispatch) => {
   }
 };
 
+const getFavorites = (pagination, username) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `quest/posts/favorite/${username}`,
+      {
+        params: {
+          page: pagination.page,
+        },
+       
+        
+      }
+    );
+    dispatch(
+      setFavorites({
+        posts: await response.data.posts,
+        pagination: await response.data.pagination,
+      })
+    );
+  } catch (error) {
+    console.error("Veri gelirken hata oluştu:", error);
+  }
+};
+
 const follow = (followingId) => async (dispatch) => {
   try {
     const logginedUser = await sessionService.loadUser();
@@ -181,6 +210,7 @@ export {
   getProfile,
   getFollowers,
   getFollowing,
+  getFavorites,
   follow,
   unfollow,
   updateProfile,

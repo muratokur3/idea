@@ -29,6 +29,12 @@ const ProfileMenu = () => {
           onClick={() => dispatch(setProfilePage("project"))}
           sx={{ color: theme.palette.primary.main }}
         />
+         <Tab
+          value={"favorite"}
+          label="Favoriler"
+          onClick={() => dispatch(setProfilePage("favorite"))}
+          sx={{ color: theme.palette.primary.main }}
+        />
         <Tab
           value={"follow"}
           label="Takip"

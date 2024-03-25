@@ -9,13 +9,13 @@ const getProjects = (pagination, username) => async (dispatch) => {
       },
     });
     if (response.status === 200) {
-      console.log(response.data);
       dispatch(setProjects(response.data));
     }
   } catch (error) {
     console.log(error);
   }
 };
+
 const ubdateLogo = async (data, logo) => {
   try {
     const formData = new FormData();
@@ -23,7 +23,7 @@ const ubdateLogo = async (data, logo) => {
     formData.append("file", logoData);
 
     const response = await axios.post(
-      `users/upload/images?username=${data?.name}&folder=project-logo`,
+      `users/upload/images?filename=${data?._id}&folder=project-logo`,
       formData,
       {
         headers: {
@@ -33,7 +33,15 @@ const ubdateLogo = async (data, logo) => {
     );
 
     if (response.status === 200) {
-      return `uploads/images/project-logo/${response.data.filename}`;
+      console.log(`uploads/images/project-logo/${response.data.filename}`);
+      const logourl = `uploads/images/project-logo/${response.data.filename}`;
+      const ubdataResponse = await axios.put(`projects/ubdateProject`, {
+        ...data,
+        logo: logourl,
+      });
+      if (ubdataResponse.status === 200) {
+        return ubdataResponse.data;
+      }
     }
   } catch (error) {
     console.log("Proje logo yükleme hatası:", error.message);
@@ -42,14 +50,15 @@ const ubdateLogo = async (data, logo) => {
 
 const ubdateProject = (data, logo) => async (dispatch) => {
   try {
-    const newLogoUrl = logo ? await ubdateLogo(data, logo) : data?.logo;
-    const response = await axios.put(`projects/ubdateProject`, {
-      ...data,
-      logo: newLogoUrl,
-    });
-
-    if (response.status === 200) {
-      dispatch(setNewProject(response.data));
+    if (logo) {
+      console.log(data)
+      const newdata = await ubdateLogo(data, logo);
+      dispatch(setNewProject(newdata));
+    } else {
+      const response = await axios.put(`projects/ubdateProject`, data);
+      if (response.status === 200) {
+        dispatch(setNewProject(response.data));
+      }
     }
   } catch (error) {
     console.log(error);
@@ -58,15 +67,15 @@ const ubdateProject = (data, logo) => async (dispatch) => {
 
 const createProject = (data, logo) => async (dispatch) => {
   try {
-    const newLogoUrl = logo ? await ubdateLogo(data, logo) : data?.logo;
+    const response = await axios.post(`projects/createProject`, data);
 
-    const response = await axios.post(`projects/createProject`, {
-      ...data,
-      logo: newLogoUrl,
-    });
-
-    if (response.status === 200) {
-      dispatch(setNewProject(response.data));
+    if (response.status === 201) {
+      if (logo) {
+        const newdata = await ubdateLogo(response.data, logo);
+        dispatch(setNewProject(newdata));
+      } else {
+        dispatch(setNewProject(response.data));
+      }
     }
   } catch (error) {
     console.log(error);

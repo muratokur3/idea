@@ -152,7 +152,7 @@ const Sidebar = () => {
                 variant="dot"
               >
                 <Avatar
-                  src={loginedUser.avatar}
+                  src={"http://localhost:7000/"+loginedUser?.avatar}
                   sx={{ width: "5vh", height: "5vh" }}
                 />
               </StyledBadge>
@@ -165,9 +165,9 @@ const Sidebar = () => {
                   flexDirection: "column",
                   alignItems: "center",
                 }}
-                primary={`${loginedUser.name} ${loginedUser.surname}`}
+                primary={`${loginedUser?.name} ${loginedUser?.surname}`}
                 primaryTypographyProps={{ color: "primary" }}
-                secondary={`@${loginedUser.username}`}
+                secondary={`@${loginedUser?.username}`}
               />
             )}
             <Button onClick={handleLogout}>

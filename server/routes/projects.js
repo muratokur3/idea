@@ -3,7 +3,7 @@ const router = express.Router();
 const ProjectChema = require("../models/Project");
 const UserChema = require("../models/User");
 
-//yeni proje oluşturur
+//create a new project
 router.post("/createProject", async (req, res) => {
   try {
     const data = await { ...req.body };
@@ -16,10 +16,10 @@ router.post("/createProject", async (req, res) => {
   }
 });
 
-//projeyi günceller
+//ubdateing a project
 router.put("/ubdateProject", async (req, res) => {
   try {
-    const projectId = req.body.projectId;
+    const projectId = req.body._id;
     const updates = req.body;
     const ubdadetProject = await ProjectChema.findByIdAndUpdate(
       projectId,
@@ -35,7 +35,7 @@ router.put("/ubdateProject", async (req, res) => {
   }
 });
 
-//id ye göre projeyı getirir
+//get single project by id
 router.get("/:id", async (req, res) => {
   if (!(await ProjectChema.findById(req.params.id))) {
     return res.status(404).json("Project not found");
@@ -50,36 +50,15 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//id ye göre projeyı günceller
-router.put("/:id", async (req, res) => {
-  if (!(await ProjectChema.findById(req.params.id))) {
-    return res.status(404).send("project not found");
-  }
-  const projectId = req.params.id;
-  const updates = req.body;
-  try {
-    const ubdadetProject = await ProjectChema.findByIdAndUpdate(
-      projectId,
-      updates,
-      {
-        new: true,
-      }
-    );
-    res.status(200).json(ubdadetProject);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Server Error");
-  }
-});
 
-//id ye göre projeyı siler
+//delete single project by id
 router.delete("/:id", async (req, res) => {
   if (!(await ProjectChema.findById(req.params.id))) {
     return res.status(404).json("project not found");
   }
   try {
     const projectId = req.params.id;
-    const project = await ProjectChema.findByIdAndDelete(projectId);
+    const project = await ProjectChema.findByIdAndUpdate(projectId, { isDeleted: true }, { new: true });
     res.status(200).json(project);
   } catch (error) {
     console.log(error.message);

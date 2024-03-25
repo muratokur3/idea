@@ -92,6 +92,11 @@ const UserChema = mongoose.Schema(
       default: false,
       enum: [true, false],
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+      enum: [true, false],
+    },
     role: {
       type: String,
       default: "user",

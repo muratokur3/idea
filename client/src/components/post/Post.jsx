@@ -74,6 +74,7 @@ const Post = ({ post }) => {
         avatar={
           <Avatar
             src={post?.avatar}
+            // "http://localhost:7000/"+
             sx={{ bgcolor: red[500], width: "50px", height: "50px" }}
             aria-label="recipe"
           >

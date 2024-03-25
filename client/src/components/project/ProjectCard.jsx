@@ -156,10 +156,10 @@ const ProjectCard = ({ project }) => {
         sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
       >
         <Box>
-          <IconButton aria-label="projeAdress" href={project.projectAdress}>
+          <IconButton aria-label="projeAdress" href={project?.projectAdress}>
             <LinkIcon />
           </IconButton>
-          <IconButton aria-label="githubAdress" href={project.githubAdress}>
+          <IconButton aria-label="githubAdress" href={project?.githubAdress}>
             <GitHubIcon />
           </IconButton>
           <IconButton aria-label="share">

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const HahstagChema = require("../models/Hashtag");
 
-//yeni Hahtag oluşturur
+//create a new hashtag
 router.post("/", async (req, res) => {
   try {
     const data = req.body;
@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-//tüm hashtagleri getirir
+//get all hashtags
 router.get("/", async (req, res) => {
   try {
     const hashtags = await HahstagChema.find();
@@ -26,20 +26,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-//tüm hashtag idlerini ve name leridöner
-// router.get("/", async (req, res) => {
-//   try {
-//     const hashtags = await HahstagChema.find();
-//     const ids =await hashtags.map((hashtag) => ({_id:hashtag._id,name:hashtag.name}));
-//     res.status(200).json(ids);
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).json("Server Error");
-//   }
-// });
-
-//birden çok hashtag oluştur
+//crate many hashtags
 router.post("/createMany", async (req, res) => {
   try {
     const hashtags = req.body;
@@ -54,7 +41,7 @@ router.post("/createMany", async (req, res) => {
   }
 });
 
-//adına göre hashtag getirir
+//get hashtag by name
 router.get("/:name", async (req, res) => {
   try {
     const hashtag = await HahstagChema.findOne({ name: req.params.name });

@@ -1,7 +1,6 @@
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import { Menu, Fade, MenuItem, Radio, RadioGroup, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import { useNavigate } from "react-router-dom";
@@ -102,12 +101,12 @@ const SearchBar = () => {
           borderRadius: "10px",
           cursor: "pointer",
         }}
-        onClick={() => navigate(`/${user.username}`)}
+        onClick={() => navigate(`/${user?.username}`)}
       >
         <CardHeader
           avatar={
             <Avatar
-              src={user.avatar}
+              src={user?.avatar}
               sx={{ bgcolor: "green" }}
               aria-label="recipe"
             >
@@ -120,11 +119,11 @@ const SearchBar = () => {
               Edilen
             </Typography>
           }
-          title={`${user.name} ${user.surname}`}
+          title={`${user?.name} ${user?.surname}`}
           titleTypographyProps={{ fontSize: "1rem", color: "primary" }}
           subheader={
             <Typography sx={{ fontSize: "0.8rem", color: "gray" }}>
-              @{user.username}
+              @{user?.username}
             </Typography>
           }
         />

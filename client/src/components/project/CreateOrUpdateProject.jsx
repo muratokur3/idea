@@ -20,7 +20,7 @@ const CreateOrUpdateProject = ({modalAction, project }) => {
   const dispatch = useDispatch();
   const logoFileInputRef = useRef(null);
   const [logo, setLogo] = useState({
-    adress: project?`http://localhost:7000/${project.logo}`:null,
+    adress: project?`http://localhost:7000/${project.logo}`:"",
     file: null,
   });
 
@@ -65,7 +65,7 @@ const CreateOrUpdateProject = ({modalAction, project }) => {
         ? dispatch(
             ubdateProject(
               {
-                projectId: project._id,
+                _id: project._id,
                 name: formData.name,
                 title: formData.title,
                 content: formData.content,

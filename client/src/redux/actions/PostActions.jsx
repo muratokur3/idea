@@ -111,6 +111,11 @@ const getHashtagExploreData = (pagination, hashtag) => async (dispatch) => {
       })
     );
   } catch (error) {
+    //status code 404 ise hata mesajı döndür
+    if (error.response.status === 404) {
+      window.location.href = "/explore";
+      alert("Bu isimde bir hashtag bulunamadı.")
+    }
     console.error("Veri gelirken hata oluştu:", error);
   }
 };

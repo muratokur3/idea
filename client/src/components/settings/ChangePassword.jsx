@@ -117,7 +117,6 @@ const ChangePassword = () => {
         />
       </FormControl>
 
-      <hr style={{ width: "50%" }} />
 
       <FormControl variant="filled" sx={{ width: "50%" }}>
         <InputLabel htmlFor="filled-adornment-password">

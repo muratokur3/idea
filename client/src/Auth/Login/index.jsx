@@ -13,24 +13,25 @@ import { loginClient } from "../../redux/actions/AuthAction";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { useForm } from "react-hook-form";
+
 const Login = ({modalAction}) => {
   const isLoggedIn = useSelector(
     (state) => state.session && state.session.authenticated
   );
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const handleInputChance = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
-  const login = async (e) => {
-    e.preventDefault();
-    dispatch(loginClient(formData));
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    dispatch(loginClient(data));
     isLoggedIn&& modalAction.handleClose();
   };
+
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -57,7 +58,7 @@ const Login = ({modalAction}) => {
     >
 
       <form
-        onSubmit={login}
+        onSubmit={handleSubmit(onSubmit)}
         style={{
           minWidth:"35vw",
           display: "flex",
@@ -67,24 +68,34 @@ const Login = ({modalAction}) => {
         }}
       >
         <FormControlStyled>
-          <InputLabel>Mail</InputLabel>
+          <InputLabel>E-posta</InputLabel>
           <FilledInput
+            type="email"
             sx={{ background: "none", width: "100%" }}
-            value={formData.email}
-            onChange={handleInputChance}
-            name="email"
-            required
+            {...register("email", {
+              required: "Bu alan gereklidir.",
+              maxLength: {
+                value: 40,
+                message: "Maximum 40 karakter olabilir.",
+              },
+            })}
           />
+          {errors.email && errors.email.message}
         </FormControlStyled>
 
         <FormControlStyled>
           <InputLabel htmlFor="filled-adornment-password">Şifre</InputLabel>
           <FilledInput
             sx={{ background: "none" }}
-            value={formData.password}
-            onChange={handleInputChance}
+            {...register("password", {
+              required: "Lütfen şifrenizi giriniz.",
+              minLength: { value: 4, message: "En az 8 karakter olmalıdır." },
+              maxLength: {
+                value: 25,
+                message: "En fazla 25 karakter olabilir.",
+              },
+            })}
             name="password"
-            required
             id="filled-adornment-password"
             type={showPassword ? "text" : "password"}
             endAdornment={
@@ -100,6 +111,7 @@ const Login = ({modalAction}) => {
               </InputAdornment>
             }
           />
+                    {errors.password && errors.password.message}
         </FormControlStyled>
 
         <Button

@@ -6,12 +6,16 @@ const HashtagChema = require("../models/Hashtag");
 const ProjectChema = require("../models/Project");
 
 const concatPostDetails = async (posts) => {
+  // isDeleted özelliği true olan postları filtrele
+  posts = posts.filter((post) => !post.isDeleted);
+
   // Benzersiz kullanıcı ID'lerini topla
   const userIds = posts.map((post) => post.userId);
 
   // Tek bir sorgu ile tüm kullanıcı detaylarını al
   const userDetails = await UserChema.find({
     _id: { $in: userIds },
+    isActive: true,
   });
 
   // Benzersiz hashtag ID'lerini topla
@@ -28,40 +32,161 @@ const concatPostDetails = async (posts) => {
   });
 
   // Postları kullanıcı detayları ile birleştir
-  const postUser = posts.map((post) => {
-    const hashtags = hashtagDetails
-      .filter((hashtag) => post.hashtags.includes(hashtag._id.toString()))
-      .map((hashtag) => {return {_id:hashtag._id,name:hashtag.name}});
-    const user = userDetails.find(
-      (user) => post.userId.toString() === user._id.toString()
-    );
-    return {
-      ...post._doc,
-      name: user.name,
-      surname: user.surname,
-      avatar: user.avatar,
-      username: user.username,
-      hashtags: hashtags,
-    };
-  });
+  const postUser = posts
+    .map((post) => {
+      const hashtags = hashtagDetails
+        .filter((hashtag) => post.hashtags.includes(hashtag._id.toString()))
+        .map((hashtag) => {
+          return { _id: hashtag._id, name: hashtag.name };
+        });
+      const user = userDetails.find(
+        (user) => post.userId.toString() === user._id.toString()
+      );
+      if (!user) return;
+      return {
+        ...post._doc,
+        name: user.name,
+        surname: user.surname,
+        avatar: user.avatar,
+        username: user.username,
+        hashtags: hashtags,
+      };
+    })
+    .filter((post) => post != null);
   return postUser;
 };
 
-const concatProjectDetails = async (projects,username) => {
+const concatProjectDetails = async (projects, username) => {
+  // isDeleted özelliği true olan projeleri filtrele
+  projects = projects.filter((project) => !project.isDeleted);
   const userIds = projects.map((project) => project.userId);
   const userDetails = await UserChema.find({
     _id: { $in: userIds },
+    isActive: true,
   });
 
   // Projeleri detayları ile birleştir
-  const projectUser = projects.map((project) => {
-    return {
-      ...project._doc,
-      username: username,
-    };
-  });
+  const projectUser = projects
+    .map((project) => {
+      if (
+        userDetails.find(
+          (user) => user._id.toString() === project.userId.toString()
+        )
+      ) {
+        return {
+          ...project._doc,
+          username: username,
+        };
+      }
+      return null;
+    })
+    .filter((project) => project != null);
   return projectUser;
-}
+};
+
+
+
+//kullanıcı adına göre kullanıcı getirir
+router.get("/profile/:username", async (req, res) => {
+  if (
+    !(await UserChema.findOne({
+      username: req.params.username,
+      isActive: true,
+    }))
+  ) {
+    return res.status(404).json("Kullanıcı bulunamadı");
+  }
+  try {
+    const user = await UserChema.findOne({
+      username: req.params.username,
+      isActive: true,
+    });
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+//kullanıcıların kullanıcı adına göre takip ettiklerini getirir
+router.get("/following/:username", async (req, res) => {
+  if (
+    !(await UserChema.findOne({
+      username: req.params.username,
+      isActive: true,
+    }))
+  ) {
+    return res.status(404).json("Kullanıcı bulunamadı");
+  }
+  try {
+    const currentUser = await UserChema.findOne({
+      username: req.params.username,
+    });
+    const users = await UserChema.find({
+      _id: { $in: currentUser.following },
+      isActive: true,
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+//kullanıcıların kullanıcı adına göre takipçilerini getirir
+router.get("/followers/:username", async (req, res) => {
+  if (
+    !(await UserChema.findOne({
+      username: req.params.username,
+      isActive: true,
+    }))
+  ) {
+    return res.status(404).json("Kullanıcı bulunamadı");
+  }
+  try {
+    const currentUser = await UserChema.findOne({
+      username: req.params.username,
+    });
+    const users = await UserChema.find({
+      _id: { $in: currentUser.followers },
+      isActive: true,
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+//kullanıcının favori postlarını getirir
+router.get("/posts/favorite/:username", async (req, res) => {
+  try {
+    const currentUser = await UserChema.findOne({
+      username: req.params.username,
+      isActive: true,
+    });
+    const page = parseInt(req.query.page);
+    const limit = 5;
+    const startIndex = (page - 1) * limit;
+
+    const favoritesPost = await PostChema.find({ favorites: currentUser._id })
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip(startIndex);
+
+    const pagination = {
+      page: page + 1,
+      hasMore: favoritesPost.length === limit,
+    };
+
+    res
+      .status(200)
+      .json({ posts: await concatPostDetails(favoritesPost), pagination });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
 
 //kişinin takip ettiği postları sayfalandırarak limit değerine göre getirir
 router.get("/posts/timeline", async (req, res) => {
@@ -87,67 +212,11 @@ router.get("/posts/timeline", async (req, res) => {
   }
 });
 
-//kullanıcı adına göre kullanıcı getirir
-router.get("/:username", async (req, res) => {
-  if (!(await UserChema.findOne({ username: req.params.username }))) {
-    return res.status(404).json("Kullanıcı bulunamadı");
-  }
+//post id değerine göre postu getirir
+router.get("/explore/singlepost/:id", async (req, res) => {
   try {
-    const user = await UserChema.findOne({ username: req.params.username });
-    res.status(200).json(user);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-//kullanıcıların kullanıcı adına göre takip ettiklerini getirir
-router.get("/following/:username", async (req, res) => {
-  if (!(await UserChema.findOne({ username: req.params.username }))) {
-    return res.status(404).json("Kullanıcı bulunamadı");
-  }
-  try {
-    const currentUser = await UserChema.findOne({
-      username: req.params.username,
-    });
-    const users = await Promise.all(
-      currentUser.following.map((userId) => {
-        return UserChema.findById(userId);
-      })
-    );
-    res.status(200).json(users);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-//kullanıcıların kullanıcı adına göre takipçilerini getirir
-router.get("/followers/:username", async (req, res) => {
-  if (!(await UserChema.findOne({ username: req.params.username }))) {
-    return res.status(404).json("Kullanıcı bulunamadı");
-  }
-  try {
-    const currentUser = await UserChema.findOne({
-      username: req.params.username,
-    });
-    const users = await Promise.all(
-      currentUser.followers.map((userId) => {
-        return UserChema.findById(userId);
-      })
-    );
-    res.status(200).json(users);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-//explore sayfası için 5 adet en çok postCount sayısı olan hashtagleri getirir
-router.get("/hashtags/explore", async (req, res) => {
-  try {
-    const hashtags = await HashtagChema.find().sort({ postCount: -1 }).limit(5);
-    res.status(200).json(hashtags);
+    const post = await PostChema.findById(req.params.id);
+    res.status(200).json(await concatPostDetails([post]));
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -182,9 +251,11 @@ router.get("/posts/explore", async (req, res) => {
 
 //hashtag e göre postları getirir
 router.get("/posts/explore/hashtag", async (req, res) => {
+  if (!(await HashtagChema.findOne({ name: req.query.hashtagname }))) {
+    return res.status(404).json("Hashtag bulunamadı");
+  }
   try {
     const hashtag = req.query.hashtagname;
-    console.log(hashtag);
     const page = parseInt(req.query.page);
     const limit = 5;
     const startIndex = (page - 1) * limit;
@@ -209,31 +280,6 @@ router.get("/posts/explore/hashtag", async (req, res) => {
     res.status(500).json("Server Error");
   }
 });
-
-//post id değerine göre postu getirir
-router.get("/explore/singlepost/:id", async (req, res) => {
-  try {
-    const post = await PostChema.findById(req.params.id);
-    res.status(200).json(await concatPostDetails([post]));
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-//post id değerine göre projeyi getirir
-router.get("/explore/singleproject/:id", async (req, res) => {
-  try {
-    const project = await ProjectChema.findById(req.params.id);
-    res.status(200).json(
-      await concatProjectDetails([project])
-    );
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
 
 //userId den postları getirir(profile)
 router.get("/posts/profile/:username", async (req, res) => {
@@ -262,6 +308,29 @@ router.get("/posts/profile/:username", async (req, res) => {
   }
 });
 
+
+//explore sayfası için 5 adet en çok postCount sayısı olan hashtagleri getirir
+router.get("/hashtags/explore", async (req, res) => {
+  try {
+    const hashtags = await HashtagChema.find().sort({ postCount: -1 }).limit(5);
+    res.status(200).json(hashtags);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+//post id değerine göre projeyi getirir
+router.get("/explore/singleproject/:id", async (req, res) => {
+  try {
+    const project = await ProjectChema.findById(req.params.id);
+    res.status(200).json(await concatProjectDetails([project]));
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
 //kullanıc id değerine göre projeleri getirir
 router.get("/projects/:username", async (req, res) => {
   try {
@@ -280,7 +349,10 @@ router.get("/projects/:username", async (req, res) => {
       page: page + 1,
       hasMore: projects.length < limit ? false : true,
     };
-    res.status(200).json({ projects:await concatProjectDetails(projects,username), pagination });
+    res.status(200).json({
+      projects: await concatProjectDetails(projects, username),
+      pagination,
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");

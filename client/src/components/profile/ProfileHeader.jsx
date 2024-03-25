@@ -23,7 +23,7 @@ import EditProfile from "./EditProfile";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import PropTypes from "prop-types";
 import FollowActions from "../actions/FollowActions";
-
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 const UserDetail = ({ profileData }) => {
   const logginedUser = useSelector((state) => state.session && state.session.user);
   const logginedUserId = logginedUser._id;
@@ -56,7 +56,8 @@ const UserDetail = ({ profileData }) => {
           avatar={
             <Box textAlign={"center"}>
               <Avatar
-                src={profileData.user.avatar}
+                src={profileData?.user?.avatar}
+                // "http://localhost:7000/"+
                 sx={{
                   width: 150,
                   height: 150,
@@ -92,20 +93,20 @@ const UserDetail = ({ profileData }) => {
                   !isPhone &&
                   logginedUser &&(
                     <Box>
-                       {logginedUser && profileData.user._id === logginedUserId ? (
-                       <Modal buttonText="Profili Düzenle" component={<EditProfile user={profileData.user} />} icon={<AppRegistrationIcon/>}/>
+                       {logginedUser && profileData?.user?._id === logginedUserId ? (
+                       <Modal buttonText="Profili Düzenle" component={<EditProfile user={profileData?.user} />} icon={<AppRegistrationIcon/>}/>
                       ) : (
                         <FollowActions toFollowUserId={profileData?.user?._id}/>
                       )}
                     </Box>
                   )
                 }
-                title={`${profileData.user.name} ${profileData.user.surname}`}
+                title={`${profileData.user?.name} ${profileData.user?.surname}`}
                 titleTypographyProps={{ color: "primary", fontSize: "1.2rem" }}
                 subheader={
                   <Box>
                     <Typography
-                      onClick={() => navigate(`/${profileData.user.username}`)}
+                      onClick={() => navigate(`/${profileData?.user?.username}`)}
                       color="secondary"
                       sx={{
                         fontSize: "0.8rem",
@@ -113,12 +114,12 @@ const UserDetail = ({ profileData }) => {
                         cursor: "pointer",
                       }}
                     >
-                      @{profileData.user.username}
+                      @{profileData?.user?.username}
                     </Typography>
                     <IconButton sx={{ paddingLeft: "0" }}>
                       <LocationOnIcon fontSize="small" />
                       <Typography fontSize={15} color="primary">
-                        {profileData.user.location}
+                        {profileData?.user?.location}
                       </Typography>
                     </IconButton>
                   </Box>

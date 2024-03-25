@@ -8,8 +8,8 @@ import ListPost from "../components/post/ListPost";
 import Follow from "../components/profile/Follow";
 import { useEffect } from "react";
 
-import { Box } from "@mui/material";
-import { getProfile } from "../redux/actions/ProfileAction";
+import { Box, Typography } from "@mui/material";
+import { getFavorites, getProfile } from "../redux/actions/ProfileAction";
 
 const ProfileLayout = () => {
   const dispatch = useDispatch();
@@ -17,8 +17,11 @@ const ProfileLayout = () => {
   const profileData = useSelector((state) => state.profile);
   const profilePage = useSelector((state) => state.ui.profilePage);
   const profilePostsData = useSelector((state) => state.posts.profilePosts);
+  const favoriteData = useSelector((state) => state.profile.favorites);
+
   useEffect(() => {
     dispatch(getProfile(username));
+    dispatch(getFavorites({ page: 1, hasMore: true }, username));
   }, [username, dispatch]);
   const page = () => {
     switch (profilePage) {
@@ -31,10 +34,19 @@ const ProfileLayout = () => {
             }
           />
         );
-      case "follow":
-        return <Follow />;
       case "project":
         return <Project />;
+      case "favorite":
+        return (
+          <ListPost
+            data={favoriteData}
+            getPosts={() =>
+              dispatch(getFavorites(favoriteData?.pagination, username))
+            }
+          />
+        );
+      case "follow":
+        return <Follow />;
       default:
         return <Outlet />;
     }

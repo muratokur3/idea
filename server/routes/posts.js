@@ -4,14 +4,18 @@ const PostChema = require("../models/Post");
 const UserChema = require("../models/User");
 const HashtagChema = require("../models/Hashtag");
 
-//post içindeki userId değerinden user detaylarını alır ve birleştirir
+//post details contact userdetails
 const concatPostDetails = async (posts) => {
+  // isDeleted özelliği true olan postları filtrele
+  posts = posts.filter((post) => !post.isDeleted);
+
   // Benzersiz kullanıcı ID'lerini topla
   const userIds = posts.map((post) => post.userId);
 
   // Tek bir sorgu ile tüm kullanıcı detaylarını al
   const userDetails = await UserChema.find({
     _id: { $in: userIds },
+    isActive: true,
   });
 
   // Benzersiz hashtag ID'lerini topla
@@ -35,6 +39,7 @@ const concatPostDetails = async (posts) => {
     const user = userDetails.find(
       (user) => post.userId.toString() === user._id.toString()
     );
+    if(!user) return;
     return {
       ...post._doc,
       name: user.name,
@@ -43,11 +48,11 @@ const concatPostDetails = async (posts) => {
       username: user.username,
       hashtags: hashtags,
     };
-  });
+  }).filter((post)=>post!=null);
   return postUser;
 };
 
-//yeni post oluşturur
+//create a new post
 router.post("/new", async (req, res) => {
   try {
     const data = req.body;
@@ -65,7 +70,7 @@ router.post("/new", async (req, res) => {
   }
 });
 
-//id ye göre post günceller
+//ubdate post
 router.put("/ubdate/:id", async (req, res) => {
   if (!(await PostChema.findById(req.params.id))) {
     return res.status(404).send("Post not found");
@@ -83,45 +88,32 @@ router.put("/ubdate/:id", async (req, res) => {
   }
 });
 
-// id ye göre post siler
+//delete a post
 router.delete("/delete/:id", async (req, res) => {
-  if (!(await PostChema.findById(req.params.id))) {
-    return res.status(404).json("Post not found");
-  }
-  try {
     const postId = req.params.id;
-    const post = await PostChema.findByIdAndDelete(postId);
-    res.status(200).json(post);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Server Error");
-  }
+    const post = await PostChema.findById(postId);
+    if (!post) {
+        return res.status(404).json("Post not found");
+    }
+    try {
+        // Hashtaglerin postCount değerini düşür
+        for (let hashtag of post.hashtags) {
+            await HashtagChema.updateOne(
+                { _id: hashtag },
+                { $inc: { postCount: -1 } }
+            );
+        }
+
+        // Postu sil
+        await PostChema.findByIdAndUpdate(postId, { isDeleted: true }, { new: true });
+        res.status(200).json(post);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("Server Error");
+    }
 });
 
-//çoklu post oluşturur
-// router.post("/createMany", async (req, res) => {
-//   try {
-//     const posts = req.body;
-//     posts.forEach(async (post) => {
-//       const newPost = new PostChema(post);
-//       newPost.hashtags.map(async (hashtag) => {
-//         await HashtagChema.findByIdAndUpdate(
-//          hashtag,
-//          { $inc: { postCount: 1 } },
-//        );
-//      }
-//      );
-//       await newPost.save();
-//     });
-//     res.status(201).json(posts);
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).json("Server Error");
-//   }
-// });
-
-
-//tüm postları getirir
+//get all posts
 router.get("/", async (req, res) => {
   try {
     const posts = await PostChema.find();
@@ -132,7 +124,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//kişinin takip ettiği postları sayfalandırarak limit değerine göre getirir
+//user follow users posts
 router.get("/timeline/:userId", async (req, res) => {
   try {
     // const currentUser = await UserChema.findById(req.params.userId);
@@ -162,7 +154,7 @@ router.get("/timeline/:userId", async (req, res) => {
   }
 });
 
-//kişinin takip ettiği hashtaglerin postlarını getirir
+//user follow hashtags posts
 router.get("/privateMe/:userId", async (req, res) => {
   try {
     const page = parseInt(req.query.page);
@@ -193,7 +185,7 @@ router.get("/privateMe/:userId", async (req, res) => {
   }
 });
 
-//kişinin favori postlarını getirir
+//user favorite posts
 router.get("/favorite/:username", async (req, res) => {
   try {
     const currentUser = await UserChema.findOne({
@@ -222,7 +214,7 @@ router.get("/favorite/:username", async (req, res) => {
   }
 });
 
-//kişinin beğendiği postları getirir
+//user add likes posts
 router.get("/likes/:username", async (req, res) => {
   try {
     const page = parseInt(req.query.page);
@@ -248,7 +240,7 @@ router.get("/likes/:username", async (req, res) => {
   }
 });
 
-//postId ve userId değerine göre beğeni ekler
+//post likes
 router.post("/like/:postId/:userId", async (req, res) => {
   try {
     const postId = req.params.postId;
@@ -273,7 +265,7 @@ router.post("/like/:postId/:userId", async (req, res) => {
   }
 });
 
-//posstId ve userId değerine göre beğeni siler
+//post unlike
 router.post("/unlike/:postId/:userId", async (req, res) => {
   try {
     const postId = req.params.postId;
@@ -298,7 +290,7 @@ router.post("/unlike/:postId/:userId", async (req, res) => {
   }
 });
 
-//postId ve userId değerine göre favori ekler
+//add favorites
 router.post("/favorites/:postId/:userId", async (req, res) => {
   try {
     const postId = req.params.postId;
@@ -320,7 +312,7 @@ router.post("/favorites/:postId/:userId", async (req, res) => {
   }
 });
 
-//posstId ve userId değerine göre favoriden çıkarır
+//unfavorites
 router.post("/unfavorites/:postId/:userId", async (req, res) => {
   try {
     const postId = req.params.postId;
@@ -342,20 +334,27 @@ router.post("/unfavorites/:postId/:userId", async (req, res) => {
   }
 });
 
-
-
-//tüm postlara ... alanı ekler
-router.post("/yenialan", async (req, res) => {
-  try {
-    const posts = await PostChema.find();
-    posts.map(async (post) => {
-      await post.updateOne({ $set: { yenialan: [] } });
-    });
-    res.status(200).json("Tüm postlara ... alanı eklendi");
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Server Error");
-  }
-});
-
 module.exports = router;
+
+
+//crate many posts
+// router.post("/createMany", async (req, res) => {
+//   try {
+//     const posts = req.body;
+//     posts.forEach(async (post) => {
+//       const newPost = new PostChema(post);
+//       newPost.hashtags.map(async (hashtag) => {
+//         await HashtagChema.findByIdAndUpdate(
+//          hashtag,
+//          { $inc: { postCount: 1 } },
+//        );
+//      }
+//      );
+//       await newPost.save();
+//     });
+//     res.status(201).json(posts);
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).json("Server Error");
+//   }
+// });

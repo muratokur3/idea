@@ -39,11 +39,11 @@ const Follow = () => {
       </Tabs>
       {follow === "following" &&
         profile.following.map((user) => (
-          <UserCard key={user._id} user={user} />
+          <UserCard key={user?._id} user={user} />
         ))}
       {follow === "followers" &&
         profile.followers.map((user) => (
-          <UserCard key={user._id} user={user} />
+          <UserCard key={user?._id} user={user} />
         ))}
     </Fragment>
   );

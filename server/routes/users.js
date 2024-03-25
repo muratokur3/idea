@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
     cb(null, `./uploads/images/${folder}`);
   },
   filename: async (req, file, cb) => {
-    const username = req.query.username; // Kullanıcı adını query parametresinden alın
+    const newFilename = req.query.filename; // kaydedilecek dosay adını query parametresinden alın
     const directoryPath = `./uploads/images/${req.query.folder}`;
     fs.readdir(directoryPath, (err, files) => {
       if (err) {
@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
       files.some((existingFile) => {
         // Dosya isminin uzantısız kısmını al ve aranan dosya ismiyle karşılaştır
         const fileName = existingFile.split(".")[0];
-        if (fileName === username) {
+        if (fileName === newFilename) {
           // Dosya varsa sil
           fs.unlink(path.join(directoryPath, existingFile), (err) => {
             if (err) {
@@ -38,8 +38,7 @@ const storage = multer.diskStorage({
       });
     });
 
-    
-    cb(null, `${username}.${file.originalname.split(".")[1]}`); // Yeni dosya adını oluşturun (uzantısız)
+    cb(null, `${newFilename}.${file.originalname.split(".")[1]}`); // Yeni dosya adını oluşturun (uzantısız)
   },
 });
 
@@ -68,13 +67,12 @@ router.post("/upload/images", upload.single("file"), async (req, res) => {
   }
 });
 
-
 const generateRandomAvatar = () => {
   const randomAvatar = Math.floor(Math.random() * 70 + 1);
   return `https://i.pravatar.cc/300?img=${randomAvatar}`;
 };
 
-//gelen kullanıcı bilgilerine göre kullanıcıyı günceller
+//ubdate user
 router.put("/ubdateUser/:id", async (req, res) => {
   try {
     const user = await UserChema.findById(req.params.id);
@@ -102,7 +100,7 @@ router.put("/ubdateUser/:id", async (req, res) => {
   }
 });
 
-//tüm kullanıcıları getirir
+//get all users
 router.get("/", async (req, res) => {
   try {
     const users = await UserChema.find();
@@ -113,8 +111,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-//kullanıcı id'sine göre kullanıcı getirir
+//get single user by id
 router.get("/id/:id", async (req, res) => {
   if (!(await UserChema.findById(req.params.id))) {
     return res.status(404).json("Kullanıcı bulunamadı");
@@ -128,8 +125,7 @@ router.get("/id/:id", async (req, res) => {
   }
 });
 
-
-//kullanıcıyı takip etmiyorsa takip eder
+//follow a user
 router.put("/follow/:followerId/:followingId", async (req, res) => {
   const { followerId, followingId } = req.params;
   if (followerId === followingId) {
@@ -156,7 +152,7 @@ router.put("/follow/:followerId/:followingId", async (req, res) => {
   }
 });
 
-//kullanıcıyı takip ediyorsa takip etmeyi bırakır
+//unfollow a user
 router.put("/unfollow/:followerId/:followingId", async (req, res) => {
   const { followerId, followingId } = req.params;
   if (followerId === followingId) {
@@ -183,26 +179,21 @@ router.put("/unfollow/:followerId/:followingId", async (req, res) => {
   }
 });
 
-//hashtag takip et
+//follow a hashtag
 router.put("/followHashtag/:userId/:hashtagname", async (req, res) => {
   const { userId, hashtagname } = req.params;
   const hashtag = await HashtagChema.findOne({
     name: hashtagname,
   });
-  const hashtagId =await hashtag._id;
+  const hashtagId = await hashtag._id;
   try {
-    const user = await UserChema
-      .findById(userId)
-      .exec();
+    const user = await UserChema.findById(userId).exec();
     if (!user.hashtags.includes(hashtagId)) {
-      await
-        UserChema.findByIdAndUpdate
-        (userId, {
-          $push: { hashtags: hashtagId },
-        });
+      await UserChema.findByIdAndUpdate(userId, {
+        $push: { hashtags: hashtagId },
+      });
       res.status(200).json("Hashtag takip edildi");
-    }
-    else {
+    } else {
       res.status(403).json("Hashtag zaten takip ediliyor");
     }
   } catch (error) {
@@ -211,26 +202,21 @@ router.put("/followHashtag/:userId/:hashtagname", async (req, res) => {
   }
 });
 
-//hashtag takip etmeyi bırak
+//unfollow a hashtag
 router.put("/unfollowHashtag/:userId/:hashtagname", async (req, res) => {
   const { userId, hashtagname } = req.params;
   try {
     const hashtag = await HashtagChema.findOne({
       name: hashtagname,
     });
-    const hashtagId =await hashtag._id;
-    const user = await UserChema
-      .findById(userId)
-      .exec();
+    const hashtagId = await hashtag._id;
+    const user = await UserChema.findById(userId).exec();
     if (user.hashtags.includes(hashtagId)) {
-      await
-        UserChema.findByIdAndUpdate
-        (userId, {
-          $pull: { hashtags: hashtagId },
-        });
+      await UserChema.findByIdAndUpdate(userId, {
+        $pull: { hashtags: hashtagId },
+      });
       res.status(200).json("Hashtag takip bırakıldı");
-    }
-    else {
+    } else {
       res.status(403).json("Hashtag zaten takip edilmiyor");
     }
   } catch (error) {
@@ -239,20 +225,7 @@ router.put("/unfollowHashtag/:userId/:hashtagname", async (req, res) => {
   }
 });
 
-//kullanıcı idlerini döner
-// router.get("/ids", async (req, res) => {
-//   try {
-//     const users = await UserChema.find();
-//     const ids =await users.map((user) => user._id);
-//     res.status(200).json(ids);
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).json("Server Error");
-//   }
-// });
-
-//birden çok kullanıcı oluştur
-
+//create many users
 router.post("/createMany", async (req, res) => {
   try {
     const users = req.body;
@@ -277,11 +250,11 @@ router.post("/createMany", async (req, res) => {
   }
 });
 
-//kullanıcıyının is deleted alanını true yapar
+//user delete
 router.put("/account/delete/:id", async (req, res) => {
   try {
     await UserChema.findByIdAndUpdate(req.params.id, {
-      $set: { isDeleted: true },
+      $set: { isDeleted: true, isActive: false},
     }).exec();
     res.status(200).json("Kullanıcı silindi");
   } catch (error) {
@@ -290,31 +263,26 @@ router.put("/account/delete/:id", async (req, res) => {
   }
 });
 
-//kullanıcıyı dondurur
+//user freeze
 router.put("/account/freeze/:id", async (req, res) => {
   try {
-    await UserChema.findByIdAndUpdate
-      (req.params.id, {
-        $set: { isFrozen: true },
-      })
-      .exec();
+    await UserChema.findByIdAndUpdate(req.params.id, {
+      $set: { isFrozen: true, isActive: false },
+    }).exec();
     res.status(200).json("Kullanıcı donduruldu");
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
   }
-}
-);
+});
 
-//kullanıcıyı aktif eder
+//user active
 router.put("/account/activate/:id", async (req, res) => {
   try {
-    await UserChema.findByIdAndUpdate
-      (req.params.id, {
-        $set: { isFrozen: false },
-      })
-      .exec();
-      
+    await UserChema.findByIdAndUpdate(req.params.id, {
+      $set: { isFrozen: false, isActive: true },
+    }).exec();
+
     res.status(200).json("Kullanıcı aktif edildi");
   } catch (error) {
     console.log(error.message);
@@ -322,14 +290,4 @@ router.put("/account/activate/:id", async (req, res) => {
   }
 });
 
-// //tüm kullanıcıların isFrozen alanını false yapar
-// router.put("/account/unfreezeAll", async (req, res) => {
-//   try {
-//     await UserChema.updateMany({}, { isFrozen: false });
-//     res.status(200).json("Tüm kullanıcılar donduruldu");
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).json("Server Error");
-//   }
-// });
 module.exports = router;

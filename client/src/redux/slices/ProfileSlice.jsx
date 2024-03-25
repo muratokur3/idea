@@ -4,7 +4,13 @@ const initialState = {
   user: {},
   followers: [],
   following: [],
-  
+  favorites: {
+    posts: [],
+    pagination: {
+      page: 1,
+      hasMore: true,
+    },
+  },
 };
 const profileSlice = createSlice({
   name: "profile",
@@ -18,6 +24,14 @@ const profileSlice = createSlice({
     },
     setFollowers: (state, action) => {
       state.followers = action.payload;
+    },
+    setFavorites: (state, action) => {
+      if (action.payload.pagination.page === 2) {
+        state.favorites = action.payload;
+      } else {
+        state.favorites.posts.push(...action.payload.posts);
+        state.favorites.pagination = action.payload.pagination;
+      }
     },
     ubdateUserFollow: (state, action) => {
       const newUser = action.payload;
@@ -44,6 +58,7 @@ export const {
   setProfile,
   setFollowers,
   setFollowing,
+  setFavorites,
   ubdateUserFollow,
 } = profileSlice.actions;
 export default profileSlice.reducer;

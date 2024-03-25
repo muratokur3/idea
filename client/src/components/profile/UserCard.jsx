@@ -24,7 +24,7 @@ const UserCard = ({ user }) => {
       <CardHeader
         avatar={
           <Avatar
-            src={user.avatar}
+            src={user?.avatar}
             sx={{ bgcolor: red[500] }}
             aria-label="recipe"
           >
@@ -34,15 +34,15 @@ const UserCard = ({ user }) => {
         action={
     <Followactions toFollowUserId={user?._id}/>
         }
-        title={`${user.name} ${user.surname}`}
+        title={`${user?.name} ${user?.surname}`}
         titleTypographyProps={{ fontSize: "1rem", color: "primary"}}
         subheader={
            <Typography
-            onClick={() => navigate(`/${user.username}`)}
+            onClick={() => navigate(`/${user?.username}`)}
             color={"secondary"}
             sx={{ fontSize: "0.8rem", cursor: "pointer" }}
           >
-            @{user.username}
+            @{user?.username}
           </Typography>
           
         }
@@ -55,7 +55,7 @@ const UserCard = ({ user }) => {
           padding: "10px",
         }}
       > <Typography color="primary" sx={{ fontSize: "10px" }}>
-           {user.followers.length} Takipçi {user.following.length} Takip
+           {user?.followers.length} Takipçi {user?.following.length} Takip
            Edilen
          </Typography>
         <Typography color="primary" fontSize={".8rem"}>
