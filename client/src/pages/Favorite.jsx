@@ -3,7 +3,7 @@ import ListPost from "../components/post/ListPost";
 import { useEffect } from "react";
 import { getFavoritesPosts } from "../redux/actions/PostActions";
 const Favorite = () => {
-  const favoriteData = useSelector((state) => state.posts.favorites);
+  const favoriteData = useSelector((state) => state.posts.Myfavorites);
   const username = useSelector((state) => state.session && state.session.user.username);
   const dispatch = useDispatch();
   

@@ -73,8 +73,7 @@ const Post = ({ post }) => {
         sx={{ paddingBottom: ".5rem" }}
         avatar={
           <Avatar
-            src={post?.avatar}
-            // "http://localhost:7000/"+
+            src={"http://localhost:7000/" + post?.avatar}
             sx={{ bgcolor: red[500], width: "50px", height: "50px" }}
             aria-label="recipe"
           >
@@ -235,6 +234,5 @@ const Post = ({ post }) => {
 
 export default Post;
 Post.propTypes = {
-  post: PropTypes.object,
-  logginedUser: PropTypes.object,
+  post: PropTypes.object.isRequired,
 };

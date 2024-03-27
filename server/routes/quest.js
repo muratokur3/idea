@@ -84,9 +84,7 @@ const concatProjectDetails = async (projects, username) => {
   return projectUser;
 };
 
-
-
-//kullanıcı adına göre kullanıcı getirir
+//kullanıcı adına göre kullanıcı profil bilgilerini getirir
 router.get("/profile/:username", async (req, res) => {
   if (
     !(await UserChema.findOne({
@@ -101,7 +99,20 @@ router.get("/profile/:username", async (req, res) => {
       username: req.params.username,
       isActive: true,
     });
-    res.status(200).json(user);
+
+    let userObject = user.toObject();
+    let {
+      password,
+      project,
+      following,
+      followers,
+      posts,
+      isdeleted,
+      isfrozen,
+      __v,
+      ...desiredFields
+    } = userObject;
+    res.status(200).json(desiredFields);
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -119,14 +130,25 @@ router.get("/following/:username", async (req, res) => {
     return res.status(404).json("Kullanıcı bulunamadı");
   }
   try {
+    const page = parseInt(req.query.page);
+    const limit = 5;
+    const startIndex = (page - 1) * limit;
+
     const currentUser = await UserChema.findOne({
       username: req.params.username,
     });
     const users = await UserChema.find({
       _id: { $in: currentUser.following },
       isActive: true,
-    });
-    res.status(200).json(users);
+    })
+      .limit(limit)
+      .skip(startIndex);
+
+    const pagination = {
+      page: page + 1,
+      hasMore: users.length === limit,
+    };
+    res.status(200).json({ users, pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -144,14 +166,27 @@ router.get("/followers/:username", async (req, res) => {
     return res.status(404).json("Kullanıcı bulunamadı");
   }
   try {
+    const page = parseInt(req.query.page);
+    const limit = 3;
+    const startIndex = (page - 1) * limit;
+
     const currentUser = await UserChema.findOne({
       username: req.params.username,
     });
+
     const users = await UserChema.find({
       _id: { $in: currentUser.followers },
       isActive: true,
-    });
-    res.status(200).json(users);
+    })
+      .limit(limit)
+      .skip(startIndex);
+
+    const pagination = {
+      page: page + 1,
+      hasMore: users.length === limit,
+    };
+
+    res.status(200).json({ users, pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -166,7 +201,7 @@ router.get("/posts/favorite/:username", async (req, res) => {
       isActive: true,
     });
     const page = parseInt(req.query.page);
-    const limit = 5;
+    const limit = 3;
     const startIndex = (page - 1) * limit;
 
     const favoritesPost = await PostChema.find({ favorites: currentUser._id })
@@ -307,7 +342,6 @@ router.get("/posts/profile/:username", async (req, res) => {
     res.status(500).json("Server Error");
   }
 });
-
 
 //explore sayfası için 5 adet en çok postCount sayısı olan hashtagleri getirir
 router.get("/hashtags/explore", async (req, res) => {

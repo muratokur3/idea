@@ -23,14 +23,12 @@ import EditProfile from "./EditProfile";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import PropTypes from "prop-types";
 import FollowActions from "../actions/FollowActions";
-const baseURL = import.meta.env.VITE_API_BASE_URL;
-const UserDetail = ({ profileData }) => {
+const UserDetail = ({ user }) => {
   const logginedUser = useSelector((state) => state.session && state.session.user);
   const logginedUserId = logginedUser._id;
 
   const profileUserPosts = useSelector((state) => state?.posts?.profilePosts);
   const navigate = useNavigate();
-
   const theme = useTheme();
   const isPhone = useMediaQuery("(max-width: 600px)");
   return (
@@ -50,14 +48,13 @@ const UserDetail = ({ profileData }) => {
             borderBottomRightRadius: isPhone ? "50px" : "100px",
             borderBottomLeftRadius: isPhone ? "50px" : "100px",
           }}
-          src={profileData.user.background}
+          src={user?.background}
         />
         <CardHeader
           avatar={
             <Box textAlign={"center"}>
               <Avatar
-                src={profileData?.user?.avatar}
-                // "http://localhost:7000/"+
+                src={"http://localhost:7000/"+user?.avatar}
                 sx={{
                   width: 150,
                   height: 150,
@@ -68,13 +65,13 @@ const UserDetail = ({ profileData }) => {
                 P
               </Avatar>
 
-              {isPhone && (
+              {isPhone && logginedUser &&(
                 <Box marginTop="15px">
-                  {logginedUser && profileData.user._id === logginedUserId ? (
-                   <Modal buttonText="Profili Düzenle" component={<EditProfile user={profileData.user} />} icon={<AppRegistrationIcon/>}/>
+                  {user?._id === logginedUserId ? (
+                   <Modal buttonText="Profili Düzenle" component={<EditProfile user={user} />} icon={<AppRegistrationIcon/>}/>
 
                   ) : (
-                    <FollowActions toFollowUserId={profileData?.user?._id}/>
+                    <FollowActions toFollowUserId={user?._id}/>
                   )}
                 </Box>
               )}
@@ -93,20 +90,20 @@ const UserDetail = ({ profileData }) => {
                   !isPhone &&
                   logginedUser &&(
                     <Box>
-                       {logginedUser && profileData?.user?._id === logginedUserId ? (
-                       <Modal buttonText="Profili Düzenle" component={<EditProfile user={profileData?.user} />} icon={<AppRegistrationIcon/>}/>
+                       {user?._id === logginedUserId ? (
+                       <Modal buttonText="Profili Düzenle" component={<EditProfile user={user} />} icon={<AppRegistrationIcon/>}/>
                       ) : (
-                        <FollowActions toFollowUserId={profileData?.user?._id}/>
+                        <FollowActions toFollowUserId={user?._id}/>
                       )}
                     </Box>
                   )
                 }
-                title={`${profileData.user?.name} ${profileData.user?.surname}`}
+                title={`${user?.name} ${user?.surname}`}
                 titleTypographyProps={{ color: "primary", fontSize: "1.2rem" }}
                 subheader={
                   <Box>
                     <Typography
-                      onClick={() => navigate(`/${profileData?.user?.username}`)}
+                      onClick={() => navigate(`/${user?.username}`)}
                       color="secondary"
                       sx={{
                         fontSize: "0.8rem",
@@ -114,12 +111,12 @@ const UserDetail = ({ profileData }) => {
                         cursor: "pointer",
                       }}
                     >
-                      @{profileData?.user?.username}
+                      @{user?.username}
                     </Typography>
                     <IconButton sx={{ paddingLeft: "0" }}>
                       <LocationOnIcon fontSize="small" />
                       <Typography fontSize={15} color="primary">
-                        {profileData?.user?.location}
+                        {user?.location}
                       </Typography>
                     </IconButton>
                   </Box>
@@ -133,7 +130,7 @@ const UserDetail = ({ profileData }) => {
                   color: `${theme.palette.primary.main}`,
                 }}
               >
-                {profileData.user.bio}
+                {user?.bio}
               </CardContent>
             </Card>
           }
@@ -149,25 +146,25 @@ const UserDetail = ({ profileData }) => {
             {profileUserPosts?.posts.length} Gönderi
           </Typography>
           <Typography color="primary" fontSize="small">
-            {profileData?.user?.followers?.length} Takipçi
+            {user?.followers?.length} Takipçi
           </Typography>
           <Typography color="primary" fontSize="small">
-            {profileData?.user?.following?.length} Takip Edilen
+            {user?.following?.length} Takip Edilen
           </Typography>
             {/* yeni sekmede açar */}
-          <a href={"https://"+profileData?.user?.socialAdress?.website} target={`_blank`}>
+          <a href={"https://"+user?.socialAdress?.website} target={`_blank`}>
             <LanguageIcon fontSize="medium" color="primary"/>
           </a>
-          <a href={"https://github.com/"+profileData?.user?.socialAdress?.github} target={`_blank`}>
+          <a href={"https://github.com/"+user?.socialAdress?.github} target={`_blank`}>
             <GitHubIcon fontSize="medium" color="primary"/>
           </a>
-          <a href={"https://www.linkedin.com/in/"+profileData?.user?.socialAdress?.linkedin} target={`_blank`}>
+          <a href={"https://www.linkedin.com/in/"+user?.socialAdress?.linkedin} target={`_blank`}>
             <LinkedInIcon fontSize="medium" color="primary"/>
           </a>
-          <a href={"https://www.youtube.com/@"+profileData?.user?.socialAdress?.youtube} target={`_blank`}>
+          <a href={"https://www.youtube.com/@"+user?.socialAdress?.youtube} target={`_blank`}>
             <YouTubeIcon fontSize="medium" color="primary"/>
           </a>
-          <a href={"https://twitter.com/"+profileData?.user?.socialAdress?.twitter} target={`_blank`}>
+          <a href={"https://twitter.com/"+user?.socialAdress?.twitter} target={`_blank`}>
             <XIcon fontSize="medium" color="primary"/>
           </a>
         </CardActions>
@@ -178,5 +175,5 @@ const UserDetail = ({ profileData }) => {
 
 export default UserDetail;
 UserDetail.propTypes = {
-  profileData: PropTypes.object,
+  user: PropTypes.object,
 };

@@ -5,7 +5,7 @@ import { getProfileLikesPosts } from "../redux/actions/PostActions";
 
 const MyLikes = () => {
   const username  =useSelector((state)=>state.session && state.session.user.username);
-  const ProfileLikesData = useSelector((state) => state.posts.profileLikes);
+  const ProfileLikesData = useSelector((state) => state.posts.myLikes);
   const dispatch=useDispatch();
   useEffect(() => {
     dispatch(getProfileLikesPosts({ page: 1, hasMore: true }, username));

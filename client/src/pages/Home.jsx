@@ -10,7 +10,6 @@ import {
 import { useEffect } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import HomeTabs from "../components/actions/HomeTabs";
-import ResponsiveAppBar from "../components/menu/MobileTopNavi";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -34,6 +33,7 @@ const Home = () => {
     filterName !== "all" &&
       privateMeData.posts.length === 0 &&
       dispatch(getPrivateMeData(privateMeData.pagination, loginedUserId));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

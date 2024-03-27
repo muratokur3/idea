@@ -4,9 +4,8 @@ import {
   setHome,
   setPrivateMe,
   setExplore,
-  setFavorites,
-  setProfilePosts,
-  setProfileLikes,
+  setMyFavorites,
+  setMyLikes,
   setHashtagExplore,
   setUbdateData,
 } from "../slices/PostSlice";
@@ -133,30 +132,7 @@ const getFavoritesPosts = (pagination, username) => async (dispatch) => {
       }
     );
     dispatch(
-      setFavorites({
-        posts: await response.data.posts,
-        pagination: await response.data.pagination,
-      })
-    );
-  } catch (error) {
-    console.error("Veri gelirken hata oluştu:", error);
-  }
-};
-
-const getProfilePosts = (pagination, username) => async (dispatch) => {
-  try {
-    const response = await axios.get(
-      `quest/posts/profile/${username}`,
-      {
-        params: {
-          page: pagination.page,
-        },
-       
-        
-      }
-    );
-    dispatch(
-      setProfilePosts({
+      setMyFavorites({
         posts: await response.data.posts,
         pagination: await response.data.pagination,
       })
@@ -175,7 +151,7 @@ const getProfileLikesPosts = (pagination, username) => async (dispatch) => {
       
     });
     dispatch(
-      setProfileLikes({
+      setMyLikes({
         posts: await response.data.posts,
         pagination: await response.data.pagination,
       })
@@ -310,7 +286,6 @@ export {
   getFavoritesPosts,
   favorite,
   unFavorite,
-  getProfilePosts,
   getProfileLikesPosts,
   like,
   unLike,

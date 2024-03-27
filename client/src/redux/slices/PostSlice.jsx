@@ -31,21 +31,14 @@ const initialState = {
       hasMore: true,
     },
   },
-  favorites: {
+  Myfavorites: {
     posts: [],
     pagination: {
       page: 1,
       hasMore: true,
     },
   },
-  profilePosts: {
-    posts: [],
-    pagination: {
-      page: 1,
-      hasMore: true,
-    },
-  },
-  profileLikes: {
+  myLikes: {
     posts: [],
     pagination: {
       page: 1,
@@ -82,33 +75,24 @@ export const postSlice = createSlice({
         state.hashtagExplore.pagination = action.payload.pagination;
       }
     },
-    setFavorites: (state, action) => {
+    setMyFavorites: (state, action) => {
       if (action.payload.pagination.page === 2) {
-        state.favorites = action.payload;
+        state.Myfavorites = action.payload;
       } else {
-        state.favorites.posts.push(...action.payload.posts);
-        state.favorites.pagination = action.payload.pagination;
+        state.Myfavorites.posts.push(...action.payload.posts);
+        state.Myfavorites.pagination = action.payload.pagination;
       }
     },
-    setProfilePosts: (state, action) => {
+    setMyLikes: (state, action) => {
       if (action.payload.pagination.page === 2) {
-        state.profilePosts = action.payload;
+        state.myLikes = action.payload;
       } else {
-        state.profilePosts.posts.push(...action.payload.posts);
-        state.profilePosts.pagination = action.payload.pagination;
-      }
-    },
-    setProfileLikes: (state, action) => {
-      if (action.payload.pagination.page === 2) {
-        state.profileLikes = action.payload;
-      } else {
-        state.profileLikes.posts.push(...action.payload.posts);
-        state.profileLikes.pagination = action.payload.pagination;
+        state.myLikes.posts.push(...action.payload.posts);
+        state.myLikes.pagination = action.payload.pagination;
       }
     },
     setUbdateData: (state, action) => {
       const newPost = action.payload;
-
       state.home.posts = state.home.posts.map((p) =>
         p._id === newPost._id ? newPost : p
       );
@@ -121,13 +105,10 @@ export const postSlice = createSlice({
       state.hashtagExplore.posts = state.hashtagExplore.posts.map((p) =>
         p._id === newPost._id ? newPost : p
       );
-      state.favorites.posts = state.favorites.posts.map((p) =>
+      state.Myfavorites.posts = state.Myfavorites.posts.map((p) =>
         p._id === newPost._id ? newPost : p
       );
-      state.profilePosts.posts = state.profilePosts.posts.map((p) =>
-        p._id === newPost._id ? newPost : p
-      );
-      state.profileLikes.posts = state.profileLikes.posts.map((p) =>
+      state.myLikes.posts = state.myLikes.posts.map((p) =>
         p._id === newPost._id ? newPost : p
       );
     },
@@ -139,9 +120,8 @@ export const {
   setPrivateMe,
   setExplore,
   setHashtagExplore,
-  setFavorites,
-  setProfilePosts,
-  setProfileLikes,
+  setMyFavorites,
+  setMyLikes,
   setUbdateData,
 } = postSlice.actions;
 export default postSlice.reducer;

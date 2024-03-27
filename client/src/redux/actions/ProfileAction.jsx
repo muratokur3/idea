@@ -4,6 +4,7 @@ import {
   setFollowers,
   setFollowing,
   setProfile,
+  setProfilePosts,
   ubdateUserFollow,
 } from "../slices/ProfileSlice";
 import { sessionService } from "redux-react-session";
@@ -11,12 +12,11 @@ const getProfile = (Username) => async (dispatch) => {
   try {
     const response = await axios.get(`quest/profile/${Username}`);
     if (response.data) {
-      console.log("Profil getirildi", response.data);
       dispatch(setProfile(response.data));
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      alert('Kullanıcı bulunamadı');
+      alert("Kullanıcı bulunamadı");
       window.location.href = "/";
     }
     console.log(error);
@@ -94,7 +94,7 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
     avatar: newAvatarUrl,
     background: newBackgroundUrl,
   });
-  
+
   if (response.status === 200) {
     alert("Profiliniz başarıyla güncellendi");
     const logginedUser = await sessionService.loadUser();
@@ -111,41 +111,72 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
   }
 };
 
-const getFollowers = (username) => async (dispatch) => {
+const getFollowers = (pagination, username) => async (dispatch) => {
   try {
-    const response = await axios.get(`quest/followers/${username}`, {});
+    const response = await axios.get(`quest/followers/${username}`, {
+      params: {
+        page: pagination.page,
+      },
+    });
 
     if (response.data) {
-      dispatch(setFollowers(response.data));
+      dispatch(
+        setFollowers({
+          users: response.data.users,
+          pagination: response.data.pagination,
+        })
+      );
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-const getFollowing = (username) => async (dispatch) => {
+const getFollowing = (pagination,username) => async (dispatch) => {
   try {
-    const response = await axios.get(`quest/following/${username}`, {});
+    const response = await axios.get(`quest/following/${username}`,
+      {
+        params: {
+          page: pagination.page,
+        },
+      });
     if (response.data) {
-      dispatch(setFollowing(response.data));
+      dispatch(setFollowing({users: response.data.users, pagination: response.data.pagination}));
     }
   } catch (error) {
     console.log(error);
+  }
+};
+
+const getProfilePosts = (pagination, username) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `quest/posts/profile/${username}`,
+      {
+        params: {
+          page: pagination.page,
+        },
+      }
+    );
+    dispatch(
+      setProfilePosts({
+        posts: await response.data.posts,
+        pagination: await response.data.pagination,
+      })
+    );
+  } catch (error) {
+    console.error("Veri gelirken hata oluştu:", error);
   }
 };
 
 const getFavorites = (pagination, username) => async (dispatch) => {
   try {
-    const response = await axios.get(
-      `quest/posts/favorite/${username}`,
-      {
-        params: {
-          page: pagination.page,
-        },
-       
-        
-      }
-    );
+    const response = await axios.get(`quest/posts/favorite/${username}`, {
+      params: {
+        page: pagination.page,
+      },
+    });
+
     dispatch(
       setFavorites({
         posts: await response.data.posts,
@@ -210,6 +241,7 @@ export {
   getProfile,
   getFollowers,
   getFollowing,
+  getProfilePosts,
   getFavorites,
   follow,
   unfollow,

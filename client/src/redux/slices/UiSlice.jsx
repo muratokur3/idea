@@ -43,7 +43,6 @@ const initialState = {
       fontSize: 16,
     },
   },
-  profilePage: "posts",
 };
 export const uiSlice = createSlice({
   name: "ui",
@@ -58,14 +57,10 @@ export const uiSlice = createSlice({
         state.useTheme = state.darkTheme;
       }
     },
-    setProfilePage(state, action) {
-      state.profilePage = action.payload;
-    },
   },
 });
 
 export const {
   setThemeMode,
-  setProfilePage,
 } = uiSlice.actions;
 export default uiSlice.reducer;
