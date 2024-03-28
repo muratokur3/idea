@@ -1,7 +1,10 @@
 const express = require("express");
 const checkJwt = require('../middleware/auth');
+const softAuth = require('../middleware/softOptionalAuth');
 
 const router = express.Router();
+
+router.use(softAuth);
 
 const authRoute = require("./auth.js");
 const UserRoute = require("./users.js");

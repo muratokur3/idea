@@ -22,6 +22,7 @@ const getHomeData = (pagination, loginedUserId) => async (dispatch) => {
           }
         }
       );
+      console.log(response.data)
       dispatch(
         setHome({
           posts: await response.data.posts,

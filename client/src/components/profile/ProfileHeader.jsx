@@ -15,19 +15,20 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {useSelector } from "react-redux";
-import {useNavigate } from "react-router-dom";
-import {useTheme } from "@mui/material/styles";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
 import Modal from "../../Modals";
 import EditProfile from "./EditProfile";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import PropTypes from "prop-types";
 import FollowActions from "../actions/FollowActions";
 const UserDetail = ({ user }) => {
-  const logginedUser = useSelector((state) => state.session && state.session.user);
+  const logginedUser = useSelector(
+    (state) => state.session && state.session.user
+  );
   const logginedUserId = logginedUser._id;
 
-  const profileUserPosts = useSelector((state) => state?.posts?.profilePosts);
   const navigate = useNavigate();
   const theme = useTheme();
   const isPhone = useMediaQuery("(max-width: 600px)");
@@ -54,7 +55,7 @@ const UserDetail = ({ user }) => {
           avatar={
             <Box textAlign={"center"}>
               <Avatar
-                src={"http://localhost:7000/"+user?.avatar}
+                src={"http://localhost:7000/" + user?.avatar}
                 sx={{
                   width: 150,
                   height: 150,
@@ -65,13 +66,18 @@ const UserDetail = ({ user }) => {
                 P
               </Avatar>
 
-              {isPhone && logginedUser &&(
+              {isPhone && logginedUser && (
                 <Box marginTop="15px">
                   {user?._id === logginedUserId ? (
-                   <Modal buttonText="Profili Düzenle" component={<EditProfile user={user} />} icon={<AppRegistrationIcon/>}/>
-
+                    <Modal
+                      buttonText="Profili Düzenle"
+                      component={<EditProfile user={user} />}
+                      icon={<AppRegistrationIcon />}
+                    />
                   ) : (
-                    <FollowActions toFollowUserId={user?._id}/>
+                    <FollowActions
+                      user={{ _id: user._id, isFollow: user.isFollow }}
+                    />
                   )}
                 </Box>
               )}
@@ -88,12 +94,18 @@ const UserDetail = ({ user }) => {
                 sx={{}}
                 action={
                   !isPhone &&
-                  logginedUser &&(
+                  logginedUser && (
                     <Box>
-                       {user?._id === logginedUserId ? (
-                       <Modal buttonText="Profili Düzenle" component={<EditProfile user={user} />} icon={<AppRegistrationIcon/>}/>
+                      {user?._id === logginedUserId ? (
+                        <Modal
+                          buttonText="Profili Düzenle"
+                          component={<EditProfile user={user} />}
+                          icon={<AppRegistrationIcon />}
+                        />
                       ) : (
-                        <FollowActions toFollowUserId={user?._id}/>
+                        <FollowActions
+                          user={{ _id: user._id, isFollow: user.isFollow }}
+                        />
                       )}
                     </Box>
                   )
@@ -142,7 +154,7 @@ const UserDetail = ({ user }) => {
             justifyContent: "space-around",
           }}
         >
-          <Typography color="primary" fontSize="small">
+          {/* <Typography color="primary" fontSize="small">
             {profileUserPosts?.posts.length} Gönderi
           </Typography>
           <Typography color="primary" fontSize="small">
@@ -150,22 +162,34 @@ const UserDetail = ({ user }) => {
           </Typography>
           <Typography color="primary" fontSize="small">
             {user?.following?.length} Takip Edilen
-          </Typography>
-            {/* yeni sekmede açar */}
-          <a href={"https://"+user?.socialAdress?.website} target={`_blank`}>
-            <LanguageIcon fontSize="medium" color="primary"/>
+          </Typography> */}
+          {/* yeni sekmede açar */}
+          <a href={"https://" + user?.socialAdress?.website} target={`_blank`}>
+            <LanguageIcon fontSize="medium" color="primary" />
           </a>
-          <a href={"https://github.com/"+user?.socialAdress?.github} target={`_blank`}>
-            <GitHubIcon fontSize="medium" color="primary"/>
+          <a
+            href={"https://github.com/" + user?.socialAdress?.github}
+            target={`_blank`}
+          >
+            <GitHubIcon fontSize="medium" color="primary" />
           </a>
-          <a href={"https://www.linkedin.com/in/"+user?.socialAdress?.linkedin} target={`_blank`}>
-            <LinkedInIcon fontSize="medium" color="primary"/>
+          <a
+            href={"https://www.linkedin.com/in/" + user?.socialAdress?.linkedin}
+            target={`_blank`}
+          >
+            <LinkedInIcon fontSize="medium" color="primary" />
           </a>
-          <a href={"https://www.youtube.com/@"+user?.socialAdress?.youtube} target={`_blank`}>
-            <YouTubeIcon fontSize="medium" color="primary"/>
+          <a
+            href={"https://www.youtube.com/@" + user?.socialAdress?.youtube}
+            target={`_blank`}
+          >
+            <YouTubeIcon fontSize="medium" color="primary" />
           </a>
-          <a href={"https://twitter.com/"+user?.socialAdress?.twitter} target={`_blank`}>
-            <XIcon fontSize="medium" color="primary"/>
+          <a
+            href={"https://twitter.com/" + user?.socialAdress?.twitter}
+            target={`_blank`}
+          >
+            <XIcon fontSize="medium" color="primary" />
           </a>
         </CardActions>
       </Card>

@@ -8,10 +8,15 @@ import {
   ubdateUserFollow,
 } from "../slices/ProfileSlice";
 import { sessionService } from "redux-react-session";
-const getProfile = (Username) => async (dispatch) => {
+const getProfile = (username, logginedUserId) => async (dispatch) => {
   try {
-    const response = await axios.get(`quest/profile/${Username}`);
+    const response = await axios.get(`quest/profile/${username}`, {
+      params: {
+        logginedUserId,
+      },
+    });
     if (response.data) {
+      console.log(response.data.isFollow)
       dispatch(setProfile(response.data));
     }
   } catch (error) {
@@ -132,16 +137,20 @@ const getFollowers = (pagination, username) => async (dispatch) => {
   }
 };
 
-const getFollowing = (pagination,username) => async (dispatch) => {
+const getFollowing = (pagination, username) => async (dispatch) => {
   try {
-    const response = await axios.get(`quest/following/${username}`,
-      {
-        params: {
-          page: pagination.page,
-        },
-      });
+    const response = await axios.get(`quest/following/${username}`, {
+      params: {
+        page: pagination.page,
+      },
+    });
     if (response.data) {
-      dispatch(setFollowing({users: response.data.users, pagination: response.data.pagination}));
+      dispatch(
+        setFollowing({
+          users: response.data.users,
+          pagination: response.data.pagination,
+        })
+      );
     }
   } catch (error) {
     console.log(error);
@@ -150,14 +159,11 @@ const getFollowing = (pagination,username) => async (dispatch) => {
 
 const getProfilePosts = (pagination, username) => async (dispatch) => {
   try {
-    const response = await axios.get(
-      `quest/posts/profile/${username}`,
-      {
-        params: {
-          page: pagination.page,
-        },
-      }
-    );
+    const response = await axios.get(`quest/posts/profile/${username}`, {
+      params: {
+        page: pagination.page,
+      },
+    });
     dispatch(
       setProfilePosts({
         posts: await response.data.posts,

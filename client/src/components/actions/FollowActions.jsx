@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import { follow, unfollow } from "../../redux/actions/ProfileAction";
 import { useDispatch, useSelector } from "react-redux";
 
-const FollowActions = ({ toFollowUserId }) => {
-  const isLoggedIn = useSelector(state => state.session && state.session.authenticated);
+const FollowActions = ({ user }) => {
+  const isLoggedIn = useSelector(
+    (state) => state.session && state.session.authenticated
+  );
   const logginedUser = useSelector(
     (state) => state.session && state.session.user
   );
@@ -12,12 +14,11 @@ const FollowActions = ({ toFollowUserId }) => {
   const dispatch = useDispatch();
 
   const handleFollow = () => {
-    new Set(logginedUser.following).has(toFollowUserId)
-      ? dispatch(unfollow(toFollowUserId))
-      : dispatch(follow(toFollowUserId));
+    user.isFollow ? dispatch(unfollow(user._id)) : dispatch(follow(user._id));
   };
   return (
-    isLoggedIn&& logginedUser._id !== toFollowUserId && (
+    isLoggedIn &&
+    logginedUser._id !== user._id && (
       <Button
         aria-label="follow"
         variant="contained"
@@ -25,9 +26,7 @@ const FollowActions = ({ toFollowUserId }) => {
         size="small"
         onClick={handleFollow}
       >
-        {new Set(logginedUser.following).has(toFollowUserId)
-          ? "Takibi Bırak"
-          : "Takip Et"}
+        {user.isFollow ? "Takibi Bırak" : "Takip Et"}
       </Button>
     )
   );
@@ -35,5 +34,5 @@ const FollowActions = ({ toFollowUserId }) => {
 
 export default FollowActions;
 FollowActions.propTypes = {
-  toFollowUserId: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
 };

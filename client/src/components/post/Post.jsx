@@ -90,7 +90,9 @@ const Post = ({ post }) => {
                       Takibi Edilen
                     </Typography>
                   ) : (
-                    <FollowActions toFollowUserId={post?.userId} />
+                    <FollowActions
+                      user={{ _id: post.userId, isFollow: post.isFollow }}
+                    />
                   ))}
               </Box>
             )}

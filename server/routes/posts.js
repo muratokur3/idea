@@ -3,54 +3,7 @@ const router = express.Router();
 const PostChema = require("../models/Post");
 const UserChema = require("../models/User");
 const HashtagChema = require("../models/Hashtag");
-
-//post details contact userdetails
-const concatPostDetails = async (posts) => {
-  // isDeleted özelliği true olan postları filtrele
-  posts = posts.filter((post) => !post.isDeleted);
-
-  // Benzersiz kullanıcı ID'lerini topla
-  const userIds = posts.map((post) => post.userId);
-
-  // Tek bir sorgu ile tüm kullanıcı detaylarını al
-  const userDetails = await UserChema.find({
-    _id: { $in: userIds },
-    isActive: true,
-  });
-
-  // Benzersiz hashtag ID'lerini topla
-  const hashtagIds = posts.reduce((acc, post) => {
-    if (post.hashtags.length > 0) {
-      acc.push(...post.hashtags.map((hashtag) => hashtag.toString()));
-    }
-    return acc;
-  }, []);
-
-  // Tek bir sorgu ile tüm hashtag detaylarını al
-  const hashtagDetails = await HashtagChema.find({
-    _id: { $in: hashtagIds },
-  });
-
-  // Postları kullanıcı detayları ile birleştir
-  const postUser = posts.map((post) => {
-    const hashtags = hashtagDetails
-      .filter((hashtag) => post.hashtags.includes(hashtag._id.toString()))
-      .map((hashtag) => {return {_id:hashtag._id,name:hashtag.name}});
-    const user = userDetails.find(
-      (user) => post.userId.toString() === user._id.toString()
-    );
-    if(!user) return;
-    return {
-      ...post._doc,
-      name: user.name,
-      surname: user.surname,
-      avatar: user.avatar,
-      username: user.username,
-      hashtags: hashtags,
-    };
-  }).filter((post)=>post!=null);
-  return postUser;
-};
+const enrichPostsWithUserDetails = require("../utils/enrichPostsWithUserDetails");
 
 //create a new post
 router.post("/new", async (req, res) => {
@@ -117,7 +70,7 @@ router.delete("/delete/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const posts = await PostChema.find();
-    res.status(200).json(await concatPostDetails(posts));
+    res.status(200).json(await enrichPostsWithUserDetails(hashtagPosts, req.user.sub));
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -147,7 +100,7 @@ router.get("/timeline/:userId", async (req, res) => {
     };
     res
       .status(200)
-      .json({ posts: await concatPostDetails(allPosts), pagination });
+      .json({ posts: await enrichPostsWithUserDetails(allPosts, req.user.sub), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -178,7 +131,7 @@ router.get("/privateMe/:userId", async (req, res) => {
 
     res
       .status(200)
-      .json({ posts: await concatPostDetails(hashtagPosts), pagination });
+      .json({ posts: await enrichPostsWithUserDetails(hashtagPosts, req.user.sub), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -207,7 +160,7 @@ router.get("/favorite/:username", async (req, res) => {
 
     res
       .status(200)
-      .json({ posts: await concatPostDetails(favoritesPost), pagination });
+      .json({ posts: await enrichPostsWithUserDetails(favoritesPost, req.user.sub), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -233,7 +186,7 @@ router.get("/likes/:username", async (req, res) => {
     };
     res
       .status(200)
-      .json({ posts: await concatPostDetails(likesPost), pagination });
+      .json({ posts: await enrichPostsWithUserDetails(likesPost, req.user.sub), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");

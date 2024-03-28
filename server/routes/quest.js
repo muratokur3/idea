@@ -4,85 +4,14 @@ const PostChema = require("../models/Post");
 const UserChema = require("../models/User");
 const HashtagChema = require("../models/Hashtag");
 const ProjectChema = require("../models/Project");
+const enrichPostsWithUserDetails = require('../utils/enrichPostsWithUserDetails.js');
+const enrichProjectWithUserDetails = require('../utils/enrichProjectWithUserDetails.js');
+const userControlIsFollow = require('../utils/userControlIsFollow.js');
+function Has(array, value) {
+  return array.includes(value);
+}
 
-const concatPostDetails = async (posts) => {
-  // isDeleted özelliği true olan postları filtrele
-  posts = posts.filter((post) => !post.isDeleted);
 
-  // Benzersiz kullanıcı ID'lerini topla
-  const userIds = posts.map((post) => post.userId);
-
-  // Tek bir sorgu ile tüm kullanıcı detaylarını al
-  const userDetails = await UserChema.find({
-    _id: { $in: userIds },
-    isActive: true,
-  });
-
-  // Benzersiz hashtag ID'lerini topla
-  const hashtagIds = posts.reduce((acc, post) => {
-    if (post.hashtags.length > 0) {
-      acc.push(...post.hashtags.map((hashtag) => hashtag.toString()));
-    }
-    return acc;
-  }, []);
-
-  // Tüm hashtag detaylarını al
-  const hashtagDetails = await HashtagChema.find({
-    _id: { $in: hashtagIds },
-  });
-
-  // Postları kullanıcı detayları ile birleştir
-  const postUser = posts
-    .map((post) => {
-      const hashtags = hashtagDetails
-        .filter((hashtag) => post.hashtags.includes(hashtag._id.toString()))
-        .map((hashtag) => {
-          return { _id: hashtag._id, name: hashtag.name };
-        });
-      const user = userDetails.find(
-        (user) => post.userId.toString() === user._id.toString()
-      );
-      if (!user) return;
-      return {
-        ...post._doc,
-        name: user.name,
-        surname: user.surname,
-        avatar: user.avatar,
-        username: user.username,
-        hashtags: hashtags,
-      };
-    })
-    .filter((post) => post != null);
-  return postUser;
-};
-
-const concatProjectDetails = async (projects, username) => {
-  // isDeleted özelliği true olan projeleri filtrele
-  projects = projects.filter((project) => !project.isDeleted);
-  const userIds = projects.map((project) => project.userId);
-  const userDetails = await UserChema.find({
-    _id: { $in: userIds },
-    isActive: true,
-  });
-
-  // Projeleri detayları ile birleştir
-  const projectUser = projects
-    .map((project) => {
-      if (
-        userDetails.find(
-          (user) => user._id.toString() === project.userId.toString()
-        )
-      ) {
-        return {
-          ...project._doc,
-          username: username,
-        };
-      }
-      return null;
-    })
-    .filter((project) => project != null);
-  return projectUser;
-};
 
 //kullanıcı adına göre kullanıcı profil bilgilerini getirir
 router.get("/profile/:username", async (req, res) => {
@@ -99,7 +28,10 @@ router.get("/profile/:username", async (req, res) => {
       username: req.params.username,
       isActive: true,
     });
-
+    let isFollow = false;
+    if (req.user) {
+      isFollow = Has(user.followers, req.user.sub);
+    }
     let userObject = user.toObject();
     let {
       password,
@@ -112,7 +44,7 @@ router.get("/profile/:username", async (req, res) => {
       __v,
       ...desiredFields
     } = userObject;
-    res.status(200).json(desiredFields);
+    res.status(200).json({ ...desiredFields, isFollow });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -142,13 +74,20 @@ router.get("/following/:username", async (req, res) => {
       isActive: true,
     })
       .limit(limit)
-      .skip(startIndex);
+      .skip(startIndex)
+      .lean();
 
     const pagination = {
       page: page + 1,
       hasMore: users.length === limit,
     };
-    res.status(200).json({ users, pagination });
+
+    if (req.user) {
+      res.status(200).json({
+        users: await userControlIsFollow(users, req.user.sub),
+        pagination,
+      });
+    } else res.status(200).json({ users, pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -179,14 +118,19 @@ router.get("/followers/:username", async (req, res) => {
       isActive: true,
     })
       .limit(limit)
-      .skip(startIndex);
+      .skip(startIndex)
+      .lean();
 
     const pagination = {
       page: page + 1,
       hasMore: users.length === limit,
     };
-
-    res.status(200).json({ users, pagination });
+    if (req.user) {
+      res.status(200).json({
+        users: await userControlIsFollow(users, req.user.sub),
+        pagination,
+      });
+    } else res.status(200).json({ users, pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -216,7 +160,7 @@ router.get("/posts/favorite/:username", async (req, res) => {
 
     res
       .status(200)
-      .json({ posts: await concatPostDetails(favoritesPost), pagination });
+      .json({ posts: await enrichPostsWithUserDetails(favoritesPost, req.user.sub), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -240,7 +184,10 @@ router.get("/posts/timeline", async (req, res) => {
     };
     res
       .status(200)
-      .json({ posts: await concatPostDetails(allPosts), pagination });
+      .json({
+        posts: await enrichPostsWithUserDetails(allPosts, req.user.sub),
+        pagination,
+      });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -251,7 +198,7 @@ router.get("/posts/timeline", async (req, res) => {
 router.get("/explore/singlepost/:id", async (req, res) => {
   try {
     const post = await PostChema.findById(req.params.id);
-    res.status(200).json(await concatPostDetails([post]));
+    res.status(200).json(await enrichPostsWithUserDetails([post], req.user.sub));
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -277,7 +224,7 @@ router.get("/posts/explore", async (req, res) => {
 
     res
       .status(200)
-      .json({ posts: await concatPostDetails(allPosts), pagination });
+      .json({ posts: await enrichPostsWithUserDetails(allPosts, req.user.sub), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -309,7 +256,7 @@ router.get("/posts/explore/hashtag", async (req, res) => {
 
     res
       .status(200)
-      .json({ posts: await concatPostDetails(hashtagPosts), pagination });
+      .json({ posts: await enrichPostsWithUserDetails(hashtagPosts, req.user.sub), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -336,7 +283,7 @@ router.get("/posts/profile/:username", async (req, res) => {
     };
     res
       .status(200)
-      .json({ posts: await concatPostDetails(userPosts), pagination });
+      .json({ posts: await enrichPostsWithUserDetails(userPosts, req.user.sub), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -358,7 +305,7 @@ router.get("/hashtags/explore", async (req, res) => {
 router.get("/explore/singleproject/:id", async (req, res) => {
   try {
     const project = await ProjectChema.findById(req.params.id);
-    res.status(200).json(await concatProjectDetails([project]));
+    res.status(200).json(await enrichProjectWithUserDetails([project]));
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -384,7 +331,7 @@ router.get("/projects/:username", async (req, res) => {
       hasMore: projects.length < limit ? false : true,
     };
     res.status(200).json({
-      projects: await concatProjectDetails(projects, username),
+      projects: await enrichProjectWithUserDetails(projects, username),
       pagination,
     });
   } catch (error) {
