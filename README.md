@@ -1,9 +1,11 @@
-# Idea - proje fikri paylaşma platformu
+# Idea - proje fikir paylaşma platformu
 
 **Idea**, kullanıcıların kayıt olup giriş yapabildikleri, yazılım üzerine hashtaglere göre proje fikirleri paylaşabildikleri bir sosyal medya platformudur. Twitter'dan ilham alınarak tasarlanmış bu uygulamada kullanıcılar, paylaşılan içerikleri beğenebilir, favorilere ekleyebilir ve paylaşabilirler. Yorum yapma özelliği bulunmamaktadır. Kullanıcılar profillerini yönetebilir, profil bilgileri, paylaşımları, takip ettikleri ve takipçileri gibi bilgileri görebilirler. Kullanıcılar profil ve arkaplan resmi yükleyebilir, şifre değiştirebilir, hesaplarını dondurabilir ve aydınlık ile koyu tema arasında geçiş yapabilirler.
 
 ## Kullanılan Teknolojiler
 
+- **Vite** - Vite ile inşa edilmiştir.
+ 
 Bu proje, MERN yığını kullanılarak inşa edilmiştir:
 
 - **MongoDB** - Verilerin saklandığı belge tabanlı veritabanı.
@@ -60,7 +62,7 @@ cd client
 npm install
 ```
 
-## Uygulamayı Çlıştırma
+## 3. Uygulamayı Çalıştır
 ```bash
 cd server
 npm start
