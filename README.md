@@ -51,8 +51,8 @@ npm install npm@latest -g
 ## 1. Depoyu klonlayın
 git clone https://github.com/muratokur3/idea.git
 
-## 2. Uygulamanın düzgün çalışabilmesi için, veritabanı aracınızın bilgilerini içeren .env dosyası oluşturmanız gerekmektedir.
-Aşağıdaki değişkenleri server klasörünüzdeki .env dosyanıza ekleyin:
+## 2. .env dosyasını ayarlayın
+Uygulamanın düzgün çalışabilmesi için, veritabanı aracınızın bilgilerini içeren .env dosyası oluşturmanız gerekmektedir. Aşağıdaki değişkenleri server klasörünüzdeki .env dosyanıza ekleyin:
 ```bash
 MONGO_CONNECTION_STRING =[your-connection-string]
 SECRET_KEY=[your-secret-key]
