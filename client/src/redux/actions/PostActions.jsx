@@ -12,10 +12,10 @@ import {
 
 
 
-const getHomeData = (pagination, loginedUserId) => async (dispatch) => {
+const getHomeData = (pagination) => async (dispatch) => {
     try {
       const response = await axios.get(
-        `posts/timeline/${loginedUserId}`,
+        `posts/timeline`,
         {
           params: {
             page: pagination.page,

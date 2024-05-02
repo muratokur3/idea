@@ -27,7 +27,7 @@ const Home = () => {
   useEffect(() => {
     homeData.posts.length === 0 &&
       (isLoggedIn
-        ? dispatch(getHomeData(homeData.pagination, loginedUserId))
+        ? dispatch(getHomeData(homeData.pagination))
         : dispatch(getHomeQuestData(homeData.pagination)));
 
     filterName !== "all" &&
@@ -50,7 +50,7 @@ const Home = () => {
           getPosts={() =>
             dispatch(
               isLoggedIn
-                ? getHomeData(homeData.pagination, loginedUserId)
+                ? getHomeData(homeData.pagination)
                 : getHomeQuestData(homeData.pagination)
             )
           }

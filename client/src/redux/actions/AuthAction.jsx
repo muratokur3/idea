@@ -43,7 +43,8 @@ const loginClient = (data) => async () => {
     const response = await axios.post(`auth/login`, data);
     if (response.status === 200) {
       loggined(response.data);
-    } else if (
+    }
+     else if (
       response.status === 202 &&
       window.confirm(response.data.message)
     ) {

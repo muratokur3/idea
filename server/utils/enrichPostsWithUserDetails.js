@@ -17,11 +17,11 @@ const enrichPostsWithUserDetails = async (posts, loggedInUserId) => {
     _id: { $in: userIds },
     isActive: true,
   });
-  const userDetails = allUsers;
+  let userDetails = allUsers;
   if (loggedInUserId) {
     userDetails = await userControlIsFollow(allUsers, loggedInUserId);
   }
-
+console.log(userDetails.length,loggedInUserId)
   // Benzersiz hashtag ID'lerini topla
   const hashtagIds = posts.reduce((acc, post) => {
     if (post.hashtags.length > 0) {
@@ -39,14 +39,21 @@ const enrichPostsWithUserDetails = async (posts, loggedInUserId) => {
   const postUser = posts
     .map((post) => {
       const hashtags = hashtagDetails
-        .filter((hashtag) => post.hashtags.includes(hashtag._id.toString()))
+        .filter((hashtag) => post.hashtags.includes(hashtag._id?.toString()))
         .map((hashtag) => {
           return { _id: hashtag._id, name: hashtag.name };
         });
+      if (!hashtags.length) {
+        console.error('No matching hashtags found');
+        return;
+      }
       const user = userDetails.find(
-        (user) => post.userId.toString() === user._id.toString()
+        (user) => post.userId && post.userId.toString() === user._id?.toString()
       );
-      if (!user) return;
+      if (!user) {
+        console.error('No matching user found');
+        return;
+      }
       return {
         ...post._doc,
         name: user.name,

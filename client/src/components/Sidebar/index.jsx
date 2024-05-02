@@ -104,6 +104,8 @@ const Sidebar = () => {
     try {
       sessionService.invalidateSession();
       window.localStorage.clear();
+      
+
       navigate("/");
     } catch (error) {
       console.log(error);

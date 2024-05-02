@@ -70,7 +70,7 @@ router.delete("/delete/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const posts = await PostChema.find();
-    res.status(200).json(await enrichPostsWithUserDetails(hashtagPosts, req.user.sub));
+    res.status(200).json(await enrichPostsWithUserDetails(hashtagPosts, req.user? req.user.sub:null));
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -100,7 +100,7 @@ router.get("/timeline/:userId", async (req, res) => {
     };
     res
       .status(200)
-      .json({ posts: await enrichPostsWithUserDetails(allPosts, req.user.sub), pagination });
+      .json({ posts: await enrichPostsWithUserDetails(allPosts, req.user? req.user.sub:null), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -131,7 +131,7 @@ router.get("/privateMe/:userId", async (req, res) => {
 
     res
       .status(200)
-      .json({ posts: await enrichPostsWithUserDetails(hashtagPosts, req.user.sub), pagination });
+      .json({ posts: await enrichPostsWithUserDetails(hashtagPosts, req.user? req.user.sub:null), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -160,7 +160,7 @@ router.get("/favorite/:username", async (req, res) => {
 
     res
       .status(200)
-      .json({ posts: await enrichPostsWithUserDetails(favoritesPost, req.user.sub), pagination });
+      .json({ posts: await enrichPostsWithUserDetails(favoritesPost, req.user? req.user.sub:null), pagination });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");

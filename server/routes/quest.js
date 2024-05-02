@@ -4,14 +4,20 @@ const PostChema = require("../models/Post");
 const UserChema = require("../models/User");
 const HashtagChema = require("../models/Hashtag");
 const ProjectChema = require("../models/Project");
-const enrichPostsWithUserDetails = require('../utils/enrichPostsWithUserDetails.js');
-const enrichProjectWithUserDetails = require('../utils/enrichProjectWithUserDetails.js');
-const userControlIsFollow = require('../utils/userControlIsFollow.js');
+const enrichPostsWithUserDetails = require("../utils/enrichPostsWithUserDetails.js");
+const enrichProjectWithUserDetails = require("../utils/enrichProjectWithUserDetails.js");
+const userControlIsFollow = require("../utils/userControlIsFollow.js");
+
+
+
 function Has(array, value) {
   return array.includes(value);
 }
 
 
+
+
+// ---------------------------------USER---------------------------------
 
 //kullanıcı adına göre kullanıcı profil bilgilerini getirir
 router.get("/profile/:username", async (req, res) => {
@@ -30,7 +36,7 @@ router.get("/profile/:username", async (req, res) => {
     });
     let isFollow = false;
     if (req.user) {
-      isFollow = Has(user.followers, req.user.sub);
+      isFollow = Has(user.followers, req.user? req.user.sub:null);
     }
     let userObject = user.toObject();
     let {
@@ -81,14 +87,13 @@ router.get("/following/:username", async (req, res) => {
       page: page + 1,
       hasMore: users.length === limit,
     };
-
+    let allUsers = users;
     if (req.user) {
-      res.status(200).json({
-        users: await userControlIsFollow(users, req.user.sub),
-        pagination,
-      });
-    } else res.status(200).json({ users, pagination });
+      allUsers = userControlIsFollow(users, req.user? req.user.sub:null);
+    }
+    res.status(200).json({ users, pagination });
   } catch (error) {
+    allUsers;
     console.log(error.message);
     res.status(500).json("Server Error");
   }
@@ -127,7 +132,7 @@ router.get("/followers/:username", async (req, res) => {
     };
     if (req.user) {
       res.status(200).json({
-        users: await userControlIsFollow(users, req.user.sub),
+        users: await userControlIsFollow(users, req.user? req.user.sub:null),
         pagination,
       });
     } else res.status(200).json({ users, pagination });
@@ -136,6 +141,10 @@ router.get("/followers/:username", async (req, res) => {
     res.status(500).json("Server Error");
   }
 });
+
+
+
+// ---------------------------------POST---------------------------------
 
 //kullanıcının favori postlarını getirir
 router.get("/posts/favorite/:username", async (req, res) => {
@@ -158,9 +167,10 @@ router.get("/posts/favorite/:username", async (req, res) => {
       hasMore: favoritesPost.length === limit,
     };
 
-    res
-      .status(200)
-      .json({ posts: await enrichPostsWithUserDetails(favoritesPost, req.user.sub), pagination });
+    res.status(200).json({
+      posts: await enrichPostsWithUserDetails(favoritesPost, req.user? req.user.sub:null),
+      pagination,
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -173,7 +183,7 @@ router.get("/posts/timeline", async (req, res) => {
     const page = parseInt(req.query.page);
     const limit = 5;
     const startIndex = (page - 1) * limit;
-    const allPosts = await PostChema.find()
+    let allPosts = await PostChema.find()
       .sort({ createdAt: 1 })
       .limit(limit)
       .skip(startIndex);
@@ -182,23 +192,11 @@ router.get("/posts/timeline", async (req, res) => {
       page: page + 1,
       hasMore: allPosts.length === limit,
     };
-    res
-      .status(200)
-      .json({
-        posts: await enrichPostsWithUserDetails(allPosts, req.user.sub),
-        pagination,
-      });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-//post id değerine göre postu getirir
-router.get("/explore/singlepost/:id", async (req, res) => {
-  try {
-    const post = await PostChema.findById(req.params.id);
-    res.status(200).json(await enrichPostsWithUserDetails([post], req.user.sub));
+      allPosts = await enrichPostsWithUserDetails(allPosts,req.user? req.user.sub:null);
+    res.status(200).json({
+      posts: allPosts,
+      pagination,
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -222,9 +220,10 @@ router.get("/posts/explore", async (req, res) => {
       hasMore: allPosts.length === limit,
     };
 
-    res
-      .status(200)
-      .json({ posts: await enrichPostsWithUserDetails(allPosts, req.user.sub), pagination });
+    res.status(200).json({
+      posts: await enrichPostsWithUserDetails(allPosts, req.user? req.user.sub:null),
+      pagination,
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -254,9 +253,10 @@ router.get("/posts/explore/hashtag", async (req, res) => {
       hasMore: hashtagPosts.length === limit,
     };
 
-    res
-      .status(200)
-      .json({ posts: await enrichPostsWithUserDetails(hashtagPosts, req.user.sub), pagination });
+    res.status(200).json({
+      posts: await enrichPostsWithUserDetails(hashtagPosts, req.user? req.user.sub:null),
+      pagination,
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -281,9 +281,29 @@ router.get("/posts/profile/:username", async (req, res) => {
       page: page + 1,
       hasMore: userPosts.length === limit,
     };
+    res.status(200).json({
+      posts: await enrichPostsWithUserDetails(userPosts, req.user? req.user.sub:null),
+      pagination,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+
+
+
+
+// ---------------------------------EXPLORE---------------------------------
+
+//post id değerine göre postu getirir
+router.get("/explore/singlepost/:id", async (req, res) => {
+  try {
+    const post = await PostChema.findById(req.params.id);
     res
       .status(200)
-      .json({ posts: await enrichPostsWithUserDetails(userPosts, req.user.sub), pagination });
+      .json(await enrichPostsWithUserDetails([post], req.user? req.user.sub:null));
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");

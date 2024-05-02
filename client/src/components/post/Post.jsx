@@ -73,7 +73,7 @@ const Post = ({ post }) => {
         sx={{ paddingBottom: ".5rem" }}
         avatar={
           <Avatar
-            src={"http://localhost:7000/" + post?.avatar}
+            src={ post?.avatar}
             sx={{ bgcolor: red[500], width: "50px", height: "50px" }}
             aria-label="recipe"
           >
