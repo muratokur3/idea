@@ -118,6 +118,24 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//user lagout
+router.get("/logout", async (req, res) => {
+  try {
+    // Çerezleri sunucu tarafında sil
+    res.cookie('auth_token', '', {
+      httpOnly: true,
+      domain: 'localhost',
+      path: '/',
+      expires: new Date(0),
+    });
+
+    res.json({ message: 'Başarılı bir şekilde çıkış yaptınız.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Oturum kapatma işlemi sırasında bir hata oluştu.' });
+  }
+});
+
 // Kullanıcı şifre değiştirme
 router.post("/changePassword/:id", async (req, res) => {
   try {

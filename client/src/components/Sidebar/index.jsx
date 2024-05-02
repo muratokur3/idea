@@ -23,8 +23,7 @@ import { useMediaQuery } from "@mui/material";
 import Modal from "../../Modals";
 import Login from "../../Auth/Login";
 import Register from "../../Auth/Register";
-
-
+import axios from "../../../axiosConfig";
 
 const Container = styled(Box)({
   display: "flex",
@@ -102,11 +101,12 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      sessionService.invalidateSession();
-      window.localStorage.clear();
-      
-
-      navigate("/");
+      const response =await axios("auth/logout");
+      if (response.status === 200) {
+        sessionService.invalidateSession();
+        window.localStorage.clear();
+        navigate("/");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -154,7 +154,7 @@ const Sidebar = () => {
                 variant="dot"
               >
                 <Avatar
-                  src={"http://localhost:7000/"+loginedUser?.avatar}
+                  src={"http://localhost:7000/" + loginedUser?.avatar}
                   sx={{ width: "5vh", height: "5vh" }}
                 />
               </StyledBadge>

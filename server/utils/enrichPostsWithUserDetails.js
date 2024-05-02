@@ -21,7 +21,7 @@ const enrichPostsWithUserDetails = async (posts, loggedInUserId) => {
   if (loggedInUserId) {
     userDetails = await userControlIsFollow(allUsers, loggedInUserId);
   }
-console.log(userDetails.length,loggedInUserId)
+// console.log(userDetails.length,loggedInUserId,typeof userDetails,userDetails[0])
   // Benzersiz hashtag ID'lerini topla
   const hashtagIds = posts.reduce((acc, post) => {
     if (post.hashtags.length > 0) {
