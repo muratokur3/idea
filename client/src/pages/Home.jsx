@@ -17,9 +17,7 @@ const Home = () => {
   const isLoggedIn = useSelector(
     (state) => state.session && state.session.authenticated
   );
-  const loginedUserId = useSelector(
-    (state) => state.session && state.session.user._id
-  );
+
   const filterName = useSelector((state) => state.filterPosts.filterName);
   const homeData = useSelector((state) => state.posts.home);
   const privateMeData = useSelector((state) => state.posts.privateMe);
@@ -32,7 +30,7 @@ const Home = () => {
 
     filterName !== "all" &&
       privateMeData.posts.length === 0 &&
-      dispatch(getPrivateMeData(privateMeData.pagination, loginedUserId));
+      dispatch(getPrivateMeData(privateMeData.pagination));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -60,7 +58,7 @@ const Home = () => {
         <ListPost
           data={privateMeData}
           getPosts={() =>
-            dispatch(getPrivateMeData(privateMeData.pagination, loginedUserId))
+            dispatch(getPrivateMeData(privateMeData.pagination))
           }
         />
       )}

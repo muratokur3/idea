@@ -10,11 +10,10 @@ const ProfileLayout = () => {
   const dispatch = useDispatch();
   const { username } = useParams();
   const user = useSelector((state) => state.profile.user);
-  const logginedUserId=useSelector((state)=>state.session.user._id)
   
   useEffect(() => {
-    dispatch(getProfile(username,logginedUserId));
-  }, [username,dispatch,logginedUserId]);
+    dispatch(getProfile(username));
+  }, [username,dispatch]);
   return (
     <Box
       sx={{

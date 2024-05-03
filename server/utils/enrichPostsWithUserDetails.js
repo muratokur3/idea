@@ -2,6 +2,7 @@ const UserChema = require("../models/User");
 const HashtagChema = require("../models/Hashtag");
 
 const userControlIsFollow = require("./userControlIsFollow.js");
+const { all } = require("../routes/posts.js");
 
 
 //giriş yapan kullanıcı bu kullanıcıları takip edip etmediği bilgisini ekler
@@ -16,12 +17,11 @@ const enrichPostsWithUserDetails = async (posts, loggedInUserId) => {
   const allUsers = await UserChema.find({
     _id: { $in: userIds },
     isActive: true,
-  });
+  }).lean();
   let userDetails = allUsers;
   if (loggedInUserId) {
     userDetails = await userControlIsFollow(allUsers, loggedInUserId);
   }
-// console.log(userDetails.length,loggedInUserId,typeof userDetails,userDetails[0])
   // Benzersiz hashtag ID'lerini topla
   const hashtagIds = posts.reduce((acc, post) => {
     if (post.hashtags.length > 0) {

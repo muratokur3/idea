@@ -8,12 +8,14 @@ const userControlIsFollow = async (users, loggedInUserId) => {
   const loggedInUser = await UserChema.findById(loggedInUserId).lean();
   
   const followerIds = loggedInUser.following;
+  const stringFollowerIds = followerIds.map(id => id.toString());
+
+
 
   const updatedUsers = users.map((user) => ({
-    ...user.toObject(),
-    isFollow: followerIds.includes(user._id.toString()),
+    ...user,
+    isFollow: stringFollowerIds.includes(user._id.toString()),
   }));
-  // console.log(followerIds.length,updatedUsers.length)
   return updatedUsers;
 };
 module.exports = userControlIsFollow;

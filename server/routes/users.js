@@ -126,8 +126,9 @@ router.get("/id/:id", async (req, res) => {
 });
 
 //follow a user
-router.put("/follow/:followerId/:followingId", async (req, res) => {
-  const { followerId, followingId } = req.params;
+router.put("/follow/:followingId", async (req, res) => {
+  const { followingId } = req.params;
+  const followerId = req.user.sub;
   if (followerId === followingId) {
     return res.status(403).json("Kendini takip edemezsin");
   }
@@ -153,8 +154,9 @@ router.put("/follow/:followerId/:followingId", async (req, res) => {
 });
 
 //unfollow a user
-router.put("/unfollow/:followerId/:followingId", async (req, res) => {
-  const { followerId, followingId } = req.params;
+router.put("/unfollow/:followingId", async (req, res) => {
+  const { followingId } = req.params;
+  const followerId = req.user.sub;
   if (followerId === followingId) {
     return res.status(403).json("Kendini takip edemezsin");
   }

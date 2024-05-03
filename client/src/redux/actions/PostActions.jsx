@@ -9,6 +9,7 @@ import {
   setHashtagExplore,
   setUbdateData,
 } from "../slices/PostSlice";
+import { setUpdateProfilePosts } from '../slices/ProfileSlice';
 
 
 
@@ -53,10 +54,10 @@ const getHomeQuestData = (pagination) => async (dispatch) => {
     }
 };
 
-const getPrivateMeData = (pagination, loginedUserId) => async (dispatch) => {
+const getPrivateMeData = (pagination, ) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `posts/privateMe/${loginedUserId}`,
+      `posts/privateMe`,
       {
         params: {
           page: pagination.page,
@@ -120,10 +121,10 @@ const getHashtagExploreData = (pagination, hashtag) => async (dispatch) => {
   }
 };
 
-const getFavoritesPosts = (pagination, username) => async (dispatch) => {
+const getFavoritesPosts = (pagination) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `posts/favorite/${username}`,
+      `posts/favorite`,
       {
         params: {
           page: pagination.page,
@@ -143,9 +144,9 @@ const getFavoritesPosts = (pagination, username) => async (dispatch) => {
   }
 };
 
-const getProfileLikesPosts = (pagination, username) => async (dispatch) => {
+const getProfileLikesPosts = (pagination) => async (dispatch) => {
   try {
-    const response = await axios.get(`posts/likes/${username}`, {
+    const response = await axios.get(`posts/likes`, {
       params: {
         page: pagination.page,
       },
@@ -185,7 +186,7 @@ const like = (post, LoginUserId) => async (dispatch) => {
   try {
     // Sunucuya beğeni isteği gönder
     const response = await axios.post(
-      `posts/like/${post._id}/${LoginUserId}`
+      `posts/like/${post._id}`
     );
     const newPost =await {
       ...post,
@@ -199,6 +200,7 @@ const like = (post, LoginUserId) => async (dispatch) => {
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
       dispatch(setUbdateData(newPost));
+      dispatch(setUpdateProfilePosts(newPost));
       // Başarılı beğeni işlemi
       console.log("Post beğenildi");
     }
@@ -212,7 +214,7 @@ const unLike = (post, LoginUserId) => async (dispatch) => {
   try {
 // Sunucuya beğeni geri alma isteği gönder
     const response = await axios.post(
-      `posts/unlike/${post._id}/${LoginUserId}`);
+      `posts/unlike/${post._id}`);
     const newPost =await {
       ...post,
       likes:
@@ -224,6 +226,7 @@ const unLike = (post, LoginUserId) => async (dispatch) => {
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
       dispatch(setUbdateData(newPost));
+      dispatch(setUpdateProfilePosts(newPost));
       console.log("Post beğenisi geri alındı");
     }
   } catch (error) {
@@ -235,7 +238,7 @@ const unLike = (post, LoginUserId) => async (dispatch) => {
 const favorite = (post, loginedUserId) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `posts/favorites/${post._id}/${loginedUserId}`);
+      `posts/favorites/${post._id}`);
     
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
@@ -247,6 +250,7 @@ const favorite = (post, loginedUserId) => async (dispatch) => {
       };
   
       dispatch(setUbdateData(newPost));
+      dispatch(setUpdateProfilePosts(newPost));
       // Başarılı beğeni işlemi
       console.log("favoriye eklendi");
     }
@@ -258,7 +262,7 @@ const favorite = (post, loginedUserId) => async (dispatch) => {
 const unFavorite = (post, loginedUserId) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `posts/unfavorites/${post._id}/${loginedUserId}`);
+      `posts/unfavorites/${post._id}`);
     
 
     // Potansiyel hatalar için API yanıtını kontrol et
@@ -270,6 +274,7 @@ const unFavorite = (post, loginedUserId) => async (dispatch) => {
           : post.favorites,
       };
       dispatch(setUbdateData(newPost));
+      dispatch(setUpdateProfilePosts(newPost));
       // Başarılı beğeni işlemi
       console.log("favoriden çıkarıldı");
     }

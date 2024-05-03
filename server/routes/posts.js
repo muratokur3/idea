@@ -78,7 +78,7 @@ router.get("/", async (req, res) => {
 });
 
 //user follow users posts
-router.get("/timeline/:userId", async (req, res) => {
+router.get("/timeline", async (req, res) => {
   try {
     // const currentUser = await UserChema.findById(req.params.userId);
     const page = parseInt(req.query.page);
@@ -108,12 +108,12 @@ router.get("/timeline/:userId", async (req, res) => {
 });
 
 //user follow hashtags posts
-router.get("/privateMe/:userId", async (req, res) => {
+router.get("/privateMe", async (req, res) => {
   try {
     const page = parseInt(req.query.page);
     const limit = 5;
     const startIndex = (page - 1) * limit;
-    // const currentUser = await UserChema.findById(req.params.userId);
+    // const currentUser = await UserChema.findById(req.user.sub);
     const hashtagPosts = await PostChema
       .find
       //   {
@@ -139,10 +139,10 @@ router.get("/privateMe/:userId", async (req, res) => {
 });
 
 //user favorite posts
-router.get("/favorite/:username", async (req, res) => {
+router.get("/favorite", async (req, res) => {
   try {
     const currentUser = await UserChema.findOne({
-      username: req.params.username,
+      username: req.user.username,
     });
     const page = parseInt(req.query.page);
     const limit = 5;
@@ -168,11 +168,11 @@ router.get("/favorite/:username", async (req, res) => {
 });
 
 //user add likes posts
-router.get("/likes/:username", async (req, res) => {
+router.get("/likes", async (req, res) => {
   try {
     const page = parseInt(req.query.page);
     const currentUser = await UserChema.findOne({
-      username: req.params.username,
+      username: req.user.username,
     });
     const limit = 5;
     const startIndex = (page - 1) * limit;
@@ -194,10 +194,10 @@ router.get("/likes/:username", async (req, res) => {
 });
 
 //post likes
-router.post("/like/:postId/:userId", async (req, res) => {
+router.post("/like/:postId", async (req, res) => {
   try {
     const postId = req.params.postId;
-    const userId = req.params.userId;
+    const userId = req.user.sub;
     const post = await PostChema.findById(postId);
 
     // Kullanıcının zaten beğendiği kontrol ediliyor
@@ -219,10 +219,10 @@ router.post("/like/:postId/:userId", async (req, res) => {
 });
 
 //post unlike
-router.post("/unlike/:postId/:userId", async (req, res) => {
+router.post("/unlike/:postId", async (req, res) => {
   try {
     const postId = req.params.postId;
-    const userId = req.params.userId;
+    const userId = req.user.sub;
     const post = await PostChema.findById(postId);
 
     // Kullanıcının zaten beğendiği kontrol ediliyor
@@ -244,10 +244,10 @@ router.post("/unlike/:postId/:userId", async (req, res) => {
 });
 
 //add favorites
-router.post("/favorites/:postId/:userId", async (req, res) => {
+router.post("/favorites/:postId", async (req, res) => {
   try {
     const postId = req.params.postId;
-    const userId = req.params.userId;
+    const userId = req.user.sub;
     const post = await PostChema.findById(postId);
 
     // Kullanıcının zaten favoriye eklediği kontrol ediliyor
@@ -266,10 +266,10 @@ router.post("/favorites/:postId/:userId", async (req, res) => {
 });
 
 //unfavorites
-router.post("/unfavorites/:postId/:userId", async (req, res) => {
+router.post("/unfavorites/:postId", async (req, res) => {
   try {
     const postId = req.params.postId;
-    const userId = req.params.userId;
+    const userId = req.user.sub;
     const post = await PostChema.findById(postId);
 
     // Kullanıcının zaten favoriye eklediği kontrol ediliyor

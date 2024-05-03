@@ -23,7 +23,7 @@ function Has(array, value) {
 router.get("/profile/:username", async (req, res) => {
   if (
     !(await UserChema.findOne({
-      username: req.params.username,
+      username: req.user.username,
       isActive: true,
     }))
   ) {
@@ -87,11 +87,12 @@ router.get("/following/:username", async (req, res) => {
       page: page + 1,
       hasMore: users.length === limit,
     };
-    let allUsers = users;
     if (req.user) {
-      allUsers = userControlIsFollow(users, req.user? req.user.sub:null);
-    }
-    res.status(200).json({ users, pagination });
+      res.status(200).json({
+        users: await userControlIsFollow(users, req.user? req.user.sub:null),
+        pagination,
+      });
+    } else res.status(200).json({ users, pagination });
   } catch (error) {
     allUsers;
     console.log(error.message);

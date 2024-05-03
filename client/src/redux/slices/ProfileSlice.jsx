@@ -105,6 +105,16 @@ const profileSlice = createSlice({
     setNewProject: (state, action) => {
       state.projects = [...state.projects, action.payload];
     },
+    setUpdateProfilePosts:(state, action) => {
+      const newPost = action.payload;
+      state.profilePosts.posts = state.profilePosts.posts.map((p) =>
+        p._id === newPost._id ? newPost : p
+      );
+      state.favorites.posts = state.favorites.posts.map((p) =>
+        p._id === newPost._id ? newPost : p
+      );
+     
+    },
   },
 });
 
@@ -117,5 +127,6 @@ export const {
   ubdateUserFollow,
   üsetProjects,
   setNewProject,
+  setUpdateProfilePosts,
 } = profileSlice.actions;
 export default profileSlice.reducer;

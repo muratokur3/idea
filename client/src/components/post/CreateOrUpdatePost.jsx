@@ -38,10 +38,10 @@ const CreateOrUpdatePost = ({ modalAction, post }) => {
             hashtags: selectedHashtags.map((hashtag) => hashtag._id),
           };
       dispatch(createOrUpdatePost( post ? "update" : "new", data ));
-      modalAction.handleClose();
       setContent("");
       setTitle("");
       setSelectedHashtags([]);
+      modalAction.handleClose();
     } else alert("En az 1 hashtag seçmelisiniz");
   };
 

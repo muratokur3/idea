@@ -11,7 +11,7 @@ const Favorite = () => {
     dispatch(getFavoritesPosts({page:1,hasMore:true},username));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return <ListPost data={favoriteData} getPosts={()=>dispatch(getFavoritesPosts(favoriteData?.pagination, username))} />;
+  return <ListPost data={favoriteData} getPosts={()=>dispatch(getFavoritesPosts(favoriteData?.pagination))} />;
 };
 
 export default Favorite;

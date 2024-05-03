@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Typography } from "@mui/material";
 import UserCard from "./UserCard.jsx";
 
-const ListPost = ({ data,getUsers }) => {
+const UserList = ({ data,getUsers }) => {
   return (
     <InfinieScroll
       dataLength={data?.users?.length}
@@ -13,15 +13,15 @@ const ListPost = ({ data,getUsers }) => {
       loader={<UserSkeleton />}
       endMessage={<Typography color="primary" sx={{textAlign:"center", fontSize:".8rem",marginTop:"20px",}}>{data?.users?.length} öğe</Typography>}
     >
-     { data?.users.map((user,index) => (
+     { data?.users?.map((user,index) => (
         <UserCard key={index} user={user} />
       ))}
     </InfinieScroll>
   );
 };
 
-export default ListPost;
-ListPost.propTypes = {
+export default UserList;
+UserList.propTypes = {
   data: PropTypes.object,
   getUsers: PropTypes.func,
 };

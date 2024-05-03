@@ -85,7 +85,7 @@ const Post = ({ post }) => {
             {logginedUserId && (
               <Box>
                 {post?.userId !== logginedUserId &&
-                  (new Set(logginedUser?.following).has(post?.userId) ? (
+                  (post.isFollow ? (
                     <Typography color="primary" sx={{ fontSize: "10px" }}>
                       Takibi Edilen
                     </Typography>

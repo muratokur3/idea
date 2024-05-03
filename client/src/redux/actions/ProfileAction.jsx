@@ -8,15 +8,11 @@ import {
   ubdateUserFollow,
 } from "../slices/ProfileSlice";
 import { sessionService } from "redux-react-session";
-const getProfile = (username, logginedUserId) => async (dispatch) => {
+
+const getProfile = (username) => async (dispatch) => {
   try {
-    const response = await axios.get(`quest/profile/${username}`, {
-      params: {
-        logginedUserId,
-      },
-    });
+    const response = await axios.get(`quest/profile/${username}`);
     if (response.data) {
-      console.log(response.data.isFollow)
       dispatch(setProfile(response.data));
     }
   } catch (error) {
@@ -200,7 +196,7 @@ const follow = (followingId) => async (dispatch) => {
     const logginedUserId = logginedUser._id;
 
     const response = await axios.put(
-      `users/follow/${logginedUserId}/${followingId}`
+      `users/follow/${followingId}`
     );
 
     if (response.status === 200) {
@@ -224,7 +220,7 @@ const unfollow = (followingId) => async (dispatch) => {
     const logginedUserId = logginedUser._id;
 
     const response = await axios.put(
-      `users/unfollow/${logginedUserId}/${followingId}`
+      `users/unfollow/${followingId}`
     );
 
     if (response.status === 200) {
