@@ -4,8 +4,8 @@
  bulunmamaktadır. Kullanıcılar profillerini yönetebilir, profil bilgileri, paylaşımları, takip ettikleri ve takipçileri gibi bilgileri görebilirler. Kullanıcılar profil ve arkaplan resmi yükleyebilir, şifre değiştirebilir, hesaplarını dondurabilir ve aydınlık ile koyu tema arasında geçiş yapabilirler.
 <img width="1200" alt="Ekran Resmi 2024-05-03 19 26 15" src="https://github.com/muratokur3/idea/assets/43227213/33facc0f-db0f-4984-9e32-1a6741135744">
 <img width="1200" alt="Ekran Resmi 2024-05-03 19 26 49" src="https://github.com/muratokur3/idea/assets/43227213/43a9745e-cfe0-439c-a7d1-df0b1488be5f">
-<img width="500" alt="Ekran Resmi 2024-05-03 19 29 10" src="https://github.com/muratokur3/idea/assets/43227213/a7500152-0c52-41c4-ad3f-78bfe602b784">
 <img width="500" alt="Ekran Resmi 2024-05-03 19 28 41" src="https://github.com/muratokur3/idea/assets/43227213/2bf85a21-a903-4f31-9ece-51a96a478e4a">
+<img width="500" alt="Ekran Resmi 2024-05-03 19 29 10" src="https://github.com/muratokur3/idea/assets/43227213/a7500152-0c52-41c4-ad3f-78bfe602b784">
 ## Kullanılan Teknolojiler
 
 - **Vite** - Vite ile inşa edilmiştir.
