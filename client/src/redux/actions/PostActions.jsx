@@ -264,7 +264,6 @@ const unFavorite = (post, loginedUserId) => async (dispatch) => {
     const response = await axios.post(
       `posts/unfavorites/${post._id}`);
     
-
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
       const newPost =await {

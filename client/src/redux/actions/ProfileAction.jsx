@@ -192,22 +192,9 @@ const getFavorites = (pagination, username) => async (dispatch) => {
 
 const follow = (followingId) => async (dispatch) => {
   try {
-    const logginedUser = await sessionService.loadUser();
-    const logginedUserId = logginedUser._id;
-
-    const response = await axios.put(
-      `users/follow/${followingId}`
-    );
-
+    const response = await axios.put(`users/follow/${followingId}`);
     if (response.status === 200) {
-      console.log("Takip işlemi başarılı");
-      const updatedUser = {
-        ...logginedUser,
-        following: [...logginedUser.following, followingId],
-      };
-      await sessionService.saveUser(updatedUser);
-
-      dispatch(ubdateUserFollow(logginedUserId));
+      dispatch(ubdateUserFollow(followingId));
     }
   } catch (error) {
     console.log(error);
@@ -216,23 +203,9 @@ const follow = (followingId) => async (dispatch) => {
 
 const unfollow = (followingId) => async (dispatch) => {
   try {
-    const logginedUser = await sessionService.loadUser();
-    const logginedUserId = logginedUser._id;
-
-    const response = await axios.put(
-      `users/unfollow/${followingId}`
-    );
-
+    const response = await axios.put(`users/unfollow/${followingId}`);
     if (response.status === 200) {
-      console.log("Takip bırakma işlemi başarılı");
-
-      const updatedUser = {
-        ...logginedUser,
-        following: logginedUser.following.filter((id) => id !== followingId),
-      };
-      await sessionService.saveUser(updatedUser);
-
-      dispatch(ubdateUserFollow(logginedUserId));
+      dispatch(ubdateUserFollow(followingId));
     }
   } catch (error) {
     console.log(error);

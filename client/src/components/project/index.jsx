@@ -44,7 +44,7 @@ const Project = () => {
         loader={<ProjectSkeleton />}
         endMessage={
           <Typography sx={{ textAlign: "center", fontSize: ".8rem", color:"primary.main"}}>
-            {projectData.projects.length} öğe
+          {projectData?.projects?.length===0?"Henüz proje paylaşılmamış":`Toplam ${projectData?.projects?.length} öğe listelendi`}
           </Typography>
         }
       ></InfinieScroll>

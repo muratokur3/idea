@@ -62,21 +62,16 @@ const profileSlice = createSlice({
       }
     },
     ubdateUserFollow: (state, action) => {
-      const newUser = action.payload;
+      const followingId = action.payload;
 
       state.following.users = state.following.users.map((user) =>
-        user._id === newUser._id ? newUser : user
+        user._id === followingId ? { ...user, isFollow: !user.isFollow } : user
       );
 
       state.followers.users = state.followers.users.map((user) =>
-        user._id === newUser._id ? newUser : user
+        user._id === followingId ? { ...user, isFollow: !user.isFollow } : user
       );
-      // state.user = {
-      //   ...state.user,
-      //   followers: new Set(state.user.followers).has(newUser._id)
-      //     ? state.user.followers.filter((id) => id !== newUser._id)
-      //     : [...state.user.followers, newUser._id],
-      // };
+      state.user = { ...state.user, isFollow: !state.user.isFollow };
     },
     setFavorites: (state, action) => {
       if (action.payload.pagination.page === 2) {
@@ -105,7 +100,7 @@ const profileSlice = createSlice({
     setNewProject: (state, action) => {
       state.projects = [...state.projects, action.payload];
     },
-    setUpdateProfilePosts:(state, action) => {
+    setUpdateProfilePosts: (state, action) => {
       const newPost = action.payload;
       state.profilePosts.posts = state.profilePosts.posts.map((p) =>
         p._id === newPost._id ? newPost : p
@@ -113,7 +108,6 @@ const profileSlice = createSlice({
       state.favorites.posts = state.favorites.posts.map((p) =>
         p._id === newPost._id ? newPost : p
       );
-     
     },
   },
 });

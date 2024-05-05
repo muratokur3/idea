@@ -9,7 +9,7 @@ import Follow from "../../components/profile/Follow";
 import ProfileFavorites from "../profile/ProfileFavorites";
 import ProfilePosts from "../profile/ProfilePosts";
 export default function LabTabs() {
-  const [value, setValue] = React.useState("follow");
+  const [value, setValue] = React.useState("posts");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

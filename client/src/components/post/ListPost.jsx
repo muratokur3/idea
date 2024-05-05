@@ -17,7 +17,7 @@ const ListPost = ({ data, getPosts }) => {
           color="primary"
           sx={{ textAlign: "center", fontSize: ".8rem", marginTop: "20px" }}
         >
-          {data?.posts.length} öğe
+          {data?.posts?.length===0?"Henüz fikir paylaşılmamış":`Toplam ${data?.posts?.length} öğe listelendi`}
         </Typography>
       }
     >
