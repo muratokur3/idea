@@ -12,8 +12,8 @@ import TabPanel from "@mui/lab/TabPanel";
 
 const Follow = () => {
   const { username } = useParams();
-  const followersData = useSelector((state) => state.profile.followers);
   const followingData = useSelector((state) => state.profile.following);
+  const followersData = useSelector((state) => state.profile.followers);
 
   const dispatch = useDispatch();
 
