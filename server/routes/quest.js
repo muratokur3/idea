@@ -194,6 +194,7 @@ router.get("/posts/timeline", async (req, res) => {
       hasMore: allPosts.length === limit,
     };
       allPosts = await enrichPostsWithUserDetails(allPosts,req.user? req.user.sub:null);
+      
     res.status(200).json({
       posts: allPosts,
       pagination,

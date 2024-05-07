@@ -3,6 +3,7 @@ const HashtagChema = require("../models/Hashtag");
 
 const userControlIsFollow = require("./userControlIsFollow.js");
 const { all } = require("../routes/posts.js");
+const postControlIsLike = require("./postControlIsLike.js");
 
 
 //giriş yapan kullanıcı bu kullanıcıları takip edip etmediği bilgisini ekler
@@ -65,6 +66,7 @@ const enrichPostsWithUserDetails = async (posts, loggedInUserId) => {
       };
     })
     .filter((post) => post != null);
+    
   return postUser;
 };
 
