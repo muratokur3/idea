@@ -7,6 +7,7 @@ const ProjectChema = require("../models/Project");
 const enrichPostsWithUserDetails = require("../utils/enrichPostsWithUserDetails.js");
 const enrichProjectWithUserDetails = require("../utils/enrichProjectWithUserDetails.js");
 const userControlIsFollow = require("../utils/userControlIsFollow.js");
+const postControlIsLike = require("../utils/postControlIsLike.js");
 
 
 
@@ -194,7 +195,7 @@ router.get("/posts/timeline", async (req, res) => {
       hasMore: allPosts.length === limit,
     };
       allPosts = await enrichPostsWithUserDetails(allPosts,req.user? req.user.sub:null);
-      
+      allPosts= await postControlIsLike(allPosts,req.user? req.user.sub:null)
     res.status(200).json({
       posts: allPosts,
       pagination,
