@@ -2,8 +2,6 @@ const UserChema = require("../models/User");
 const HashtagChema = require("../models/Hashtag");
 
 const userControlIsFollow = require("./userControlIsFollow.js");
-const { all } = require("../routes/posts.js");
-const postControlIsLike = require("./postControlIsLike.js");
 
 
 //giriş yapan kullanıcı bu kullanıcıları takip edip etmediği bilgisini ekler
@@ -60,6 +58,8 @@ const enrichPostsWithUserDetails = async (posts, loggedInUserId) => {
         name: user.name,
         surname: user.surname,
         isFollow: user.isFollow,
+        isFavorite: post.favorites.includes(loggedInUserId),
+        isLike: post.likes.includes(loggedInUserId),
         avatar: user.avatar,
         username: user.username,
         hashtags: hashtags,

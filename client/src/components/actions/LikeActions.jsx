@@ -3,26 +3,20 @@ import { IconButton, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { like, unLike } from "../../redux/actions/PostActions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-const LikeActions = ({ post, logginedUserId }) => {
+const LikeActions = ({post}) => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(
-    (state) => state.session && state.session.authenticated
-  );
 
   const handleLike = () => {
-    isLoggedIn && logginedUserId
-      ? dispatch(
-          new Set(post?.likes).has(logginedUserId)
-            ? unLike(post, logginedUserId)
-            : like(post, logginedUserId)
+       dispatch(post?.isLike
+            ? unLike(post)
+            : like(post)
         )
-      : alert("Giriş yapmalısınız");
   };
   return (
     <IconButton aria-label="like" onClick={handleLike}>
-      {new Set(post?.likes).has(logginedUserId) ? (
+      {post.isLike ? (
         <FavoriteIcon />
       ) : (
         <FavoriteBorderIcon />
@@ -40,5 +34,4 @@ const LikeActions = ({ post, logginedUserId }) => {
 export default LikeActions;
 LikeActions.propTypes = {
   post: PropTypes.object.isRequired,
-  logginedUserId: PropTypes.string.isRequired,
 };

@@ -1,5 +1,4 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import IosShareIcon from "@mui/icons-material/IosShare";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
@@ -8,7 +7,6 @@ import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import Collapse from "@mui/material/Collapse";
 import { Avatar, Box, Button } from "@mui/material";
-import FollowActions from "../actions/FollowActions";
 import TopRightButton from "../actions/TopRightButton";
 import LikeActions from "../actions/LikeActions";
 import FavoriteActions from "../actions/FavoriteActions";
@@ -21,19 +19,18 @@ import PropTypes from "prop-types";
 import Modal from "../../Modals";
 import CreateOrUpdatePost from "./CreateOrUpdatePost";
 import { deletePost } from "../../redux/actions/PostActions";
+import ShareAction from "../actions/ShareAction";
 
 const Post = ({ post }) => {
   const logginedUser = useSelector(
     (state) => state.session && state.session.user
   );
-  const logginedUserId = logginedUser._id;
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
   const navigate = useNavigate();
   const theme = useTheme();
-  const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
 
   const formatRelativeTime = (timestamp) => {
     const now = new Date();
@@ -73,7 +70,7 @@ const Post = ({ post }) => {
         sx={{ paddingBottom: ".5rem" }}
         avatar={
           <Avatar
-            src={ post?.avatar}
+            src={post?.avatar}
             sx={{ bgcolor: red[500], width: "50px", height: "50px" }}
             aria-label="recipe"
           >
@@ -82,20 +79,16 @@ const Post = ({ post }) => {
         }
         action={
           <Box display={"flex"}>
-            {logginedUserId && (
+            {/* post içerisinde kullanıcı takip */}
+            {/* {logginedUserId && (
               <Box>
-                {post?.userId !== logginedUserId &&
-                  (post.isFollow ? (
-                    <Typography color="primary" sx={{ fontSize: "10px" }}>
-                      Takibi Edilen
-                    </Typography>
-                  ) : (
-                    <FollowActions
-                      user={{ _id: post.userId, isFollow: post.isFollow }}
-                    />
-                  ))}
+                {post?.userId !== logginedUserId && post.isFollow === false && (
+                  <Typography color="primary" sx={{ fontSize: "10px" }}>
+                  takip edilmeyen 
+                </Typography>
+                )}
               </Box>
-            )}
+            )} */}
             <TopRightButton
               actions={[
                 post?.username !== logginedUser.username && (
@@ -189,28 +182,9 @@ const Post = ({ post }) => {
         sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
       >
         <Box>
-          <LikeActions post={post} logginedUserId={logginedUserId} />
-          <FavoriteActions post={post} logginedUserId={logginedUserId} />
-
-          <IconButton
-            aria-label="share"
-            onClick={async () => {
-              if (navigator.share) {
-                navigator
-                  .share({
-                    title: "Şahane fikir", // İsteğe bağlı
-                    text: "idea sitesinde çok güzel bir fikir buldum", // İsteğe bağlı
-                    url: `${webSiteUrl}/explore/post/${post.username}/${post._id}`, // İsteğe bağlı
-                  })
-                  .catch((error) => console.log("Paylaşım hatası", error));
-              } else {
-                // navigator.share API'si desteklenmiyor
-                console.log("Paylaşım API'si desteklenmiyor");
-              }
-            }}
-          >
-            <IosShareIcon />
-          </IconButton>
+          <LikeActions post={post} />
+          <FavoriteActions post={post} />
+          <ShareAction post={post} />
         </Box>
         <IconButton
           onClick={handleExpandClick}
