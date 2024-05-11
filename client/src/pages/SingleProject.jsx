@@ -16,6 +16,7 @@ const SingleProject = () => {
 
   useEffect(() => {
     getProject();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username, id]);
   return (
     <div

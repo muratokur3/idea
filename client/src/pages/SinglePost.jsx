@@ -14,7 +14,8 @@ const SinglePost = () => {
 
   useEffect(() => {
     getPost();
-  }, [id, username]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[username,id]);
   return <div>
     
     {post? <Post post={post} />:
