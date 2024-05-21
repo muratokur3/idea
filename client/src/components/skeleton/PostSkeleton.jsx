@@ -7,8 +7,10 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
+// import { useTheme } from "@mui/material/styles";
 
 const PostSkeleton = () => {
+  // const theme = useTheme();
   return (
   <Box>
      <Card

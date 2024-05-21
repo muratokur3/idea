@@ -1,6 +1,6 @@
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import { useMediaQuery } from "@mui/material";
+// import { useMediaQuery } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSearchResults } from "../../redux/actions/SearchActions";
 import { setSearch } from "../../redux/slices/SearchSlice";
 import { useTheme } from "@mui/material/styles";
+const webApiUrl=import.meta.env.VITE_API_BASE_URL;
+
 const StyledSearchBox = styled(Paper)({
   background: "none",
   display: "flex",
@@ -31,17 +33,17 @@ const StyledSearchBox = styled(Paper)({
 
 const SearchBar = () => {
   const theme = useTheme();
-  const isPhone = useMediaQuery("(max-width: 600px)");
-  const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1234px)");
+  // const isPhone = useMediaQuery("(max-width: 600px)");
+  // const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1234px)");
 
   const [searchText, setSearchText] = useState("");
   const [resultBox, setResultBox] = useState(true);
   const searchData = useSelector((state) => state.search.data);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const loginedUser = useSelector(
-    (state) => state.session && state.session.user
-  );
+  // const loginedUser = useSelector(
+  //   (state) => state.session && state.session.user
+  // );
 
   const handleSearch = () => {
     searchText.length > 1 &&
@@ -106,7 +108,7 @@ const SearchBar = () => {
         <CardHeader
           avatar={
             <Avatar
-              src={user?.avatar}
+              src={webApiUrl+user?.avatar}
               sx={{ bgcolor: "green" }}
               aria-label="recipe"
             >

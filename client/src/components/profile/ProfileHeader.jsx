@@ -51,7 +51,7 @@ const UserDetail = ({ user }) => {
             borderBottomRightRadius: isPhone ? "50px" : "100px",
             borderBottomLeftRadius: isPhone ? "50px" : "100px",
           }}
-          src={user?.background}
+          src={webApiUrl + user?.background}
         />
         <CardHeader
           avatar={
@@ -113,7 +113,7 @@ const UserDetail = ({ user }) => {
                   )
                 }
                 title={`${user?.name} ${user?.surname}`}
-                titleTypographyProps={{ color: "primary", fontSize: "1.2rem" }}
+                titleTypographyProps={{ color: "primary", fontSize: "1.5rem" }}
                 subheader={
                   <Box>
                     <Typography

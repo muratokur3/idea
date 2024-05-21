@@ -11,9 +11,12 @@ const instance = axios.create({
 
 const handleLogout = async () => {
   try {
-    sessionService.invalidateSession();
-    window.localStorage.clear();
-    window.location.href = "/";
+    const response = await instance("auth/logout");
+    if (response.status === 200) {
+      sessionService.invalidateSession();
+      window.localStorage.clear();
+      window.location.href = "/";
+    }
   } catch (error) {
     console.log(error);
   }

@@ -47,26 +47,25 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res.status(401).json("Böyle bir kullanıcı bulunamadı");
     }
-    
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
-   
+
     if (!isPasswordValid) {
       return res.status(401).json("Hatalı şifre");
     }
-    
+
     if (user.isDeleted) {
       return res.status(401).json("Bu kullanıcının hesabı silinmiş");
     }
 
-    if(user.isFrozen){
+    if (user.isFrozen) {
       return res.status(202).json({
         message: "Hesabınız dondurulmuş. Yeniden aktif etmek istiyor musunuz?",
-        userId: user.id
+        userId: user.id,
       });
     }
 
-    if(!user.isActive)
-    {
+    if (!user.isActive) {
       return res.status(401).json("Hesabınızı aktif değil.");
     }
 
@@ -87,8 +86,6 @@ router.post("/login", async (req, res) => {
       email: user?.email,
       avatar: user?.avatar,
       bio: user?.bio,
-      followers: user?.followers,
-      following: user?.following,
       hashtags: hashtagNames,
     };
 
@@ -97,13 +94,14 @@ router.post("/login", async (req, res) => {
       username: user.username,
       rol: user.rol,
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
-      issuer: "idea.com",
+      issuer: "softwareistanbul.com.tr",
     };
 
     const token = jwt.sign(payload, process.env.SECRET_KEY);
 
     res.cookie("auth_token", token, {
       httpOnly: true,
+      // domain: "softwareistanbul.com.tr",
       domain: "localhost",
       path: "/",
       session: true,
@@ -121,18 +119,17 @@ router.post("/login", async (req, res) => {
 //user lagout
 router.get("/logout", async (req, res) => {
   try {
-    // Çerezleri sunucu tarafında sil
-    res.cookie('auth_token', '', {
+    res.clearCookie("auth_token", {
       httpOnly: true,
-      domain: 'localhost',
-      path: '/',
-      expires: new Date(0),
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
     });
-
-    res.json({ message: 'Başarılı bir şekilde çıkış yaptınız.' });
+    res.sendStatus(200);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Oturum kapatma işlemi sırasında bir hata oluştu.' });
+    res
+      .status(500)
+      .json({ message: "Oturum kapatma işlemi sırasında bir hata oluştu." });
   }
 });
 

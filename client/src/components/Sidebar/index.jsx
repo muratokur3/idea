@@ -13,7 +13,6 @@ import logoImg from "../../assets/logo.png";
 import { useTheme } from "@mui/material/styles";
 import MainMenu from "../menu/MainMenu";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import ChangeThemeMode from "../settings/Theme/ChangeThemeMode";
 import { sessionService } from "redux-react-session";
 import LoginIcon from "@mui/icons-material/Login";
@@ -24,7 +23,7 @@ import Modal from "../../Modals";
 import Login from "../../Auth/Login";
 import Register from "../../Auth/Register";
 import axios from "../../../axiosConfig";
-const webApiUrl=import.meta.env.VITE_API_BASE_URL
+const webApiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Container = styled(Box)({
   display: "flex",
@@ -88,7 +87,6 @@ const StyledBadge = styled(Badge)(() => ({
 }));
 
 const Sidebar = () => {
-  const navigate = useNavigate();
   const theme = useTheme();
   const isTablet = useMediaQuery("(min-width: 600px) and (max-width: 1234px)");
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -102,11 +100,11 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      const response =await axios("auth/logout");
+      const response = await axios("auth/logout");
       if (response.status === 200) {
         sessionService.invalidateSession();
         window.localStorage.clear();
-        navigate("/");
+        window.location.href = "/";
       }
     } catch (error) {
       console.log(error);
