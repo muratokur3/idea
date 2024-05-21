@@ -1,10 +1,11 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Box, Fade, IconButton, Menu, MenuItem } from "@mui/material";
+import { Box, Fade, IconButton, Menu } from "@mui/material";
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { useTheme } from "@mui/material/styles";
 
 const TopRightButton = ({ actions }) => {
-
+  const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -36,8 +37,7 @@ const TopRightButton = ({ actions }) => {
         transitioncomponent={Fade}
         PaperProps={{
           style: {
-            backgroundColor: "black",
-            color: "white",
+            backgroundColor: `${theme.palette.background.default}`,
             padding: "5px",
           },
         }}

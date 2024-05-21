@@ -6,6 +6,7 @@ import Card from "@mui/material/Card";
 import PropTypes from "prop-types";
 import Followactions from "../actions/FollowActions";
 import { useTheme } from "@mui/material/styles";
+const webApiUrl=import.meta.env.VITE_API_BASE_URL;
 
 const UserCard = ({ user }) => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const UserCard = ({ user }) => {
       <CardHeader
         avatar={
           <Avatar
-            src={user?.avatar}
+            src={webApiUrl+user?.avatar}
             sx={{ bgcolor: red[500] }}
             aria-label="recipe"
           >

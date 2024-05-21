@@ -9,8 +9,9 @@ import { createOrUpdatePost } from "../../redux/actions/PostActions";
 import { getHashtags } from "../../redux/actions/HashtagsAction";
 import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
-import styled from "@emotion/styled";
+const webApiUrl=import.meta.env.VITE_API_BASE_URL;
 
+import styled from "@emotion/styled";
 const CreateOrUpdatePost = ({ modalAction, post }) => {
   const [title, setTitle] = useState(post?.title || "");
   const [content, setContent] = useState(post?.content || "");
@@ -67,7 +68,7 @@ const CreateOrUpdatePost = ({ modalAction, post }) => {
       <Box>
         <Avatar
           alt="Remy Sharp"
-          src={"http://localhost:7000/"+user?.avatar}
+          src={webApiUrl+user?.avatar}
           sx={{ width: "5vh", height: "5vh", marginBottom: "1rem" }}
         />
       </Box>
@@ -198,6 +199,7 @@ const CreateOrUpdatePost = ({ modalAction, post }) => {
         >
           {post ? "Güncelle" : "Paylaş"}
         </Button>
+        
       </Box>
     </form>
   );

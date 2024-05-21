@@ -20,6 +20,7 @@ import Modal from "../../Modals";
 import CreateOrUpdatePost from "./CreateOrUpdatePost";
 import { deletePost } from "../../redux/actions/PostActions";
 import ShareAction from "../actions/ShareAction";
+const webApiUrl=import.meta.env.VITE_API_BASE_URL;
 
 const Post = ({ post }) => {
   const logginedUser = useSelector(
@@ -70,7 +71,7 @@ const Post = ({ post }) => {
         sx={{ paddingBottom: ".5rem" }}
         avatar={
           <Avatar
-            src={post?.avatar}
+            src={webApiUrl+post?.avatar}
             sx={{ bgcolor: red[500], width: "50px", height: "50px" }}
             aria-label="recipe"
           >

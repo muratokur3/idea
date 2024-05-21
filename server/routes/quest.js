@@ -8,14 +8,9 @@ const enrichPostsWithUserDetails = require("../utils/enrichPostsWithUserDetails.
 const enrichProjectWithUserDetails = require("../utils/enrichProjectWithUserDetails.js");
 const userControlIsFollow = require("../utils/userControlIsFollow.js");
 
-
-
-
 function Has(array, value) {
   return array.includes(value);
 }
-
-
 
 
 // ---------------------------------USER---------------------------------
@@ -24,7 +19,7 @@ function Has(array, value) {
 router.get("/profile/:username", async (req, res) => {
   if (
     !(await UserChema.findOne({
-      username: req.user.username,
+      username: req.params.username,
       isActive: true,
     }))
   ) {

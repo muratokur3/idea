@@ -7,7 +7,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const logger = require("morgan");
 const cors = require("cors");
-const port = 7000;
+const port = process.env.PORT||8080;
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_CONNECTION_STRING);
@@ -23,10 +23,9 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:3000","localhost"],
+  origin: ["http://localhost:5173", "http://localhost:8080","localhost"],
   credentials: true,
   httpOnly: true,
-  domain: "localhost",
   path: "/",
   session: true,
 }));
@@ -36,7 +35,7 @@ app.use("/api", mainRoute);
 
 app.listen(port, () => {
   connectDB();
-  console.log("Server is running on port 7000");
+  console.log(`Server is running on port ${port}`);
 });
 
 

@@ -24,6 +24,7 @@ import Modal from "../../Modals";
 import Login from "../../Auth/Login";
 import Register from "../../Auth/Register";
 import axios from "../../../axiosConfig";
+const webApiUrl=import.meta.env.VITE_API_BASE_URL
 
 const Container = styled(Box)({
   display: "flex",
@@ -154,7 +155,7 @@ const Sidebar = () => {
                 variant="dot"
               >
                 <Avatar
-                  src={"http://localhost:7000/" + loginedUser?.avatar}
+                  src={webApiUrl + loginedUser?.avatar}
                   sx={{ width: "5vh", height: "5vh" }}
                 />
               </StyledBadge>

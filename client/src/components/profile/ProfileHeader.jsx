@@ -23,6 +23,8 @@ import EditProfile from "./EditProfile";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import PropTypes from "prop-types";
 import FollowActions from "../actions/FollowActions";
+const webApiUrl=import.meta.env.VITE_API_BASE_URL;
+
 const UserDetail = ({ user }) => {
   const logginedUser = useSelector(
     (state) => state.session && state.session.user
@@ -55,7 +57,7 @@ const UserDetail = ({ user }) => {
           avatar={
             <Box textAlign={"center"}>
               <Avatar
-                src={"http://localhost:7000/" + user?.avatar}
+                src={webApiUrl + user?.avatar}
                 sx={{
                   width: 150,
                   height: 150,
