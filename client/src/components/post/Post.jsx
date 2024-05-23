@@ -21,7 +21,7 @@ import Modal from "../../Modals";
 import CreateOrUpdatePost from "./CreateOrUpdatePost";
 import { deletePost } from "../../redux/actions/PostActions";
 import ShareAction from "../actions/ShareAction";
-const webApiUrl = import.meta.env.VITE_API_BASE_URL;
+const webApiUrl=import.meta.env.VITE_API_BASE_URL;
 
 const Post = ({ post }) => {
   const logginedUser = useSelector(
@@ -74,7 +74,7 @@ const dispatch=useDispatch();
         sx={{ paddingBottom: ".5rem" }}
         avatar={
           <Avatar
-            src={webApiUrl + post?.avatar}
+            src={post&&webApiUrl + post?.avatar}
             sx={{
               bgcolor: green[900],
               width: "50px",

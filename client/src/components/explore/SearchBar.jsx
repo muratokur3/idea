@@ -108,7 +108,7 @@ const SearchBar = () => {
         <CardHeader
           avatar={
             <Avatar
-              src={webApiUrl+user?.avatar}
+              src={user&&webApiUrl+user?.avatar}
               sx={{ bgcolor: "green" }}
               aria-label="recipe"
             >

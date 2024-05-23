@@ -24,6 +24,9 @@ export const projectSlice = createSlice({
       console.log(action.payload)
       state.projects = [...state.projects, action.payload];
     },
+    updateSingleProject:(state,action)=>{
+      state.projects = state.projects.map(p=>p._id===action.payload._id?action.payload:p)
+    },
     deleteProfileProject: (state, action) => {
       state.projects = state.projects.filter(
         (p) => p._id != action.payload._id
@@ -32,5 +35,5 @@ export const projectSlice = createSlice({
   },
 });
 
-export const { setProjects, setNewProject,deleteProfileProject } = projectSlice.actions;
+export const { setProjects, setNewProject,updateSingleProject,deleteProfileProject } = projectSlice.actions;
 export default projectSlice.reducer;

@@ -10,17 +10,17 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import PropTypes from "prop-types";
 import {
   createProject,
-  ubdateProject,
+  updateProject,
 } from "../../redux/actions/ProjectAction";
 const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
-const CreateOrUpdateProject = ({project }) => {
+const CreateOrUpdateProject = ({ project, modalAction }) => {
   const theme = useTheme();
   const isPhone = useMediaQuery("(max-width: 600px)");
 
   const dispatch = useDispatch();
   const logoFileInputRef = useRef(null);
   const [logo, setLogo] = useState({
-    adress: project?(webSiteUrl+project.logo):"",
+    adress: project ? webSiteUrl + project.logo : "",
     file: null,
   });
 
@@ -60,10 +60,9 @@ const CreateOrUpdateProject = ({project }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (inputControl()) {
-
       project
         ? dispatch(
-            ubdateProject(
+            updateProject(
               {
                 _id: project._id,
                 name: formData.name,
@@ -79,6 +78,7 @@ const CreateOrUpdateProject = ({project }) => {
             )
           )
         : dispatch(createProject(formData, logo.file));
+      modalAction.handleClose();
     } else {
       alert("Lütfen tüm alanları doldurduğunuzdan emin olun.");
     }
@@ -116,7 +116,9 @@ const CreateOrUpdateProject = ({project }) => {
             maxHeight: "200px",
             maxWidth: "200px",
           }}
-        >Logo</Avatar>
+        >
+          Logo
+        </Avatar>
         <input
           fontSize="small"
           type="file"
@@ -274,4 +276,5 @@ const CreateOrUpdateProject = ({project }) => {
 export default CreateOrUpdateProject;
 CreateOrUpdateProject.propTypes = {
   project: PropTypes.object,
+  modalAction: PropTypes.func,
 };

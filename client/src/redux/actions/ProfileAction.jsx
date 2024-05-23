@@ -5,7 +5,7 @@ import {
   setFollowing,
   setProfile,
   setProfilePosts,
-  ubdateUserFollow,
+  updateUserFollow,
 } from "../slices/ProfileSlice";
 import { sessionService } from "redux-react-session";
 
@@ -25,7 +25,8 @@ const getProfile = (username) => async (dispatch) => {
 };
 
 const updateProfile = (user, avatar, background) => async (dispatch) => {
-  const ubdateAvatar = async () => {
+
+  const updateAvatar = async () => {
     try {
       console.log("Profil avatars güncelleniyor", avatar, user.username);
 
@@ -55,7 +56,7 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
     }
   };
 
-  const ubdateBackground = async () => {
+  const updateBackground = async () => {
     try {
       console.log("Profil arkaplan güncelleniyor", background, user.username);
 
@@ -85,17 +86,17 @@ const updateProfile = (user, avatar, background) => async (dispatch) => {
     }
   };
 
-  const newAvatarUrl = avatar ? await ubdateAvatar() : user?.avatar;
+  const newAvatarUrl = avatar ? await updateAvatar() : user?.avatar;
   const newBackgroundUrl = background
-    ? await ubdateBackground()
+    ? await updateBackground()
     : user?.background;
 
-  const response = await axios.put(`users/ubdateUser/${user._id}`, {
+  const response = await axios.put(`users/updateUser`, {
     ...user,
     avatar: newAvatarUrl,
     background: newBackgroundUrl,
   });
-
+  
   if (response.status === 200) {
     alert("Profiliniz başarıyla güncellendi");
     const logginedUser = await sessionService.loadUser();
@@ -194,7 +195,7 @@ const follow = (followingId) => async (dispatch) => {
   try {
     const response = await axios.put(`users/follow/${followingId}`);
     if (response.status === 200) {
-      dispatch(ubdateUserFollow(followingId));
+      dispatch(updateUserFollow(followingId));
     }
   } catch (error) {
     console.log(error);
@@ -205,7 +206,7 @@ const unfollow = (followingId) => async (dispatch) => {
   try {
     const response = await axios.put(`users/unfollow/${followingId}`);
     if (response.status === 200) {
-      dispatch(ubdateUserFollow(followingId));
+      dispatch(updateUserFollow(followingId));
     }
   } catch (error) {
     console.log(error);

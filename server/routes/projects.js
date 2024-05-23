@@ -15,8 +15,8 @@ router.post("/createProject", async (req, res) => {
   }
 });
 
-//ubdateing a project
-router.put("/ubdateProject", async (req, res) => {
+//updateing a project
+router.put("/updateProject", async (req, res) => {
   try {
     const projectId = req.body._id;
     const updates = req.body;

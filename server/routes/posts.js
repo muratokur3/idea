@@ -23,8 +23,8 @@ router.post("/new", async (req, res) => {
   }
 });
 
-//ubdate post
-router.put("/ubdate/:id", async (req, res) => {
+//update post
+router.put("/update/:id", async (req, res) => {
   if (!(await PostChema.findById(req.params.id))) {
     return res.status(404).send("Post not found");
   }

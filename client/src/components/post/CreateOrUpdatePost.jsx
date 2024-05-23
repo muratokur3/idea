@@ -68,7 +68,7 @@ const CreateOrUpdatePost = ({ post,modalAction }) => {
       <Box>
         <Avatar
           alt="Remy Sharp"
-          src={webApiUrl+user?.avatar}
+          src={user&&webApiUrl+user?.avatar}
           sx={{ width: "5vh", height: "5vh", marginBottom: "1rem" }}
         />
       </Box>

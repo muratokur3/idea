@@ -72,30 +72,29 @@ const generateRandomAvatar = () => {
   return `https://i.pravatar.cc/300?img=${randomAvatar}`;
 };
 
-//ubdate user
-router.put("/ubdateUser/:id", async (req, res) => {
+//update user
+router.put("/updateUser", async (req, res) => {
+  const userId = req.user.sub;
+
+  if (!userId) {
+    return res.status(404).json("Kullanıcı bulunamadı");
+  }
+
   try {
-    const user = await UserChema.findById(req.params.id);
-    if (user.username === req.body.username) {
-      await UserChema.findByIdAndUpdate(req.params.id, {
-        $set: req.body,
-      }).exec();
-      res.status(200).json("Kullanıcı güncellendi");
-    } else {
-      if (
-        await UserChema.findOne({
-          username: req.body.username,
-        })
-      ) {
+    const user = await UserChema.findById(userId);
+
+    if (user.username !== req.body.username) {
+      const existingUser = await UserChema.findOne({ username: req.body.username });
+
+      if (existingUser) {
         return res.status(403).json("Kullanıcı adı zaten kullanılıyor");
       }
-      await UserChema.findByIdAndUpdate(req.params.id, {
-        $set: req.body,
-      }).exec();
-      res.status(200).json("Kullanıcı güncellendi");
     }
+
+    await UserChema.findByIdAndUpdate(userId, { $set: req.body }).exec();
+    res.status(200).json("Kullanıcı güncellendi");
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
     res.status(500).json("Server Error");
   }
 });

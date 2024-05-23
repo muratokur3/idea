@@ -25,7 +25,7 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import PropTypes from "prop-types";
 import FollowActions from "../actions/FollowActions";
 import { green} from "@mui/material/colors";
-const webApiUrl = import.meta.env.VITE_API_BASE_URL;
+const webApiUrl=import.meta.env.VITE_API_BASE_URL;
 
 const UserDetail = ({ user }) => {
   const logginedUser = useSelector(
@@ -53,13 +53,13 @@ const UserDetail = ({ user }) => {
             borderBottomRightRadius: isPhone ? "50px" : "100px",
             borderBottomLeftRadius: isPhone ? "50px" : "100px",
           }}
-          src={webApiUrl + user?.background}
+          src={user&&webApiUrl + user?.background}
         />
         <CardHeader
           avatar={
             <Box textAlign={"center"}>
               <Avatar
-                src={webApiUrl + user?.avatar}
+                src={user&&webApiUrl + user?.avatar}
                 sx={{
                   width: 150,
                   height: 150,
@@ -122,7 +122,7 @@ const UserDetail = ({ user }) => {
                       onClick={() => navigate(`/${user?.username}`)}
                       color="secondary"
                       sx={{
-                        fontSize: "0.8rem",
+                        fontSize: "1rem",
 
                         cursor: "pointer",
                       }}
@@ -160,7 +160,7 @@ const UserDetail = ({ user }) => {
           }}
         >
         
-          <Button herf={user?.socialAdress?.website} target={`_blank`}>
+          <Button href={user?.socialAdress?.website} target={`_blank`}>
             <LanguageIcon fontSize="medium" color="primary" />
           </Button>
           <Button href={user?.socialAdress?.github} target={`_blank`}>

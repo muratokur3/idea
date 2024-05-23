@@ -95,8 +95,9 @@ export const postSlice = createSlice({
       console.log(action.payload)
       state.home.posts.unshift(action.payload);
     },
-    setUbdateData: (state, action) => {
+    setUpdateData: (state, action) => {
       const newPost = action.payload;
+      console.log(newPost);
       state.home.posts = state.home.posts.map((p) =>
         p._id === newPost._id ? newPost : p
       );
@@ -142,7 +143,7 @@ export const {
   setMyFavorites,
   setMyLikes,
   createSinglePost,
-  setUbdateData,
+  setUpdateData,
   deleteSinglePost,
 } = postSlice.actions;
 export default postSlice.reducer;

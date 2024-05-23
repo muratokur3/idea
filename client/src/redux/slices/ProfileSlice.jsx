@@ -61,7 +61,7 @@ const profileSlice = createSlice({
         state.followers.pagination = action.payload.pagination;
       }
     },
-    ubdateUserFollow: (state, action) => {
+    updateUserFollow: (state, action) => {
       const followingId = action.payload;
 
       state.following.users = state.following.users.map((user) =>
@@ -127,7 +127,7 @@ export const {
   setFollowing,
   setFavorites,
   setProfilePosts,
-  ubdateUserFollow,
+  updateUserFollow,
   üsetProjects,
   setNewProject,
   createProfilePost,

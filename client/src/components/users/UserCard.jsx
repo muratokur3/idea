@@ -25,7 +25,7 @@ const UserCard = ({ user }) => {
       <CardHeader
         avatar={
           <Avatar
-            src={webApiUrl+user?.avatar}
+            src={user&&webApiUrl+user?.avatar}
             sx={{ bgcolor: green[700],cursor:"pointer" }}
             aria-label="recipe"
             onClick={() => navigate(`/${user?.username}`)}

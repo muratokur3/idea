@@ -1,5 +1,5 @@
 import axios from "../../../axiosConfig";
-import { deleteProfileProject, setNewProject, setProjects } from "../slices/ProjectSlice";
+import { deleteProfileProject, setNewProject, setProjects, updateSingleProject } from "../slices/ProjectSlice";
 
 const getProjects = (pagination, username) => async (dispatch) => {
   try {
@@ -16,7 +16,7 @@ const getProjects = (pagination, username) => async (dispatch) => {
   }
 };
 
-const ubdateLogo = async (data, logo) => {
+const updateLogo = async (data, logo) => {
   try {
     const formData = new FormData();
     const logoData = await logo; // Promise'in çözülmesini bekleyin
@@ -35,7 +35,7 @@ const ubdateLogo = async (data, logo) => {
     if (response.status === 200) {
       console.log(`uploads/images/project-logo/${response.data.filename}`);
       const logourl = `uploads/images/project-logo/${response.data.filename}`;
-      const ubdataResponse = await axios.put(`projects/ubdateProject`, {
+      const ubdataResponse = await axios.put(`projects/updateProject`, {
         ...data,
         logo: logourl,
       });
@@ -48,16 +48,16 @@ const ubdateLogo = async (data, logo) => {
   }
 };
 
-const ubdateProject = (data, logo) => async (dispatch) => {
+const updateProject = (data, logo) => async (dispatch) => {
   try {
     if (logo) {
       console.log(data)
-      const newdata = await ubdateLogo(data, logo);
+      const newdata = await updateLogo(data, logo);
       dispatch(setNewProject(newdata));
     } else {
-      const response = await axios.put(`projects/ubdateProject`, data);
+      const response = await axios.put(`projects/updateProject`, data);
       if (response.status === 200) {
-        dispatch(setNewProject(response.data));
+        dispatch(updateSingleProject(response.data));
       }
     }
   } catch (error) {
@@ -71,7 +71,7 @@ const createProject = (data, logo) => async (dispatch) => {
 
     if (response.status === 201) {
       if (logo) {
-        const newdata = await ubdateLogo(response.data, logo);
+        const newdata = await updateLogo(response.data, logo);
         dispatch(setNewProject(newdata));
       } else {
         dispatch(setNewProject(response.data));
@@ -95,4 +95,4 @@ const deleteProject =  (projectId) => async(dispatch)=> {
   }
 };
 
-export { getProjects, createProject, ubdateProject, deleteProject };
+export { getProjects, createProject, updateProject, deleteProject };

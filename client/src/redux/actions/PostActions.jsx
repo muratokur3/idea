@@ -6,7 +6,7 @@ import {
   setMyFavorites,
   setMyLikes,
   setHashtagExplore,
-  setUbdateData,
+  setUpdateData,
   deleteSinglePost,
   createSinglePost,
 } from "../slices/PostSlice";
@@ -161,13 +161,13 @@ const createOrUpdatePost = (type, postData) => async (dispatch) => {
       }
     } else if (type === "update") {
       const response = await axios.put(
-        `posts/ubdate/${postData._id}`,
+        `posts/update/${postData._id}`,
         postData
       );
-      if (response.status === 201) {
-        console.log(response.data);
-        setUbdateData(response.data[0]);
-        // setUpdateProfilePosts(response.data[0])
+      if (response.status === 200) {
+        console.log(response.data[0]);
+        dispatch( setUpdateData(response.data[0]));
+        dispatch(setUpdateProfilePosts(response.data[0]))
       }
     } else console.log("type hatası");
   } catch (error) {
@@ -200,7 +200,7 @@ const like = (post) => async (dispatch) => {
 
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setUbdateData(newPost));
+      dispatch(setUpdateData(newPost));
       dispatch(setUpdateProfilePosts(newPost));
     }
   } catch (error) {
@@ -219,7 +219,7 @@ const unLike = (post) => async (dispatch) => {
     };
     // Potansiyel hatalar için API yanıtını kontrol et
     if (response.status === 200) {
-      dispatch(setUbdateData(newPost));
+      dispatch(setUpdateData(newPost));
       dispatch(setUpdateProfilePosts(newPost));
     }
   } catch (error) {
@@ -236,7 +236,7 @@ const favorite = (post) => async (dispatch) => {
         ...post,
         isFavorite: true,
       };
-      dispatch(setUbdateData(newPost));
+      dispatch(setUpdateData(newPost));
       dispatch(setUpdateProfilePosts(newPost));
       // Başarılı beğeni işlemi
     }
@@ -255,7 +255,7 @@ const unFavorite = (post) => async (dispatch) => {
         ...post,
         isFavorite: false,
       };
-      dispatch(setUbdateData(newPost));
+      dispatch(setUpdateData(newPost));
       dispatch(setUpdateProfilePosts(newPost));
     }
   } catch (error) {
