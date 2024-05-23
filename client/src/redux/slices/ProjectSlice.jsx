@@ -21,10 +21,16 @@ export const projectSlice = createSlice({
       state.pagination = action.payload.pagination;
     },
     setNewProject: (state, action) => {
+      console.log(action.payload)
       state.projects = [...state.projects, action.payload];
+    },
+    deleteProfileProject: (state, action) => {
+      state.projects = state.projects.filter(
+        (p) => p._id != action.payload._id
+      );
     },
   },
 });
 
-export const { setProjects, setNewProject } = projectSlice.actions;
+export const { setProjects, setNewProject,deleteProfileProject } = projectSlice.actions;
 export default projectSlice.reducer;

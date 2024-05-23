@@ -8,19 +8,19 @@ import { useTheme } from "@mui/material/styles";
 import styled from "@emotion/styled";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import PropTypes from "prop-types";
-
 import {
   createProject,
   ubdateProject,
 } from "../../redux/actions/ProjectAction";
-const CreateOrUpdateProject = ({modalAction, project }) => {
+const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
+const CreateOrUpdateProject = ({project }) => {
   const theme = useTheme();
   const isPhone = useMediaQuery("(max-width: 600px)");
 
   const dispatch = useDispatch();
   const logoFileInputRef = useRef(null);
   const [logo, setLogo] = useState({
-    adress: project?`http://localhost:7000/${project.logo}`:"",
+    adress: project?(webSiteUrl+project.logo):"",
     file: null,
   });
 
@@ -79,7 +79,6 @@ const CreateOrUpdateProject = ({modalAction, project }) => {
             )
           )
         : dispatch(createProject(formData, logo.file));
-        modalAction.handleClose();
     } else {
       alert("Lütfen tüm alanları doldurduğunuzdan emin olun.");
     }
@@ -274,6 +273,5 @@ const CreateOrUpdateProject = ({modalAction, project }) => {
 
 export default CreateOrUpdateProject;
 CreateOrUpdateProject.propTypes = {
-  modalAction: PropTypes.object,
   project: PropTypes.object,
 };

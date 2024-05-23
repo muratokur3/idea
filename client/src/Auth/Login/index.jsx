@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 
-const Login = ({modalAction}) => {
+const Login = ({ modalAction }) => {
   const isLoggedIn = useSelector(
     (state) => state.session && state.session.authenticated
   );
@@ -29,9 +29,8 @@ const Login = ({modalAction}) => {
 
   const onSubmit = (data) => {
     dispatch(loginClient(data));
-    isLoggedIn&& modalAction.handleClose();
+    isLoggedIn && modalAction.handleClose();
   };
-
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -41,10 +40,9 @@ const Login = ({modalAction}) => {
     e.preventDefault();
   };
 
-  const FormControlStyled=styled(FormControl)({
+  const FormControlStyled = styled(FormControl)({
     variant: "filled",
     width: "100%",
-
   });
   return (
     <Box
@@ -56,11 +54,10 @@ const Login = ({modalAction}) => {
         alignItems: "center",
       }}
     >
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{
-          minWidth:"35vw",
+          minWidth: "35vw",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -89,7 +86,6 @@ const Login = ({modalAction}) => {
             sx={{ background: "none" }}
             {...register("password", {
               required: "Lütfen şifrenizi giriniz.",
-              minLength: { value: 4, message: "En az 8 karakter olmalıdır." },
               maxLength: {
                 value: 25,
                 message: "En fazla 25 karakter olabilir.",
@@ -111,11 +107,11 @@ const Login = ({modalAction}) => {
               </InputAdornment>
             }
           />
-                    {errors.password && errors.password.message}
+          {errors.password && errors.password.message}
         </FormControlStyled>
 
         <Button
-        variant="outlined"
+          variant="outlined"
           type="submit"
           sx={{
             borderRadius: "1rem",

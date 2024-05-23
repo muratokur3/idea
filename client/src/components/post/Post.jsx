@@ -11,8 +11,9 @@ import TopRightButton from "../actions/TopRightButton";
 import LikeActions from "../actions/LikeActions";
 import FavoriteActions from "../actions/FavoriteActions";
 import { useTheme } from "@mui/material/styles";
-import { red } from "@mui/material/colors";
-import { useSelector } from "react-redux";
+import { green } from "@mui/material/colors";
+import { useDispatch, useSelector } from "react-redux";
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import Card from "@mui/material/Card";
 import { useState } from "react";
 import PropTypes from "prop-types";
@@ -20,7 +21,7 @@ import Modal from "../../Modals";
 import CreateOrUpdatePost from "./CreateOrUpdatePost";
 import { deletePost } from "../../redux/actions/PostActions";
 import ShareAction from "../actions/ShareAction";
-const webApiUrl=import.meta.env.VITE_API_BASE_URL;
+const webApiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Post = ({ post }) => {
   const logginedUser = useSelector(
@@ -30,8 +31,10 @@ const Post = ({ post }) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  
   const navigate = useNavigate();
   const theme = useTheme();
+const dispatch=useDispatch();
 
   const formatRelativeTime = (timestamp) => {
     const now = new Date();
@@ -71,11 +74,17 @@ const Post = ({ post }) => {
         sx={{ paddingBottom: ".5rem" }}
         avatar={
           <Avatar
-            src={webApiUrl+post?.avatar}
-            sx={{ bgcolor: red[500], width: "50px", height: "50px" }}
+            src={webApiUrl + post?.avatar}
+            sx={{
+              bgcolor: green[900],
+              width: "50px",
+              height: "50px",
+              cursor: "pointer",
+            }}
             aria-label="recipe"
+            onClick={() => navigate(`/${post?.username}`)}
           >
-            R
+            {post?.name[0]}
           </Avatar>
         }
         action={
@@ -103,15 +112,15 @@ const Post = ({ post }) => {
                 ),
                 logginedUser && post?.username === logginedUser.username && (
                   <Modal
-                    buttonText={"Güncelle"}
-                    component={<CreateOrUpdatePost post={post} />}
+                  buttonText={"Güncelle"}
+                  component={<CreateOrUpdatePost post={post} icon={<DriveFileRenameOutlineIcon/>}/>}
                   />
                 ),
                 logginedUser && post?.username === logginedUser.username && (
                   <Button
                     variant="text"
                     color="primary"
-                    onClick={() => deletePost(post?._id)}
+                    onClick={() => dispatch(deletePost(post?._id))}
                   >
                     Sil
                   </Button>
@@ -120,7 +129,14 @@ const Post = ({ post }) => {
             />
           </Box>
         }
-        title={<Typography>{post?.name + " " + post?.surname}</Typography>}
+        title={
+          <Typography
+            sx={{ cursor: "pointer" }}
+            onClick={() => navigate(`/${post?.username}`)}
+          >
+            {post?.name + " " + post?.surname}
+          </Typography>
+        }
         titleTypographyProps={{ fontSize: "1.3rem", color: "primary" }}
         subheader={
           <Box

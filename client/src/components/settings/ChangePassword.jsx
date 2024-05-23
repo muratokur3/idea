@@ -1,5 +1,5 @@
 import {
-    Accordion,
+  Accordion,
   AccordionActions,
   AccordionDetails,
   AccordionSummary,
@@ -11,15 +11,17 @@ import {
   InputLabel,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
-import axios from '../../../axiosConfig';
+import axios from "../../../axiosConfig";
 import { useSelector } from "react-redux";
 
 const ChangePassword = () => {
-    const userId = useSelector((state) => state.session && state.session?.user?._id);
+  const userId = useSelector(
+    (state) => state.session && state.session?.user?._id
+  );
 
+  const [expanded, setExpanded] = useState(false);
   const [showOldPassword, setshowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const handleClickShowPassword = (setShowPassword) =>
@@ -52,10 +54,10 @@ const ChangePassword = () => {
       alert("Yeni şifreler uyuşmuyor");
       return;
     }
-    const response = await axios.post(
-      `auth/changePassword/${userId}`,
-      { oldPassword: formData.oldPassword, newPassword: formData.newPassword }
-    );
+    const response = await axios.post(`auth/changePassword/${userId}`, {
+      oldPassword: formData.oldPassword,
+      newPassword: formData.newPassword,
+    });
     if (response.status !== 200) {
       alert(response.data.error);
       return;
@@ -65,6 +67,7 @@ const ChangePassword = () => {
   };
 
   const handleCancelPassword = () => {
+    setExpanded(false);
     setFormData({
       oldPassword: "",
       newPassword: "",
@@ -73,111 +76,114 @@ const ChangePassword = () => {
   };
 
   return (
-    
-    <Accordion >
-    <AccordionSummary
-      expandIcon={<ExpandMoreIcon />}
-      aria-controls="Şifre Değiştirme"
-      id="panel3-header"
-    >
-      Şifre Değiştirme
-    </AccordionSummary>
-    <AccordionDetails
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "20px",
-        paddingLeft: "10%",
-      }}
-    >
-      <FormControl variant="filled" sx={{ width: "50%" }}>
-        <InputLabel htmlFor="filled-adornment-password">
-          Eski Şifreniz
-        </InputLabel>
-        <FilledInput
-          sx={{ background: "none" }}
-          value={formData.oldPassword}
-          onChange={handleInputChance}
-          name="oldPassword"
-          required
-          id="filled-adornment-password"
-          type={showOldPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={() => handleClickShowPassword(setshowOldPassword)}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showOldPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
+    <Accordion expanded={expanded}>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        onClick={() => setExpanded(!expanded)}
+        aria-controls="Şifre Değiştirme"
+        id="panel3-header"
+      >
+        Şifre Değiştirme
+      </AccordionSummary>
+      <AccordionDetails
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          paddingLeft: "10%",
+        }}
+      >
+        <FormControl variant="filled" sx={{ width: "50%" }}>
+          <InputLabel htmlFor="filled-adornment-password">
+            Eski Şifreniz
+          </InputLabel>
+          <FilledInput
+            sx={{ background: "none" }}
+            value={formData.oldPassword}
+            onChange={handleInputChance}
+            name="oldPassword"
+            required
+            id="filled-adornment-password"
+            type={showOldPassword ? "text" : "password"}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => handleClickShowPassword(setshowOldPassword)}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showOldPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
 
+        <FormControl variant="filled" sx={{ width: "50%" }}>
+          <InputLabel htmlFor="filled-adornment-password">
+            Yeni Şifreniz
+          </InputLabel>
+          <FilledInput
+            sx={{ background: "none" }}
+            value={formData.newPassword}
+            onChange={handleInputChance}
+            name="newPassword"
+            required
+            id="filled-adornment-password"
+            type={showNewPassword ? "text" : "password"}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => handleClickShowPassword(setShowNewPassword)}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
 
-      <FormControl variant="filled" sx={{ width: "50%" }}>
-        <InputLabel htmlFor="filled-adornment-password">
-          Yeni Şifreniz
-        </InputLabel>
-        <FilledInput
-          sx={{ background: "none" }}
-          value={formData.newPassword}
-          onChange={handleInputChance}
-          name="newPassword"
-          required
-          id="filled-adornment-password"
-          type={showNewPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={() => handleClickShowPassword(setShowNewPassword)}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showNewPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
+        <FormControl variant="filled" sx={{ width: "50%" }}>
+          <InputLabel htmlFor="filled-adornment-password">
+            Yeni Şifreniz Tekrar
+          </InputLabel>
+          <FilledInput
+            sx={{ background: "none" }}
+            value={formData.repaitNewPassword}
+            onChange={handleInputChance}
+            name="repaitNewPassword"
+            required
+            id="filled-adornment-password"
+            type={showNewPassword ? "text" : "password"}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => handleClickShowPassword(setShowNewPassword)}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+      </AccordionDetails>
+      <AccordionActions>
+        <Button onClick={handleCancelPassword}>
+          İptal Et
+        </Button>
+        <Button color="primary" onClick={handleChancePassword}>
+          Kaydet
+        </Button>
+      </AccordionActions>
+    </Accordion>
+  );
+};
 
-      <FormControl variant="filled" sx={{ width: "50%" }}>
-        <InputLabel htmlFor="filled-adornment-password">
-          Yeni Şifreniz Tekrar
-        </InputLabel>
-        <FilledInput
-          sx={{ background: "none" }}
-          value={formData.repaitNewPassword}
-          onChange={handleInputChance}
-          name="repaitNewPassword"
-          required
-          id="filled-adornment-password"
-          type={showNewPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={() => handleClickShowPassword(setShowNewPassword)}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showNewPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-    </AccordionDetails>
-    <AccordionActions>
-      <Button color="secondary" onClick={handleCancelPassword}>İptal Et</Button>
-      <Button color="primary" onClick={handleChancePassword}>Kaydet</Button>
-    </AccordionActions>
-  </Accordion>
-  )
-}
-
-export default ChangePassword
+export default ChangePassword;

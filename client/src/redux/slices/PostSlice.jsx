@@ -91,6 +91,10 @@ export const postSlice = createSlice({
         state.myLikes.pagination = action.payload.pagination;
       }
     },
+    createSinglePost:(state,action)=>{
+      console.log(action.payload)
+      state.home.posts.unshift(action.payload);
+    },
     setUbdateData: (state, action) => {
       const newPost = action.payload;
       state.home.posts = state.home.posts.map((p) =>
@@ -112,6 +116,21 @@ export const postSlice = createSlice({
         p._id === newPost._id ? newPost : p
       );
     },
+    deleteSinglePost: (state, action) => {
+      const postId = action.payload;
+      state.home.posts = state.home.posts.filter((p) => p._id !== postId);
+      state.privateMe.posts = state.privateMe.posts.filter(
+        (p) => p._id !== postId
+      );
+      state.explore.posts = state.explore.posts.filter((p) => p._id !== postId);
+      state.hashtagExplore.posts = state.hashtagExplore.posts.filter(
+        (p) => p._id !== postId
+      );
+      state.Myfavorites.posts = state.Myfavorites.posts.filter(
+        (p) => p._id !== postId
+      );
+      state.myLikes.posts = state.myLikes.posts.filter((p) => p._id !== postId);
+    },
   },
 });
 
@@ -122,6 +141,8 @@ export const {
   setHashtagExplore,
   setMyFavorites,
   setMyLikes,
+  createSinglePost,
   setUbdateData,
+  deleteSinglePost,
 } = postSlice.actions;
 export default postSlice.reducer;

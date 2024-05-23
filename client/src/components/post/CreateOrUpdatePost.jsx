@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 const webApiUrl=import.meta.env.VITE_API_BASE_URL;
 
 import styled from "@emotion/styled";
-const CreateOrUpdatePost = ({ modalAction, post }) => {
+const CreateOrUpdatePost = ({ post,modalAction }) => {
   const [title, setTitle] = useState(post?.title || "");
   const [content, setContent] = useState(post?.content || "");
   const [selectedHashtags, setSelectedHashtags] = useState(
@@ -182,7 +182,6 @@ const CreateOrUpdatePost = ({ modalAction, post }) => {
         </TypographyLength>
         <Button
           type="submit"
-          id="new-post-submit"
           variant="outlined"
           sx={{
             borderRadius: "60px",
@@ -207,6 +206,6 @@ const CreateOrUpdatePost = ({ modalAction, post }) => {
 
 export default CreateOrUpdatePost;
 CreateOrUpdatePost.propTypes = {
-  modalAction: PropTypes.object,
   post: PropTypes.object,
+  modalAction: PropTypes.object,
 };

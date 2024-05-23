@@ -17,8 +17,8 @@ const getProfile = (username) => async (dispatch) => {
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      alert("Kullanıcı bulunamadı");
       window.location.href = "/";
+      alert("Kullanıcı bulunamadı");
     }
     console.log(error);
   }

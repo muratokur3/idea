@@ -23,13 +23,14 @@ import Modal from "../../Modals";
 import Login from "../../Auth/Login";
 import Register from "../../Auth/Register";
 import axios from "../../../axiosConfig";
+import { useNavigate } from "react-router-dom";
 const webApiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Container = styled(Box)({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "space-between",
+  justifyContent: "space-around",
   height: "100vh",
   backgroundColor: "none",
   color: "primary",
@@ -97,6 +98,7 @@ const Sidebar = () => {
   const loginedUser = useSelector(
     (state) => state.session && state.session.user
   );
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -113,10 +115,20 @@ const Sidebar = () => {
 
   return (
     <Container>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: "5vw" }}>
+      <Box
+        sx={{
+          display: "flex",
+          minHeight: "40%",
+          gap: "10%",
+          flexDirection: "column",
+          justifyContent: "start",
+          alignItems: "center",
+        }}
+      >
         <AppBar position="static" color="transparent" elevation={0}>
           <Toolbar sx={{ justifyContent: "center" }}>
-            <Logo>
+            <Logo
+            onClick={()=>navigate("/")}>
               <img
                 src={logoImg}
                 alt="Logo"
@@ -145,7 +157,12 @@ const Sidebar = () => {
         }}
       >
         {isLoggedIn ? (
-          <Details>
+          <Details
+            onClick={() => navigate(`/${loginedUser?.username}`)}
+            sx={{
+              padding: "1rem",
+            }}
+          >
             <ListItemAvatar sx={{ display: "flex", justifyContent: "center" }}>
               <StyledBadge
                 overlap="circular"
@@ -171,9 +188,6 @@ const Sidebar = () => {
                 secondary={`@${loginedUser?.username}`}
               />
             )}
-            <Button onClick={handleLogout}>
-              {!isTablet && "Çıkış yap"} <PowerSettingsNewIcon />
-            </Button>
           </Details>
         ) : (
           <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -188,6 +202,11 @@ const Sidebar = () => {
               icon={<AppRegistrationIcon />}
             />
           </Box>
+        )}
+        {isLoggedIn && (
+          <Button onClick={handleLogout}>
+            {!isTablet && "Çıkış yap"} <PowerSettingsNewIcon />
+          </Button>
         )}
         <ChangeThemeMode />
       </Box>

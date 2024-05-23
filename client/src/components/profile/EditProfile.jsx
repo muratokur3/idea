@@ -28,8 +28,7 @@ import { updateProfile } from "../../redux/actions/ProfileAction";
 import PropTypes from "prop-types";
 // const webApiUrl=import.meta.env.VITE_API_BASE_URL;
 
-
-const EditProfile = ({user,modalAction}) => {
+const EditProfile = ({ user, modalAction }) => {
   const theme = useTheme();
   const isPhone = useMediaQuery("(max-width: 600px)");
 
@@ -47,7 +46,6 @@ const EditProfile = ({user,modalAction}) => {
     file: null,
   });
 
-
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -63,54 +61,61 @@ const EditProfile = ({user,modalAction}) => {
 
   // name surname inputları için regex.
   const nameSurnameControl = (name, surname) => {
-    const regex = /^[a-zA-Z]{2,20}$/;
-    return (regex.test(name) && regex.test(surname))
+    const regex = /^[a-zA-ZğüşıöçĞÜŞİÖÇ]{2,20}$/;
+    return regex.test(name) && regex.test(surname);
   };
 
   // usernaem input kontrolü için regex
   const usernameControl = (username) => {
     const regex = /^[a-z0-9._]{3,20}$/;
-    return regex.test(username)
+    return regex.test(username);
   };
 
   //location input kontrolü için türkçe karakter de kabul eden regex
   const locationControl = (location) => {
-    const regex = /^[a-zA-ZığüşöçİĞÜŞÖÇ\s]{2,20}$/;
-    return regex.test(location)
+    const regex = /^[a-zA-ZığüşöçİĞÜŞÖÇ\s,._-]{2,20}$/;
+    return regex.test(location);
   };
 
   const handleInputChance = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const validateInput = () => {
-    // verilen inputlarda wwww, https, .com, hhtp gibi kelimelerin olup olmadığını kontrol eden regex
-    const regex =
-      /^((?!www\.|github|youtube|twitter|\.com|http|https|:\/\/|https?:\/\/)[a-zA-Z0-9._-]+)$/;
+  // const validateInput = () => {
+  //   // verilen inputlarda wwww, https, .com, hhtp gibi kelimelerin olup olmadığını kontrol eden regex
+  //   const regex =
+  //     /^((?!www\.|github|youtube|twitter|\.com|http|https|:\/\/|https?:\/\/)[a-zA-Z0-9._-]+)$/;
 
-    return (
-      (formData.github.length === 0 || regex.test(formData.github)) &&
-      (formData.linkedin.length === 0 || regex.test(formData.linkedin)) &&
-      (formData.youtube.length === 0 || regex.test(formData.youtube)) &&
-      (formData.twitter.length === 0 || regex.test(formData.twitter))
-    );
+  //   return (
+  //     (formData.github.length === 0 || regex.test(formData.github)) &&
+  //     (formData.linkedin.length === 0 || regex.test(formData.linkedin)) &&
+  //     (formData.youtube.length === 0 || regex.test(formData.youtube)) &&
+  //     (formData.twitter.length === 0 || regex.test(formData.twitter))
+  //   );
+  // };
+
+  // const validateInputWbsite = () => {
+  //   // verilen inputlarda sadece domain girişi almaya zorlayan regex
+  //   const regex =
+  //     /^((?!www\.|www|http|https|:\/\/|https?:\/\/)[a-zA-Z0-9._-]+)$/;
+  //   return regex.test(formData.website);
+  // };
+
+  const regexControl = () => {
+    if (
+      nameSurnameControl(formData.name, formData.surname) &&
+      usernameControl(formData.username) &&
+      locationControl(formData.location)
+    ) {
+      {
+        return true;
+      }
+    }
   };
-
-  const validateInputWbsite = () => {
-    // verilen inputlarda sadece domain girişi almaya zorlayan regex
-    const regex =
-      /^((?!www\.|www|http|https|:\/\/|https?:\/\/)[a-zA-Z0-9._-]+)$/;
-    return regex.test(formData.website);
-  };
-
-  const regexControl=()=>{
-    if (validateInput() && validateInputWbsite() && nameSurnameControl(formData.name, formData.surname) && usernameControl(formData.username) && locationControl(formData.location)){
-    {return true}
-  }}
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if( regexControl()){
+    if (regexControl()) {
       const data = {
         _id: user?._id,
         name: formData.name,
@@ -422,7 +427,14 @@ const EditProfile = ({user,modalAction}) => {
                     color: `${theme.palette.primary.main}`,
                   }}
                 />
-                <Typography sx={{textAlign:"end",color:200 - formData.bio.length === 0 ? "red" : "gray"}}>{200 - formData.bio.length}</Typography>
+                <Typography
+                  sx={{
+                    textAlign: "end",
+                    color: 200 - formData.bio.length === 0 ? "red" : "gray",
+                  }}
+                >
+                  {200 - formData.bio.length}
+                </Typography>
               </CardContent>
             </Card>
           }
@@ -438,8 +450,8 @@ const EditProfile = ({user,modalAction}) => {
             justifyContent: "center",
           }}
         >
-          <FormControl variant="filled">
-            <InputLabel sx={{ background: "none", color: "gray" }}>
+          <FormControl variant="filled" sx={{ width:isPhone ?"80%":"40%"}}>
+            <InputLabel sx={{ background: "none"}}>
               <GitHubIcon fontSize="small" />
               github
             </InputLabel>
@@ -447,13 +459,13 @@ const EditProfile = ({user,modalAction}) => {
               sx={{ background: "none" }}
               value={formData?.github}
               onChange={handleInputChance}
-              placeholder="github.com/username"
+              placeholder="https://github.com/"
               placeholderTextColor="gray"
               name="github"
             />
           </FormControl>
 
-          <FormControl variant="filled">
+          <FormControl variant="filled" sx={{ width:isPhone ?"80%":"40%"}}>
             <InputLabel sx={{ background: "none" }}>
               {" "}
               <LinkedInIcon fontSize="small" />
@@ -463,13 +475,13 @@ const EditProfile = ({user,modalAction}) => {
               sx={{ background: "none" }}
               value={formData?.linkedin}
               onChange={handleInputChance}
-              placeholder="linkedin.com/in/username"
+              placeholder="https://linkedin.com/"
               placeholderTextColor="gray"
               name="linkedin"
             />
           </FormControl>
 
-          <FormControl variant="filled">
+          <FormControl variant="filled"sx={{ width:isPhone ?"80%":"40%"}}>
             <InputLabel sx={{ background: "none" }}>
               {" "}
               <YouTubeIcon fontSize="small" />
@@ -479,13 +491,13 @@ const EditProfile = ({user,modalAction}) => {
               sx={{ background: "none" }}
               value={formData?.youtube}
               onChange={handleInputChance}
-              placeholder="youtube.com/c/username"
+              placeholder="https://youtube.com/"
               placeholderTextColor="gray"
               name="youtube"
             />
           </FormControl>
 
-          <FormControl variant="filled">
+          <FormControl variant="filled"sx={{ width:isPhone ?"80%":"40%"}}>
             <InputLabel sx={{ background: "none" }}>
               <XIcon fontSize="small" />
               Twitter
@@ -494,13 +506,13 @@ const EditProfile = ({user,modalAction}) => {
               sx={{ background: "none" }}
               value={formData?.twitter}
               onChange={handleInputChance}
-              placeholder="x.com/username"
+              placeholder="https://x.com/"
               placeholderTextColor="gray"
               name="twitter"
             />
           </FormControl>
 
-          <FormControl variant="filled">
+          <FormControl variant="filled"sx={{ width:isPhone ?"80%":"40%"}}>
             <InputLabel sx={{ background: "none" }}>
               <LanguageIcon fontSize="small" />
               Website

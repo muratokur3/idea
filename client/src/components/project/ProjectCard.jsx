@@ -17,7 +17,7 @@ import { Box, Button } from "@mui/material";
 import TopRightButton from "../actions/TopRightButton";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CreateOrUpdateProject from "./CreateOrUpdateProject";
 import Modal from "../../Modals";
 import { deleteProject } from "../../redux/actions/ProjectAction";
@@ -38,14 +38,14 @@ const ProjectCard = ({ project }) => {
   const theme = useTheme();
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
-
+const dispatch=useDispatch();
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
   const logginedUser = useSelector(
     (state) => state.session && state.session.user
   );
-  const formatRelativeTime= (timestamp)=> {
+  const formatRelativeTime = (timestamp) => {
     const now = new Date();
     const targetDate = new Date(timestamp);
 
@@ -67,7 +67,7 @@ const ProjectCard = ({ project }) => {
       const options = { year: "numeric", month: "numeric", day: "numeric" };
       return targetDate.toLocaleDateString("tr-TR", options);
     }
-  }
+  };
   return (
     <Card
       sx={{
@@ -82,7 +82,7 @@ const ProjectCard = ({ project }) => {
       <CardHeader
         avatar={
           <Avatar
-            src={`http://localhost:7000/${project?.logo}`}
+            src={webSiteUrl + project?.logo}
             sx={{ border: ".1rem solid gray", width: "60px", height: "60px" }}
             aria-label="recipe"
           >
@@ -92,7 +92,7 @@ const ProjectCard = ({ project }) => {
         action={
           <TopRightButton
             actions={[
-              project?.username !== logginedUser.username && (
+              project?.userId !== logginedUser?._id && (
                 <Button
                   variant="text"
                   color="primary"
@@ -101,17 +101,17 @@ const ProjectCard = ({ project }) => {
                   profili ziyaret et
                 </Button>
               ),
-              logginedUser && project?.username === logginedUser.username && (
+              logginedUser && project?.userId === logginedUser?._id && (
                 <Modal
                   buttonText={"Güncelle"}
                   component={<CreateOrUpdateProject project={project} />}
                 />
               ),
-              logginedUser && project?.username === logginedUser.username && (
+              logginedUser && project?.userId === logginedUser?._id && (
                 <Button
                   variant="text"
                   color="primary"
-                  onClick={() => deleteProject(project?._id)}
+                  onClick={() =>dispatch(deleteProject(project?._id)) }
                 >
                   Sil
                 </Button>
@@ -119,20 +119,21 @@ const ProjectCard = ({ project }) => {
             ]}
           />
         }
-        title={<Box 
-          sx={{
-            width: "100%",
-            display:"flex", 
-            alignItems: 'center',
-            gap: "1rem",
-          }}>
-            <Typography>
-            {project?.name}
+        title={
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+            }}
+          >
+            <Typography>{project?.name}</Typography>
+            <Typography variant="caption" color="gray">
+              {formatRelativeTime(project?.createdAt)}
             </Typography>
-            <Typography variant='caption' color="gray">{formatRelativeTime(project?.createdAt)}
-            </Typography>
-          
-          </Box>}
+          </Box>
+        }
         titleTypographyProps={{ color: "primary" }}
         subheader={
           <Typography color="secondary">{project?.createDate}</Typography>
@@ -162,7 +163,8 @@ const ProjectCard = ({ project }) => {
           <IconButton aria-label="githubAdress" href={project?.githubAdress}>
             <GitHubIcon />
           </IconButton>
-          <IconButton aria-label="share"
+          <IconButton
+            aria-label="share"
             onClick={async () => {
               if (navigator.share) {
                 navigator
@@ -176,8 +178,9 @@ const ProjectCard = ({ project }) => {
                 // navigator.share API'si desteklenmiyor
                 console.log("Paylaşım API'si desteklenmiyor");
               }
-            }}>
-            <IosShareIcon/>
+            }}
+          >
+            <IosShareIcon />
           </IconButton>
         </Box>
         <ExpandMore

@@ -26,7 +26,8 @@ const FollowActions = ({ user }) => {
         sx={{
           color: theme.palette.primary.main,
           backgroundColor: theme.palette.background.default,
-          borderRadius:"1rem"
+          borderRadius: "1rem",
+          ":hover": { backgroundColor:theme.palette.primary.main,color:theme.palette.background.default},
         }}
         onClick={handleFollow}
       >

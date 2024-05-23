@@ -7,9 +7,14 @@ import {
   setMyLikes,
   setHashtagExplore,
   setUbdateData,
+  deleteSinglePost,
+  createSinglePost,
 } from "../slices/PostSlice";
 
-import { setUpdateProfilePosts } from "../slices/ProfileSlice";
+import {
+  deleteProfilePost,
+  setUpdateProfilePosts,
+} from "../slices/ProfileSlice";
 
 const getHomeData = (pagination) => async (dispatch) => {
   try {
@@ -144,21 +149,40 @@ const getProfileLikesPosts = (pagination) => async (dispatch) => {
   }
 };
 
-const createOrUpdatePost = (type, postData) => async () => {
+const createOrUpdatePost = (type, postData) => async (dispatch) => {
   try {
     console.log(postData);
-    type === "new"
-      ? await axios.post(`posts/new`, postData)
-      : await axios.put(`posts/ubdate/${postData._id}`, postData);
+    if (type === "new") {
+      const response = await axios.post(`posts/new`, postData);
+      if (response.status === 201) {
+        console.log(response.data[0]);
+        dispatch(createSinglePost(response.data[0]));
+        // dispatch(createProfilePost(response.data[0]));
+      }
+    } else if (type === "update") {
+      const response = await axios.put(
+        `posts/ubdate/${postData._id}`,
+        postData
+      );
+      if (response.status === 201) {
+        console.log(response.data);
+        setUbdateData(response.data[0]);
+        // setUpdateProfilePosts(response.data[0])
+      }
+    } else console.log("type hatası");
   } catch (error) {
     console.error("veri kaydederken hata oluştu:", error);
   }
 };
 
 //silme işlemi
-const deletePost = async (postId) => {
+const deletePost = (postId) => async (dispatch) => {
   try {
-    await axios.delete(`posts/delete/${postId}`);
+    const response = await axios.delete(`posts/delete/${postId}`);
+    if (response.status === 200) {
+      dispatch(deleteSinglePost(postId));
+      dispatch(deleteProfilePost(postId));
+    }
   } catch (error) {
     console.error("veri silerken hata oluştu:", error);
   }

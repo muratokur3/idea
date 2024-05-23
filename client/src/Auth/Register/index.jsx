@@ -19,7 +19,6 @@ import TermsOfService from "../../components/policys/TermsOfService";
 
 const Register = ({ modalAction }) => {
   const dispatch = useDispatch();
-
   const {
     register,
     handleSubmit,
@@ -27,7 +26,7 @@ const Register = ({ modalAction }) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    dispatch(registerUser(data))
+    dispatch(registerUser(data, modalAction));
     modalAction.handleClose();
   };
 
@@ -75,7 +74,7 @@ const Register = ({ modalAction }) => {
                 message: "En fazla 20 karakter olabilir.",
               },
               pattern: {
-                value: /^[a-zA-Z]+$/,
+                value: /^[a-zA-ZğüşıöçĞÜŞİÖÇ]+$/,
                 message: "Sadece harf içermelidir.",
               },
             })}
@@ -83,7 +82,6 @@ const Register = ({ modalAction }) => {
           />
           {errors.name && errors.name.message}
         </FormControlStyled>
-
         <FormControlStyled>
           <InputLabel>Soyad</InputLabel>
           <FilledInput
@@ -96,14 +94,13 @@ const Register = ({ modalAction }) => {
                 message: "En fazla 20 karakter olabilir.",
               },
               pattern: {
-                value: /^[a-zA-Z]+$/,
+                value: /^[a-zA-ZğüşıöçĞÜŞİÖÇ]+$/,
                 message: "Sadece harf içermelidir.",
               },
             })}
           />
           {errors.lastname && errors.lastname.message}
         </FormControlStyled>
-
         <FormControlStyled>
           <InputLabel>Kullanıcı adı</InputLabel>
           <FilledInput
@@ -124,11 +121,10 @@ const Register = ({ modalAction }) => {
           />
           {errors.username && errors.username.message}
         </FormControlStyled>
-
         <FormControlStyled>
           <InputLabel>E-posta</InputLabel>
           <FilledInput
-          type="email"
+            type="email"
             sx={{ background: "none", width: "100%" }}
             {...register("email", {
               required: "Bu alan gereklidir.",
@@ -140,7 +136,6 @@ const Register = ({ modalAction }) => {
           />
           {errors.email && errors.email.message}
         </FormControlStyled>
-
         <FormControlStyled sx={{ width: "90%" }}>
           <InputLabel htmlFor="filled-adornment-password">Şifre</InputLabel>
           <FilledInput
@@ -153,7 +148,7 @@ const Register = ({ modalAction }) => {
                 message: "En fazla 25 karakter olabilir.",
               },
               pattern: {
-                value: /^(?=.*[A-Z]).*$/,
+                value: /^(?=.*[A-ZğüşıöçĞÜŞİÖÇ]).*$/,
                 message:
                   "En az bir büyük harf, bir küçük harf ve bir sayı içermelidir.",
               },
@@ -176,18 +171,26 @@ const Register = ({ modalAction }) => {
           />
           {errors.password && errors.password.message}
         </FormControlStyled>
-        <Box display={"flex"} flexDirection={"row"} gap={"3px"}>
-          <Typography fontSize={".8rem"}>kayıt olarak </Typography>
+        <Box sx={{
+          width:"100%",
+          display:"flex",
+          flexDirection:"row",
+          flexWrap:"wrap",
+          gap:"3px"
+        }}>
+          <Typography fontSize={".8rem"}>Kayıt olarak gizlilik</Typography>
           <PolicyModals
             policyElement={<PrivacyPolicy />}
-            policyTitle="gizlilik politikasını"
+            policyTitle=" politikasını"
           />{" "}
-          <Typography fontSize={".8rem"}> ve</Typography>
+          <Typography fontSize={".8rem"}> ve hizmet</Typography>
           <PolicyModals
             policyElement={<TermsOfService />}
-            policyTitle=" hizmet şartlarını"
+            policyTitle=" şartlarını"
           />
-          <Typography fontSize={".8rem"}> kabul etmiş olursunuz.</Typography>
+          <Typography fontSize={".8rem"}> kabul </Typography>
+          <Typography fontSize={".8rem"}> etmiş</Typography>
+          <Typography fontSize={".8rem"}> olursunuz.</Typography>
         </Box>
         <Button
           variant="outlined"
@@ -196,8 +199,10 @@ const Register = ({ modalAction }) => {
             borderRadius: "1rem",
           }}
         >
-          Kayıt Ol
+        Kayıt Ol
         </Button>
+        
+        
       </form>
     </Box>
   );

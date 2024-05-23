@@ -1,5 +1,5 @@
 import axios from "../../../axiosConfig";
-import { setNewProject, setProjects } from "../slices/ProjectSlice";
+import { deleteProfileProject, setNewProject, setProjects } from "../slices/ProjectSlice";
 
 const getProjects = (pagination, username) => async (dispatch) => {
   try {
@@ -83,11 +83,12 @@ const createProject = (data, logo) => async (dispatch) => {
 };
 
 //id değerine göre proje silme
-const deleteProject = async (projectId) => {
+const deleteProject =  (projectId) => async(dispatch)=> {
   try {
     const response = await axios.delete(`projects/${projectId}`);
     if (response.status === 200) {
-      console.log(response.data);
+      console.log(response);
+      dispatch(deleteProfileProject(response.data));
     }
   } catch (error) {
     console.log(error);

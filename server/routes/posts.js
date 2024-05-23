@@ -16,7 +16,7 @@ router.post("/new", async (req, res) => {
     });
 
     await newPost.save();
-    res.status(201).json(newPost);
+    res.status(201).json(await enrichPostsWithUserDetails([newPost], req.user? req.user.sub:null));
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Server Error");
@@ -34,7 +34,7 @@ router.put("/ubdate/:id", async (req, res) => {
     const ubdadetPost = await PostChema.findByIdAndUpdate(postId, updates, {
       new: true,
     });
-    res.status(200).json(ubdadetPost);
+    res.status(200).json(await enrichPostsWithUserDetails([ubdadetPost], req.user? req.user.sub:null));
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Server Error");

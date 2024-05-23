@@ -2,6 +2,7 @@ import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 import ChangePassword from "../components/settings/ChangePassword";
 import AccountSettings from "../components/settings/AccountSettings";
+import EmailSettings from "../components/settings/EmailSettings";
 
 const Settings = () => {
   return (
@@ -20,9 +21,12 @@ const Settings = () => {
         Ayarlar
       </Typography>
 
+      <EmailSettings/>
+
       <ChangePassword />
 
       <AccountSettings />
+
      
     </Box>
   );

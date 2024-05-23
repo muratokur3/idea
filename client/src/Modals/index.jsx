@@ -8,11 +8,15 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-const Modal = ({buttonText,component,icon}) => {
+const Modal = ({ buttonText, component, icon }) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
 
   return (
     <Box>
@@ -30,27 +34,40 @@ const Modal = ({buttonText,component,icon}) => {
         aria-labelledby="login-dialog-title"
         maxWidth="md"
         fullWidth={true}
-       
+        sx={{
+          opacity: ".994",
+        }}
       >
-        <DialogTitle
-          id="login-dialog-title"
-          color="primary"
-          sx={{ textAlign: "center" }}
-        >
-          {buttonText}
-        </DialogTitle>
-        <DialogContent
+        <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            backgroundColor: "#000000dc",
           }}
         >
-         {React.cloneElement(component, {modalAction:{handleClose}})}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>İptal</Button>
-        </DialogActions>
+          <DialogTitle
+            id="login-dialog-title"
+            color="primary"
+            sx={{ textAlign: "center", backgroundColor: "none" }}
+          >
+            {buttonText}
+          </DialogTitle>
+          <DialogContent
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "none",
+            }}
+          >
+            {React.cloneElement(component, { modalAction: { handleClose } })}
+          </DialogContent>
+          <DialogActions
+            sx={{
+              backgroundColor: "none",
+            }}
+          >
+            <Button onClick={handleClose}>İptal</Button>
+          </DialogActions>
+        </Box>
       </Dialog>
     </Box>
   );

@@ -7,6 +7,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -23,7 +24,8 @@ import EditProfile from "./EditProfile";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import PropTypes from "prop-types";
 import FollowActions from "../actions/FollowActions";
-const webApiUrl=import.meta.env.VITE_API_BASE_URL;
+import { green} from "@mui/material/colors";
+const webApiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const UserDetail = ({ user }) => {
   const logginedUser = useSelector(
@@ -61,7 +63,7 @@ const UserDetail = ({ user }) => {
                 sx={{
                   width: 150,
                   height: 150,
-                  border: `5px solid ${theme.palette.primary.main}`,
+                  border: `5px solid ${green[500]}`,
                 }}
                 aria-label="recipe"
               >
@@ -154,45 +156,25 @@ const UserDetail = ({ user }) => {
           sx={{
             display: "flex",
             justifyContent: "space-around",
+           
           }}
         >
-          {/* <Typography color="primary" fontSize="small">
-            {profileUserPosts?.posts.length} Gönderi
-          </Typography>
-          <Typography color="primary" fontSize="small">
-            {user?.followers?.length} Takipçi
-          </Typography>
-          <Typography color="primary" fontSize="small">
-            {user?.following?.length} Takip Edilen
-          </Typography> */}
-          {/* yeni sekmede açar */}
-          <a href={"https://" + user?.socialAdress?.website} target={`_blank`}>
+        
+          <Button herf={user?.socialAdress?.website} target={`_blank`}>
             <LanguageIcon fontSize="medium" color="primary" />
-          </a>
-          <a
-            href={"https://github.com/" + user?.socialAdress?.github}
-            target={`_blank`}
-          >
+          </Button>
+          <Button href={user?.socialAdress?.github} target={`_blank`}>
             <GitHubIcon fontSize="medium" color="primary" />
-          </a>
-          <a
-            href={"https://www.linkedin.com/in/" + user?.socialAdress?.linkedin}
-            target={`_blank`}
-          >
+          </Button>
+          <Button href={user?.socialAdress?.linkedin} target={`_blank`}>
             <LinkedInIcon fontSize="medium" color="primary" />
-          </a>
-          <a
-            href={"https://www.youtube.com/@" + user?.socialAdress?.youtube}
-            target={`_blank`}
-          >
+          </Button>
+          <Button href={user?.socialAdress?.youtube} target={`_blank`}>
             <YouTubeIcon fontSize="medium" color="primary" />
-          </a>
-          <a
-            href={"https://twitter.com/" + user?.socialAdress?.twitter}
-            target={`_blank`}
-          >
+          </Button>
+          <Button href={user?.socialAdress?.twitter} target={`_blank`}>
             <XIcon fontSize="medium" color="primary" />
-          </a>
+          </Button>
         </CardActions>
       </Card>
     </>

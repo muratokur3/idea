@@ -98,7 +98,10 @@ const profileSlice = createSlice({
       state.pagination = action.payload.pagination;
     },
     setNewProject: (state, action) => {
-      state.projects = [...state.projects, action.payload];
+      state.projects.unshift(action.payload);
+    },
+    createProfilePost:(state,action)=>{
+      state.profilePosts.posts.unshift(action.payload);
     },
     setUpdateProfilePosts: (state, action) => {
       const newPost = action.payload;
@@ -109,6 +112,12 @@ const profileSlice = createSlice({
         p._id === newPost._id ? newPost : p
       );
     },
+    deleteProfilePost:(state,action)=>{
+      const postId = action.payload;
+      state.profilePosts.posts = state.profilePosts.posts.filter((p) => p._id !== postId);
+      state.favorites.posts = state.favorites.posts.filter((p) => p._id !== postId);
+
+    }
   },
 });
 
@@ -121,6 +130,8 @@ export const {
   ubdateUserFollow,
   üsetProjects,
   setNewProject,
+  createProfilePost,
   setUpdateProfilePosts,
+  deleteProfilePost
 } = profileSlice.actions;
 export default profileSlice.reducer;

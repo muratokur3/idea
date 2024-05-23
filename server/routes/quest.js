@@ -330,7 +330,7 @@ router.get("/explore/singleproject/:id", async (req, res) => {
   }
 });
 
-//kullanıc id değerine göre projeleri getirir
+//kullanıc username değerine göre projeleri getirir
 router.get("/projects/:username", async (req, res) => {
   try {
     const username = req.params.username;

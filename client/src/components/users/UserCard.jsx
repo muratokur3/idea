@@ -1,7 +1,7 @@
 import { Avatar, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CardHeader from "@mui/material/CardHeader";
-import { red } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 import Card from "@mui/material/Card";
 import PropTypes from "prop-types";
 import Followactions from "../actions/FollowActions";
@@ -26,16 +26,23 @@ const UserCard = ({ user }) => {
         avatar={
           <Avatar
             src={webApiUrl+user?.avatar}
-            sx={{ bgcolor: red[500] }}
+            sx={{ bgcolor: green[700],cursor:"pointer" }}
             aria-label="recipe"
+            onClick={() => navigate(`/${user?.username}`)}
           >
-            R
+            {user?.name[0]}
           </Avatar>
         }
         action={
           <Followactions user={{ _id: user._id, isFollow: user.isFollow }} />
         }
-        title={`${user?.name} ${user?.surname}`}
+        title={
+          <Typography
+          onClick={() => navigate(`/${user?.username}`)}
+          sx={{ fontSize: "1rem", cursor: "pointer" }}
+        >
+          {user?.name} {user?.surname}
+        </Typography>}
         titleTypographyProps={{ fontSize: "1rem", color: "primary" }}
         subheader={
           <Typography

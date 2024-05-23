@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { useTheme } from "@mui/material/styles";
 import { Box, useMediaQuery } from "@mui/material";
 import Modal from "../../Modals";
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import CreateOrUpdatePost from "../post/CreateOrUpdatePost";
 import styled from "@emotion/styled";
 const Menu = () => {
@@ -152,7 +153,7 @@ const StyledListItemIcon = styled(ListItemIcon)({
         )}
       </List>
       {isLoggedIn && (
-        <Modal buttonText={isTablet?"+":"Yeni Fikir"} component={<CreateOrUpdatePost />} />
+        <Modal buttonText={isTablet?"+":"Yeni Fikir"} component={<CreateOrUpdatePost/>} icon={<DriveFileRenameOutlineIcon/>} />
       )}
     </Box>
   );

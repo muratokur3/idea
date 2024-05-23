@@ -28,7 +28,7 @@ instance.interceptors.response.use(
     if (error.response?.status === 401) {
       // 401 hatası alındığında oturumu sonlandırma eylemini çağır
       handleLogout();
-      alert(error.response.data);
+      // alert(error.response.data);
     }
     return Promise.reject(error);
   }

@@ -45,17 +45,17 @@ router.post("/login", async (req, res) => {
 
     const user = await UserChema.findOne({ email });
     if (!user) {
-      return res.status(401).json("Böyle bir kullanıcı bulunamadı");
+      return res.status(404).json("Böyle bir kullanıcı bulunamadı");
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json("Hatalı şifre");
+      return res.status(404).json("Hatalı şifre");
     }
 
     if (user.isDeleted) {
-      return res.status(401).json("Bu kullanıcının hesabı silinmiş");
+      return res.status(404).json("Bu kullanıcının hesabı silinmiş");
     }
 
     if (user.isFrozen) {

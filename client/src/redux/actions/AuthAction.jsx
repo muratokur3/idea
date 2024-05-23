@@ -1,11 +1,13 @@
 import { sessionService } from "redux-react-session";
 import axios from "../../../axiosConfig";
+
 //kullanıcı kayıt olurken kullanılır
 const loggined = async (userData) => {
   await sessionService.saveSession({
     username: await userData.username,
   });
   await sessionService.saveUser(userData);
+  window.location.href = `/`;
 };
 
 const activeAccount = async (id, data) => {
@@ -24,10 +26,8 @@ const activeAccount = async (id, data) => {
 
 const registerUser = (data) => async () => {
   try {
-    const response = await axios.post(`auth/register`, data);
-    if (response.status === 201) {
-      loggined(response.data);
-    }
+   await axios.post(`auth/register`, data);
+  
   } catch (error) {
     if (error.response.status === 400) {
       alert(error.response.data);
@@ -42,6 +42,7 @@ const loginClient = (data) => async () => {
   try {
     const response = await axios.post(`auth/login`, data);
     if (response.status === 200) {
+      console.log(response.data);
       loggined(response.data);
     } else if (
       response.status === 202 &&
@@ -50,7 +51,7 @@ const loginClient = (data) => async () => {
       activeAccount(response.data.userId, data);
     }
   } catch (error) {
-    if (error.response.status === 401) {
+    if (error.response.status === 404) {
       alert(error.response.data);
     } else {
       console.log(error);
