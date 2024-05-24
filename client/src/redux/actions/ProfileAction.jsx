@@ -24,92 +24,124 @@ const getProfile = (username) => async (dispatch) => {
   }
 };
 
-const updateProfile = (user, avatar, background) => async (dispatch) => {
+const updateBackground = (background, user) => async (dispatch) => {
+  try {
+    console.log("Profil arkaplan güncelleniyor", background, user.username);
 
-  const updateAvatar = async () => {
-    try {
-      console.log("Profil avatars güncelleniyor", avatar, user.username);
+    const formData = new FormData();
+    const backgroundData = await background;
+    formData.append("file", backgroundData);
 
-      const formData = new FormData();
-      const avatarData = await avatar; // Promise'in çözülmesini bekleyin
-      formData.append("file", avatarData);
-
-      const response = await axios.post(
-        `users/upload/images?filename=${user?.username}&folder=avatars`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Profil avatars güncellendi", response.data.filename);
-        const newAvatarUrl = `uploads/images/avatars/${response.data.filename}`;
-        return newAvatarUrl;
-      } else {
-        throw new Error("Profil avatars güncellenemedi");
+    const response = await axios.post(
+      `users/upload/images?filename=${user.username}&folder=backgrounds`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       }
-    } catch (error) {
-      console.log("Profil avatars güncelleme hatası:", error.message);
+    );
+
+    if (response.status === 200) {
+      console.log("Profil arkaplan güncellendi", response.data);
+      //session içindeki user background içeriği güncelleniyor
+      const logginedUser = await sessionService.loadUser();
+      const updatedUser = {
+        ...logginedUser,
+        ...user,
+        background: response.data.adress,
+      };
+      await sessionService.saveUser(updatedUser);
+
+      dispatch(setProfile(updatedUser));
+      return response.data.adress;
+    } else {
+      return false;
     }
-  };
+  } catch (error) {
+    console.log("Profil arkaplan güncelleme hatası:", error.message);
+  }
+};
 
-  const updateBackground = async () => {
-    try {
-      console.log("Profil arkaplan güncelleniyor", background, user.username);
+const updateAvatar = (avatar, user) => async (dispatch) => {
+  try {
+    console.log("Profil görseli güncelleniyor", avatar, user.username);
 
-      const formData = new FormData();
-      const backgroundData = await background; // Promise'in çözülmesini bekleyin
-      formData.append("file", backgroundData);
+    const formData = new FormData();
+    const avatarData = await avatar;
+    formData.append("file", avatarData);
 
-      const response = await axios.post(
-        `users/upload/images?filename=${user?.username}&folder=backgrounds`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Profil arkaplan güncellendi", response.data.filename);
-        const newBackgroundUrl = `uploads/images/backgrounds/${response.data.filename}`;
-        return newBackgroundUrl;
-      } else {
-        throw new Error("Profil arkaplan güncellenemedi");
+    const response = await axios.post(
+      `users/upload/images?filename=${user.username}&folder=avatars`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       }
-    } catch (error) {
-      console.log("Profil arkaplan güncelleme hatası:", error.message);
+    );
+
+    if (response.status === 200) {
+      console.log("Profil görseli güncellendi", response.data);
+      //session içindeki user profil görseli içeriği güncelleniyor
+      const logginedUser = await sessionService.loadUser();
+      const updatedUser = {
+        ...logginedUser,
+        ...user,
+        avatar: response.data.adress,
+      };
+      await sessionService.saveUser(updatedUser);
+      dispatch(setProfile(updatedUser));
+      return response.data.adress;
+    } else {
+      return false;
     }
-  };
+  } catch (error) {
+    console.log("Profil görseli güncelleme hatası:", error.message);
+  }
+};
 
-  const newAvatarUrl = avatar ? await updateAvatar() : user?.avatar;
-  const newBackgroundUrl = background
-    ? await updateBackground()
-    : user?.background;
+// const unInstallImage = (user,folder) => async (dispatch) => {
+//   try {
+//     const response = await axios.delete(`user/uninstallimage/${folder}`);
+//     if (response.status === 200) {
+//       const logginedUser = await sessionService.loadUser();
+//       const updatedUser = {
+//         ...logginedUser,
+//         ...user,
+//       };
+//       await sessionService.saveUser(updatedUser);
+//       dispatch(setProfile(updatedUser));
+//     } else {
+//       console.error('Resim silinirken bir hata oluştu:', response);
+//     }
+//   } catch (error) {
+//     console.error('Resim silinirken bir hata oluştu:', error);
+//   }
+// }
 
-  const response = await axios.put(`users/updateUser`, {
-    ...user,
-    avatar: newAvatarUrl,
-    background: newBackgroundUrl,
-  });
-  
-  if (response.status === 200) {
-    alert("Profiliniz başarıyla güncellendi");
-    const logginedUser = await sessionService.loadUser();
-    const updatedUser = {
-      ...logginedUser,
+
+const updateProfile = (user, modalAction) => async (dispatch) => {
+  try {
+    const response = await axios.put(`users/updateUser`, {
       ...user,
-      avatar: newAvatarUrl,
-      background: newBackgroundUrl,
-    };
-    await sessionService.saveUser(updatedUser);
-    dispatch(setProfile(updatedUser));
-  } else {
-    alert("Profiliniz güncellenemedi");
+    });
+
+    if (response.status === 200) {
+      alert("Profiliniz başarıyla güncellendi");
+      const logginedUser = await sessionService.loadUser();
+      const updatedUser = {
+        ...logginedUser,
+        ...user,
+      };
+      await sessionService.saveUser(updatedUser);
+      dispatch(setProfile(updatedUser));
+      modalAction.handleClose();
+    } else {
+      alert("Profiliniz güncellenemedi");
+    }
+  } catch (error) {
+    window.alert(error?.response?.data);
   }
 };
 
@@ -222,4 +254,6 @@ export {
   follow,
   unfollow,
   updateProfile,
+  updateAvatar,
+  updateBackground,
 };

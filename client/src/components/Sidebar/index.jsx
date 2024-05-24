@@ -170,7 +170,7 @@ const Sidebar = () => {
                 variant="dot"
               >
                 <Avatar
-                  src={loginedUser&&webApiUrl + loginedUser?.avatar}
+                  src={webApiUrl + loginedUser?.avatar}
                   sx={{ width: "5vh", height: "5vh" }}
                 />
               </StyledBadge>

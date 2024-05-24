@@ -4,10 +4,10 @@ const bcrypt = require("bcryptjs");
 const UserChema = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-const generateRandomAvatar = () => {
-  const randomAvatar = Math.floor(Math.random() * 70 + 1);
-  return `https://i.pravatar.cc/300?img=${randomAvatar}`;
-};
+// const generateRandomAvatar = () => {
+//   const randomAvatar = Math.floor(Math.random() * 70 + 1);
+//   return `https://i.pravatar.cc/300?img=${randomAvatar}`;
+// };
 
 //create a new user
 router.post("/register", async (req, res) => {
@@ -28,7 +28,6 @@ router.post("/register", async (req, res) => {
       username,
       email,
       password: bcrypt.hashSync(password, 10),
-      avatar: generateRandomAvatar(),
     });
     await newUser.save();
     res.status(201).json(newUser);

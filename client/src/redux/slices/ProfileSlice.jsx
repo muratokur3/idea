@@ -117,7 +117,8 @@ const profileSlice = createSlice({
       state.profilePosts.posts = state.profilePosts.posts.filter((p) => p._id !== postId);
       state.favorites.posts = state.favorites.posts.filter((p) => p._id !== postId);
 
-    }
+    },
+    
   },
 });
 

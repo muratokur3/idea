@@ -20,7 +20,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import Modal from "../../Modals";
-import EditProfile from "./EditProfile";
+import EditProfile from "./update/EditProfile";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import PropTypes from "prop-types";
 import FollowActions from "../actions/FollowActions";

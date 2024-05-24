@@ -30,8 +30,8 @@ app.use(cors({
   session: true,
 }));
 
+app.use("/", mainRoute);
 app.use('/uploads', express.static('uploads'));
-app.use("/api", mainRoute);
 
 app.listen(port, () => {
   connectDB();

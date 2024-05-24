@@ -13,32 +13,28 @@ const storage = multer.diskStorage({
     cb(null, `./uploads/images/${folder}`);
   },
   filename: async (req, file, cb) => {
-    const newFilename = req.query.filename; // kaydedilecek dosay adını query parametresinden alın
+    const newFilename = req.query.filename;
     const directoryPath = `./uploads/images/${req.query.folder}`;
-    fs.readdir(directoryPath, (err, files) => {
-      if (err) {
-        console.error("Dosya dizini okunurken bir hata oluştu:", err);
-        cb(err);
-        return;
-      }
-      // Dosya dizinindeki her dosya için kontrol yap
-      files.some((existingFile) => {
-        // Dosya isminin uzantısız kısmını al ve aranan dosya ismiyle karşılaştır
-        const fileName = existingFile.split(".")[0];
-        if (fileName === newFilename) {
-          // Dosya varsa sil
-          fs.unlink(path.join(directoryPath, existingFile), (err) => {
-            if (err) {
-              console.error("Dosya silinirken bir hata oluştu:", err);
-              cb(err);
-              return;
-            }
-          });
-        }
-      });
-    });
+    
+    try {
+      const files = await fs.promises.readdir(directoryPath);
+      
+      // Dosya silme işlemi asenkron olarak yapılır
+      await Promise.all(
+        files.map(async (existingFile) => {
+          const fileName = existingFile.split(".")[0];
+          if (fileName === newFilename) {
+            await fs.promises.unlink(path.join(directoryPath, existingFile));
+          }
+        })
+      );
+    } catch (err) {
+      console.error("Dosya dizini okunurken bir hata oluştu veya dosya silinirken bir hata oluştu:", err);
+      cb(err);
+      return;
+    }
 
-    cb(null, `${newFilename}.${file.originalname.split(".")[1]}`); // Yeni dosya adını oluşturun (uzantısız)
+    cb(null, `${newFilename}.${file.originalname.split(".")[1]}`);
   },
 });
 
@@ -48,16 +44,20 @@ const upload = multer({ storage: storage });
 // "/upload/avatars" endpoint'i için POST isteği işleyicisi
 router.post("/upload/images", upload.single("file"), async (req, res) => {
   const file = req.file; // Gelen dosya
+  const folder = req.query.folder; // Gelen dosya yoksa hata döndür
 
-  // Gelen dosya yoksa hata döndür
   if (!file) {
     return res.status(400).json({ error: "Dosya yüklenemedi" });
   }
 
   try {
     // Dosya başarıyla yüklendiyse başarılı yanıtı döndür
+    const user = await UserChema.findById(req.user.sub);
+    const newAdress = `uploads/images/${folder}/${file.filename}`;
+    user[folder.toString().slice(0, -1)] = newAdress;
+    await user.save();
     res.status(200).json({
-      filename: file.filename,
+      adress: newAdress,
       message: "Dosya başarıyla yüklendi",
     });
   } catch (error) {
@@ -67,10 +67,8 @@ router.post("/upload/images", upload.single("file"), async (req, res) => {
   }
 });
 
-const generateRandomAvatar = () => {
-  const randomAvatar = Math.floor(Math.random() * 70 + 1);
-  return `https://i.pravatar.cc/300?img=${randomAvatar}`;
-};
+module.exports = router;
+
 
 //update user
 router.put("/updateUser", async (req, res) => {
@@ -84,7 +82,9 @@ router.put("/updateUser", async (req, res) => {
     const user = await UserChema.findById(userId);
 
     if (user.username !== req.body.username) {
-      const existingUser = await UserChema.findOne({ username: req.body.username });
+      const existingUser = await UserChema.findOne({
+        username: req.body.username,
+      });
 
       if (existingUser) {
         return res.status(403).json("Kullanıcı adı zaten kullanılıyor");
@@ -239,7 +239,6 @@ router.post("/createMany", async (req, res) => {
         username,
         email,
         password: bcrypt.hashSync(password, 10),
-        avatar: generateRandomAvatar(),
       });
       await newUser.save();
     });
@@ -255,7 +254,7 @@ router.post("/createMany", async (req, res) => {
 router.put("/account/delete/:id", async (req, res) => {
   try {
     await UserChema.findByIdAndUpdate(req.params.id, {
-      $set: { isDeleted: true, isActive: false},
+      $set: { isDeleted: true, isActive: false },
     }).exec();
     res.status(200).json("Kullanıcı silindi");
   } catch (error) {
