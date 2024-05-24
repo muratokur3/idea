@@ -118,7 +118,6 @@ const Sidebar = () => {
       <Box
         sx={{
           display: "flex",
-          minHeight: "40%",
           gap: "10%",
           flexDirection: "column",
           justifyContent: "start",
@@ -133,11 +132,11 @@ const Sidebar = () => {
                 src={logoImg}
                 alt="Logo"
                 style={{
-                  width: "5vh",
-                  height: "5vh",
-                  background: `${
-                    theme.palette.mode === "light" ? "grey" : "none"
-                  }`,
+                  width: "10vh",
+                  height: "10vh",
+                  // background: `${
+                  //   theme.palette.mode === "light" ? "grey" : "none"
+                  // }`,
                 }}
               />
             </Logo>

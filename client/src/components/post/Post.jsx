@@ -166,7 +166,7 @@ const dispatch=useDispatch();
           variant="body1"
           color="primary"
           marginBottom="1rem"
-          sx={{ cursor: "pointer" }}
+          sx={{ cursor: "pointer", fontFamily:"Inter"}}
           onClick={() =>
             navigate(`/explore/post/${post?.username}/${post?._id}`)
           }

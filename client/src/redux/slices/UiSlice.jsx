@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
 
+import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   themeMode: "dark",
   lightTheme: {
@@ -13,7 +13,8 @@ const initialState = {
       },
     },
     typography: {
-      fontFamily: "monospace",
+      fontFamily: "Monospace",
+      // postFontFamily:"Raleway",
       fontSize: 16,
     },
   },
@@ -26,7 +27,8 @@ const initialState = {
       postBackground: { default: "linear-gradient(to top, #000000, #1a1919)" },
     },
     typography: {
-      fontFamily: "monospace",
+      fontFamily: "Monospace",
+      // postFontFamily:"Raleway",
       fontSize: 16,
     },
   },
@@ -39,7 +41,8 @@ const initialState = {
       postBackground: { default: "linear-gradient(to top, #000000, #1a1919)" },
     },
     typography: {
-      fontFamily: "monospace",
+      fontFamily: "Monospace",
+      // postFontFamily:"Raleway",
       fontSize: 16,
     },
   },

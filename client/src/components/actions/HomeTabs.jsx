@@ -61,11 +61,11 @@ const HomeTabs = () => {
               src={logo}
               alt="Logo"
               style={{
-                background: `${
-                  theme.palette.mode === "light" ? "grey" : "none"
-                }`,
-                width: "25px",
-                height: "25px",
+                // background: `${
+                //   theme.palette.mode === "light" ? "red" : "none"
+                // }`,
+                width: "50px",
+                height: "50px",
                 position: "absolute",
                 top: "30%",
                 left: "5%",
