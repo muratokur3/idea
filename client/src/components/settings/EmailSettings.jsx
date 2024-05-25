@@ -37,7 +37,7 @@ const EmailSettings = () => {
         aria-controls="Şifre Değiştirme"
         id="panel3-header"
       >
-        Şifre Değiştirme
+     Mail değiştirme
       </AccordionSummary>
       <AccordionDetails
         sx={{

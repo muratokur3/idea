@@ -9,7 +9,9 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateAvatar } from "../../../redux/actions/ProfileAction";
 const webApiUrl = import.meta.env.VITE_API_BASE_URL;
+import { useTheme } from "@mui/material/styles";
 const ChangeAvatar = ({ user }) => {
+  const theme=useTheme()
   const avatarFileInputRef = useRef(null);
   const [avatar, setAvatar] = useState({
     adress: user?.avatar,
@@ -61,7 +63,7 @@ const ChangeAvatar = ({ user }) => {
             padding: ".5rem",
           }}
         >
-          <Button onClick={backAvatar} >
+          <Button onClick={backAvatar}>
             <ClearIcon/>
           </Button>
           <Button onClick={handleAvatar}>
@@ -72,12 +74,14 @@ const ChangeAvatar = ({ user }) => {
         <Box
           sx={{
             display: "flex",
+            padding:"1rem",
             gap: "1rem",
+            borderBottom:".1rem solid gray"
           }}
         >
           <Button
             sx={{
-              backgroundColor: "black",
+              // backgroundColor: "black",
               opacity: ".7",
               ":hover": { opacity: "1" },
             }}
@@ -87,7 +91,7 @@ const ChangeAvatar = ({ user }) => {
           </Button>
           <Button
             sx={{
-              backgroundColor: "black",
+              // backgroundColor: "black",
               opacity: ".7",
               ":hover": { opacity: "1" },
             }}

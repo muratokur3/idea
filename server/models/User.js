@@ -41,6 +41,14 @@ const UserChema = mongoose.Schema(
       default: "",
     },
     socialAdress: {
+      email: {
+        type: String,
+        default: "",
+      },
+      website: {
+        type: String,
+        default: "",
+      },
       github: {
         type: String,
         default: "",
@@ -50,10 +58,6 @@ const UserChema = mongoose.Schema(
         default: "",
       },
       youtube: {
-        type: String,
-        default: "",
-      },
-      website: {
         type: String,
         default: "",
       },

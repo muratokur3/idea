@@ -38,7 +38,7 @@ const ProjectCard = ({ project }) => {
   const theme = useTheme();
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
-const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -83,7 +83,7 @@ const dispatch=useDispatch();
         avatar={
           <Avatar
             src={webSiteUrl + project?.logo}
-            sx={{ border: ".1rem solid gray", width: "60px", height: "60px" }}
+            sx={{ border: ".1rem solid orange", width: "60px", height: "60px" }}
             aria-label="recipe"
           >
             LOGO
@@ -111,7 +111,7 @@ const dispatch=useDispatch();
                 <Button
                   variant="text"
                   color="primary"
-                  onClick={() =>dispatch(deleteProject(project?._id)) }
+                  onClick={() => dispatch(deleteProject(project?._id))}
                 >
                   Sil
                 </Button>

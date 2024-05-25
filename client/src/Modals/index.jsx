@@ -40,7 +40,7 @@ const Modal = ({ buttonText, component, icon }) => {
       >
         <Box
           sx={{
-            backgroundColor: "#000000dc",
+            // backgroundColor: "#000000dc",
           }}
         >
           <DialogTitle

@@ -107,6 +107,7 @@ const Register = ({ modalAction }) => {
             sx={{ background: "none", width: "100%" }}
             {...register("username", {
               required: "Bu alan gereklidir.",
+              type: "text",
               minLength: { value: 3, message: "En az 3 karakter olmalıdır." },
               maxLength: {
                 value: 15,
@@ -124,16 +125,21 @@ const Register = ({ modalAction }) => {
         <FormControlStyled>
           <InputLabel>E-posta</InputLabel>
           <FilledInput
-            type="email"
             sx={{ background: "none", width: "100%" }}
             {...register("email", {
+              type: "email",
               required: "Bu alan gereklidir.",
               maxLength: {
                 value: 40,
                 message: "En fazla 40 karakter olabilir.",
               },
+              pattern: {
+                value: /^[a-z]*$/,
+                message: "Sadece küçük harfler girilebilir.",
+              },
             })}
           />
+          
           {errors.email && errors.email.message}
         </FormControlStyled>
         <FormControlStyled sx={{ width: "90%" }}>
@@ -171,13 +177,15 @@ const Register = ({ modalAction }) => {
           />
           {errors.password && errors.password.message}
         </FormControlStyled>
-        <Box sx={{
-          width:"100%",
-          display:"flex",
-          flexDirection:"row",
-          flexWrap:"wrap",
-          gap:"3px"
-        }}>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: "3px",
+          }}
+        >
           <Typography fontSize={".8rem"}>Kayıt olarak gizlilik</Typography>
           <PolicyModals
             policyElement={<PrivacyPolicy />}
@@ -199,10 +207,8 @@ const Register = ({ modalAction }) => {
             borderRadius: "1rem",
           }}
         >
-        Kayıt Ol
+          Kayıt Ol
         </Button>
-        
-        
       </form>
     </Box>
   );

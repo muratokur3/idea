@@ -11,7 +11,7 @@ import { useTheme } from "@mui/material/styles";
 
 import { Box, Card, CardContent, CardHeader } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import { updateProfile } from "../../../redux/actions/ProfileAction";
 import PropTypes from "prop-types";
 import ChangeBackground from "./ChangeBackground";
@@ -24,33 +24,20 @@ const EditProfile = ({ user, modalAction }) => {
   const isPhone = useMediaQuery("(max-width: 600px)");
 
   const dispatch = useDispatch();
-
   const [formData, setFormData] = useState({
     name: user?.name || "",
     surname: user?.surname || "",
     username: user?.username || "",
     bio: user?.bio || "",
     location: user?.location || "",
-    github: user?.socilaAdress?.github || "",
-    linkedin: user?.socilaAdress?.linkedin || "",
+    email: user?.socialAdress?.email || "",
+    github: user?.socialAdress?.github || "",
+    linkedin: user?.socialAdress?.linkedin || "",
     youtube: user?.socilaAdress?.youtube || "",
     website: user?.socilaAdress?.website || "",
     twitter: user?.socilaAdress?.twitter || "",
   });
-  useEffect(() => {
-    setFormData({
-      name: user?.name || "",
-      surname: user?.surname || "",
-      username: user?.username || "",
-      bio: user?.bio || "",
-      location: user?.location || "",
-      github: user?.socilaAdress?.github || "",
-      linkedin: user?.socilaAdress?.linkedin || "",
-      youtube: user?.socilaAdress?.youtube || "",
-      website: user?.socilaAdress?.website || "",
-      twitter: user?.socilaAdress?.twitter || "",
-    });
-  }, [user]);
+  
   // name surname inputları için regex.
   const nameSurnameControl = (name, surname) => {
     const regex = /^[a-zA-ZğüşıöçĞÜŞİÖÇ]{2,20}$/;
@@ -96,10 +83,11 @@ const EditProfile = ({ user, modalAction }) => {
         bio: formData.bio,
         location: formData.location,
         socialAdress: {
+          email:formData.email,
+          website: formData.website,
           github: formData.github,
           linkedin: formData.linkedin,
           youtube: formData.youtube,
-          website: formData.website,
           twitter: formData.twitter,
         },
       };

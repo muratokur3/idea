@@ -5,10 +5,14 @@ import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { updateBackground } from "../../../redux/actions/ProfileAction";
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import { useTheme } from "@mui/material/styles";
 const webApiUrl = import.meta.env.VITE_API_BASE_URL;
 const ChangeBackground = ({ user }) => {
   const dispatch = useDispatch();
   const isPhone = useMediaQuery("(max-width: 600px)");
+  const theme=useTheme()
   const backgroundFileInputRef = useRef(null);
   const [background, setBackground] = useState({
     adress: user?.background,
@@ -60,10 +64,10 @@ const ChangeBackground = ({ user }) => {
             borderBottom: "1px solid gray",
           }}
         >
-          <Button onClick={handleBackground} variant="outlined">
-            Arkaplanı Uygula
+          <Button onClick={handleBackground} variant="outlined" startIcon={<CheckIcon/>}>
+            Uygula
           </Button>
-          <Button onClick={backBacground} variant="outlined">
+          <Button onClick={backBacground} variant="outlined" startIcon={<ClearIcon/>}>
             Vazgeç
           </Button>
         </Box>
@@ -71,15 +75,18 @@ const ChangeBackground = ({ user }) => {
         <Box
           sx={{
             position: "absolute",
-            bottom: "50%",
+            bottom: "40%",
             right: "40%",
             display: "flex",
             gap: "1rem",
+            padding:"2rem",
+            borderRadius:"10%",
+            backgroundColor:theme.palette.mode==="dark"?"#00000084":"#faf8f884",
           }}
         >
           <Button
             sx={{
-              backgroundColor: "black",
+              backgroundColor: "none",
               opacity: ".7",
               ":hover": { opacity: "1" },
             }}
@@ -89,7 +96,7 @@ const ChangeBackground = ({ user }) => {
           </Button>
           <Button
             sx={{
-              backgroundColor: "black",
+              backgroundColor: "none",
               opacity: ".7",
               ":hover": { opacity: "1" },
             }}

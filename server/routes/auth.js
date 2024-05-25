@@ -93,7 +93,8 @@ router.post("/login", async (req, res) => {
       username: user.username,
       rol: user.rol,
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
-      issuer: "softwareistanbul.com.tr",
+      domain: "localhost",
+      // issuer: "softwareistanbul.com.tr",
     };
 
     const token = jwt.sign(payload, process.env.SECRET_KEY);

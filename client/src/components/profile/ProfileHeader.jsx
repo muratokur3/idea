@@ -4,6 +4,7 @@ import LanguageIcon from "@mui/icons-material/Language";
 import XIcon from "@mui/icons-material/X";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import EmailIcon from "@mui/icons-material/Email";
 import {
   Avatar,
   Box,
@@ -24,8 +25,8 @@ import EditProfile from "./update/EditProfile";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import PropTypes from "prop-types";
 import FollowActions from "../actions/FollowActions";
-import { green} from "@mui/material/colors";
-const webApiUrl=import.meta.env.VITE_API_BASE_URL;
+import { green } from "@mui/material/colors";
+const webApiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const UserDetail = ({ user }) => {
   const logginedUser = useSelector(
@@ -53,13 +54,13 @@ const UserDetail = ({ user }) => {
             borderBottomRightRadius: isPhone ? "50px" : "100px",
             borderBottomLeftRadius: isPhone ? "50px" : "100px",
           }}
-          src={user&&webApiUrl + user?.background}
+          src={user && webApiUrl + user?.background}
         />
         <CardHeader
           avatar={
             <Box textAlign={"center"}>
               <Avatar
-                src={user&&webApiUrl + user?.avatar}
+                src={user && webApiUrl + user?.avatar}
                 sx={{
                   width: 150,
                   height: 150,
@@ -156,10 +157,11 @@ const UserDetail = ({ user }) => {
           sx={{
             display: "flex",
             justifyContent: "space-around",
-           
           }}
         >
-        
+          <Button href={`mailto:${user?.socialAdress?.email}`} target="_blank">
+            <EmailIcon fontSize="medium" color="primary" />
+          </Button>
           <Button href={user?.socialAdress?.website} target={`_blank`}>
             <LanguageIcon fontSize="medium" color="primary" />
           </Button>

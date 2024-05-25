@@ -5,11 +5,13 @@ import {
   InputLabel,
   useMediaQuery,
 } from "@mui/material";
+import EmailIcon from "@mui/icons-material/Email";
+import LanguageIcon from "@mui/icons-material/Language";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import LanguageIcon from "@mui/icons-material/Language";
 import XIcon from "@mui/icons-material/X";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+
 import { CardActions } from "@mui/material";
 
 const ChangeSocial = ({ formData, handleInputChance }) => {
@@ -25,6 +27,35 @@ const ChangeSocial = ({ formData, handleInputChance }) => {
         justifyContent: "center",
       }}
     >
+      <FormControl variant="filled" sx={{ width: isPhone ? "80%" : "40%" }}>
+        <InputLabel sx={{ background: "none" }}>
+          <EmailIcon fontSize="small" />
+          Email
+        </InputLabel>
+        <FilledInput
+          sx={{ background: "none" }}
+          value={formData?.email}
+          type="email"
+          onChange={handleInputChance}
+          placeholder="example@mail.com"
+          name="email"
+        />
+      </FormControl>
+
+      <FormControl variant="filled" sx={{ width: isPhone ? "80%" : "40%" }}>
+        <InputLabel sx={{ background: "none" }}>
+          <LanguageIcon fontSize="small" />
+          Website
+        </InputLabel>
+        <FilledInput
+          sx={{ background: "none" }}
+          value={formData?.website}
+          onChange={handleInputChance}
+          placeholder="https://softwareistanbul.com.tr"
+          name="website"
+        />
+      </FormControl>
+
       <FormControl variant="filled" sx={{ width: isPhone ? "80%" : "40%" }}>
         <InputLabel sx={{ background: "none" }}>
           <GitHubIcon fontSize="small" />
@@ -83,20 +114,6 @@ const ChangeSocial = ({ formData, handleInputChance }) => {
           placeholder="https://x.com/"
           placeholderTextColor="gray"
           name="twitter"
-        />
-      </FormControl>
-
-      <FormControl variant="filled" sx={{ width: isPhone ? "80%" : "40%" }}>
-        <InputLabel sx={{ background: "none" }}>
-          <LanguageIcon fontSize="small" />
-          Website
-        </InputLabel>
-        <FilledInput
-          sx={{ background: "none" }}
-          value={formData?.website}
-          onChange={handleInputChance}
-          placeholder="idea.tr idea.com.."
-          name="website"
         />
       </FormControl>
     </CardActions>

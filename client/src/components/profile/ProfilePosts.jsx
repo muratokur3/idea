@@ -11,8 +11,7 @@ const ProfilePosts = () => {
 
   useEffect(() => {
     dispatch(getProfilePosts({ page: 1, hasMore: true }, username));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [username,dispatch]);
 
   return (
     <ListPost
