@@ -1,4 +1,4 @@
-import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import NoPhotographyIcon from "@mui/icons-material/NoPhotography";
 import { Button, Box, useMediaQuery } from "@mui/material";
 import { useRef, useState } from "react";
@@ -104,7 +104,7 @@ const ChangeBackground = ({ user }) => {
               backgroundFileInputRef.current.click();
             }}
           >
-            <AddAPhotoOutlinedIcon sx={{ fontSize: 50 }} />
+            <AddAPhotoIcon sx={{ fontSize: 50 }} />
           </Button>
         </Box>
       )}

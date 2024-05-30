@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import NoPhotographyIcon from "@mui/icons-material/NoPhotography";
 import { Avatar, Box } from "@mui/material";
 import PropTypes from "prop-types";
@@ -9,9 +9,8 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateAvatar } from "../../../redux/actions/ProfileAction";
 const webApiUrl = import.meta.env.VITE_API_BASE_URL;
-import { useTheme } from "@mui/material/styles";
 const ChangeAvatar = ({ user }) => {
-  const theme=useTheme()
+
   const avatarFileInputRef = useRef(null);
   const [avatar, setAvatar] = useState({
     adress: user?.avatar,
@@ -81,7 +80,6 @@ const ChangeAvatar = ({ user }) => {
         >
           <Button
             sx={{
-              // backgroundColor: "black",
               opacity: ".7",
               ":hover": { opacity: "1" },
             }}
@@ -91,7 +89,6 @@ const ChangeAvatar = ({ user }) => {
           </Button>
           <Button
             sx={{
-              // backgroundColor: "black",
               opacity: ".7",
               ":hover": { opacity: "1" },
             }}
@@ -99,7 +96,7 @@ const ChangeAvatar = ({ user }) => {
               avatarFileInputRef.current.click();
             }}
           >
-            <AddAPhotoOutlinedIcon sx={{ fontSize: 20 }} />
+            <AddAPhotoIcon sx={{ fontSize: 20 }} />
           </Button>
         </Box>
       )}

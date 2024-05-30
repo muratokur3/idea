@@ -21,11 +21,13 @@ export const projectSlice = createSlice({
       state.pagination = action.payload.pagination;
     },
     setNewProject: (state, action) => {
-      console.log(action.payload)
-      state.projects = [...state.projects, action.payload];
+      state.projects.unshift(action.payload);
     },
-    updateSingleProject:(state,action)=>{
-      state.projects = state.projects.map(p=>p._id===action.payload._id?action.payload:p)
+    updateSingleProject: (state, action) => {
+      console.log(action.payload);
+      state.projects = state.projects.map((p) =>
+        p.id === action.payload.id ? action.payload : p
+      );
     },
     deleteProfileProject: (state, action) => {
       state.projects = state.projects.filter(
@@ -35,5 +37,10 @@ export const projectSlice = createSlice({
   },
 });
 
-export const { setProjects, setNewProject,updateSingleProject,deleteProfileProject } = projectSlice.actions;
+export const {
+  setProjects,
+  setNewProject,
+  updateSingleProject,
+  deleteProfileProject,
+} = projectSlice.actions;
 export default projectSlice.reducer;

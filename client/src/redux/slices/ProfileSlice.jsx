@@ -97,8 +97,14 @@ const profileSlice = createSlice({
       }
       state.pagination = action.payload.pagination;
     },
-    setNewProject: (state, action) => {
+    setNewPofileProject: (state, action) => {
       state.projects.unshift(action.payload);
+    },
+    updateProfileProject: (state, action) => {
+      console.log(action.payload);
+      state.projects = state.projects.map((p) =>
+        p.id === action.payload.id ? action.payload : p
+      );
     },
     createProfilePost:(state,action)=>{
       state.profilePosts.posts.unshift(action.payload);
@@ -129,8 +135,9 @@ export const {
   setFavorites,
   setProfilePosts,
   updateUserFollow,
-  üsetProjects,
-  setNewProject,
+  setProjects,
+  setNewPofileProject,
+  updateProfileProject,
   createProfilePost,
   setUpdateProfilePosts,
   deleteProfilePost

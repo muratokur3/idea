@@ -1,24 +1,23 @@
-import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "@mui/material/styles";
 import styled from "@emotion/styled";
-import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import PropTypes from "prop-types";
 import {
   createProject,
   updateProject,
+  updateProjectLogo,
 } from "../../redux/actions/ProjectAction";
+import ChangeProjectLogo from "./ChangeProjectLogo";
 const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
 const CreateOrUpdateProject = ({ project, modalAction }) => {
   const theme = useTheme();
   const isPhone = useMediaQuery("(max-width: 600px)");
 
   const dispatch = useDispatch();
-  const logoFileInputRef = useRef(null);
   const [logo, setLogo] = useState({
     adress: project ? webSiteUrl + project.logo : "",
     file: null,
@@ -72,16 +71,30 @@ const CreateOrUpdateProject = ({ project, modalAction }) => {
                 projectAdress: formData.projectAdress,
                 createDate: formData.createDate,
                 userId: formData.userId,
-                logo: project.logo,
               },
-              logo.file
+              modalAction
             )
           )
-        : dispatch(createProject(formData, logo.file));
-      modalAction.handleClose();
+        : dispatch(createProject(formData, logo.file, modalAction));
     } else {
       alert("Lütfen tüm alanları doldurduğunuzdan emin olun.");
     }
+  };
+
+  const handleLogo = () => {
+    const newAdress = dispatch(updateProjectLogo(project, logo.file));
+    newAdress &&
+      setLogo({
+        adress: newAdress,
+        file: null,
+      });
+  };
+
+  const backLogo = () => {
+    setLogo({
+      adress: project?.logo,
+      file: null,
+    });
   };
 
   const TypographyLength = styled(Typography)({
@@ -100,54 +113,13 @@ const CreateOrUpdateProject = ({ project, modalAction }) => {
         gap: "15px",
       }}
     >
-      <Box
-        sx={{
-          position: "relative",
-          width: "100px",
-        }}
-      >
-        {" "}
-        <Avatar
-          alt="Proje icon"
-          src={logo?.adress}
-          sx={{
-            width: "10vh",
-            height: "10vh",
-            maxHeight: "200px",
-            maxWidth: "200px",
-          }}
-        >
-          Logo
-        </Avatar>
-        <input
-          fontSize="small"
-          type="file"
-          id="logo"
-          name="logo"
-          ref={logoFileInputRef}
-          onChange={(e) => {
-            setLogo({
-              adress: URL.createObjectURL(e.target.files[0]),
-              file: e.target.files[0],
-            });
-          }}
-          style={{ display: "none" }}
-        />
-        <Button
-          sx={{
-            width: "3vw",
-            height: "3vw",
-            position: "absolute",
-            bottom: "-2%",
-            right: "-2%",
-          }}
-          onClick={() => {
-            logoFileInputRef.current.click();
-          }}
-        >
-          <AddAPhotoIcon />
-        </Button>
-      </Box>
+      <ChangeProjectLogo
+        logo={logo}
+        setLogo={setLogo}
+        handleLogo={handleLogo}
+        backLogo={backLogo}
+        project={project}
+      />
       <TextField
         onChange={handleInputChance}
         value={formData.name}

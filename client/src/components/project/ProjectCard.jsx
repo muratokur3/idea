@@ -22,6 +22,7 @@ import CreateOrUpdateProject from "./CreateOrUpdateProject";
 import Modal from "../../Modals";
 import { deleteProject } from "../../redux/actions/ProjectAction";
 const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
+const webApiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,6 +36,7 @@ const ExpandMore = styled((props) => {
 }));
 
 const ProjectCard = ({ project }) => {
+  console.log(project)
   const theme = useTheme();
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
@@ -82,7 +84,7 @@ const ProjectCard = ({ project }) => {
       <CardHeader
         avatar={
           <Avatar
-            src={webSiteUrl + project?.logo}
+            src={webApiUrl + project?.logo}
             sx={{ border: ".1rem solid orange", width: "60px", height: "60px" }}
             aria-label="recipe"
           >
