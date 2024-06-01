@@ -8,7 +8,7 @@ import {
   getPrivateMeData,
 } from "../redux/actions/PostActions";
 import { useEffect } from "react";
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import HomeTabs from "../components/actions/HomeTabs";
 
 const Home = () => {
@@ -39,20 +39,44 @@ const Home = () => {
       width: "100%",
       maxWidth: "100%",}}>
       {(isLoggedIn || isPhone) && <HomeTabs />}
-      {/* <ResponsiveAppBar/> */}
+      
       {isLoggedIn && filterName === "all" && <CreateOrUpdatePost />}
 
       {filterName === "all" && (
-        <ListPost
-          data={homeData}
-          getPosts={() =>
-            dispatch(
-              isLoggedIn
-                ? getHomeData(homeData.pagination)
-                : getHomeQuestData(homeData.pagination)
-            )
-          }
-        />
+        <Box>
+          {!isLoggedIn&&<Box
+          sx={{
+            width:"100%",
+            display:"flex",
+            flexDirection:"column",
+            justifyContent:"center",
+            gap:"1rem",
+            padding:"2rem",
+
+          }}>
+            <Typography color={"primary"} sx={{
+              fontSize:"2rem",
+              fontWeight:"bold",
+            }}>Aramıza Hoşgeldiniz</Typography>
+             <Typography color={"primary"} sx={{
+              fontSize:"1.5rem",
+            }}>Umarız ilham alır ilham olursunuz</Typography>
+             <Typography color={"primary"} sx={{
+              fontSize:"1rem",
+            }}>En beğendiğiniz fikir sahiplerini ve konu başlıklarını takip edin</Typography>
+            
+            </Box>}
+          <ListPost
+            data={homeData}
+            getPosts={() =>
+              dispatch(
+                isLoggedIn
+                  ? getHomeData(homeData.pagination)
+                  : getHomeQuestData(homeData.pagination)
+              )
+            }
+          />
+          </Box>
       )}
       {filterName !== "all" && (
         <ListPost

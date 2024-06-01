@@ -21,9 +21,6 @@ const ProjectChema = mongoose.Schema(
     createDate: {
       type:String,
     },
-    logo: {
-      type: String,
-    },
     isDeleted: {
       type: Boolean,
       default: false,

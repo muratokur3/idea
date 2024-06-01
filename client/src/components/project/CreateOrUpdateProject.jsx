@@ -9,19 +9,12 @@ import PropTypes from "prop-types";
 import {
   createProject,
   updateProject,
-  updateProjectLogo,
 } from "../../redux/actions/ProjectAction";
-import ChangeProjectLogo from "./ChangeProjectLogo";
-const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
 const CreateOrUpdateProject = ({ project, modalAction }) => {
   const theme = useTheme();
   const isPhone = useMediaQuery("(max-width: 600px)");
 
   const dispatch = useDispatch();
-  const [logo, setLogo] = useState({
-    adress: project ? webSiteUrl + project.logo : "",
-    file: null,
-  });
 
   const logginedUser = useSelector(
     (state) => state.session && state.session.user
@@ -37,7 +30,6 @@ const CreateOrUpdateProject = ({ project, modalAction }) => {
           projectAdress: "",
           createDate: "",
           userId: logginedUser._id,
-          logo: logo.adress,
         }
   );
 
@@ -75,26 +67,10 @@ const CreateOrUpdateProject = ({ project, modalAction }) => {
               modalAction
             )
           )
-        : dispatch(createProject(formData, logo.file, modalAction));
+        : dispatch(createProject(formData, modalAction));
     } else {
       alert("Lütfen tüm alanları doldurduğunuzdan emin olun.");
     }
-  };
-
-  const handleLogo = () => {
-    const newAdress = dispatch(updateProjectLogo(project, logo.file));
-    newAdress &&
-      setLogo({
-        adress: newAdress,
-        file: null,
-      });
-  };
-
-  const backLogo = () => {
-    setLogo({
-      adress: project?.logo,
-      file: null,
-    });
   };
 
   const TypographyLength = styled(Typography)({
@@ -113,13 +89,6 @@ const CreateOrUpdateProject = ({ project, modalAction }) => {
         gap: "15px",
       }}
     >
-      <ChangeProjectLogo
-        logo={logo}
-        setLogo={setLogo}
-        handleLogo={handleLogo}
-        backLogo={backLogo}
-        project={project}
-      />
       <TextField
         onChange={handleInputChance}
         value={formData.name}

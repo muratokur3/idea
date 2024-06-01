@@ -5,7 +5,6 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -22,7 +21,6 @@ import CreateOrUpdateProject from "./CreateOrUpdateProject";
 import Modal from "../../Modals";
 import { deleteProject } from "../../redux/actions/ProjectAction";
 const webSiteUrl = import.meta.env.VITE_WEBSITE_BASE_URL;
-const webApiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -36,7 +34,6 @@ const ExpandMore = styled((props) => {
 }));
 
 const ProjectCard = ({ project }) => {
-  console.log(project)
   const theme = useTheme();
   const [expanded, setExpanded] = React.useState(false);
   const navigate = useNavigate();
@@ -47,29 +44,7 @@ const ProjectCard = ({ project }) => {
   const logginedUser = useSelector(
     (state) => state.session && state.session.user
   );
-  const formatRelativeTime = (timestamp) => {
-    const now = new Date();
-    const targetDate = new Date(timestamp);
 
-    const timeDifference = now - targetDate;
-    const minutes = Math.floor(timeDifference / (1000 * 60));
-    const hours = Math.floor(timeDifference / (1000 * 60 * 60));
-    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-    if (days === 0) {
-      if (hours === 0) {
-        return `${minutes} dakika önce`;
-      } else {
-        return `${hours} saat önce`;
-      }
-    } else if (days === 1) {
-      return "Dün";
-    } else {
-      // Eğer bir önceki günden daha önce ise sadece tarihi döndür
-      const options = { year: "numeric", month: "numeric", day: "numeric" };
-      return targetDate.toLocaleDateString("tr-TR", options);
-    }
-  };
   return (
     <Card
       sx={{
@@ -82,15 +57,7 @@ const ProjectCard = ({ project }) => {
       }}
     >
       <CardHeader
-        avatar={
-          <Avatar
-            src={webApiUrl + project?.logo}
-            sx={{ border: ".1rem solid orange", width: "60px", height: "60px" }}
-            aria-label="recipe"
-          >
-            LOGO
-          </Avatar>
-        }
+       
         action={
           <TopRightButton
             actions={[
@@ -130,10 +97,8 @@ const ProjectCard = ({ project }) => {
               gap: "1rem",
             }}
           >
-            <Typography>{project?.name}</Typography>
-            <Typography variant="caption" color="gray">
-              {formatRelativeTime(project?.createdAt)}
-            </Typography>
+            <Typography fontSize={"2rem"}>{project?.name}</Typography>
+           
           </Box>
         }
         titleTypographyProps={{ color: "primary" }}

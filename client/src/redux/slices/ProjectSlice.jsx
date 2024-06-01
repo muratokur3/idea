@@ -20,7 +20,7 @@ export const projectSlice = createSlice({
       }
       state.pagination = action.payload.pagination;
     },
-    setNewProject: (state, action) => {
+    createSingleProject: (state, action) => {
       state.projects.unshift(action.payload);
     },
     updateSingleProject: (state, action) => {
@@ -39,7 +39,7 @@ export const projectSlice = createSlice({
 
 export const {
   setProjects,
-  setNewProject,
+  createSingleProject,
   updateSingleProject,
   deleteProfileProject,
 } = projectSlice.actions;

@@ -67,7 +67,7 @@ router.post("/upload/images", upload.single("file"), async (req, res) => {
   }
 });
 
-module.exports = router;
+
 
 
 //update user

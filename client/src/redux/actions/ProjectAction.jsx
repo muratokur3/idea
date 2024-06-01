@@ -1,13 +1,9 @@
 import axios from "../../../axiosConfig";
 import {
-  setNewPofileProject,
-  updateProfileProject,
-} from "../slices/ProfileSlice";
-import {
-  deleteProfileProject,
-  setNewProject,
+  createSingleProject,
   setProjects,
   updateSingleProject,
+  deleteProfileProject
 } from "../slices/ProjectSlice";
 
 const getProjects = (pagination, username) => async (dispatch) => {
@@ -25,34 +21,17 @@ const getProjects = (pagination, username) => async (dispatch) => {
   }
 };
 
-const updateProjectLogo = (data, logo) => async (dispatch) => {
+const createProject = (data, modalAction) => async (dispatch) => {
   try {
-    const formData = new FormData();
-    const logoData = await logo; // Promise'in çözülmesini bekleyin
-    formData.append("file", logoData);
-
-    const response = await axios.post(
-      `users/upload/images?filename=${data?._id}&folder=logos`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-
-    if (response.status === 200) {
-      const updateResponse = await axios.put(`projects/updateProject`, {
-        ...data,
-        logo: response.data.adress,
-      });
-      if (updateResponse.status === 200) {
-        dispatch(updateSingleProject(updateResponse.data));
-        return updateResponse.data;
-      }
+    const response = await axios.post(`projects/createProject`, data);
+    if (response.status === 201) {
+      console.log(response.data)
+      dispatch(createSingleProject(response.data));
+      window.alert("Projeniz başarıyla oluşturuldu.");
+      modalAction.handleClose();
     }
   } catch (error) {
-    console.log("Proje logo yükleme hatası:", error.message);
+    console.log(error);
   }
 };
 
@@ -61,31 +40,8 @@ const updateProject = (data, modalAction) => async (dispatch) => {
     const response = await axios.put(`projects/updateProject`, data);
     if (response.status === 200) {
       dispatch(updateSingleProject(response.data));
-      dispatch(updateProfileProject(response.data));
       window.alert("Projeniz başarıyla güncellendi.");
       modalAction.handleClose();
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const createProject = (data, logo, modalAction) => async (dispatch) => {
-  try {
-    const response = await axios.post(`projects/createProject`, data);
-
-    if (response.status === 201) {
-      if (logo) {
-        dispatch(updateProjectLogo(response.data, logo));
-
-        dispatch(setNewPofileProject(response.data));
-        dispatch(setNewProject(response.data));
-        window.alert("Projeniz başarıyla oluşturuldu.");
-        modalAction.handleClose();
-      } else {
-        dispatch(setNewPofileProject(response.data));
-        dispatch(setNewProject(response.data));
-      }
     }
   } catch (error) {
     console.log(error);
@@ -110,5 +66,4 @@ export {
   createProject,
   updateProject,
   deleteProject,
-  updateProjectLogo,
 };

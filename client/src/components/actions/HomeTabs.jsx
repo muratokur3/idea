@@ -1,5 +1,6 @@
 import MobileDrawerMenu from "../menu/MobileDrawerMenu";
-import logo from "../../assets/logo.png";
+import logoDark from "../../assets/logo-dark.svg";
+import logoLight from "../../assets/logo-light.svg";
 import { setFilter } from "../../redux/slices/FilterSlice";
 import { useTheme } from "@mui/material/styles";
 import { Box, Tab, Tabs, useMediaQuery } from "@mui/material";
@@ -58,16 +59,12 @@ const HomeTabs = () => {
     >
        {isPhone && (
             <img
-              src={logo}
+              src={theme.palette.mode==="dark"?logoDark:logoLight}
               alt="Logo"
               style={{
-                // background: `${
-                //   theme.palette.mode === "light" ? "red" : "none"
-                // }`,
                 width: "50px",
                 height: "50px",
                 position: "absolute",
-                top: "30%",
                 left: "5%",
                 cursor: "pointer",
               }}

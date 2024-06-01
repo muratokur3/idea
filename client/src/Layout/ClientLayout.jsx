@@ -35,6 +35,7 @@ const ClientLayout = () => {
     width: isPhone ?"100%": isTablet ? "90%" : "80%",
     minHeight: "100vh",
     padding:"0 1rem",
+
     backgroundColor: theme.palette.background.default,
   });
 

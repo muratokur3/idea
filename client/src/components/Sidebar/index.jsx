@@ -9,7 +9,9 @@ import {
 } from "@mui/material";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { styled } from "@mui/system";
-import logoImg from "../../assets/logo.png";
+import logoDark from "../../assets/logo-dark.svg";
+import logoLight from "../../assets/logo-light.svg";
+
 import { useTheme } from "@mui/material/styles";
 import MainMenu from "../menu/MainMenu";
 import { useSelector } from "react-redux";
@@ -24,7 +26,7 @@ import Login from "../../Auth/Login";
 import Register from "../../Auth/Register";
 import axios from "../../../axiosConfig";
 import { useNavigate } from "react-router-dom";
-const webApiUrl=import.meta.env.VITE_API_BASE_URL;
+const webApiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Container = styled(Box)({
   display: "flex",
@@ -124,19 +126,16 @@ const Sidebar = () => {
           alignItems: "center",
         }}
       >
-        <AppBar position="static" color="transparent" elevation={0}>
+        <AppBar position="static" color="transparent" elevation={0} >
           <Toolbar sx={{ justifyContent: "center" }}>
-            <Logo
-            onClick={()=>navigate("/")}>
+            <Logo onClick={() => navigate("/")}>
               <img
-                src={logoImg}
+                src={theme.palette.mode === "dark" ? logoDark : logoLight}
                 alt="Logo"
                 style={{
-                  width: "10vh",
-                  height: "10vh",
-                  // background: `${
-                  //   theme.palette.mode === "light" ? "grey" : "none"
-                  // }`,
+                  width: "15vh",
+                  height: "15vh",
+                  marginBottom:"5rem"
                 }}
               />
             </Logo>

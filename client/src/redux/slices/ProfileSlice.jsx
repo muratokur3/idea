@@ -23,13 +23,6 @@ const initialState = {
       hasMore: true,
     },
   },
-  projects: {
-    projects: [],
-    pagination: {
-      page: 1,
-      hasMore: true,
-    },
-  },
   favorites: {
     posts: [],
     pagination: {
@@ -89,23 +82,6 @@ const profileSlice = createSlice({
         state.profilePosts.pagination = action.payload.pagination;
       }
     },
-    setProjects: (state, action) => {
-      if (action.payload.pagination.page === 2) {
-        state.projects = action.payload.projects;
-      } else {
-        state.projects.push(...action.payload.projects);
-      }
-      state.pagination = action.payload.pagination;
-    },
-    setNewPofileProject: (state, action) => {
-      state.projects.unshift(action.payload);
-    },
-    updateProfileProject: (state, action) => {
-      console.log(action.payload);
-      state.projects = state.projects.map((p) =>
-        p.id === action.payload.id ? action.payload : p
-      );
-    },
     createProfilePost:(state,action)=>{
       state.profilePosts.posts.unshift(action.payload);
     },
@@ -135,9 +111,6 @@ export const {
   setFavorites,
   setProfilePosts,
   updateUserFollow,
-  setProjects,
-  setNewPofileProject,
-  updateProfileProject,
   createProfilePost,
   setUpdateProfilePosts,
   deleteProfilePost
