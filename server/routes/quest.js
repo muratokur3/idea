@@ -12,7 +12,6 @@ function Has(array, value) {
   return array.includes(value);
 }
 
-
 // ---------------------------------USER---------------------------------
 
 //kullanıcı adına göre kullanıcı profil bilgilerini getirir
@@ -32,7 +31,7 @@ router.get("/profile/:username", async (req, res) => {
     });
     let isFollow = false;
     if (req.user) {
-      isFollow = Has(user.followers, req.user? req.user.sub:null);
+      isFollow = Has(user.followers, req.user ? req.user.sub : null);
     }
     let userObject = user.toObject();
     let {
@@ -85,7 +84,7 @@ router.get("/following/:username", async (req, res) => {
     };
     if (req.user) {
       res.status(200).json({
-        users: await userControlIsFollow(users, req.user? req.user.sub:null),
+        users: await userControlIsFollow(users, req.user ? req.user.sub : null),
         pagination,
       });
     } else res.status(200).json({ users, pagination });
@@ -129,7 +128,7 @@ router.get("/followers/:username", async (req, res) => {
     };
     if (req.user) {
       res.status(200).json({
-        users: await userControlIsFollow(users, req.user? req.user.sub:null),
+        users: await userControlIsFollow(users, req.user ? req.user.sub : null),
         pagination,
       });
     } else res.status(200).json({ users, pagination });
@@ -138,8 +137,6 @@ router.get("/followers/:username", async (req, res) => {
     res.status(500).json("Server Error");
   }
 });
-
-
 
 // ---------------------------------POST---------------------------------
 
@@ -165,7 +162,10 @@ router.get("/posts/favorite/:username", async (req, res) => {
     };
 
     res.status(200).json({
-      posts: await enrichPostsWithUserDetails(favoritesPost, req.user? req.user.sub:null),
+      posts: await enrichPostsWithUserDetails(
+        favoritesPost,
+        req.user ? req.user.sub : null
+      ),
       pagination,
     });
   } catch (error) {
@@ -189,8 +189,8 @@ router.get("/posts/timeline", async (req, res) => {
       page: page + 1,
       hasMore: allPosts.length === limit,
     };
-      allPosts = await enrichPostsWithUserDetails(allPosts,null);
-      
+    allPosts = await enrichPostsWithUserDetails(allPosts, null);
+
     res.status(200).json({
       posts: allPosts,
       pagination,
@@ -219,7 +219,10 @@ router.get("/posts/explore", async (req, res) => {
     };
 
     res.status(200).json({
-      posts: await enrichPostsWithUserDetails(allPosts, req.user? req.user.sub:null),
+      posts: await enrichPostsWithUserDetails(
+        allPosts,
+        req.user ? req.user.sub : null
+      ),
       pagination,
     });
   } catch (error) {
@@ -252,7 +255,10 @@ router.get("/posts/explore/hashtag", async (req, res) => {
     };
 
     res.status(200).json({
-      posts: await enrichPostsWithUserDetails(hashtagPosts, req.user? req.user.sub:null),
+      posts: await enrichPostsWithUserDetails(
+        hashtagPosts,
+        req.user ? req.user.sub : null
+      ),
       pagination,
     });
   } catch (error) {
@@ -280,7 +286,10 @@ router.get("/posts/profile/:username", async (req, res) => {
       hasMore: userPosts.length === limit,
     };
     res.status(200).json({
-      posts: await enrichPostsWithUserDetails(userPosts, req.user? req.user.sub:null),
+      posts: await enrichPostsWithUserDetails(
+        userPosts,
+        req.user ? req.user.sub : null
+      ),
       pagination,
     });
   } catch (error) {
@@ -288,10 +297,6 @@ router.get("/posts/profile/:username", async (req, res) => {
     res.status(500).json("Server Error");
   }
 });
-
-
-
-
 
 // ---------------------------------EXPLORE---------------------------------
 
@@ -301,7 +306,9 @@ router.get("/explore/singlepost/:id", async (req, res) => {
     const post = await PostChema.findById(req.params.id);
     res
       .status(200)
-      .json(await enrichPostsWithUserDetails([post], req.user? req.user.sub:null));
+      .json(
+        await enrichPostsWithUserDetails([post], req.user ? req.user.sub : null)
+      );
   } catch (error) {
     console.log(error.message);
     res.status(500).json("Server Error");
@@ -357,5 +364,7 @@ router.get("/projects/:username", async (req, res) => {
     res.status(500).json("Server Error");
   }
 });
+
+
 
 module.exports = router;

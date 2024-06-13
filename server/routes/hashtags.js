@@ -26,20 +26,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-//crate many hashtags
-router.post("/createMany", async (req, res) => {
-  try {
-    const hashtags = req.body;
-    hashtags.forEach(async (hashtag) => {
-      const newHashtag =await new HahstagChema(hashtag);
-      await newHashtag.save();
-     });
-    res.status(201).json(hashtags);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json("Server Error");
-  }
-});
 
 //get hashtag by name
 router.get("/:name", async (req, res) => {

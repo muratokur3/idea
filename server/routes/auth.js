@@ -4,10 +4,6 @@ const bcrypt = require("bcryptjs");
 const UserChema = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-// const generateRandomAvatar = () => {
-//   const randomAvatar = Math.floor(Math.random() * 70 + 1);
-//   return `https://i.pravatar.cc/300?img=${randomAvatar}`;
-// };
 
 //create a new user
 router.post("/register", async (req, res) => {
@@ -93,16 +89,15 @@ router.post("/login", async (req, res) => {
       username: user.username,
       rol: user.rol,
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
-      domain: "localhost",
-      // issuer: "softwareistanbul.com.tr",
+      issuer: "softwareistanbul.com.tr",
     };
 
     const token = jwt.sign(payload, process.env.SECRET_KEY);
 
     res.cookie("auth_token", token, {
       httpOnly: true,
-      // domain: "softwareistanbul.com.tr",
-      domain: "localhost",
+      domain: "softwareistanbul.com.tr",
+     // domain: "localhost",
       path: "/",
       session: true,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
